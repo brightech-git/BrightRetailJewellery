@@ -1,0 +1,152 @@
+<html xmlns="http://www.w3.org/1999/xhtml" >
+<head>
+<title>CodeProject: Article HTML. Free source code and programming help</title>
+</head>
+<base href="http://www.codeproject.com/KB/cs/" />
+<body>
+    <!--  HTML for article "TblProc: OpenOffice Calc and Excel" by Alexandr Sazonov\nURL: http://www.codeproject.com/KB/cs/TblProc.aspx
+Copyright 2007 by Alexandr Sazonov\nAll formatting, additions and  alterations Copyright © CodeProject, 1999-2009 -->
+	
+    <div>
+    <span id="ArticleContent">
+
+<ul class="download">
+<li><a href="TblProc/TblProc_demo.zip">Download demo - 373.5 KB</a> </li>
+
+<li><a href="TblProc/TblProc_src.zip">Download source - 259.0 KB</a> </li>
+</ul>
+<img height="500" alt="Screenshot - TblProc.jpg" src="TblProc/TblProc.jpg" width="600" /> 
+<p><i>This is an updated version of the article and sources. Changes in v1.1:<br />
+-OpenOffice 3.0 support<br />
+-OpenOffice 2.x is not suppoprted anymore (but minor project changes should make it work)<br />
+-Chart (diagram) support added</i></p>
+<h2>Introduction</h2>
+
+<p>Using C# with OpenOffice.org Calc sometimes seems to be quite a problem. And creating reports using different table processors (Excel and OOo Calc) separately is a bad habit and will be a source of errors in future.</p>
+<p>So I hope this article (and source code, of course) will make "cross-table processor" life for C# programmers a bit easier. You won't find a comprehensive solution for using both table processors here (some functionality is not implemented for OpenOffice and &quot;cross-table-processor&quot; interface is quite small too) but I believe that my library is: </p>
+<ol>
+<li>Useful for creating simple reports (I use it myself for small business solutions) </li>
+<li>A tool which makes communication with OpenOffice Calc easier (even if you wouldn't use the Excel and abstract parts of the library) </li>
+<li>A good source of OpenOffice Calc samples for C# </li>
+</ol>
+<p>For historical reasons I started working with Excel and later I had to convert my projects to use both — OOo and Excel. That's why the abstract table processor's interface is much like the Excel's one. Having an experience working with Excel API should help you understand the code better.</p>
+<h2>Design</h2>
+<p>The basic design is quite simple:</p>
+<ul>
+<li>4 abstract base classes 
+<ul>
+<li><code>TableProcessor</code> </li>
+<li><code>TableSheet</code> </li>
+<li><code>TableRange</code> </li>
+<li><code>TableDiagram</code> </li>
+</ul>
+</li>
+
+<li>4 Excel classes, derived from abstract classes mentioned 
+<ul>
+<li><code>ExcelApp</code> </li>
+<li><code>ExcelSheet</code> </li>
+<li><code>ExcelRange</code> </li>
+<li><code>ExcelDiagram</code> </li>
+</ul>
+</li>
+<li>and similarly 4 OpenOffice Calc classes 
+<ul>
+<li><code>OOApp</code> </li>
+<li><code>OOSheet</code> </li>
+<li><code>OORange</code> </li>
+<li><code>OODiagram</code> </li>
+</ul>
+</li>
+</ul>
+<p>I hope you've got the naming scheme and I have no need to draw the inheritance diagram.</p>
+<p>Also, there is a set of enums for constants, constant converter (my consts to Excel or OOo) and several support classes.</p>
+<p>The INull interface and classes which implement it are designed to support the &quot;Null object&quot; pattern.</p>
+<h2>Abstract Interface</h2>
+<h3>TableProcessor — Used for an "Application Object"</h3>
+<ul>
+<li><code>ExcelAvailable</code> and <code>OOAvailable</code>: </li>
+<li>These props should be used for determining if the desired table processor is installed. Both methods are based on a registry query. For OOo it looks like this query determines only if the whole OpenOffice is installed, but I can't find any better solution. </li>
+<li><code>CreateNextPage</code><br />Maybe, should be named <code>CreateNextSheet</code>. Guess what it does ... The <code>startRow</code> parameter is discussed below. </li>
+<li><code>this[int]</code><br />TableSheet accessor. By sheet number, starting from 0. </li>
+<li><code>CreateAvailable</code> and overloads:<br />Static factory methods. Creates <code>ExcelApp</code> if Excel available, else creates <code>OOApp</code> (if OOo is available) or throws <code>NoTableProcessorAvailableException</code> if nothing was found. </li>
+<li><code>CreateExcel</code> and <code>CreateOO</code> methods<br />Allow you to create the table processor you need directly. </li>
+</ul>
+
+<h3>TableSheet — Represents a Single Table Processor Page</h3>
+<ul>
+<li><code>CurrentRow</code> (<code>_curRow</code> inside the class)<br />Can help you create reports row by row. You can use it for your own needs, but the common usage is for the <code>AddArray</code> method (see below). The initial value (default is 1) is specified by the startRow parameter for <code>TableProcessor.CreateNextPage</code> or <code>TableProcessor.CreateAvailable</code>. Row indexes start from 1 (Excel style). </li>
+<li><code>AddArray</code><br />Adds an array you give it, starting at cell <code>[CurrentRow, 1]</code> and increases the <code>CurrentRow</code> according to the array's height. Row and cell indexes start from 1. </li>
+<li><code>CreateAvailable</code><br />Static method. Uses <code>TableProcessor.CreateAvailable</code>, but you get the TableSheet reference at once. Useful for single-page reports. </li>
+<li><code>Cell</code>, <code>Range</code><br />Gives you a <code>TableRange</code> object for the cell range you requested. Again, cell indexes start from 1. </li>
+<li><code>AddDiagram(TableRange dataRange, RowsCols rowsCols, DiagramType type, DrawRect rect)</code><br />Adds a chart. <i>New method in v1.1</i></li>
+</ul>
+
+<h3>TableRange — represents a range of cells (maybe one cell)</h3>
+<p>Note: unlike MSExcel <code>TablePage</code> doesn't support the <code>TableRange</code> interface.</p>
+<ul>
+<li><code>Value</code><br />You can place a single value or an array here. These values will be placed to the range's coordinates. Values, which are out of range, will be silently ignored. </li>
+<li><code>CreateArray</code>, <code>this[int,int], </code><code>FlushArray</code><br /><code>CreateArray</code> creates inner array of the range's size of the type, which can be directly understood by table processor (<code>uno.Any</code> for OOo and <code>object</code> for Excel).<br />
+<code>this[int,int]</code> enables your interaction with the array created. Here indexes start from 0 and are relative to upper-left corner of the range. It's like with the usual array, which knows nothing about the range it will be placed to.<br />The <code>FlushArray</code> method transfers the data from the inner array, created with <code>CreateArray</code>, to the table processor.</p>
+</li>
+</ul>
+
+<h3>TableDiagram — represents a chart. <i>New interface in v1.1</i></h3>
+<ul>
+<li><code>Name, XAxisName, YAxisName</code><br />Names of the diagram, X, Y axis.</li>
+<li><code>DrawRect</code><br />Chart position rectangle</li>
+<li><code>XAxisNamesRange</code><br />Sets a range, which gives names to items on X axis. The values from the range are <u>copied</u>.</li>
+<li><code>SetMainAxisNamesRange</code><br />Sets a range, which gives names to items (columns, etc.). The values from the range are <u>copied</u>.</li>
+<li><code>MainAxisNames</code><br />Same as above, but works with a string array, not range</li>
+<li><code>MoveToRectOf</code><br />Moves chart to the rectangle of the given <code>TableRange</code> (gets range's coordinates and uses <code>DrawRect</code> mutator).</li>
+</li>
+</ul>
+<h2>Implementation Comments</h2>
+<ul>
+<li>The effect of <code>double TableRange.ColumnWidth</code> may vary from Excel to OOo, because I don't know what <code>double</code> means for both. But this property is still valuable if you need to make all the columns as wide as a particular one after auto-sizing. </li>
+<li>I didn't make any experiments with border color parameter (<code>int color</code>) in <code>TableRange.BorderAround</code>. I always use 0, and it gives me black. Maybe there's a way to use ColorIndexes conversion from the ConstConvert class somehow. </li>
+<li>/* For Excel programmers */ Yes, I have no Font class. I don't need so many font properties and I decided to implement valuable parts of its functionality in Range classes. </li>
+</ul>
+<h3>Excel Specific</h3>
+<ul>
+<li>Excel likes color indexes and dislikes RGB. So RGB values like FonrColor and BackgroundColor are converted to the nearest color, understood by Excel. For details see <code>ConstConvert</code> class. </li>
+<li><code>ExcelApp.Workbook</code>, <code>ExcelSheet.Worksheet</code>, <code>ExcelRange.Range</code> and <code>ExcelDiagram.Chart</code> properties give you raw access to Excel. </li>
+<li>I don't use MS custom Excel wrapper (as warning suggests) since I had some problems with it while deploying software on some machines. I suppose there's a checkbox in MS Office's installation, which installs custom wrappers, and by default the checkbox is off. Anyway, my method works :-)</li>
+</ul>
+<h3>OpenOffice Calc Specific</h3>
+<ul>
+<li>OpenOffice likes RBG colors and knows nothing about color indexes. <code>ColorIndexes</code> for OpenOffice are converted to the corresponding RGB colors (great thanks for authors of <a href="http://www.mvps.org/dmcritchie/excel/colors.htm">Color Palette and the 56 Excel ColorIndex Colors</a>) </li>
+<li>OpenOffice supports no line styles (except for double lines). So line styles are NOT SUPPPORTED for OO implementation. </li>
+<li>OpenOffice dislikes a lack of values (when the array is smaller than the range) for <code>AddArray</code>, etc., but this is fixed in the wrapper. </li>
+<li>OpenOffice doesn't know what a "decimal" data type is, has his own strange <code>DateTime</code> type (I can't make OO accept the value of its own <code>DateTime</code> type) and doesn't like bool values. So values of these types are hard-code-converted for OOo. See <code>OORange.Conv</code> method in the sources for details. </li>
+<li>OpenOffice cross-platform design makes use of the <code>uno.Any</code> data type to communicate with the outer world (something like VARIANT I suppose). That's why while using <code>OORange.Value</code> — the array or value is COPIED ELEMENT BY ELEMENT to the array of <code>uno.Any</code> objects. To avoid this consider using <code>TableRange.CreateArray</code> and <code>TableRange.FlushArray</code>, it should work faster. </li>
+<li>OOApp. <code>XSpreadsheetDocument</code> gives you low-level OpenOffice Calc access. So does <code>OOSheet.XSpreadsheet</code>, <code>OORange.XCellRange</code> and <code>OODiagram.XChartDocument</code> </li>
+<li>User <code>NumberFormats</code> in OOo should be created in some number format storage for each document, but a particular format can be created only once for a document. So references for those formats are stored in <code>OOApp.numberFormats</code> (of course private). </li>
+<li><code>FitToPagesWide</code> and <code>FitToPagesTall</code> (size decreasing to fit to the desired number of pages) IS NOT IMPLEMENTED for OOo. </li>
+<li><code>AddPageNumbering</code> IS NOT IMPLEMENTED, because this is a default OOo behaviour. </li>
+<li>Each OOSheet has a reference to its OOApp, because I can't find the way to get the <code>XSpreadsheetDocument</code> reference via <code>XSpreadsheet</code> correctly (not by name, etc), and I need the document reference to work with number formats. </li>
+<li>OpenOffice 3.0 support is added as described <a href="http://blog.nkadesign.com/2008/net-working-with-openoffice-3/">here</a>. To use OpenOffice 2.x you should remove all cli_*.dll references from the project and reference cli_*.dll from program/assembly folder inside the OpenOffice 2.x installation folder. If using OpenOffice 2.x, you can comment out OOApp.ConfigureOO3x() call from OOApp constructor.</li>
+<li>OpenOffice 3.0 DLLs, used in the sources, are extracted from the openofficeorg1.cab file. They shouldn't be distributed with the tblproc.dll, since OpenOffice installs them in the GAC.</li>
+</ul>
+
+<h2>Build Requirements</h2>
+
+<ol>
+<li>.NET 2.0 </li>
+<li>Visual studio 2005 </li>
+<li>OpenOffice.org 3.0 (maybe later versions will be compatible) and/or Microsoft Office XP or later. Not tested with MS Office 2007.</li>
+<li>You need to reference <code>Microsoft.Office.Core</code> and Microsoft Excel Object library.</li>
+<li>You need to reference 6 OpenOffice .NET DLLs (<em>cli_basetypes.dll</em>, <em>cli_cppuihelper.dll</em>, <em>cli_oootypes.dll</em>, <em>cli_uno.dll</em>, <em>cli_ure.dll</em>, <em>cli_uretypes.dll</em>. I extracted them from OO installation .cab file, but they should reside in GAC after installation. </li>
+<li>In client code you need to reference only <em>tblProc.dll</em>, but you'll need to have referenced MS DLLs in application folder. You shouldn't copy OO DLLs to app folder, since there can be newer versions in GAC. </li>
+</ol>
+<p>I tested all the stuff using Visual Studio 2005, MS Office 2003, OpenOffice.org 3.0, Windows XP SP3.</p>
+<h2>Sample Code Discussion</h2>
+<p>It's quite easy. The grid on the form uses the custom DataSet, based on <code>DataClass</code> class. The <code>TableProcessor</code> combo on the toolbar allows you to select the type of the table processor. The Export button just sends the contents of grid to the processor (using a handy <code>Export</code> class — I use it frequently).</p>
+<p>The "Create some colorized test doc" button runs the code, which tries to show most of valuable features.</p>
+<h2>Links</h2>
+<p><a href="ooforum.org">ooforum.org</a> <a href="api.openoffice.org">api.openoffice.org</a>, <a href="http://blog.nkadesign.com/2008/net-working-with-openoffice-3/">blog.nkadesign.com</a></p>
+</span>
+    </div>
+ 
+</body>
+</html>

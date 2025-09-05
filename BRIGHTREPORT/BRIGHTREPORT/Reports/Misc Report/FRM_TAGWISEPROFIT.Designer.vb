@@ -1,0 +1,343 @@
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class FRM_TAGWISEPROFIT
+    Inherits System.Windows.Forms.Form
+
+    'Form overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()> _
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        If disposing AndAlso components IsNot Nothing Then
+            components.Dispose()
+        End If
+        MyBase.Dispose(disposing)
+    End Sub
+
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
+
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()> _
+    Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
+        Me.GrpContainer = New System.Windows.Forms.GroupBox()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.cmbDesigner = New System.Windows.Forms.ComboBox()
+        Me.chkCmbItem = New BrighttechPack.CheckedComboBox()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.cmbCategory = New System.Windows.Forms.ComboBox()
+        Me.label10 = New System.Windows.Forms.Label()
+        Me.chkCmbMetal = New BrighttechPack.CheckedComboBox()
+        Me.ChkPurratebase = New System.Windows.Forms.CheckBox()
+        Me.rbtTouch = New System.Windows.Forms.RadioButton()
+        Me.txtTranNo_NUM = New System.Windows.Forms.TextBox()
+        Me.rdbValAdded = New System.Windows.Forms.RadioButton()
+        Me.rdbItem = New System.Windows.Forms.RadioButton()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.dtpTo = New BrighttechPack.DatePicker(Me.components)
+        Me.dtpFrom = New BrighttechPack.DatePicker(Me.components)
+        Me.btnExit = New System.Windows.Forms.Button()
+        Me.btnSearch = New System.Windows.Forms.Button()
+        Me.btnNew = New System.Windows.Forms.Button()
+        Me.GrpContainer.SuspendLayout()
+        Me.SuspendLayout()
+        '
+        'GrpContainer
+        '
+        Me.GrpContainer.Controls.Add(Me.Label7)
+        Me.GrpContainer.Controls.Add(Me.cmbDesigner)
+        Me.GrpContainer.Controls.Add(Me.chkCmbItem)
+        Me.GrpContainer.Controls.Add(Me.Label6)
+        Me.GrpContainer.Controls.Add(Me.Label5)
+        Me.GrpContainer.Controls.Add(Me.cmbCategory)
+        Me.GrpContainer.Controls.Add(Me.label10)
+        Me.GrpContainer.Controls.Add(Me.chkCmbMetal)
+        Me.GrpContainer.Controls.Add(Me.ChkPurratebase)
+        Me.GrpContainer.Controls.Add(Me.rbtTouch)
+        Me.GrpContainer.Controls.Add(Me.txtTranNo_NUM)
+        Me.GrpContainer.Controls.Add(Me.rdbValAdded)
+        Me.GrpContainer.Controls.Add(Me.rdbItem)
+        Me.GrpContainer.Controls.Add(Me.Label4)
+        Me.GrpContainer.Controls.Add(Me.Label2)
+        Me.GrpContainer.Controls.Add(Me.Label3)
+        Me.GrpContainer.Controls.Add(Me.Label1)
+        Me.GrpContainer.Controls.Add(Me.dtpTo)
+        Me.GrpContainer.Controls.Add(Me.dtpFrom)
+        Me.GrpContainer.Controls.Add(Me.btnExit)
+        Me.GrpContainer.Controls.Add(Me.btnSearch)
+        Me.GrpContainer.Controls.Add(Me.btnNew)
+        Me.GrpContainer.Location = New System.Drawing.Point(137, 64)
+        Me.GrpContainer.Name = "GrpContainer"
+        Me.GrpContainer.Size = New System.Drawing.Size(428, 301)
+        Me.GrpContainer.TabIndex = 0
+        Me.GrpContainer.TabStop = False
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.Location = New System.Drawing.Point(36, 179)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(58, 13)
+        Me.Label7.TabIndex = 14
+        Me.Label7.Text = "Designer"
+        Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'cmbDesigner
+        '
+        Me.cmbDesigner.FormattingEnabled = True
+        Me.cmbDesigner.Location = New System.Drawing.Point(131, 176)
+        Me.cmbDesigner.Name = "cmbDesigner"
+        Me.cmbDesigner.Size = New System.Drawing.Size(244, 21)
+        Me.cmbDesigner.TabIndex = 15
+        '
+        'chkCmbItem
+        '
+        Me.chkCmbItem.CheckOnClick = True
+        Me.chkCmbItem.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable
+        Me.chkCmbItem.DropDownHeight = 1
+        Me.chkCmbItem.FormattingEnabled = True
+        Me.chkCmbItem.IntegralHeight = False
+        Me.chkCmbItem.Location = New System.Drawing.Point(131, 145)
+        Me.chkCmbItem.Name = "chkCmbItem"
+        Me.chkCmbItem.Size = New System.Drawing.Size(244, 22)
+        Me.chkCmbItem.TabIndex = 13
+        Me.chkCmbItem.ValueSeparator = ", "
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(36, 150)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(67, 13)
+        Me.Label6.TabIndex = 12
+        Me.Label6.Text = "ItemName"
+        Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.Location = New System.Drawing.Point(36, 119)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(60, 13)
+        Me.Label5.TabIndex = 10
+        Me.Label5.Text = "Category"
+        Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'cmbCategory
+        '
+        Me.cmbCategory.FormattingEnabled = True
+        Me.cmbCategory.Location = New System.Drawing.Point(131, 115)
+        Me.cmbCategory.Name = "cmbCategory"
+        Me.cmbCategory.Size = New System.Drawing.Size(244, 21)
+        Me.cmbCategory.TabIndex = 11
+        '
+        'label10
+        '
+        Me.label10.AutoSize = True
+        Me.label10.Location = New System.Drawing.Point(36, 89)
+        Me.label10.Name = "label10"
+        Me.label10.Size = New System.Drawing.Size(37, 13)
+        Me.label10.TabIndex = 8
+        Me.label10.Text = "Metal"
+        Me.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'chkCmbMetal
+        '
+        Me.chkCmbMetal.CheckOnClick = True
+        Me.chkCmbMetal.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable
+        Me.chkCmbMetal.DropDownHeight = 1
+        Me.chkCmbMetal.FormattingEnabled = True
+        Me.chkCmbMetal.IntegralHeight = False
+        Me.chkCmbMetal.Location = New System.Drawing.Point(131, 84)
+        Me.chkCmbMetal.Name = "chkCmbMetal"
+        Me.chkCmbMetal.Size = New System.Drawing.Size(244, 22)
+        Me.chkCmbMetal.TabIndex = 9
+        Me.chkCmbMetal.ValueSeparator = ", "
+        '
+        'ChkPurratebase
+        '
+        Me.ChkPurratebase.AutoSize = True
+        Me.ChkPurratebase.Checked = True
+        Me.ChkPurratebase.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.ChkPurratebase.Location = New System.Drawing.Point(96, 236)
+        Me.ChkPurratebase.Name = "ChkPurratebase"
+        Me.ChkPurratebase.Size = New System.Drawing.Size(221, 17)
+        Me.ChkPurratebase.TabIndex = 18
+        Me.ChkPurratebase.Text = "Pur. Value based on purchase rate"
+        Me.ChkPurratebase.UseVisualStyleBackColor = True
+        '
+        'rbtTouch
+        '
+        Me.rbtTouch.AutoSize = True
+        Me.rbtTouch.Location = New System.Drawing.Point(317, 28)
+        Me.rbtTouch.Name = "rbtTouch"
+        Me.rbtTouch.Size = New System.Drawing.Size(58, 17)
+        Me.rbtTouch.TabIndex = 3
+        Me.rbtTouch.Text = "Touch"
+        Me.rbtTouch.UseVisualStyleBackColor = True
+        '
+        'txtTranNo_NUM
+        '
+        Me.txtTranNo_NUM.Enabled = False
+        Me.txtTranNo_NUM.Location = New System.Drawing.Point(131, 206)
+        Me.txtTranNo_NUM.Name = "txtTranNo_NUM"
+        Me.txtTranNo_NUM.Size = New System.Drawing.Size(82, 21)
+        Me.txtTranNo_NUM.TabIndex = 17
+        '
+        'rdbValAdded
+        '
+        Me.rdbValAdded.AutoSize = True
+        Me.rdbValAdded.Checked = True
+        Me.rdbValAdded.Location = New System.Drawing.Point(131, 28)
+        Me.rdbValAdded.Name = "rdbValAdded"
+        Me.rdbValAdded.Size = New System.Drawing.Size(96, 17)
+        Me.rdbValAdded.TabIndex = 1
+        Me.rdbValAdded.TabStop = True
+        Me.rdbValAdded.Text = "Value Added"
+        Me.rdbValAdded.UseVisualStyleBackColor = True
+        '
+        'rdbItem
+        '
+        Me.rdbItem.AutoSize = True
+        Me.rdbItem.Location = New System.Drawing.Point(239, 28)
+        Me.rdbItem.Name = "rdbItem"
+        Me.rdbItem.Size = New System.Drawing.Size(66, 17)
+        Me.rdbItem.TabIndex = 2
+        Me.rdbItem.Text = "Tagged"
+        Me.rdbItem.UseVisualStyleBackColor = True
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(36, 210)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(47, 13)
+        Me.Label4.TabIndex = 16
+        Me.Label4.Text = "TranNo"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(36, 30)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(60, 13)
+        Me.Label2.TabIndex = 0
+        Me.Label2.Text = "Based on"
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(36, 58)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(67, 13)
+        Me.Label3.TabIndex = 4
+        Me.Label3.Text = "Date From"
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(220, 58)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(20, 13)
+        Me.Label1.TabIndex = 6
+        Me.Label1.Text = "To"
+        '
+        'dtpTo
+        '
+        Me.dtpTo.Location = New System.Drawing.Point(247, 54)
+        Me.dtpTo.Mask = "##-##-####"
+        Me.dtpTo.MaximumDate = New Date(9998, 12, 31, 0, 0, 0, 0)
+        Me.dtpTo.MinimumDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpTo.Name = "dtpTo"
+        Me.dtpTo.Seperator = Global.Microsoft.VisualBasic.ChrW(47)
+        Me.dtpTo.Size = New System.Drawing.Size(82, 21)
+        Me.dtpTo.TabIndex = 7
+        Me.dtpTo.Text = "29/09/2010"
+        Me.dtpTo.Value = New Date(2010, 9, 29, 0, 0, 0, 0)
+        '
+        'dtpFrom
+        '
+        Me.dtpFrom.Location = New System.Drawing.Point(131, 54)
+        Me.dtpFrom.Mask = "##-##-####"
+        Me.dtpFrom.MaximumDate = New Date(9998, 12, 31, 0, 0, 0, 0)
+        Me.dtpFrom.MinimumDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpFrom.Name = "dtpFrom"
+        Me.dtpFrom.Seperator = Global.Microsoft.VisualBasic.ChrW(47)
+        Me.dtpFrom.Size = New System.Drawing.Size(82, 21)
+        Me.dtpFrom.TabIndex = 5
+        Me.dtpFrom.Text = "29/09/2010"
+        Me.dtpFrom.Value = New Date(2010, 9, 29, 0, 0, 0, 0)
+        '
+        'btnExit
+        '
+        Me.btnExit.Location = New System.Drawing.Point(276, 259)
+        Me.btnExit.Name = "btnExit"
+        Me.btnExit.Size = New System.Drawing.Size(100, 30)
+        Me.btnExit.TabIndex = 21
+        Me.btnExit.Text = "Exit [F12]"
+        Me.btnExit.UseVisualStyleBackColor = True
+        '
+        'btnSearch
+        '
+        Me.btnSearch.Location = New System.Drawing.Point(36, 259)
+        Me.btnSearch.Name = "btnSearch"
+        Me.btnSearch.Size = New System.Drawing.Size(100, 30)
+        Me.btnSearch.TabIndex = 19
+        Me.btnSearch.Text = "&Search"
+        Me.btnSearch.UseVisualStyleBackColor = True
+        '
+        'btnNew
+        '
+        Me.btnNew.Location = New System.Drawing.Point(156, 259)
+        Me.btnNew.Name = "btnNew"
+        Me.btnNew.Size = New System.Drawing.Size(100, 30)
+        Me.btnNew.TabIndex = 20
+        Me.btnNew.Text = "New [F3]"
+        Me.btnNew.UseVisualStyleBackColor = True
+        '
+        'FRM_TAGWISEPROFIT
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.ClientSize = New System.Drawing.Size(623, 398)
+        Me.Controls.Add(Me.GrpContainer)
+        Me.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.KeyPreview = True
+        Me.MaximizeBox = False
+        Me.Name = "FRM_TAGWISEPROFIT"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
+        Me.Text = "FRM_TAGWISEPROFIT"
+        Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
+        Me.GrpContainer.ResumeLayout(False)
+        Me.GrpContainer.PerformLayout()
+        Me.ResumeLayout(False)
+
+    End Sub
+    Friend WithEvents GrpContainer As System.Windows.Forms.GroupBox
+    Friend WithEvents Label3 As System.Windows.Forms.Label
+    Friend WithEvents Label1 As System.Windows.Forms.Label
+    Friend WithEvents dtpTo As BrighttechPack.DatePicker
+    Friend WithEvents dtpFrom As BrighttechPack.DatePicker
+    Friend WithEvents btnExit As System.Windows.Forms.Button
+    Friend WithEvents btnSearch As System.Windows.Forms.Button
+    Friend WithEvents btnNew As System.Windows.Forms.Button
+    Friend WithEvents rdbValAdded As System.Windows.Forms.RadioButton
+    Friend WithEvents rdbItem As System.Windows.Forms.RadioButton
+    Friend WithEvents txtTranNo_NUM As System.Windows.Forms.TextBox
+    Friend WithEvents Label4 As System.Windows.Forms.Label
+    Friend WithEvents Label2 As System.Windows.Forms.Label
+    Friend WithEvents rbtTouch As System.Windows.Forms.RadioButton
+    Friend WithEvents ChkPurratebase As System.Windows.Forms.CheckBox
+    Friend WithEvents label10 As Label
+    Friend WithEvents chkCmbMetal As BrighttechPack.CheckedComboBox
+    Friend WithEvents Label5 As Label
+    Friend WithEvents cmbCategory As ComboBox
+    Friend WithEvents chkCmbItem As BrighttechPack.CheckedComboBox
+    Friend WithEvents Label6 As Label
+    Friend WithEvents cmbDesigner As ComboBox
+    Friend WithEvents Label7 As Label
+End Class

@@ -1,0 +1,32 @@
+;with cte as(
+select * from VAISAVINGS..schememast  where 1=1 and isnull(doclose,'') <> ''
+),
+cte1 as(
+select sum(weight)Weight,GROUPCODE,REGNO from vaish0708..SCHEMETRAN 
+where CANCEL <> 'Y'
+group by GROUPCODE,REGNO 
+),
+cte2 as(
+select cte.GROUPCODE,cte.REGNO,BILLNO,BILLDATE,cte1.Weight from cte 
+inner join cte1 on cte.GROUPCODE = cte1.GROUPCODE and cte.REGNO = cte1.REGNO 
+),
+cte3 as(
+select tranno,TRANDATE,c.ITEMCTRNAME, SUM(a.GRSWT)grswt from vait2425..issue a
+inner join VAIADMINDB..ITEMMAST b on a.ITEMID = b.ITEMID and b.METALID = 'G'
+inner join VAIADMINDB..itemcounter c on a.itemctrid = c.ITEMCTRID
+where a.CANCEL <> 'Y'
+group by tranno,TRANDATE,c.ITEMCTRNAME
+)
+select month(cte3.TRANDATE)[Month],cte3.ITEMCTRNAME,sum(cte3.grswt)SalWt,sum(cte2.weight)ChitWt from cte3 
+inner join cte2 on cte2.BILLDATE = cte3.TRANDATE and cte2.BILLNO = cte3.TRANNO 
+where cte3.TRANDATE between '2024-04-01' and '2024-09-13'
+group by month(cte3.TRANDATE),cte3.ITEMCTRNAME
+order by month(cte3.TRANDATE)
+
+--select cte3.TRANDATE,cte3.ITEMCTRNAME,sum(cte3.grswt)SalWt,sum(cte2.weight)ChitWt from cte3 
+--inner join cte2 on cte2.BILLDATE = cte3.TRANDATE and cte2.BILLNO = cte3.TRANNO 
+--where cte3.TRANDATE between '2024-04-01' and '2024-09-13'
+--group by cte3.TranDate,cte3.ITEMCTRNAME
+--order by cte3.TRANDATE
+
+

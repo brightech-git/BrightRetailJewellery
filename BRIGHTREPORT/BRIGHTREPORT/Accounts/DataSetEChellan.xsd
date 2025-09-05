@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="DataSetEChellan" targetNamespace="http://tempuri.org/DataSetEChellan.xsd" xmlns:mstns="http://tempuri.org/DataSetEChellan.xsd" xmlns="http://tempuri.org/DataSetEChellan.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+        </Connections>
+        <Tables>
+        </Tables>
+        <Sources>
+        </Sources>
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="DataSetEChellan" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:Generator_UserDSName="DataSetEChellan" msprop:Generator_DataSetName="DataSetEChellan">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="ListEChellan" msprop:Generator_UserTableName="ListEChellan" msprop:Generator_RowDeletedName="ListEChellanRowDeleted" msprop:Generator_TableClassName="ListEChellanDataTable" msprop:Generator_RowChangedName="ListEChellanRowChanged" msprop:Generator_RowClassName="ListEChellanRow" msprop:Generator_RowChangingName="ListEChellanRowChanging" msprop:Generator_RowEvArgName="ListEChellanRowChangeEvent" msprop:Generator_RowEvHandlerName="ListEChellanRowChangeEventHandler" msprop:Generator_TablePropName="ListEChellan" msprop:Generator_TableVarName="tableListEChellan" msprop:Generator_RowDeletingName="ListEChellanRowDeleting">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SLNO" msprop:Generator_UserColumnName="SLNO" msprop:Generator_ColumnPropNameInRow="SLNO" msprop:Generator_ColumnVarNameInTable="columnSLNO" msprop:Generator_ColumnPropNameInTable="SLNOColumn" type="xs:long" minOccurs="0" />
+              <xs:element name="ENTRYDATE" msprop:Generator_UserColumnName="ENTRYDATE" msprop:Generator_ColumnPropNameInRow="ENTRYDATE" msprop:Generator_ColumnVarNameInTable="columnENTRYDATE" msprop:Generator_ColumnPropNameInTable="ENTRYDATEColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="CHQNO" msprop:Generator_UserColumnName="CHQNO" msprop:Generator_ColumnPropNameInRow="CHQNO" msprop:Generator_ColumnVarNameInTable="columnCHQNO" msprop:Generator_ColumnPropNameInTable="CHQNOColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="BANK" msprop:Generator_UserColumnName="BANK" msprop:Generator_ColumnPropNameInRow="BANK" msprop:Generator_ColumnVarNameInTable="columnBANK" msprop:Generator_ColumnPropNameInTable="BANKColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="BRANCH" msprop:Generator_UserColumnName="BRANCH" msprop:Generator_ColumnPropNameInRow="BRANCH" msprop:Generator_ColumnVarNameInTable="columnBRANCH" msprop:Generator_ColumnPropNameInTable="BRANCHColumn" type="xs:string" minOccurs="0" />
+              <xs:element name="AMOUNT" msprop:Generator_UserColumnName="AMOUNT" msprop:Generator_ColumnPropNameInRow="AMOUNT" msprop:Generator_ColumnVarNameInTable="columnAMOUNT" msprop:Generator_ColumnPropNameInTable="AMOUNTColumn" type="xs:decimal" minOccurs="0" />
+              <xs:element name="HIERARCHYCODE" msprop:Generator_UserColumnName="HIERARCHYCODE" msprop:Generator_ColumnPropNameInRow="HIERARCHYCODE" msprop:Generator_ColumnVarNameInTable="columnHIERARCHYCODE" msprop:Generator_ColumnPropNameInTable="HIERARCHYCODEColumn" type="xs:string" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

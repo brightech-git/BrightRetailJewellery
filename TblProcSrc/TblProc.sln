@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1A0DFACA-2356-4EDF-9B07-D9183EDC0D3C}"
+	ProjectSection(SolutionItems) = preProject
+		TblProc.htm = TblProc.htm
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{C4CFEA59-2C53-433C-8092-4B9577132701}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TblProc", "TblProc\TblProc.csproj", "{83E8E13A-17CF-4B50-AF19-22E74C740C62}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C4CFEA59-2C53-433C-8092-4B9577132701}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4CFEA59-2C53-433C-8092-4B9577132701}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4CFEA59-2C53-433C-8092-4B9577132701}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4CFEA59-2C53-433C-8092-4B9577132701}.Release|Any CPU.Build.0 = Release|Any CPU
+		{83E8E13A-17CF-4B50-AF19-22E74C740C62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{83E8E13A-17CF-4B50-AF19-22E74C740C62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{83E8E13A-17CF-4B50-AF19-22E74C740C62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{83E8E13A-17CF-4B50-AF19-22E74C740C62}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

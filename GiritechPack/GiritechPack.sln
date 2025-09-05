@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "GiritechPack", "GiritechPack\GiritechPack.vbproj", "{ED18C221-C7BC-4E84-AC6B-A5A3BC8B99A8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ED18C221-C7BC-4E84-AC6B-A5A3BC8B99A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED18C221-C7BC-4E84-AC6B-A5A3BC8B99A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED18C221-C7BC-4E84-AC6B-A5A3BC8B99A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED18C221-C7BC-4E84-AC6B-A5A3BC8B99A8}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
