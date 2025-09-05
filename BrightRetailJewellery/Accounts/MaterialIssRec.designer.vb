@@ -21,6 +21,9 @@ Partial Class MaterialIssRec
     Private Sub InitializeComponent()
         Me.grpContainer = New CodeVendor.Controls.Grouper()
         Me.grpMain = New System.Windows.Forms.GroupBox()
+        Me.txtItemId = New System.Windows.Forms.TextBox()
+        Me.Label109 = New System.Windows.Forms.Label()
+        Me.Label71 = New System.Windows.Forms.Label()
         Me.txtTagNo = New System.Windows.Forms.TextBox()
         Me.Panel1_OWN = New System.Windows.Forms.Panel()
         Me.rbtOthers = New System.Windows.Forms.RadioButton()
@@ -334,9 +337,6 @@ Partial Class MaterialIssRec
         Me.Label60 = New System.Windows.Forms.Label()
         Me.cmbOthSubItem = New System.Windows.Forms.ComboBox()
         Me.txtOthGrsAmt_AMT = New System.Windows.Forms.TextBox()
-        Me.Label71 = New System.Windows.Forms.Label()
-        Me.Label109 = New System.Windows.Forms.Label()
-        Me.txtItemId_NUM = New System.Windows.Forms.TextBox()
         Me.grpContainer.SuspendLayout()
         Me.grpMain.SuspendLayout()
         Me.Panel1_OWN.SuspendLayout()
@@ -387,7 +387,7 @@ Partial Class MaterialIssRec
         'grpMain
         '
         Me.grpMain.BackColor = System.Drawing.Color.Lavender
-        Me.grpMain.Controls.Add(Me.txtItemId_NUM)
+        Me.grpMain.Controls.Add(Me.txtItemId)
         Me.grpMain.Controls.Add(Me.Label109)
         Me.grpMain.Controls.Add(Me.Label71)
         Me.grpMain.Controls.Add(Me.txtTagNo)
@@ -399,12 +399,39 @@ Partial Class MaterialIssRec
         Me.grpMain.TabStop = False
         Me.grpMain.Text = "Main"
         '
+        'txtItemId
+        '
+        Me.txtItemId.Location = New System.Drawing.Point(376, 6)
+        Me.txtItemId.Name = "txtItemId"
+        Me.txtItemId.Size = New System.Drawing.Size(114, 24)
+        Me.txtItemId.TabIndex = 4
+        '
+        'Label109
+        '
+        Me.Label109.AutoSize = True
+        Me.Label109.BackColor = System.Drawing.Color.Lavender
+        Me.Label109.Location = New System.Drawing.Point(317, 32)
+        Me.Label109.Name = "Label109"
+        Me.Label109.Size = New System.Drawing.Size(51, 17)
+        Me.Label109.TabIndex = 3
+        Me.Label109.Text = "TagNo"
+        '
+        'Label71
+        '
+        Me.Label71.AutoSize = True
+        Me.Label71.BackColor = System.Drawing.Color.Lavender
+        Me.Label71.Location = New System.Drawing.Point(317, 10)
+        Me.Label71.Name = "Label71"
+        Me.Label71.Size = New System.Drawing.Size(54, 17)
+        Me.Label71.TabIndex = 1
+        Me.Label71.Text = "ItemId"
+        '
         'txtTagNo
         '
-        Me.txtTagNo.Location = New System.Drawing.Point(375, 28)
+        Me.txtTagNo.Location = New System.Drawing.Point(375, 32)
         Me.txtTagNo.Name = "txtTagNo"
-        Me.txtTagNo.Size = New System.Drawing.Size(116, 21)
-        Me.txtTagNo.TabIndex = 4
+        Me.txtTagNo.Size = New System.Drawing.Size(116, 24)
+        Me.txtTagNo.TabIndex = 5
         '
         'Panel1_OWN
         '
@@ -425,7 +452,7 @@ Partial Class MaterialIssRec
         Me.rbtOthers.BackColor = System.Drawing.Color.Lavender
         Me.rbtOthers.Location = New System.Drawing.Point(235, 3)
         Me.rbtOthers.Name = "rbtOthers"
-        Me.rbtOthers.Size = New System.Drawing.Size(63, 17)
+        Me.rbtOthers.Size = New System.Drawing.Size(77, 21)
         Me.rbtOthers.TabIndex = 4
         Me.rbtOthers.TabStop = True
         Me.rbtOthers.Text = "Others"
@@ -438,7 +465,7 @@ Partial Class MaterialIssRec
         Me.rbtOrnament.Checked = True
         Me.rbtOrnament.Location = New System.Drawing.Point(37, 3)
         Me.rbtOrnament.Name = "rbtOrnament"
-        Me.rbtOrnament.Size = New System.Drawing.Size(82, 17)
+        Me.rbtOrnament.Size = New System.Drawing.Size(99, 21)
         Me.rbtOrnament.TabIndex = 1
         Me.rbtOrnament.TabStop = True
         Me.rbtOrnament.Text = "Ornament"
@@ -450,7 +477,7 @@ Partial Class MaterialIssRec
         Me.rbtStone.BackColor = System.Drawing.Color.Lavender
         Me.rbtStone.Location = New System.Drawing.Point(176, 3)
         Me.rbtStone.Name = "rbtStone"
-        Me.rbtStone.Size = New System.Drawing.Size(58, 17)
+        Me.rbtStone.Size = New System.Drawing.Size(71, 21)
         Me.rbtStone.TabIndex = 3
         Me.rbtStone.TabStop = True
         Me.rbtStone.Text = "Stone"
@@ -462,7 +489,7 @@ Partial Class MaterialIssRec
         Me.lbltype.BackColor = System.Drawing.Color.Lavender
         Me.lbltype.Location = New System.Drawing.Point(2, 5)
         Me.lbltype.Name = "lbltype"
-        Me.lbltype.Size = New System.Drawing.Size(34, 13)
+        Me.lbltype.Size = New System.Drawing.Size(41, 17)
         Me.lbltype.TabIndex = 0
         Me.lbltype.Text = "Type"
         '
@@ -472,7 +499,7 @@ Partial Class MaterialIssRec
         Me.rbtMetal.BackColor = System.Drawing.Color.Lavender
         Me.rbtMetal.Location = New System.Drawing.Point(120, 3)
         Me.rbtMetal.Name = "rbtMetal"
-        Me.rbtMetal.Size = New System.Drawing.Size(55, 17)
+        Me.rbtMetal.Size = New System.Drawing.Size(65, 21)
         Me.rbtMetal.TabIndex = 2
         Me.rbtMetal.TabStop = True
         Me.rbtMetal.Text = "Metal"
@@ -513,10 +540,10 @@ Partial Class MaterialIssRec
         '
         Me.tabOrnament.BackColor = System.Drawing.Color.Lavender
         Me.tabOrnament.Controls.Add(Me.grpOrnament)
-        Me.tabOrnament.Location = New System.Drawing.Point(4, 25)
+        Me.tabOrnament.Location = New System.Drawing.Point(4, 29)
         Me.tabOrnament.Name = "tabOrnament"
         Me.tabOrnament.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabOrnament.Size = New System.Drawing.Size(501, 529)
+        Me.tabOrnament.Size = New System.Drawing.Size(501, 525)
         Me.tabOrnament.TabIndex = 0
         Me.tabOrnament.Text = "Ornament"
         '
@@ -618,7 +645,7 @@ Partial Class MaterialIssRec
         Me.Label104.AutoSize = True
         Me.Label104.Location = New System.Drawing.Point(341, 362)
         Me.Label104.Name = "Label104"
-        Me.Label104.Size = New System.Drawing.Size(68, 13)
+        Me.Label104.Size = New System.Drawing.Size(84, 17)
         Me.Label104.TabIndex = 81
         Me.Label104.Text = "TdsAccode"
         Me.Label104.Visible = False
@@ -628,7 +655,7 @@ Partial Class MaterialIssRec
         Me.txtotdsaccode.Enabled = False
         Me.txtotdsaccode.Location = New System.Drawing.Point(419, 358)
         Me.txtotdsaccode.Name = "txtotdsaccode"
-        Me.txtotdsaccode.Size = New System.Drawing.Size(78, 21)
+        Me.txtotdsaccode.Size = New System.Drawing.Size(78, 24)
         Me.txtotdsaccode.TabIndex = 82
         Me.txtotdsaccode.Visible = False
         '
@@ -637,7 +664,7 @@ Partial Class MaterialIssRec
         Me.lblacname.AutoSize = True
         Me.lblacname.Location = New System.Drawing.Point(6, 363)
         Me.lblacname.Name = "lblacname"
-        Me.lblacname.Size = New System.Drawing.Size(78, 13)
+        Me.lblacname.Size = New System.Drawing.Size(95, 17)
         Me.lblacname.TabIndex = 79
         Me.lblacname.Text = "Tds AcName"
         '
@@ -646,7 +673,7 @@ Partial Class MaterialIssRec
         Me.Cmboacname.FormattingEnabled = True
         Me.Cmboacname.Location = New System.Drawing.Point(117, 359)
         Me.Cmboacname.Name = "Cmboacname"
-        Me.Cmboacname.Size = New System.Drawing.Size(224, 21)
+        Me.Cmboacname.Size = New System.Drawing.Size(224, 25)
         Me.Cmboacname.TabIndex = 61
         '
         'lblOhallmark
@@ -654,7 +681,7 @@ Partial Class MaterialIssRec
         Me.lblOhallmark.AutoSize = True
         Me.lblOhallmark.Location = New System.Drawing.Point(342, 184)
         Me.lblOhallmark.Name = "lblOhallmark"
-        Me.lblOhallmark.Size = New System.Drawing.Size(58, 13)
+        Me.lblOhallmark.Size = New System.Drawing.Size(67, 17)
         Me.lblOhallmark.TabIndex = 21
         Me.lblOhallmark.Text = "Hallmark"
         Me.lblOhallmark.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -665,7 +692,7 @@ Partial Class MaterialIssRec
         Me.CmbOHallmark.FormattingEnabled = True
         Me.CmbOHallmark.Location = New System.Drawing.Point(412, 180)
         Me.CmbOHallmark.Name = "CmbOHallmark"
-        Me.CmbOHallmark.Size = New System.Drawing.Size(85, 21)
+        Me.CmbOHallmark.Size = New System.Drawing.Size(85, 25)
         Me.CmbOHallmark.TabIndex = 22
         '
         'chkORateFixed
@@ -673,7 +700,7 @@ Partial Class MaterialIssRec
         Me.chkORateFixed.AutoSize = True
         Me.chkORateFixed.Location = New System.Drawing.Point(205, 137)
         Me.chkORateFixed.Name = "chkORateFixed"
-        Me.chkORateFixed.Size = New System.Drawing.Size(86, 17)
+        Me.chkORateFixed.Size = New System.Drawing.Size(104, 21)
         Me.chkORateFixed.TabIndex = 16
         Me.chkORateFixed.Text = "Rate Fixed"
         Me.chkORateFixed.UseVisualStyleBackColor = True
@@ -683,7 +710,7 @@ Partial Class MaterialIssRec
         Me.Label100.AutoSize = True
         Me.Label100.Location = New System.Drawing.Point(7, 465)
         Me.Label100.Name = "Label100"
-        Me.Label100.Size = New System.Drawing.Size(31, 13)
+        Me.Label100.Size = New System.Drawing.Size(37, 17)
         Me.Label100.TabIndex = 68
         Me.Label100.Text = "TCS"
         '
@@ -692,7 +719,7 @@ Partial Class MaterialIssRec
         Me.txtOTCS_AMT.Location = New System.Drawing.Point(118, 459)
         Me.txtOTCS_AMT.Name = "txtOTCS_AMT"
         Me.txtOTCS_AMT.ReadOnly = True
-        Me.txtOTCS_AMT.Size = New System.Drawing.Size(78, 21)
+        Me.txtOTCS_AMT.Size = New System.Drawing.Size(78, 24)
         Me.txtOTCS_AMT.TabIndex = 69
         '
         'lblOApproxTax
@@ -700,7 +727,7 @@ Partial Class MaterialIssRec
         Me.lblOApproxTax.AutoSize = True
         Me.lblOApproxTax.Location = New System.Drawing.Point(342, 487)
         Me.lblOApproxTax.Name = "lblOApproxTax"
-        Me.lblOApproxTax.Size = New System.Drawing.Size(54, 13)
+        Me.lblOApproxTax.Size = New System.Drawing.Size(66, 17)
         Me.lblOApproxTax.TabIndex = 76
         Me.lblOApproxTax.Text = "AprxTax"
         Me.lblOApproxTax.Visible = False
@@ -709,7 +736,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOAprxTaxAmt_AMT.Location = New System.Drawing.Point(419, 484)
         Me.txtOAprxTaxAmt_AMT.Name = "txtOAprxTaxAmt_AMT"
-        Me.txtOAprxTaxAmt_AMT.Size = New System.Drawing.Size(78, 21)
+        Me.txtOAprxTaxAmt_AMT.Size = New System.Drawing.Size(78, 24)
         Me.txtOAprxTaxAmt_AMT.TabIndex = 77
         Me.txtOAprxTaxAmt_AMT.Visible = False
         '
@@ -717,7 +744,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOAprxAmount_AMT.Location = New System.Drawing.Point(419, 459)
         Me.txtOAprxAmount_AMT.Name = "txtOAprxAmount_AMT"
-        Me.txtOAprxAmount_AMT.Size = New System.Drawing.Size(78, 21)
+        Me.txtOAprxAmount_AMT.Size = New System.Drawing.Size(78, 24)
         Me.txtOAprxAmount_AMT.TabIndex = 73
         Me.txtOAprxAmount_AMT.Visible = False
         '
@@ -726,7 +753,7 @@ Partial Class MaterialIssRec
         Me.lblOApproxAmt.AutoSize = True
         Me.lblOApproxAmt.Location = New System.Drawing.Point(342, 462)
         Me.lblOApproxAmt.Name = "lblOApproxAmt"
-        Me.lblOApproxAmt.Size = New System.Drawing.Size(57, 13)
+        Me.lblOApproxAmt.Size = New System.Drawing.Size(71, 17)
         Me.lblOApproxAmt.TabIndex = 72
         Me.lblOApproxAmt.Text = "AprxAmt"
         Me.lblOApproxAmt.Visible = False
@@ -735,7 +762,7 @@ Partial Class MaterialIssRec
         '
         Me.txtODisc.Location = New System.Drawing.Point(419, 313)
         Me.txtODisc.Name = "txtODisc"
-        Me.txtODisc.Size = New System.Drawing.Size(78, 21)
+        Me.txtODisc.Size = New System.Drawing.Size(78, 24)
         Me.txtODisc.TabIndex = 54
         '
         'lblDiscount
@@ -743,7 +770,7 @@ Partial Class MaterialIssRec
         Me.lblDiscount.AutoSize = True
         Me.lblDiscount.Location = New System.Drawing.Point(342, 318)
         Me.lblDiscount.Name = "lblDiscount"
-        Me.lblDiscount.Size = New System.Drawing.Size(56, 13)
+        Me.lblDiscount.Size = New System.Drawing.Size(70, 17)
         Me.lblDiscount.TabIndex = 53
         Me.lblDiscount.Text = "Discount"
         '
@@ -770,7 +797,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOIG_AMT.Location = New System.Drawing.Point(414, 25)
         Me.txtOIG_AMT.Name = "txtOIG_AMT"
-        Me.txtOIG_AMT.Size = New System.Drawing.Size(78, 21)
+        Me.txtOIG_AMT.Size = New System.Drawing.Size(78, 24)
         Me.txtOIG_AMT.TabIndex = 11
         '
         'Label81
@@ -778,7 +805,7 @@ Partial Class MaterialIssRec
         Me.Label81.AutoSize = True
         Me.Label81.Location = New System.Drawing.Point(337, 29)
         Me.Label81.Name = "Label81"
-        Me.Label81.Size = New System.Drawing.Size(40, 13)
+        Me.Label81.Size = New System.Drawing.Size(48, 17)
         Me.Label81.TabIndex = 10
         Me.Label81.Text = "I GST"
         '
@@ -786,7 +813,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOIgst_AMT.Location = New System.Drawing.Point(414, 1)
         Me.txtOIgst_AMT.Name = "txtOIgst_AMT"
-        Me.txtOIgst_AMT.Size = New System.Drawing.Size(78, 21)
+        Me.txtOIgst_AMT.Size = New System.Drawing.Size(78, 24)
         Me.txtOIgst_AMT.TabIndex = 5
         '
         'Label80
@@ -794,7 +821,7 @@ Partial Class MaterialIssRec
         Me.Label80.AutoSize = True
         Me.Label80.Location = New System.Drawing.Point(337, 5)
         Me.Label80.Name = "Label80"
-        Me.Label80.Size = New System.Drawing.Size(52, 13)
+        Me.Label80.Size = New System.Drawing.Size(63, 17)
         Me.Label80.TabIndex = 4
         Me.Label80.Text = "I GST%"
         '
@@ -803,7 +830,7 @@ Partial Class MaterialIssRec
         Me.Label78.AutoSize = True
         Me.Label78.Location = New System.Drawing.Point(194, 5)
         Me.Label78.Name = "Label78"
-        Me.Label78.Size = New System.Drawing.Size(56, 13)
+        Me.Label78.Size = New System.Drawing.Size(68, 17)
         Me.Label78.TabIndex = 2
         Me.Label78.Text = "C GST%"
         '
@@ -811,7 +838,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOCgst_AMT.Location = New System.Drawing.Point(257, 1)
         Me.txtOCgst_AMT.Name = "txtOCgst_AMT"
-        Me.txtOCgst_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtOCgst_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtOCgst_AMT.TabIndex = 3
         '
         'Label79
@@ -819,7 +846,7 @@ Partial Class MaterialIssRec
         Me.Label79.AutoSize = True
         Me.Label79.Location = New System.Drawing.Point(194, 29)
         Me.Label79.Name = "Label79"
-        Me.Label79.Size = New System.Drawing.Size(44, 13)
+        Me.Label79.Size = New System.Drawing.Size(53, 17)
         Me.Label79.TabIndex = 8
         Me.Label79.Text = "C GST"
         '
@@ -827,7 +854,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOCG_AMT.Location = New System.Drawing.Point(257, 25)
         Me.txtOCG_AMT.Name = "txtOCG_AMT"
-        Me.txtOCG_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtOCG_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtOCG_AMT.TabIndex = 9
         '
         'Label76
@@ -835,7 +862,7 @@ Partial Class MaterialIssRec
         Me.Label76.AutoSize = True
         Me.Label76.Location = New System.Drawing.Point(1, 5)
         Me.Label76.Name = "Label76"
-        Me.Label76.Size = New System.Drawing.Size(55, 13)
+        Me.Label76.Size = New System.Drawing.Size(68, 17)
         Me.Label76.TabIndex = 0
         Me.Label76.Text = "S GST%"
         '
@@ -843,7 +870,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOSgst_AMT.Location = New System.Drawing.Point(113, 1)
         Me.txtOSgst_AMT.Name = "txtOSgst_AMT"
-        Me.txtOSgst_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtOSgst_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtOSgst_AMT.TabIndex = 1
         '
         'Label77
@@ -851,7 +878,7 @@ Partial Class MaterialIssRec
         Me.Label77.AutoSize = True
         Me.Label77.Location = New System.Drawing.Point(1, 29)
         Me.Label77.Name = "Label77"
-        Me.Label77.Size = New System.Drawing.Size(43, 13)
+        Me.Label77.Size = New System.Drawing.Size(53, 17)
         Me.Label77.TabIndex = 6
         Me.Label77.Text = "S GST"
         '
@@ -859,7 +886,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOSG_AMT.Location = New System.Drawing.Point(113, 25)
         Me.txtOSG_AMT.Name = "txtOSG_AMT"
-        Me.txtOSG_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtOSG_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtOSG_AMT.TabIndex = 7
         '
         'Label74
@@ -867,7 +894,7 @@ Partial Class MaterialIssRec
         Me.Label74.AutoSize = True
         Me.Label74.Location = New System.Drawing.Point(259, 42)
         Me.Label74.Name = "Label74"
-        Me.Label74.Size = New System.Drawing.Size(66, 13)
+        Me.Label74.Size = New System.Drawing.Size(81, 17)
         Me.Label74.TabIndex = 6
         Me.Label74.Text = "StockType"
         '
@@ -877,7 +904,7 @@ Partial Class MaterialIssRec
         Me.cmbOStkType.Items.AddRange(New Object() {"Trading", "Manufacturing", "Exempted"})
         Me.cmbOStkType.Location = New System.Drawing.Point(334, 39)
         Me.cmbOStkType.Name = "cmbOStkType"
-        Me.cmbOStkType.Size = New System.Drawing.Size(163, 21)
+        Me.cmbOStkType.Size = New System.Drawing.Size(163, 25)
         Me.cmbOStkType.TabIndex = 7
         '
         'cmbOcalcon
@@ -885,7 +912,7 @@ Partial Class MaterialIssRec
         Me.cmbOcalcon.FormattingEnabled = True
         Me.cmbOcalcon.Location = New System.Drawing.Point(419, 248)
         Me.cmbOcalcon.Name = "cmbOcalcon"
-        Me.cmbOcalcon.Size = New System.Drawing.Size(78, 21)
+        Me.cmbOcalcon.Size = New System.Drawing.Size(78, 25)
         Me.cmbOcalcon.TabIndex = 36
         '
         'Label72
@@ -893,7 +920,7 @@ Partial Class MaterialIssRec
         Me.Label72.AutoSize = True
         Me.Label72.Location = New System.Drawing.Point(342, 252)
         Me.Label72.Name = "Label72"
-        Me.Label72.Size = New System.Drawing.Size(52, 13)
+        Me.Label72.Size = New System.Drawing.Size(61, 17)
         Me.Label72.TabIndex = 35
         Me.Label72.Text = "Calc On"
         '
@@ -902,7 +929,7 @@ Partial Class MaterialIssRec
         Me.txtLastTouch.Enabled = False
         Me.txtLastTouch.Location = New System.Drawing.Point(419, 225)
         Me.txtLastTouch.Name = "txtLastTouch"
-        Me.txtLastTouch.Size = New System.Drawing.Size(78, 21)
+        Me.txtLastTouch.Size = New System.Drawing.Size(78, 24)
         Me.txtLastTouch.TabIndex = 34
         Me.txtLastTouch.Visible = False
         '
@@ -912,7 +939,7 @@ Partial Class MaterialIssRec
         Me.lblLTouch.Enabled = False
         Me.lblLTouch.Location = New System.Drawing.Point(342, 230)
         Me.lblLTouch.Name = "lblLTouch"
-        Me.lblLTouch.Size = New System.Drawing.Size(67, 13)
+        Me.lblLTouch.Size = New System.Drawing.Size(84, 17)
         Me.lblLTouch.TabIndex = 33
         Me.lblLTouch.Text = "Last Touch"
         Me.lblLTouch.Visible = False
@@ -921,7 +948,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOalloyper.Location = New System.Drawing.Point(419, 269)
         Me.txtOalloyper.Name = "txtOalloyper"
-        Me.txtOalloyper.Size = New System.Drawing.Size(78, 21)
+        Me.txtOalloyper.Size = New System.Drawing.Size(78, 24)
         Me.txtOalloyper.TabIndex = 42
         Me.txtOalloyper.Visible = False
         '
@@ -930,7 +957,7 @@ Partial Class MaterialIssRec
         Me.lblOalloyper.AutoSize = True
         Me.lblOalloyper.Location = New System.Drawing.Point(342, 274)
         Me.lblOalloyper.Name = "lblOalloyper"
-        Me.lblOalloyper.Size = New System.Drawing.Size(47, 13)
+        Me.lblOalloyper.Size = New System.Drawing.Size(56, 17)
         Me.lblOalloyper.TabIndex = 41
         Me.lblOalloyper.Text = "Alloy%"
         Me.lblOalloyper.Visible = False
@@ -939,7 +966,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOalloy_WET.Location = New System.Drawing.Point(419, 291)
         Me.txtOalloy_WET.Name = "txtOalloy_WET"
-        Me.txtOalloy_WET.Size = New System.Drawing.Size(78, 21)
+        Me.txtOalloy_WET.Size = New System.Drawing.Size(78, 24)
         Me.txtOalloy_WET.TabIndex = 48
         Me.txtOalloy_WET.Visible = False
         '
@@ -948,7 +975,7 @@ Partial Class MaterialIssRec
         Me.lblOalloy.AutoSize = True
         Me.lblOalloy.Location = New System.Drawing.Point(342, 296)
         Me.lblOalloy.Name = "lblOalloy"
-        Me.lblOalloy.Size = New System.Drawing.Size(35, 13)
+        Me.lblOalloy.Size = New System.Drawing.Size(41, 17)
         Me.lblOalloy.TabIndex = 47
         Me.lblOalloy.Text = "Alloy"
         Me.lblOalloy.Visible = False
@@ -958,7 +985,7 @@ Partial Class MaterialIssRec
         Me.Label51.AutoSize = True
         Me.Label51.Location = New System.Drawing.Point(7, 116)
         Me.Label51.Name = "Label51"
-        Me.Label51.Size = New System.Drawing.Size(106, 13)
+        Me.Label51.Size = New System.Drawing.Size(130, 17)
         Me.Label51.TabIndex = 12
         Me.Label51.Text = "Ac Post Category"
         '
@@ -967,7 +994,7 @@ Partial Class MaterialIssRec
         Me.cmbOAcPostCategory.FormattingEnabled = True
         Me.cmbOAcPostCategory.Location = New System.Drawing.Point(118, 112)
         Me.cmbOAcPostCategory.Name = "cmbOAcPostCategory"
-        Me.cmbOAcPostCategory.Size = New System.Drawing.Size(379, 21)
+        Me.cmbOAcPostCategory.Size = New System.Drawing.Size(379, 25)
         Me.cmbOAcPostCategory.TabIndex = 13
         '
         'CmbOPurity
@@ -975,14 +1002,14 @@ Partial Class MaterialIssRec
         Me.CmbOPurity.FormattingEnabled = True
         Me.CmbOPurity.Location = New System.Drawing.Point(118, 135)
         Me.CmbOPurity.Name = "CmbOPurity"
-        Me.CmbOPurity.Size = New System.Drawing.Size(82, 21)
+        Me.CmbOPurity.Size = New System.Drawing.Size(82, 25)
         Me.CmbOPurity.TabIndex = 15
         '
         'txtOAddlCharge_AMT
         '
         Me.txtOAddlCharge_AMT.Location = New System.Drawing.Point(419, 335)
         Me.txtOAddlCharge_AMT.Name = "txtOAddlCharge_AMT"
-        Me.txtOAddlCharge_AMT.Size = New System.Drawing.Size(78, 21)
+        Me.txtOAddlCharge_AMT.Size = New System.Drawing.Size(78, 24)
         Me.txtOAddlCharge_AMT.TabIndex = 60
         '
         'Label67
@@ -990,7 +1017,7 @@ Partial Class MaterialIssRec
         Me.Label67.AutoSize = True
         Me.Label67.Location = New System.Drawing.Point(342, 339)
         Me.Label67.Name = "Label67"
-        Me.Label67.Size = New System.Drawing.Size(75, 13)
+        Me.Label67.Size = New System.Drawing.Size(91, 17)
         Me.Label67.TabIndex = 59
         Me.Label67.Text = "Add Charge"
         '
@@ -999,7 +1026,7 @@ Partial Class MaterialIssRec
         Me.txtORemark2.Location = New System.Drawing.Point(118, 506)
         Me.txtORemark2.MaxLength = 50
         Me.txtORemark2.Name = "txtORemark2"
-        Me.txtORemark2.Size = New System.Drawing.Size(379, 21)
+        Me.txtORemark2.Size = New System.Drawing.Size(379, 24)
         Me.txtORemark2.TabIndex = 78
         '
         'txtORemark1
@@ -1007,7 +1034,7 @@ Partial Class MaterialIssRec
         Me.txtORemark1.Location = New System.Drawing.Point(118, 483)
         Me.txtORemark1.MaxLength = 50
         Me.txtORemark1.Name = "txtORemark1"
-        Me.txtORemark1.Size = New System.Drawing.Size(224, 21)
+        Me.txtORemark1.Size = New System.Drawing.Size(224, 24)
         Me.txtORemark1.TabIndex = 75
         '
         'Label61
@@ -1015,7 +1042,7 @@ Partial Class MaterialIssRec
         Me.Label61.AutoSize = True
         Me.Label61.Location = New System.Drawing.Point(7, 487)
         Me.Label61.Name = "Label61"
-        Me.Label61.Size = New System.Drawing.Size(52, 13)
+        Me.Label61.Size = New System.Drawing.Size(61, 17)
         Me.Label61.TabIndex = 74
         Me.Label61.Text = "Remark"
         '
@@ -1024,7 +1051,7 @@ Partial Class MaterialIssRec
         Me.lblOOrdno.AutoSize = True
         Me.lblOOrdno.Location = New System.Drawing.Point(7, 20)
         Me.lblOOrdno.Name = "lblOOrdno"
-        Me.lblOOrdno.Size = New System.Drawing.Size(59, 13)
+        Me.lblOOrdno.Size = New System.Drawing.Size(72, 17)
         Me.lblOOrdno.TabIndex = 0
         Me.lblOOrdno.Text = "Order No"
         '
@@ -1032,7 +1059,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOStudAmt_AMT.Location = New System.Drawing.Point(262, 313)
         Me.txtOStudAmt_AMT.Name = "txtOStudAmt_AMT"
-        Me.txtOStudAmt_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtOStudAmt_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtOStudAmt_AMT.TabIndex = 52
         '
         'Label24
@@ -1040,7 +1067,7 @@ Partial Class MaterialIssRec
         Me.Label24.AutoSize = True
         Me.Label24.Location = New System.Drawing.Point(7, 135)
         Me.Label24.Name = "Label24"
-        Me.Label24.Size = New System.Drawing.Size(40, 13)
+        Me.Label24.Size = New System.Drawing.Size(48, 17)
         Me.Label24.TabIndex = 14
         Me.Label24.Text = "Purity"
         '
@@ -1049,7 +1076,7 @@ Partial Class MaterialIssRec
         Me.Label23.AutoSize = True
         Me.Label23.Location = New System.Drawing.Point(201, 318)
         Me.Label23.Name = "Label23"
-        Me.Label23.Size = New System.Drawing.Size(60, 13)
+        Me.Label23.Size = New System.Drawing.Size(76, 17)
         Me.Label23.TabIndex = 51
         Me.Label23.Text = "Stud Amt"
         '
@@ -1058,7 +1085,7 @@ Partial Class MaterialIssRec
         Me.Label19.AutoSize = True
         Me.Label19.Location = New System.Drawing.Point(7, 321)
         Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(33, 13)
+        Me.Label19.Size = New System.Drawing.Size(40, 17)
         Me.Label19.TabIndex = 49
         Me.Label19.Text = "Rate"
         '
@@ -1066,14 +1093,14 @@ Partial Class MaterialIssRec
         '
         Me.txtOOrdNo.Location = New System.Drawing.Point(118, 16)
         Me.txtOOrdNo.Name = "txtOOrdNo"
-        Me.txtOOrdNo.Size = New System.Drawing.Size(80, 21)
+        Me.txtOOrdNo.Size = New System.Drawing.Size(80, 24)
         Me.txtOOrdNo.TabIndex = 1
         '
         'txtORate_OWN
         '
         Me.txtORate_OWN.Location = New System.Drawing.Point(118, 313)
         Me.txtORate_OWN.Name = "txtORate_OWN"
-        Me.txtORate_OWN.Size = New System.Drawing.Size(80, 21)
+        Me.txtORate_OWN.Size = New System.Drawing.Size(80, 24)
         Me.txtORate_OWN.TabIndex = 50
         Me.txtORate_OWN.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -1082,7 +1109,7 @@ Partial Class MaterialIssRec
         Me.Label62.AutoSize = True
         Me.Label62.Location = New System.Drawing.Point(259, 20)
         Me.Label62.Name = "Label62"
-        Me.Label62.Size = New System.Drawing.Size(51, 13)
+        Me.Label62.Size = New System.Drawing.Size(62, 17)
         Me.Label62.TabIndex = 2
         Me.Label62.Text = "Process"
         '
@@ -1091,7 +1118,7 @@ Partial Class MaterialIssRec
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(7, 42)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(37, 13)
+        Me.Label1.Size = New System.Drawing.Size(44, 17)
         Me.Label1.TabIndex = 4
         Me.Label1.Text = "Metal"
         '
@@ -1100,7 +1127,7 @@ Partial Class MaterialIssRec
         Me.Label20.AutoSize = True
         Me.Label20.Location = New System.Drawing.Point(201, 462)
         Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(51, 13)
+        Me.Label20.Size = New System.Drawing.Size(64, 17)
         Me.Label20.TabIndex = 70
         Me.Label20.Text = "Amount"
         '
@@ -1109,7 +1136,7 @@ Partial Class MaterialIssRec
         Me.cmbOGrsNet.FormattingEnabled = True
         Me.cmbOGrsNet.Location = New System.Drawing.Point(262, 247)
         Me.cmbOGrsNet.Name = "cmbOGrsNet"
-        Me.cmbOGrsNet.Size = New System.Drawing.Size(80, 21)
+        Me.cmbOGrsNet.Size = New System.Drawing.Size(80, 25)
         Me.cmbOGrsNet.TabIndex = 32
         '
         'Label16
@@ -1117,7 +1144,7 @@ Partial Class MaterialIssRec
         Me.Label16.AutoSize = True
         Me.Label16.Location = New System.Drawing.Point(7, 299)
         Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(40, 13)
+        Me.Label16.Size = New System.Drawing.Size(49, 17)
         Me.Label16.TabIndex = 43
         Me.Label16.Text = "Touch"
         '
@@ -1126,7 +1153,7 @@ Partial Class MaterialIssRec
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(7, 162)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(34, 13)
+        Me.Label4.Size = New System.Drawing.Size(40, 17)
         Me.Label4.TabIndex = 17
         Me.Label4.Text = "Item"
         '
@@ -1135,7 +1162,7 @@ Partial Class MaterialIssRec
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(7, 65)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(60, 13)
+        Me.Label2.Size = New System.Drawing.Size(72, 17)
         Me.Label2.TabIndex = 8
         Me.Label2.Text = "Category"
         '
@@ -1143,7 +1170,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOAmount_AMT.Location = New System.Drawing.Point(262, 459)
         Me.txtOAmount_AMT.Name = "txtOAmount_AMT"
-        Me.txtOAmount_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtOAmount_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtOAmount_AMT.TabIndex = 71
         '
         'Label3
@@ -1151,7 +1178,7 @@ Partial Class MaterialIssRec
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(7, 91)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(102, 13)
+        Me.Label3.Size = New System.Drawing.Size(124, 17)
         Me.Label3.TabIndex = 10
         Me.Label3.Text = "Issued Category"
         '
@@ -1160,7 +1187,7 @@ Partial Class MaterialIssRec
         Me.lblmcpergm.AutoSize = True
         Me.lblmcpergm.Location = New System.Drawing.Point(7, 343)
         Me.lblmcpergm.Name = "lblmcpergm"
-        Me.lblmcpergm.Size = New System.Drawing.Size(52, 13)
+        Me.lblmcpergm.Size = New System.Drawing.Size(62, 17)
         Me.lblmcpergm.TabIndex = 55
         Me.lblmcpergm.Text = "Mc/Grm"
         '
@@ -1170,7 +1197,7 @@ Partial Class MaterialIssRec
         Me.cmbOProcess.FormattingEnabled = True
         Me.cmbOProcess.Location = New System.Drawing.Point(334, 16)
         Me.cmbOProcess.Name = "cmbOProcess"
-        Me.cmbOProcess.Size = New System.Drawing.Size(163, 21)
+        Me.cmbOProcess.Size = New System.Drawing.Size(163, 25)
         Me.cmbOProcess.TabIndex = 3
         '
         'cmbOMetal
@@ -1178,7 +1205,7 @@ Partial Class MaterialIssRec
         Me.cmbOMetal.FormattingEnabled = True
         Me.cmbOMetal.Location = New System.Drawing.Point(118, 39)
         Me.cmbOMetal.Name = "cmbOMetal"
-        Me.cmbOMetal.Size = New System.Drawing.Size(137, 21)
+        Me.cmbOMetal.Size = New System.Drawing.Size(137, 25)
         Me.cmbOMetal.TabIndex = 5
         '
         'lblOVatPer
@@ -1186,7 +1213,7 @@ Partial Class MaterialIssRec
         Me.lblOVatPer.AutoSize = True
         Me.lblOVatPer.Location = New System.Drawing.Point(201, 386)
         Me.lblOVatPer.Name = "lblOVatPer"
-        Me.lblOVatPer.Size = New System.Drawing.Size(43, 13)
+        Me.lblOVatPer.Size = New System.Drawing.Size(54, 17)
         Me.lblOVatPer.TabIndex = 63
         Me.lblOVatPer.Text = "Tds %"
         '
@@ -1195,14 +1222,14 @@ Partial Class MaterialIssRec
         Me.cmbOCategory.FormattingEnabled = True
         Me.cmbOCategory.Location = New System.Drawing.Point(118, 63)
         Me.cmbOCategory.Name = "cmbOCategory"
-        Me.cmbOCategory.Size = New System.Drawing.Size(379, 21)
+        Me.cmbOCategory.Size = New System.Drawing.Size(379, 25)
         Me.cmbOCategory.TabIndex = 9
         '
         'txtOVatPer_PER
         '
         Me.txtOVatPer_PER.Location = New System.Drawing.Point(262, 382)
         Me.txtOVatPer_PER.Name = "txtOVatPer_PER"
-        Me.txtOVatPer_PER.Size = New System.Drawing.Size(80, 21)
+        Me.txtOVatPer_PER.Size = New System.Drawing.Size(80, 24)
         Me.txtOVatPer_PER.TabIndex = 64
         '
         'cmbOIssuedCategory
@@ -1210,14 +1237,14 @@ Partial Class MaterialIssRec
         Me.cmbOIssuedCategory.FormattingEnabled = True
         Me.cmbOIssuedCategory.Location = New System.Drawing.Point(118, 87)
         Me.cmbOIssuedCategory.Name = "cmbOIssuedCategory"
-        Me.cmbOIssuedCategory.Size = New System.Drawing.Size(379, 21)
+        Me.cmbOIssuedCategory.Size = New System.Drawing.Size(379, 25)
         Me.cmbOIssuedCategory.TabIndex = 11
         '
         'txtOPcs_NUM
         '
         Me.txtOPcs_NUM.Location = New System.Drawing.Point(118, 203)
         Me.txtOPcs_NUM.Name = "txtOPcs_NUM"
-        Me.txtOPcs_NUM.Size = New System.Drawing.Size(80, 21)
+        Me.txtOPcs_NUM.Size = New System.Drawing.Size(80, 24)
         Me.txtOPcs_NUM.TabIndex = 24
         '
         'Label5
@@ -1225,7 +1252,7 @@ Partial Class MaterialIssRec
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(7, 184)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(54, 13)
+        Me.Label5.Size = New System.Drawing.Size(66, 17)
         Me.Label5.TabIndex = 19
         Me.Label5.Text = "Subitem"
         '
@@ -1234,7 +1261,7 @@ Partial Class MaterialIssRec
         Me.lblOVat.AutoSize = True
         Me.lblOVat.Location = New System.Drawing.Point(342, 386)
         Me.lblOVat.Name = "lblOVat"
-        Me.lblOVat.Size = New System.Drawing.Size(27, 13)
+        Me.lblOVat.Size = New System.Drawing.Size(34, 17)
         Me.lblOVat.TabIndex = 65
         Me.lblOVat.Text = "Tds"
         '
@@ -1243,7 +1270,7 @@ Partial Class MaterialIssRec
         Me.cmbOItem.FormattingEnabled = True
         Me.cmbOItem.Location = New System.Drawing.Point(118, 158)
         Me.cmbOItem.Name = "cmbOItem"
-        Me.cmbOItem.Size = New System.Drawing.Size(224, 21)
+        Me.cmbOItem.Size = New System.Drawing.Size(224, 25)
         Me.cmbOItem.TabIndex = 18
         '
         'Label18
@@ -1251,7 +1278,7 @@ Partial Class MaterialIssRec
         Me.Label18.AutoSize = True
         Me.Label18.Location = New System.Drawing.Point(7, 386)
         Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(88, 13)
+        Me.Label18.Size = New System.Drawing.Size(111, 17)
         Me.Label18.TabIndex = 61
         Me.Label18.Text = "Gross Amount"
         '
@@ -1259,7 +1286,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOVat_AMT.Location = New System.Drawing.Point(419, 382)
         Me.txtOVat_AMT.Name = "txtOVat_AMT"
-        Me.txtOVat_AMT.Size = New System.Drawing.Size(78, 21)
+        Me.txtOVat_AMT.Size = New System.Drawing.Size(78, 24)
         Me.txtOVat_AMT.TabIndex = 66
         '
         'lblOWastPer
@@ -1267,7 +1294,7 @@ Partial Class MaterialIssRec
         Me.lblOWastPer.AutoSize = True
         Me.lblOWastPer.Location = New System.Drawing.Point(7, 275)
         Me.lblOWastPer.Name = "lblOWastPer"
-        Me.lblOWastPer.Size = New System.Drawing.Size(71, 13)
+        Me.lblOWastPer.Size = New System.Drawing.Size(89, 17)
         Me.lblOWastPer.TabIndex = 37
         Me.lblOWastPer.Text = "Wastage %"
         '
@@ -1275,7 +1302,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOGrsWt_WET.Location = New System.Drawing.Point(118, 225)
         Me.txtOGrsWt_WET.Name = "txtOGrsWt_WET"
-        Me.txtOGrsWt_WET.Size = New System.Drawing.Size(80, 21)
+        Me.txtOGrsWt_WET.Size = New System.Drawing.Size(80, 24)
         Me.txtOGrsWt_WET.TabIndex = 26
         Me.txtOGrsWt_WET.Text = "1"
         '
@@ -1283,7 +1310,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOMc_AMT.Location = New System.Drawing.Point(262, 335)
         Me.txtOMc_AMT.Name = "txtOMc_AMT"
-        Me.txtOMc_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtOMc_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtOMc_AMT.TabIndex = 58
         '
         'Label13
@@ -1291,7 +1318,7 @@ Partial Class MaterialIssRec
         Me.Label13.AutoSize = True
         Me.Label13.Location = New System.Drawing.Point(201, 339)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(22, 13)
+        Me.Label13.Size = New System.Drawing.Size(26, 17)
         Me.Label13.TabIndex = 57
         Me.Label13.Text = "Mc"
         '
@@ -1300,7 +1327,7 @@ Partial Class MaterialIssRec
         Me.Label7.AutoSize = True
         Me.Label7.Location = New System.Drawing.Point(7, 209)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(26, 13)
+        Me.Label7.Size = New System.Drawing.Size(31, 17)
         Me.Label7.TabIndex = 23
         Me.Label7.Text = "Pcs"
         '
@@ -1308,7 +1335,7 @@ Partial Class MaterialIssRec
         '
         Me.txtONetWt_WET.Location = New System.Drawing.Point(118, 247)
         Me.txtONetWt_WET.Name = "txtONetWt_WET"
-        Me.txtONetWt_WET.Size = New System.Drawing.Size(80, 21)
+        Me.txtONetWt_WET.Size = New System.Drawing.Size(80, 24)
         Me.txtONetWt_WET.TabIndex = 30
         Me.txtONetWt_WET.Text = "1"
         '
@@ -1316,7 +1343,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOPureWt_WET.Location = New System.Drawing.Point(262, 291)
         Me.txtOPureWt_WET.Name = "txtOPureWt_WET"
-        Me.txtOPureWt_WET.Size = New System.Drawing.Size(80, 21)
+        Me.txtOPureWt_WET.Size = New System.Drawing.Size(80, 24)
         Me.txtOPureWt_WET.TabIndex = 46
         '
         'Label15
@@ -1324,7 +1351,7 @@ Partial Class MaterialIssRec
         Me.Label15.AutoSize = True
         Me.Label15.Location = New System.Drawing.Point(201, 296)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(52, 13)
+        Me.Label15.Size = New System.Drawing.Size(65, 17)
         Me.Label15.TabIndex = 45
         Me.Label15.Text = "Pure Wt"
         '
@@ -1333,7 +1360,7 @@ Partial Class MaterialIssRec
         Me.Label8.AutoSize = True
         Me.Label8.Location = New System.Drawing.Point(7, 231)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(82, 13)
+        Me.Label8.Size = New System.Drawing.Size(104, 17)
         Me.Label8.TabIndex = 25
         Me.Label8.Text = "Gross Weight"
         '
@@ -1341,7 +1368,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOWastPer.Location = New System.Drawing.Point(118, 269)
         Me.txtOWastPer.Name = "txtOWastPer"
-        Me.txtOWastPer.Size = New System.Drawing.Size(80, 21)
+        Me.txtOWastPer.Size = New System.Drawing.Size(80, 24)
         Me.txtOWastPer.TabIndex = 38
         Me.txtOWastPer.Text = "1"
         '
@@ -1349,7 +1376,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOWast_WET.Location = New System.Drawing.Point(262, 269)
         Me.txtOWast_WET.Name = "txtOWast_WET"
-        Me.txtOWast_WET.Size = New System.Drawing.Size(80, 21)
+        Me.txtOWast_WET.Size = New System.Drawing.Size(80, 24)
         Me.txtOWast_WET.TabIndex = 40
         '
         'cmbOSubItem
@@ -1357,7 +1384,7 @@ Partial Class MaterialIssRec
         Me.cmbOSubItem.FormattingEnabled = True
         Me.cmbOSubItem.Location = New System.Drawing.Point(118, 180)
         Me.cmbOSubItem.Name = "cmbOSubItem"
-        Me.cmbOSubItem.Size = New System.Drawing.Size(224, 21)
+        Me.cmbOSubItem.Size = New System.Drawing.Size(224, 25)
         Me.cmbOSubItem.TabIndex = 20
         '
         'Label9
@@ -1365,7 +1392,7 @@ Partial Class MaterialIssRec
         Me.Label9.AutoSize = True
         Me.Label9.Location = New System.Drawing.Point(201, 230)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(51, 13)
+        Me.Label9.Size = New System.Drawing.Size(66, 17)
         Me.Label9.TabIndex = 27
         Me.Label9.Text = "Less Wt"
         '
@@ -1373,7 +1400,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOTouchAMT.Location = New System.Drawing.Point(118, 291)
         Me.txtOTouchAMT.Name = "txtOTouchAMT"
-        Me.txtOTouchAMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtOTouchAMT.Size = New System.Drawing.Size(80, 24)
         Me.txtOTouchAMT.TabIndex = 44
         Me.txtOTouchAMT.Text = "19999.999"
         '
@@ -1381,7 +1408,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOLessWt_WET.Location = New System.Drawing.Point(262, 225)
         Me.txtOLessWt_WET.Name = "txtOLessWt_WET"
-        Me.txtOLessWt_WET.Size = New System.Drawing.Size(80, 21)
+        Me.txtOLessWt_WET.Size = New System.Drawing.Size(80, 24)
         Me.txtOLessWt_WET.TabIndex = 28
         '
         'lblOWast
@@ -1389,7 +1416,7 @@ Partial Class MaterialIssRec
         Me.lblOWast.AutoSize = True
         Me.lblOWast.Location = New System.Drawing.Point(201, 274)
         Me.lblOWast.Name = "lblOWast"
-        Me.lblOWast.Size = New System.Drawing.Size(55, 13)
+        Me.lblOWast.Size = New System.Drawing.Size(69, 17)
         Me.lblOWast.TabIndex = 39
         Me.lblOWast.Text = "Wastage"
         '
@@ -1398,7 +1425,7 @@ Partial Class MaterialIssRec
         Me.Label22.AutoSize = True
         Me.Label22.Location = New System.Drawing.Point(201, 251)
         Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(51, 13)
+        Me.Label22.Size = New System.Drawing.Size(63, 17)
         Me.Label22.TabIndex = 31
         Me.Label22.Text = "Grs/Net"
         '
@@ -1406,7 +1433,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOMcGrm_AMT.Location = New System.Drawing.Point(118, 335)
         Me.txtOMcGrm_AMT.Name = "txtOMcGrm_AMT"
-        Me.txtOMcGrm_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtOMcGrm_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtOMcGrm_AMT.TabIndex = 56
         Me.txtOMcGrm_AMT.Text = "1"
         '
@@ -1414,7 +1441,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOGrsAmt_AMT.Location = New System.Drawing.Point(118, 382)
         Me.txtOGrsAmt_AMT.Name = "txtOGrsAmt_AMT"
-        Me.txtOGrsAmt_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtOGrsAmt_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtOGrsAmt_AMT.TabIndex = 62
         Me.txtOGrsAmt_AMT.Text = "19999.999"
         '
@@ -1423,7 +1450,7 @@ Partial Class MaterialIssRec
         Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(7, 253)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(68, 13)
+        Me.Label10.Size = New System.Drawing.Size(86, 17)
         Me.Label10.TabIndex = 29
         Me.Label10.Text = "Net Weight"
         '
@@ -1444,7 +1471,7 @@ Partial Class MaterialIssRec
         Me.Label73.AutoSize = True
         Me.Label73.Location = New System.Drawing.Point(195, 6)
         Me.Label73.Name = "Label73"
-        Me.Label73.Size = New System.Drawing.Size(58, 13)
+        Me.Label73.Size = New System.Drawing.Size(70, 17)
         Me.Label73.TabIndex = 3
         Me.Label73.Text = "ED Value"
         '
@@ -1452,7 +1479,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOED_AMT.Location = New System.Drawing.Point(259, 3)
         Me.txtOED_AMT.Name = "txtOED_AMT"
-        Me.txtOED_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtOED_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtOED_AMT.TabIndex = 4
         '
         'lblOEd
@@ -1460,7 +1487,7 @@ Partial Class MaterialIssRec
         Me.lblOEd.AutoSize = True
         Me.lblOEd.Location = New System.Drawing.Point(1, 5)
         Me.lblOEd.Name = "lblOEd"
-        Me.lblOEd.Size = New System.Drawing.Size(39, 13)
+        Me.lblOEd.Size = New System.Drawing.Size(48, 17)
         Me.lblOEd.TabIndex = 0
         Me.lblOEd.Text = "ED %"
         '
@@ -1468,17 +1495,17 @@ Partial Class MaterialIssRec
         '
         Me.txtOedPer_AMT.Location = New System.Drawing.Point(115, 1)
         Me.txtOedPer_AMT.Name = "txtOedPer_AMT"
-        Me.txtOedPer_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtOedPer_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtOedPer_AMT.TabIndex = 1
         '
         'tabMetal
         '
         Me.tabMetal.BackColor = System.Drawing.Color.Lavender
         Me.tabMetal.Controls.Add(Me.grpMetal)
-        Me.tabMetal.Location = New System.Drawing.Point(4, 25)
+        Me.tabMetal.Location = New System.Drawing.Point(4, 29)
         Me.tabMetal.Name = "tabMetal"
         Me.tabMetal.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabMetal.Size = New System.Drawing.Size(501, 528)
+        Me.tabMetal.Size = New System.Drawing.Size(501, 525)
         Me.tabMetal.TabIndex = 1
         Me.tabMetal.Text = "Metal"
         '
@@ -1572,7 +1599,7 @@ Partial Class MaterialIssRec
         Me.Label105.AutoSize = True
         Me.Label105.Location = New System.Drawing.Point(341, 304)
         Me.Label105.Name = "Label105"
-        Me.Label105.Size = New System.Drawing.Size(68, 13)
+        Me.Label105.Size = New System.Drawing.Size(84, 17)
         Me.Label105.TabIndex = 84
         Me.Label105.Text = "TdsAccode"
         Me.Label105.Visible = False
@@ -1582,7 +1609,7 @@ Partial Class MaterialIssRec
         Me.txtmtdsaccode.Enabled = False
         Me.txtmtdsaccode.Location = New System.Drawing.Point(410, 300)
         Me.txtmtdsaccode.Name = "txtmtdsaccode"
-        Me.txtmtdsaccode.Size = New System.Drawing.Size(78, 21)
+        Me.txtmtdsaccode.Size = New System.Drawing.Size(78, 24)
         Me.txtmtdsaccode.TabIndex = 85
         Me.txtmtdsaccode.Visible = False
         '
@@ -1591,7 +1618,7 @@ Partial Class MaterialIssRec
         Me.Cmbmacname.FormattingEnabled = True
         Me.Cmbmacname.Location = New System.Drawing.Point(125, 301)
         Me.Cmbmacname.Name = "Cmbmacname"
-        Me.Cmbmacname.Size = New System.Drawing.Size(216, 21)
+        Me.Cmbmacname.Size = New System.Drawing.Size(216, 25)
         Me.Cmbmacname.TabIndex = 51
         '
         'Label106
@@ -1599,7 +1626,7 @@ Partial Class MaterialIssRec
         Me.Label106.AutoSize = True
         Me.Label106.Location = New System.Drawing.Point(8, 304)
         Me.Label106.Name = "Label106"
-        Me.Label106.Size = New System.Drawing.Size(78, 13)
+        Me.Label106.Size = New System.Drawing.Size(95, 17)
         Me.Label106.TabIndex = 80
         Me.Label106.Text = "Tds AcName"
         '
@@ -1608,7 +1635,7 @@ Partial Class MaterialIssRec
         Me.chkMRateFixed.AutoSize = True
         Me.chkMRateFixed.Location = New System.Drawing.Point(352, 127)
         Me.chkMRateFixed.Name = "chkMRateFixed"
-        Me.chkMRateFixed.Size = New System.Drawing.Size(86, 17)
+        Me.chkMRateFixed.Size = New System.Drawing.Size(104, 21)
         Me.chkMRateFixed.TabIndex = 19
         Me.chkMRateFixed.Text = "Rate Fixed"
         Me.chkMRateFixed.UseVisualStyleBackColor = True
@@ -1618,7 +1645,7 @@ Partial Class MaterialIssRec
         Me.Label101.AutoSize = True
         Me.Label101.Location = New System.Drawing.Point(8, 403)
         Me.Label101.Name = "Label101"
-        Me.Label101.Size = New System.Drawing.Size(31, 13)
+        Me.Label101.Size = New System.Drawing.Size(37, 17)
         Me.Label101.TabIndex = 58
         Me.Label101.Text = "TCS"
         '
@@ -1627,7 +1654,7 @@ Partial Class MaterialIssRec
         Me.txtMTCS_AMT.Location = New System.Drawing.Point(124, 399)
         Me.txtMTCS_AMT.Name = "txtMTCS_AMT"
         Me.txtMTCS_AMT.ReadOnly = True
-        Me.txtMTCS_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtMTCS_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtMTCS_AMT.TabIndex = 59
         '
         'lblMApproxTax
@@ -1635,7 +1662,7 @@ Partial Class MaterialIssRec
         Me.lblMApproxTax.AutoSize = True
         Me.lblMApproxTax.Location = New System.Drawing.Point(340, 426)
         Me.lblMApproxTax.Name = "lblMApproxTax"
-        Me.lblMApproxTax.Size = New System.Drawing.Size(54, 13)
+        Me.lblMApproxTax.Size = New System.Drawing.Size(66, 17)
         Me.lblMApproxTax.TabIndex = 64
         Me.lblMApproxTax.Text = "AprxTax"
         Me.lblMApproxTax.Visible = False
@@ -1644,7 +1671,7 @@ Partial Class MaterialIssRec
         '
         Me.txtMAprxTaxAmt_AMT.Location = New System.Drawing.Point(409, 422)
         Me.txtMAprxTaxAmt_AMT.Name = "txtMAprxTaxAmt_AMT"
-        Me.txtMAprxTaxAmt_AMT.Size = New System.Drawing.Size(78, 21)
+        Me.txtMAprxTaxAmt_AMT.Size = New System.Drawing.Size(78, 24)
         Me.txtMAprxTaxAmt_AMT.TabIndex = 65
         Me.txtMAprxTaxAmt_AMT.Visible = False
         '
@@ -1652,7 +1679,7 @@ Partial Class MaterialIssRec
         '
         Me.txtMAprxAmount_AMT.Location = New System.Drawing.Point(409, 399)
         Me.txtMAprxAmount_AMT.Name = "txtMAprxAmount_AMT"
-        Me.txtMAprxAmount_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtMAprxAmount_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtMAprxAmount_AMT.TabIndex = 63
         Me.txtMAprxAmount_AMT.Visible = False
         '
@@ -1661,7 +1688,7 @@ Partial Class MaterialIssRec
         Me.lblMApproxAmt.AutoSize = True
         Me.lblMApproxAmt.Location = New System.Drawing.Point(340, 403)
         Me.lblMApproxAmt.Name = "lblMApproxAmt"
-        Me.lblMApproxAmt.Size = New System.Drawing.Size(57, 13)
+        Me.lblMApproxAmt.Size = New System.Drawing.Size(71, 17)
         Me.lblMApproxAmt.TabIndex = 62
         Me.lblMApproxAmt.Text = "AprxAmt"
         Me.lblMApproxAmt.Visible = False
@@ -1689,7 +1716,7 @@ Partial Class MaterialIssRec
         '
         Me.txtMIG_AMT.Location = New System.Drawing.Point(401, 25)
         Me.txtMIG_AMT.Name = "txtMIG_AMT"
-        Me.txtMIG_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtMIG_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtMIG_AMT.TabIndex = 11
         '
         'Label82
@@ -1697,7 +1724,7 @@ Partial Class MaterialIssRec
         Me.Label82.AutoSize = True
         Me.Label82.Location = New System.Drawing.Point(333, 29)
         Me.Label82.Name = "Label82"
-        Me.Label82.Size = New System.Drawing.Size(40, 13)
+        Me.Label82.Size = New System.Drawing.Size(48, 17)
         Me.Label82.TabIndex = 10
         Me.Label82.Text = "I GST"
         '
@@ -1705,7 +1732,7 @@ Partial Class MaterialIssRec
         '
         Me.txtMIgst_AMT.Location = New System.Drawing.Point(401, 1)
         Me.txtMIgst_AMT.Name = "txtMIgst_AMT"
-        Me.txtMIgst_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtMIgst_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtMIgst_AMT.TabIndex = 5
         '
         'Label83
@@ -1713,7 +1740,7 @@ Partial Class MaterialIssRec
         Me.Label83.AutoSize = True
         Me.Label83.Location = New System.Drawing.Point(333, 5)
         Me.Label83.Name = "Label83"
-        Me.Label83.Size = New System.Drawing.Size(52, 13)
+        Me.Label83.Size = New System.Drawing.Size(63, 17)
         Me.Label83.TabIndex = 4
         Me.Label83.Text = "I GST%"
         '
@@ -1722,7 +1749,7 @@ Partial Class MaterialIssRec
         Me.Label84.AutoSize = True
         Me.Label84.Location = New System.Drawing.Point(198, 5)
         Me.Label84.Name = "Label84"
-        Me.Label84.Size = New System.Drawing.Size(56, 13)
+        Me.Label84.Size = New System.Drawing.Size(68, 17)
         Me.Label84.TabIndex = 2
         Me.Label84.Text = "C GST%"
         '
@@ -1730,7 +1757,7 @@ Partial Class MaterialIssRec
         '
         Me.txtMCgst_AMT.Location = New System.Drawing.Point(253, 1)
         Me.txtMCgst_AMT.Name = "txtMCgst_AMT"
-        Me.txtMCgst_AMT.Size = New System.Drawing.Size(81, 21)
+        Me.txtMCgst_AMT.Size = New System.Drawing.Size(81, 24)
         Me.txtMCgst_AMT.TabIndex = 3
         '
         'Label85
@@ -1738,7 +1765,7 @@ Partial Class MaterialIssRec
         Me.Label85.AutoSize = True
         Me.Label85.Location = New System.Drawing.Point(198, 29)
         Me.Label85.Name = "Label85"
-        Me.Label85.Size = New System.Drawing.Size(44, 13)
+        Me.Label85.Size = New System.Drawing.Size(53, 17)
         Me.Label85.TabIndex = 8
         Me.Label85.Text = "C GST"
         '
@@ -1746,7 +1773,7 @@ Partial Class MaterialIssRec
         '
         Me.txtMCG_AMT.Location = New System.Drawing.Point(253, 25)
         Me.txtMCG_AMT.Name = "txtMCG_AMT"
-        Me.txtMCG_AMT.Size = New System.Drawing.Size(81, 21)
+        Me.txtMCG_AMT.Size = New System.Drawing.Size(81, 24)
         Me.txtMCG_AMT.TabIndex = 9
         '
         'Label86
@@ -1754,7 +1781,7 @@ Partial Class MaterialIssRec
         Me.Label86.AutoSize = True
         Me.Label86.Location = New System.Drawing.Point(0, 5)
         Me.Label86.Name = "Label86"
-        Me.Label86.Size = New System.Drawing.Size(55, 13)
+        Me.Label86.Size = New System.Drawing.Size(68, 17)
         Me.Label86.TabIndex = 0
         Me.Label86.Text = "S GST%"
         '
@@ -1762,7 +1789,7 @@ Partial Class MaterialIssRec
         '
         Me.txtMSgst_AMT.Location = New System.Drawing.Point(116, 1)
         Me.txtMSgst_AMT.Name = "txtMSgst_AMT"
-        Me.txtMSgst_AMT.Size = New System.Drawing.Size(79, 21)
+        Me.txtMSgst_AMT.Size = New System.Drawing.Size(79, 24)
         Me.txtMSgst_AMT.TabIndex = 1
         '
         'Label87
@@ -1770,7 +1797,7 @@ Partial Class MaterialIssRec
         Me.Label87.AutoSize = True
         Me.Label87.Location = New System.Drawing.Point(0, 29)
         Me.Label87.Name = "Label87"
-        Me.Label87.Size = New System.Drawing.Size(43, 13)
+        Me.Label87.Size = New System.Drawing.Size(53, 17)
         Me.Label87.TabIndex = 6
         Me.Label87.Text = "S GST"
         '
@@ -1778,7 +1805,7 @@ Partial Class MaterialIssRec
         '
         Me.txtMSG_AMT.Location = New System.Drawing.Point(116, 25)
         Me.txtMSG_AMT.Name = "txtMSG_AMT"
-        Me.txtMSG_AMT.Size = New System.Drawing.Size(79, 21)
+        Me.txtMSG_AMT.Size = New System.Drawing.Size(79, 24)
         Me.txtMSG_AMT.TabIndex = 7
         '
         'Label75
@@ -1786,7 +1813,7 @@ Partial Class MaterialIssRec
         Me.Label75.AutoSize = True
         Me.Label75.Location = New System.Drawing.Point(266, 41)
         Me.Label75.Name = "Label75"
-        Me.Label75.Size = New System.Drawing.Size(66, 13)
+        Me.Label75.Size = New System.Drawing.Size(81, 17)
         Me.Label75.TabIndex = 7
         Me.Label75.Text = "StockType"
         '
@@ -1796,7 +1823,7 @@ Partial Class MaterialIssRec
         Me.CmbMStktype.Items.AddRange(New Object() {"Trading", "Manufacturing", "Exempted"})
         Me.CmbMStktype.Location = New System.Drawing.Point(336, 37)
         Me.CmbMStktype.Name = "CmbMStktype"
-        Me.CmbMStktype.Size = New System.Drawing.Size(152, 21)
+        Me.CmbMStktype.Size = New System.Drawing.Size(152, 25)
         Me.CmbMStktype.TabIndex = 8
         '
         'lblBalance
@@ -1806,7 +1833,7 @@ Partial Class MaterialIssRec
         Me.lblBalance.ForeColor = System.Drawing.Color.Red
         Me.lblBalance.Location = New System.Drawing.Point(352, 63)
         Me.lblBalance.Name = "lblBalance"
-        Me.lblBalance.Size = New System.Drawing.Size(56, 13)
+        Me.lblBalance.Size = New System.Drawing.Size(70, 17)
         Me.lblBalance.TabIndex = 60
         Me.lblBalance.Text = "0.00 Wt"
         '
@@ -1826,11 +1853,12 @@ Partial Class MaterialIssRec
         Me.dgvOrder.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill
         Me.dgvOrder.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgvOrder.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.dgvOrder.Location = New System.Drawing.Point(3, 17)
+        Me.dgvOrder.Location = New System.Drawing.Point(3, 20)
         Me.dgvOrder.Name = "dgvOrder"
         Me.dgvOrder.ReadOnly = True
+        Me.dgvOrder.RowHeadersWidth = 51
         Me.dgvOrder.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.dgvOrder.Size = New System.Drawing.Size(478, 38)
+        Me.dgvOrder.Size = New System.Drawing.Size(478, 35)
         Me.dgvOrder.TabIndex = 0
         '
         'chkMulti
@@ -1839,7 +1867,7 @@ Partial Class MaterialIssRec
         Me.chkMulti.Enabled = False
         Me.chkMulti.Location = New System.Drawing.Point(72, 17)
         Me.chkMulti.Name = "chkMulti"
-        Me.chkMulti.Size = New System.Drawing.Size(52, 17)
+        Me.chkMulti.Size = New System.Drawing.Size(62, 21)
         Me.chkMulti.TabIndex = 1
         Me.chkMulti.Text = "Multi"
         Me.chkMulti.UseVisualStyleBackColor = True
@@ -1849,7 +1877,7 @@ Partial Class MaterialIssRec
         Me.txtTotalWt.Location = New System.Drawing.Point(409, 237)
         Me.txtTotalWt.Name = "txtTotalWt"
         Me.txtTotalWt.ReadOnly = True
-        Me.txtTotalWt.Size = New System.Drawing.Size(80, 21)
+        Me.txtTotalWt.Size = New System.Drawing.Size(80, 24)
         Me.txtTotalWt.TabIndex = 42
         '
         'Label14
@@ -1857,7 +1885,7 @@ Partial Class MaterialIssRec
         Me.Label14.AutoSize = True
         Me.Label14.Location = New System.Drawing.Point(340, 243)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(57, 13)
+        Me.Label14.Size = New System.Drawing.Size(72, 17)
         Me.Label14.TabIndex = 41
         Me.Label14.Text = "Total Wt."
         '
@@ -1866,7 +1894,7 @@ Partial Class MaterialIssRec
         Me.txtMAlloyper.Enabled = False
         Me.txtMAlloyper.Location = New System.Drawing.Point(124, 235)
         Me.txtMAlloyper.Name = "txtMAlloyper"
-        Me.txtMAlloyper.Size = New System.Drawing.Size(79, 21)
+        Me.txtMAlloyper.Size = New System.Drawing.Size(79, 24)
         Me.txtMAlloyper.TabIndex = 38
         Me.txtMAlloyper.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -1875,7 +1903,7 @@ Partial Class MaterialIssRec
         Me.lblMAlloyper.AutoSize = True
         Me.lblMAlloyper.Location = New System.Drawing.Point(8, 239)
         Me.lblMAlloyper.Name = "lblMAlloyper"
-        Me.lblMAlloyper.Size = New System.Drawing.Size(47, 13)
+        Me.lblMAlloyper.Size = New System.Drawing.Size(56, 17)
         Me.lblMAlloyper.TabIndex = 37
         Me.lblMAlloyper.Text = "Alloy%"
         '
@@ -1884,7 +1912,7 @@ Partial Class MaterialIssRec
         Me.txtMAlloy_WET.Enabled = False
         Me.txtMAlloy_WET.Location = New System.Drawing.Point(261, 235)
         Me.txtMAlloy_WET.Name = "txtMAlloy_WET"
-        Me.txtMAlloy_WET.Size = New System.Drawing.Size(81, 21)
+        Me.txtMAlloy_WET.Size = New System.Drawing.Size(81, 24)
         Me.txtMAlloy_WET.TabIndex = 40
         '
         'lblMAlloy
@@ -1892,7 +1920,7 @@ Partial Class MaterialIssRec
         Me.lblMAlloy.AutoSize = True
         Me.lblMAlloy.Location = New System.Drawing.Point(205, 239)
         Me.lblMAlloy.Name = "lblMAlloy"
-        Me.lblMAlloy.Size = New System.Drawing.Size(35, 13)
+        Me.lblMAlloy.Size = New System.Drawing.Size(41, 17)
         Me.lblMAlloy.TabIndex = 39
         Me.lblMAlloy.Text = "Alloy"
         '
@@ -1901,7 +1929,7 @@ Partial Class MaterialIssRec
         Me.Label52.AutoSize = True
         Me.Label52.Location = New System.Drawing.Point(8, 107)
         Me.Label52.Name = "Label52"
-        Me.Label52.Size = New System.Drawing.Size(106, 13)
+        Me.Label52.Size = New System.Drawing.Size(130, 17)
         Me.Label52.TabIndex = 13
         Me.Label52.Text = "Ac Post Category"
         '
@@ -1910,7 +1938,7 @@ Partial Class MaterialIssRec
         Me.cmbMAcPostCategory.FormattingEnabled = True
         Me.cmbMAcPostCategory.Location = New System.Drawing.Point(124, 103)
         Me.cmbMAcPostCategory.Name = "cmbMAcPostCategory"
-        Me.cmbMAcPostCategory.Size = New System.Drawing.Size(364, 21)
+        Me.cmbMAcPostCategory.Size = New System.Drawing.Size(364, 25)
         Me.cmbMAcPostCategory.TabIndex = 14
         '
         'cmbMGrsNet
@@ -1918,7 +1946,7 @@ Partial Class MaterialIssRec
         Me.cmbMGrsNet.FormattingEnabled = True
         Me.cmbMGrsNet.Location = New System.Drawing.Point(124, 191)
         Me.cmbMGrsNet.Name = "cmbMGrsNet"
-        Me.cmbMGrsNet.Size = New System.Drawing.Size(79, 21)
+        Me.cmbMGrsNet.Size = New System.Drawing.Size(79, 25)
         Me.cmbMGrsNet.TabIndex = 28
         '
         'Label21
@@ -1926,7 +1954,7 @@ Partial Class MaterialIssRec
         Me.Label21.AutoSize = True
         Me.Label21.Location = New System.Drawing.Point(8, 195)
         Me.Label21.Name = "Label21"
-        Me.Label21.Size = New System.Drawing.Size(51, 13)
+        Me.Label21.Size = New System.Drawing.Size(63, 17)
         Me.Label21.TabIndex = 27
         Me.Label21.Text = "Grs/Net"
         '
@@ -1935,7 +1963,7 @@ Partial Class MaterialIssRec
         Me.CmbMPurity.FormattingEnabled = True
         Me.CmbMPurity.Location = New System.Drawing.Point(124, 125)
         Me.CmbMPurity.Name = "CmbMPurity"
-        Me.CmbMPurity.Size = New System.Drawing.Size(79, 21)
+        Me.CmbMPurity.Size = New System.Drawing.Size(79, 25)
         Me.CmbMPurity.TabIndex = 16
         '
         'Label69
@@ -1943,7 +1971,7 @@ Partial Class MaterialIssRec
         Me.Label69.AutoSize = True
         Me.Label69.Location = New System.Drawing.Point(205, 173)
         Me.Label69.Name = "Label69"
-        Me.Label69.Size = New System.Drawing.Size(51, 13)
+        Me.Label69.Size = New System.Drawing.Size(66, 17)
         Me.Label69.TabIndex = 23
         Me.Label69.Text = "Less Wt"
         '
@@ -1951,7 +1979,7 @@ Partial Class MaterialIssRec
         '
         Me.txtMNetWt_WET.Location = New System.Drawing.Point(409, 169)
         Me.txtMNetWt_WET.Name = "txtMNetWt_WET"
-        Me.txtMNetWt_WET.Size = New System.Drawing.Size(79, 21)
+        Me.txtMNetWt_WET.Size = New System.Drawing.Size(79, 24)
         Me.txtMNetWt_WET.TabIndex = 26
         Me.txtMNetWt_WET.Text = "19999.999"
         '
@@ -1959,7 +1987,7 @@ Partial Class MaterialIssRec
         '
         Me.txtMLessWt_WET.Location = New System.Drawing.Point(261, 169)
         Me.txtMLessWt_WET.Name = "txtMLessWt_WET"
-        Me.txtMLessWt_WET.Size = New System.Drawing.Size(81, 21)
+        Me.txtMLessWt_WET.Size = New System.Drawing.Size(81, 24)
         Me.txtMLessWt_WET.TabIndex = 24
         '
         'Label65
@@ -1967,7 +1995,7 @@ Partial Class MaterialIssRec
         Me.Label65.AutoSize = True
         Me.Label65.Location = New System.Drawing.Point(340, 173)
         Me.Label65.Name = "Label65"
-        Me.Label65.Size = New System.Drawing.Size(45, 13)
+        Me.Label65.Size = New System.Drawing.Size(58, 17)
         Me.Label65.TabIndex = 25
         Me.Label65.Text = "Net Wt"
         '
@@ -1976,7 +2004,7 @@ Partial Class MaterialIssRec
         Me.Label54.AutoSize = True
         Me.Label54.Location = New System.Drawing.Point(8, 261)
         Me.Label54.Name = "Label54"
-        Me.Label54.Size = New System.Drawing.Size(52, 13)
+        Me.Label54.Size = New System.Drawing.Size(62, 17)
         Me.Label54.TabIndex = 43
         Me.Label54.Text = "Mc/Grm"
         '
@@ -1984,7 +2012,7 @@ Partial Class MaterialIssRec
         '
         Me.txtMMc_AMT.Location = New System.Drawing.Point(261, 257)
         Me.txtMMc_AMT.Name = "txtMMc_AMT"
-        Me.txtMMc_AMT.Size = New System.Drawing.Size(81, 21)
+        Me.txtMMc_AMT.Size = New System.Drawing.Size(81, 24)
         Me.txtMMc_AMT.TabIndex = 46
         '
         'Label57
@@ -1992,7 +2020,7 @@ Partial Class MaterialIssRec
         Me.Label57.AutoSize = True
         Me.Label57.Location = New System.Drawing.Point(205, 261)
         Me.Label57.Name = "Label57"
-        Me.Label57.Size = New System.Drawing.Size(22, 13)
+        Me.Label57.Size = New System.Drawing.Size(26, 17)
         Me.Label57.TabIndex = 45
         Me.Label57.Text = "Mc"
         '
@@ -2000,7 +2028,7 @@ Partial Class MaterialIssRec
         '
         Me.txtMMcGrm_AMT.Location = New System.Drawing.Point(124, 257)
         Me.txtMMcGrm_AMT.Name = "txtMMcGrm_AMT"
-        Me.txtMMcGrm_AMT.Size = New System.Drawing.Size(79, 21)
+        Me.txtMMcGrm_AMT.Size = New System.Drawing.Size(79, 24)
         Me.txtMMcGrm_AMT.TabIndex = 44
         Me.txtMMcGrm_AMT.Text = "19999.999"
         '
@@ -2008,14 +2036,14 @@ Partial Class MaterialIssRec
         '
         Me.txtMAddlCharge_AMT.Location = New System.Drawing.Point(261, 279)
         Me.txtMAddlCharge_AMT.Name = "txtMAddlCharge_AMT"
-        Me.txtMAddlCharge_AMT.Size = New System.Drawing.Size(81, 21)
+        Me.txtMAddlCharge_AMT.Size = New System.Drawing.Size(81, 24)
         Me.txtMAddlCharge_AMT.TabIndex = 50
         '
         'txtMReceivePurity_AMT
         '
         Me.txtMReceivePurity_AMT.Location = New System.Drawing.Point(409, 191)
         Me.txtMReceivePurity_AMT.Name = "txtMReceivePurity_AMT"
-        Me.txtMReceivePurity_AMT.Size = New System.Drawing.Size(79, 21)
+        Me.txtMReceivePurity_AMT.Size = New System.Drawing.Size(79, 24)
         Me.txtMReceivePurity_AMT.TabIndex = 32
         '
         'lblMRecPurity
@@ -2023,7 +2051,7 @@ Partial Class MaterialIssRec
         Me.lblMRecPurity.AutoSize = True
         Me.lblMRecPurity.Location = New System.Drawing.Point(340, 195)
         Me.lblMRecPurity.Name = "lblMRecPurity"
-        Me.lblMRecPurity.Size = New System.Drawing.Size(72, 13)
+        Me.lblMRecPurity.Size = New System.Drawing.Size(86, 17)
         Me.lblMRecPurity.TabIndex = 31
         Me.lblMRecPurity.Text = "Recv Purity"
         '
@@ -2032,7 +2060,7 @@ Partial Class MaterialIssRec
         Me.Label63.AutoSize = True
         Me.Label63.Location = New System.Drawing.Point(271, 18)
         Me.Label63.Name = "Label63"
-        Me.Label63.Size = New System.Drawing.Size(51, 13)
+        Me.Label63.Size = New System.Drawing.Size(62, 17)
         Me.Label63.TabIndex = 3
         Me.Label63.Text = "Process"
         '
@@ -2041,7 +2069,7 @@ Partial Class MaterialIssRec
         Me.cmbMProcess.FormattingEnabled = True
         Me.cmbMProcess.Location = New System.Drawing.Point(336, 14)
         Me.cmbMProcess.Name = "cmbMProcess"
-        Me.cmbMProcess.Size = New System.Drawing.Size(152, 21)
+        Me.cmbMProcess.Size = New System.Drawing.Size(152, 25)
         Me.cmbMProcess.TabIndex = 4
         '
         'txtMRemark2
@@ -2049,7 +2077,7 @@ Partial Class MaterialIssRec
         Me.txtMRemark2.Location = New System.Drawing.Point(124, 445)
         Me.txtMRemark2.MaxLength = 50
         Me.txtMRemark2.Name = "txtMRemark2"
-        Me.txtMRemark2.Size = New System.Drawing.Size(365, 21)
+        Me.txtMRemark2.Size = New System.Drawing.Size(365, 24)
         Me.txtMRemark2.TabIndex = 68
         '
         'txtMRemark1
@@ -2057,7 +2085,7 @@ Partial Class MaterialIssRec
         Me.txtMRemark1.Location = New System.Drawing.Point(124, 422)
         Me.txtMRemark1.MaxLength = 50
         Me.txtMRemark1.Name = "txtMRemark1"
-        Me.txtMRemark1.Size = New System.Drawing.Size(217, 21)
+        Me.txtMRemark1.Size = New System.Drawing.Size(217, 24)
         Me.txtMRemark1.TabIndex = 67
         '
         'Label35
@@ -2065,7 +2093,7 @@ Partial Class MaterialIssRec
         Me.Label35.AutoSize = True
         Me.Label35.Location = New System.Drawing.Point(8, 425)
         Me.Label35.Name = "Label35"
-        Me.Label35.Size = New System.Drawing.Size(52, 13)
+        Me.Label35.Size = New System.Drawing.Size(61, 17)
         Me.Label35.TabIndex = 66
         Me.Label35.Text = "Remark"
         '
@@ -2074,7 +2102,7 @@ Partial Class MaterialIssRec
         Me.lblMordNo.AutoSize = True
         Me.lblMordNo.Location = New System.Drawing.Point(8, 18)
         Me.lblMordNo.Name = "lblMordNo"
-        Me.lblMordNo.Size = New System.Drawing.Size(59, 13)
+        Me.lblMordNo.Size = New System.Drawing.Size(72, 17)
         Me.lblMordNo.TabIndex = 0
         Me.lblMordNo.Text = "Order No"
         '
@@ -2082,7 +2110,7 @@ Partial Class MaterialIssRec
         '
         Me.txtMOrdNo.Location = New System.Drawing.Point(124, 14)
         Me.txtMOrdNo.Name = "txtMOrdNo"
-        Me.txtMOrdNo.Size = New System.Drawing.Size(80, 21)
+        Me.txtMOrdNo.Size = New System.Drawing.Size(80, 24)
         Me.txtMOrdNo.TabIndex = 2
         '
         'Label6
@@ -2090,7 +2118,7 @@ Partial Class MaterialIssRec
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(8, 129)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(40, 13)
+        Me.Label6.Size = New System.Drawing.Size(48, 17)
         Me.Label6.TabIndex = 15
         Me.Label6.Text = "Purity"
         '
@@ -2099,7 +2127,7 @@ Partial Class MaterialIssRec
         Me.Label26.AutoSize = True
         Me.Label26.Location = New System.Drawing.Point(8, 41)
         Me.Label26.Name = "Label26"
-        Me.Label26.Size = New System.Drawing.Size(37, 13)
+        Me.Label26.Size = New System.Drawing.Size(44, 17)
         Me.Label26.TabIndex = 5
         Me.Label26.Text = "Metal"
         '
@@ -2108,7 +2136,7 @@ Partial Class MaterialIssRec
         Me.Label27.AutoSize = True
         Me.Label27.Location = New System.Drawing.Point(8, 63)
         Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(60, 13)
+        Me.Label27.Size = New System.Drawing.Size(72, 17)
         Me.Label27.TabIndex = 9
         Me.Label27.Text = "Category"
         '
@@ -2117,7 +2145,7 @@ Partial Class MaterialIssRec
         Me.Label31.AutoSize = True
         Me.Label31.Location = New System.Drawing.Point(8, 85)
         Me.Label31.Name = "Label31"
-        Me.Label31.Size = New System.Drawing.Size(102, 13)
+        Me.Label31.Size = New System.Drawing.Size(124, 17)
         Me.Label31.TabIndex = 11
         Me.Label31.Text = "Issued Category"
         '
@@ -2126,7 +2154,7 @@ Partial Class MaterialIssRec
         Me.cmbMMetal.FormattingEnabled = True
         Me.cmbMMetal.Location = New System.Drawing.Point(124, 37)
         Me.cmbMMetal.Name = "cmbMMetal"
-        Me.cmbMMetal.Size = New System.Drawing.Size(140, 21)
+        Me.cmbMMetal.Size = New System.Drawing.Size(140, 25)
         Me.cmbMMetal.TabIndex = 6
         '
         'cmbMCategory
@@ -2134,7 +2162,7 @@ Partial Class MaterialIssRec
         Me.cmbMCategory.FormattingEnabled = True
         Me.cmbMCategory.Location = New System.Drawing.Point(124, 59)
         Me.cmbMCategory.Name = "cmbMCategory"
-        Me.cmbMCategory.Size = New System.Drawing.Size(222, 21)
+        Me.cmbMCategory.Size = New System.Drawing.Size(222, 25)
         Me.cmbMCategory.TabIndex = 10
         '
         'cmbMIssuedCategory
@@ -2142,7 +2170,7 @@ Partial Class MaterialIssRec
         Me.cmbMIssuedCategory.FormattingEnabled = True
         Me.cmbMIssuedCategory.Location = New System.Drawing.Point(124, 81)
         Me.cmbMIssuedCategory.Name = "cmbMIssuedCategory"
-        Me.cmbMIssuedCategory.Size = New System.Drawing.Size(364, 21)
+        Me.cmbMIssuedCategory.Size = New System.Drawing.Size(364, 25)
         Me.cmbMIssuedCategory.TabIndex = 12
         '
         'Label28
@@ -2150,7 +2178,7 @@ Partial Class MaterialIssRec
         Me.Label28.AutoSize = True
         Me.Label28.Location = New System.Drawing.Point(8, 283)
         Me.Label28.Name = "Label28"
-        Me.Label28.Size = New System.Drawing.Size(33, 13)
+        Me.Label28.Size = New System.Drawing.Size(40, 17)
         Me.Label28.TabIndex = 47
         Me.Label28.Text = "Rate"
         '
@@ -2158,7 +2186,7 @@ Partial Class MaterialIssRec
         '
         Me.txtMRate_OWN.Location = New System.Drawing.Point(124, 279)
         Me.txtMRate_OWN.Name = "txtMRate_OWN"
-        Me.txtMRate_OWN.Size = New System.Drawing.Size(79, 21)
+        Me.txtMRate_OWN.Size = New System.Drawing.Size(79, 24)
         Me.txtMRate_OWN.TabIndex = 48
         Me.txtMRate_OWN.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -2167,7 +2195,7 @@ Partial Class MaterialIssRec
         Me.Label29.AutoSize = True
         Me.Label29.Location = New System.Drawing.Point(205, 403)
         Me.Label29.Name = "Label29"
-        Me.Label29.Size = New System.Drawing.Size(51, 13)
+        Me.Label29.Size = New System.Drawing.Size(64, 17)
         Me.Label29.TabIndex = 60
         Me.Label29.Text = "Amount"
         '
@@ -2176,7 +2204,7 @@ Partial Class MaterialIssRec
         Me.Label30.AutoSize = True
         Me.Label30.Location = New System.Drawing.Point(208, 129)
         Me.Label30.Name = "Label30"
-        Me.Label30.Size = New System.Drawing.Size(40, 13)
+        Me.Label30.Size = New System.Drawing.Size(49, 17)
         Me.Label30.TabIndex = 17
         Me.Label30.Text = "Touch"
         '
@@ -2184,7 +2212,7 @@ Partial Class MaterialIssRec
         '
         Me.txtMAmount_AMT.Location = New System.Drawing.Point(261, 399)
         Me.txtMAmount_AMT.Name = "txtMAmount_AMT"
-        Me.txtMAmount_AMT.Size = New System.Drawing.Size(79, 21)
+        Me.txtMAmount_AMT.Size = New System.Drawing.Size(79, 24)
         Me.txtMAmount_AMT.TabIndex = 61
         Me.txtMAmount_AMT.Text = "99999999.99"
         '
@@ -2193,7 +2221,7 @@ Partial Class MaterialIssRec
         Me.lblMVatPer.AutoSize = True
         Me.lblMVatPer.Location = New System.Drawing.Point(205, 327)
         Me.lblMVatPer.Name = "lblMVatPer"
-        Me.lblMVatPer.Size = New System.Drawing.Size(43, 13)
+        Me.lblMVatPer.Size = New System.Drawing.Size(54, 17)
         Me.lblMVatPer.TabIndex = 53
         Me.lblMVatPer.Text = "Tds %"
         '
@@ -2201,14 +2229,14 @@ Partial Class MaterialIssRec
         '
         Me.txtMVatPer_PER.Location = New System.Drawing.Point(261, 323)
         Me.txtMVatPer_PER.Name = "txtMVatPer_PER"
-        Me.txtMVatPer_PER.Size = New System.Drawing.Size(81, 21)
+        Me.txtMVatPer_PER.Size = New System.Drawing.Size(81, 24)
         Me.txtMVatPer_PER.TabIndex = 54
         '
         'txtMPcs_NUM
         '
         Me.txtMPcs_NUM.Location = New System.Drawing.Point(124, 147)
         Me.txtMPcs_NUM.Name = "txtMPcs_NUM"
-        Me.txtMPcs_NUM.Size = New System.Drawing.Size(79, 21)
+        Me.txtMPcs_NUM.Size = New System.Drawing.Size(79, 24)
         Me.txtMPcs_NUM.TabIndex = 20
         '
         'lblMVat
@@ -2216,7 +2244,7 @@ Partial Class MaterialIssRec
         Me.lblMVat.AutoSize = True
         Me.lblMVat.Location = New System.Drawing.Point(340, 327)
         Me.lblMVat.Name = "lblMVat"
-        Me.lblMVat.Size = New System.Drawing.Size(27, 13)
+        Me.lblMVat.Size = New System.Drawing.Size(34, 17)
         Me.lblMVat.TabIndex = 55
         Me.lblMVat.Text = "Tds"
         '
@@ -2225,7 +2253,7 @@ Partial Class MaterialIssRec
         Me.Label34.AutoSize = True
         Me.Label34.Location = New System.Drawing.Point(8, 327)
         Me.Label34.Name = "Label34"
-        Me.Label34.Size = New System.Drawing.Size(67, 13)
+        Me.Label34.Size = New System.Drawing.Size(84, 17)
         Me.Label34.TabIndex = 51
         Me.Label34.Text = "Gross Amt"
         '
@@ -2233,7 +2261,7 @@ Partial Class MaterialIssRec
         '
         Me.txtMVat_AMT.Location = New System.Drawing.Point(409, 323)
         Me.txtMVat_AMT.Name = "txtMVat_AMT"
-        Me.txtMVat_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtMVat_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtMVat_AMT.TabIndex = 56
         '
         'lblMWastPer
@@ -2241,7 +2269,7 @@ Partial Class MaterialIssRec
         Me.lblMWastPer.AutoSize = True
         Me.lblMWastPer.Location = New System.Drawing.Point(8, 217)
         Me.lblMWastPer.Name = "lblMWastPer"
-        Me.lblMWastPer.Size = New System.Drawing.Size(71, 13)
+        Me.lblMWastPer.Size = New System.Drawing.Size(89, 17)
         Me.lblMWastPer.TabIndex = 33
         Me.lblMWastPer.Text = "Wastage %"
         '
@@ -2249,7 +2277,7 @@ Partial Class MaterialIssRec
         '
         Me.txtMGrsWt_WET.Location = New System.Drawing.Point(124, 169)
         Me.txtMGrsWt_WET.Name = "txtMGrsWt_WET"
-        Me.txtMGrsWt_WET.Size = New System.Drawing.Size(79, 21)
+        Me.txtMGrsWt_WET.Size = New System.Drawing.Size(79, 24)
         Me.txtMGrsWt_WET.TabIndex = 22
         Me.txtMGrsWt_WET.Text = "19999.999"
         '
@@ -2258,7 +2286,7 @@ Partial Class MaterialIssRec
         Me.Label37.AutoSize = True
         Me.Label37.Location = New System.Drawing.Point(8, 151)
         Me.Label37.Name = "Label37"
-        Me.Label37.Size = New System.Drawing.Size(26, 13)
+        Me.Label37.Size = New System.Drawing.Size(31, 17)
         Me.Label37.TabIndex = 19
         Me.Label37.Text = "Pcs"
         '
@@ -2266,7 +2294,7 @@ Partial Class MaterialIssRec
         '
         Me.txtMPureWt_WET.Location = New System.Drawing.Point(261, 191)
         Me.txtMPureWt_WET.Name = "txtMPureWt_WET"
-        Me.txtMPureWt_WET.Size = New System.Drawing.Size(81, 21)
+        Me.txtMPureWt_WET.Size = New System.Drawing.Size(81, 24)
         Me.txtMPureWt_WET.TabIndex = 30
         '
         'Label38
@@ -2274,7 +2302,7 @@ Partial Class MaterialIssRec
         Me.Label38.AutoSize = True
         Me.Label38.Location = New System.Drawing.Point(205, 195)
         Me.Label38.Name = "Label38"
-        Me.Label38.Size = New System.Drawing.Size(52, 13)
+        Me.Label38.Size = New System.Drawing.Size(65, 17)
         Me.Label38.TabIndex = 29
         Me.Label38.Text = "Pure Wt"
         '
@@ -2283,7 +2311,7 @@ Partial Class MaterialIssRec
         Me.Label39.AutoSize = True
         Me.Label39.Location = New System.Drawing.Point(8, 173)
         Me.Label39.Name = "Label39"
-        Me.Label39.Size = New System.Drawing.Size(46, 13)
+        Me.Label39.Size = New System.Drawing.Size(59, 17)
         Me.Label39.TabIndex = 21
         Me.Label39.Text = "Grs Wt"
         '
@@ -2291,7 +2319,7 @@ Partial Class MaterialIssRec
         '
         Me.txtMWastPER.Location = New System.Drawing.Point(124, 213)
         Me.txtMWastPER.Name = "txtMWastPER"
-        Me.txtMWastPER.Size = New System.Drawing.Size(79, 21)
+        Me.txtMWastPER.Size = New System.Drawing.Size(79, 24)
         Me.txtMWastPER.TabIndex = 34
         Me.txtMWastPER.Text = "19999.999"
         Me.txtMWastPER.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -2300,14 +2328,14 @@ Partial Class MaterialIssRec
         '
         Me.txtMWast_WET.Location = New System.Drawing.Point(261, 213)
         Me.txtMWast_WET.Name = "txtMWast_WET"
-        Me.txtMWast_WET.Size = New System.Drawing.Size(81, 21)
+        Me.txtMWast_WET.Size = New System.Drawing.Size(81, 24)
         Me.txtMWast_WET.TabIndex = 36
         '
         'txtMTouchAMT
         '
         Me.txtMTouchAMT.Location = New System.Drawing.Point(261, 125)
         Me.txtMTouchAMT.Name = "txtMTouchAMT"
-        Me.txtMTouchAMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtMTouchAMT.Size = New System.Drawing.Size(80, 24)
         Me.txtMTouchAMT.TabIndex = 18
         Me.txtMTouchAMT.Text = "19999.999"
         '
@@ -2316,7 +2344,7 @@ Partial Class MaterialIssRec
         Me.Label66.AutoSize = True
         Me.Label66.Location = New System.Drawing.Point(205, 283)
         Me.Label66.Name = "Label66"
-        Me.Label66.Size = New System.Drawing.Size(61, 13)
+        Me.Label66.Size = New System.Drawing.Size(75, 17)
         Me.Label66.TabIndex = 49
         Me.Label66.Text = "Add Chrg"
         '
@@ -2325,7 +2353,7 @@ Partial Class MaterialIssRec
         Me.lblMWast.AutoSize = True
         Me.lblMWast.Location = New System.Drawing.Point(205, 217)
         Me.lblMWast.Name = "lblMWast"
-        Me.lblMWast.Size = New System.Drawing.Size(55, 13)
+        Me.lblMWast.Size = New System.Drawing.Size(69, 17)
         Me.lblMWast.TabIndex = 35
         Me.lblMWast.Text = "Wastage"
         '
@@ -2333,7 +2361,7 @@ Partial Class MaterialIssRec
         '
         Me.txtMGrsAmt_AMT.Location = New System.Drawing.Point(124, 323)
         Me.txtMGrsAmt_AMT.Name = "txtMGrsAmt_AMT"
-        Me.txtMGrsAmt_AMT.Size = New System.Drawing.Size(79, 21)
+        Me.txtMGrsAmt_AMT.Size = New System.Drawing.Size(79, 24)
         Me.txtMGrsAmt_AMT.TabIndex = 52
         Me.txtMGrsAmt_AMT.Text = "19999.999"
         '
@@ -2341,10 +2369,10 @@ Partial Class MaterialIssRec
         '
         Me.tabStone.BackColor = System.Drawing.Color.Lavender
         Me.tabStone.Controls.Add(Me.grpStone)
-        Me.tabStone.Location = New System.Drawing.Point(4, 25)
+        Me.tabStone.Location = New System.Drawing.Point(4, 29)
         Me.tabStone.Name = "tabStone"
         Me.tabStone.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabStone.Size = New System.Drawing.Size(501, 528)
+        Me.tabStone.Size = New System.Drawing.Size(501, 525)
         Me.tabStone.TabIndex = 2
         Me.tabStone.Text = "Stone"
         '
@@ -2420,7 +2448,7 @@ Partial Class MaterialIssRec
         Me.Label107.AutoSize = True
         Me.Label107.Location = New System.Drawing.Point(331, 263)
         Me.Label107.Name = "Label107"
-        Me.Label107.Size = New System.Drawing.Size(68, 13)
+        Me.Label107.Size = New System.Drawing.Size(84, 17)
         Me.Label107.TabIndex = 85
         Me.Label107.Text = "TdsAccode"
         Me.Label107.Visible = False
@@ -2431,7 +2459,7 @@ Partial Class MaterialIssRec
         Me.txtstdsaccode.Location = New System.Drawing.Point(399, 259)
         Me.txtstdsaccode.Name = "txtstdsaccode"
         Me.txtstdsaccode.ReadOnly = True
-        Me.txtstdsaccode.Size = New System.Drawing.Size(81, 21)
+        Me.txtstdsaccode.Size = New System.Drawing.Size(81, 24)
         Me.txtstdsaccode.TabIndex = 86
         Me.txtstdsaccode.Visible = False
         '
@@ -2440,7 +2468,7 @@ Partial Class MaterialIssRec
         Me.Label108.AutoSize = True
         Me.Label108.Location = New System.Drawing.Point(8, 264)
         Me.Label108.Name = "Label108"
-        Me.Label108.Size = New System.Drawing.Size(78, 13)
+        Me.Label108.Size = New System.Drawing.Size(95, 17)
         Me.Label108.TabIndex = 83
         Me.Label108.Text = "Tds AcName"
         '
@@ -2449,14 +2477,14 @@ Partial Class MaterialIssRec
         Me.Cmbsacname.FormattingEnabled = True
         Me.Cmbsacname.Location = New System.Drawing.Point(119, 260)
         Me.Cmbsacname.Name = "Cmbsacname"
-        Me.Cmbsacname.Size = New System.Drawing.Size(213, 21)
+        Me.Cmbsacname.Size = New System.Drawing.Size(213, 25)
         Me.Cmbsacname.TabIndex = 36
         '
         'txtSWast_WET
         '
         Me.txtSWast_WET.Location = New System.Drawing.Point(399, 234)
         Me.txtSWast_WET.Name = "txtSWast_WET"
-        Me.txtSWast_WET.Size = New System.Drawing.Size(81, 21)
+        Me.txtSWast_WET.Size = New System.Drawing.Size(81, 24)
         Me.txtSWast_WET.TabIndex = 34
         '
         'Label103
@@ -2464,7 +2492,7 @@ Partial Class MaterialIssRec
         Me.Label103.AutoSize = True
         Me.Label103.Location = New System.Drawing.Point(334, 238)
         Me.Label103.Name = "Label103"
-        Me.Label103.Size = New System.Drawing.Size(55, 13)
+        Me.Label103.Size = New System.Drawing.Size(69, 17)
         Me.Label103.TabIndex = 51
         Me.Label103.Text = "Wastage"
         '
@@ -2473,7 +2501,7 @@ Partial Class MaterialIssRec
         Me.chkSRateFixed.AutoSize = True
         Me.chkSRateFixed.Location = New System.Drawing.Point(334, 148)
         Me.chkSRateFixed.Name = "chkSRateFixed"
-        Me.chkSRateFixed.Size = New System.Drawing.Size(86, 17)
+        Me.chkSRateFixed.Size = New System.Drawing.Size(104, 21)
         Me.chkSRateFixed.TabIndex = 18
         Me.chkSRateFixed.Text = "Rate Fixed"
         Me.chkSRateFixed.UseVisualStyleBackColor = True
@@ -2483,7 +2511,7 @@ Partial Class MaterialIssRec
         Me.Label102.AutoSize = True
         Me.Label102.Location = New System.Drawing.Point(333, 289)
         Me.Label102.Name = "Label102"
-        Me.Label102.Size = New System.Drawing.Size(31, 13)
+        Me.Label102.Size = New System.Drawing.Size(37, 17)
         Me.Label102.TabIndex = 40
         Me.Label102.Text = "TCS"
         '
@@ -2492,14 +2520,14 @@ Partial Class MaterialIssRec
         Me.txtSTCS_AMT.Location = New System.Drawing.Point(399, 286)
         Me.txtSTCS_AMT.Name = "txtSTCS_AMT"
         Me.txtSTCS_AMT.ReadOnly = True
-        Me.txtSTCS_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtSTCS_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtSTCS_AMT.TabIndex = 41
         '
         'txtStnGrpName
         '
         Me.txtStnGrpName.Location = New System.Drawing.Point(399, 165)
         Me.txtStnGrpName.Name = "txtStnGrpName"
-        Me.txtStnGrpName.Size = New System.Drawing.Size(80, 21)
+        Me.txtStnGrpName.Size = New System.Drawing.Size(80, 24)
         Me.txtStnGrpName.TabIndex = 50
         Me.txtStnGrpName.Visible = False
         '
@@ -2526,7 +2554,7 @@ Partial Class MaterialIssRec
         '
         Me.txtSIG_AMT.Location = New System.Drawing.Point(394, 25)
         Me.txtSIG_AMT.Name = "txtSIG_AMT"
-        Me.txtSIG_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtSIG_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtSIG_AMT.TabIndex = 11
         '
         'Label88
@@ -2534,7 +2562,7 @@ Partial Class MaterialIssRec
         Me.Label88.AutoSize = True
         Me.Label88.Location = New System.Drawing.Point(328, 29)
         Me.Label88.Name = "Label88"
-        Me.Label88.Size = New System.Drawing.Size(40, 13)
+        Me.Label88.Size = New System.Drawing.Size(48, 17)
         Me.Label88.TabIndex = 10
         Me.Label88.Text = "I GST"
         '
@@ -2542,7 +2570,7 @@ Partial Class MaterialIssRec
         '
         Me.txtSIgst_WET.Location = New System.Drawing.Point(394, 2)
         Me.txtSIgst_WET.Name = "txtSIgst_WET"
-        Me.txtSIgst_WET.Size = New System.Drawing.Size(80, 21)
+        Me.txtSIgst_WET.Size = New System.Drawing.Size(80, 24)
         Me.txtSIgst_WET.TabIndex = 5
         '
         'Label89
@@ -2550,7 +2578,7 @@ Partial Class MaterialIssRec
         Me.Label89.AutoSize = True
         Me.Label89.Location = New System.Drawing.Point(328, 5)
         Me.Label89.Name = "Label89"
-        Me.Label89.Size = New System.Drawing.Size(52, 13)
+        Me.Label89.Size = New System.Drawing.Size(63, 17)
         Me.Label89.TabIndex = 4
         Me.Label89.Text = "I GST%"
         '
@@ -2559,7 +2587,7 @@ Partial Class MaterialIssRec
         Me.Label90.AutoSize = True
         Me.Label90.Location = New System.Drawing.Point(196, 5)
         Me.Label90.Name = "Label90"
-        Me.Label90.Size = New System.Drawing.Size(56, 13)
+        Me.Label90.Size = New System.Drawing.Size(68, 17)
         Me.Label90.TabIndex = 2
         Me.Label90.Text = "C GST%"
         '
@@ -2567,7 +2595,7 @@ Partial Class MaterialIssRec
         '
         Me.txtSCgst_WET.Location = New System.Drawing.Point(247, 1)
         Me.txtSCgst_WET.Name = "txtSCgst_WET"
-        Me.txtSCgst_WET.Size = New System.Drawing.Size(80, 21)
+        Me.txtSCgst_WET.Size = New System.Drawing.Size(80, 24)
         Me.txtSCgst_WET.TabIndex = 3
         '
         'Label91
@@ -2575,7 +2603,7 @@ Partial Class MaterialIssRec
         Me.Label91.AutoSize = True
         Me.Label91.Location = New System.Drawing.Point(196, 29)
         Me.Label91.Name = "Label91"
-        Me.Label91.Size = New System.Drawing.Size(44, 13)
+        Me.Label91.Size = New System.Drawing.Size(53, 17)
         Me.Label91.TabIndex = 8
         Me.Label91.Text = "C GST"
         '
@@ -2583,7 +2611,7 @@ Partial Class MaterialIssRec
         '
         Me.txtSCG_AMT.Location = New System.Drawing.Point(247, 25)
         Me.txtSCG_AMT.Name = "txtSCG_AMT"
-        Me.txtSCG_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtSCG_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtSCG_AMT.TabIndex = 9
         '
         'Label92
@@ -2591,7 +2619,7 @@ Partial Class MaterialIssRec
         Me.Label92.AutoSize = True
         Me.Label92.Location = New System.Drawing.Point(3, 5)
         Me.Label92.Name = "Label92"
-        Me.Label92.Size = New System.Drawing.Size(55, 13)
+        Me.Label92.Size = New System.Drawing.Size(68, 17)
         Me.Label92.TabIndex = 0
         Me.Label92.Text = "S GST%"
         '
@@ -2599,7 +2627,7 @@ Partial Class MaterialIssRec
         '
         Me.txtSSgst_WET.Location = New System.Drawing.Point(114, 1)
         Me.txtSSgst_WET.Name = "txtSSgst_WET"
-        Me.txtSSgst_WET.Size = New System.Drawing.Size(80, 21)
+        Me.txtSSgst_WET.Size = New System.Drawing.Size(80, 24)
         Me.txtSSgst_WET.TabIndex = 1
         '
         'Label93
@@ -2607,7 +2635,7 @@ Partial Class MaterialIssRec
         Me.Label93.AutoSize = True
         Me.Label93.Location = New System.Drawing.Point(3, 29)
         Me.Label93.Name = "Label93"
-        Me.Label93.Size = New System.Drawing.Size(43, 13)
+        Me.Label93.Size = New System.Drawing.Size(53, 17)
         Me.Label93.TabIndex = 6
         Me.Label93.Text = "S GST"
         '
@@ -2615,7 +2643,7 @@ Partial Class MaterialIssRec
         '
         Me.txtSSG_AMT.Location = New System.Drawing.Point(114, 25)
         Me.txtSSG_AMT.Name = "txtSSG_AMT"
-        Me.txtSSG_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtSSG_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtSSG_AMT.TabIndex = 7
         '
         'lblRFID
@@ -2623,7 +2651,7 @@ Partial Class MaterialIssRec
         Me.lblRFID.AutoSize = True
         Me.lblRFID.Location = New System.Drawing.Point(202, 128)
         Me.lblRFID.Name = "lblRFID"
-        Me.lblRFID.Size = New System.Drawing.Size(35, 13)
+        Me.lblRFID.Size = New System.Drawing.Size(42, 17)
         Me.lblRFID.TabIndex = 14
         Me.lblRFID.Text = "RFID"
         '
@@ -2631,7 +2659,7 @@ Partial Class MaterialIssRec
         '
         Me.txtRfId.Location = New System.Drawing.Point(243, 124)
         Me.txtRfId.Name = "txtRfId"
-        Me.txtRfId.Size = New System.Drawing.Size(236, 21)
+        Me.txtRfId.Size = New System.Drawing.Size(236, 24)
         Me.txtRfId.TabIndex = 15
         '
         'Label70
@@ -2639,7 +2667,7 @@ Partial Class MaterialIssRec
         Me.Label70.AutoSize = True
         Me.Label70.Location = New System.Drawing.Point(8, 106)
         Me.Label70.Name = "Label70"
-        Me.Label70.Size = New System.Drawing.Size(106, 13)
+        Me.Label70.Size = New System.Drawing.Size(130, 17)
         Me.Label70.TabIndex = 10
         Me.Label70.Text = "Ac Post Category"
         '
@@ -2648,7 +2676,7 @@ Partial Class MaterialIssRec
         Me.cmbSAcPostCategory.FormattingEnabled = True
         Me.cmbSAcPostCategory.Location = New System.Drawing.Point(119, 102)
         Me.cmbSAcPostCategory.Name = "cmbSAcPostCategory"
-        Me.cmbSAcPostCategory.Size = New System.Drawing.Size(360, 21)
+        Me.cmbSAcPostCategory.Size = New System.Drawing.Size(360, 25)
         Me.cmbSAcPostCategory.TabIndex = 11
         '
         'cmbSSeive
@@ -2656,7 +2684,7 @@ Partial Class MaterialIssRec
         Me.cmbSSeive.FormattingEnabled = True
         Me.cmbSSeive.Location = New System.Drawing.Point(252, 360)
         Me.cmbSSeive.Name = "cmbSSeive"
-        Me.cmbSSeive.Size = New System.Drawing.Size(80, 21)
+        Me.cmbSSeive.Size = New System.Drawing.Size(80, 25)
         Me.cmbSSeive.TabIndex = 46
         '
         'Label17
@@ -2664,7 +2692,7 @@ Partial Class MaterialIssRec
         Me.Label17.AutoSize = True
         Me.Label17.Location = New System.Drawing.Point(203, 364)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(39, 13)
+        Me.Label17.Size = New System.Drawing.Size(45, 17)
         Me.Label17.TabIndex = 45
         Me.Label17.Text = "Seive"
         '
@@ -2672,7 +2700,7 @@ Partial Class MaterialIssRec
         '
         Me.txtStRowIndex.Location = New System.Drawing.Point(239, 425)
         Me.txtStRowIndex.Name = "txtStRowIndex"
-        Me.txtStRowIndex.Size = New System.Drawing.Size(12, 21)
+        Me.txtStRowIndex.Size = New System.Drawing.Size(12, 24)
         Me.txtStRowIndex.TabIndex = 0
         Me.txtStRowIndex.Visible = False
         '
@@ -2683,6 +2711,7 @@ Partial Class MaterialIssRec
         Me.GridStuddStone.Location = New System.Drawing.Point(3, 425)
         Me.GridStuddStone.Name = "GridStuddStone"
         Me.GridStuddStone.ReadOnly = True
+        Me.GridStuddStone.RowHeadersWidth = 51
         Me.GridStuddStone.Size = New System.Drawing.Size(474, 95)
         Me.GridStuddStone.TabIndex = 50
         '
@@ -2691,14 +2720,14 @@ Partial Class MaterialIssRec
         Me.CmbSPurity.FormattingEnabled = True
         Me.CmbSPurity.Location = New System.Drawing.Point(119, 124)
         Me.CmbSPurity.Name = "CmbSPurity"
-        Me.CmbSPurity.Size = New System.Drawing.Size(82, 21)
+        Me.CmbSPurity.Size = New System.Drawing.Size(82, 25)
         Me.CmbSPurity.TabIndex = 13
         '
         'txtSAddlCharge_AMT
         '
         Me.txtSAddlCharge_AMT.Location = New System.Drawing.Point(399, 212)
         Me.txtSAddlCharge_AMT.Name = "txtSAddlCharge_AMT"
-        Me.txtSAddlCharge_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtSAddlCharge_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtSAddlCharge_AMT.TabIndex = 33
         '
         'Label68
@@ -2706,7 +2735,7 @@ Partial Class MaterialIssRec
         Me.Label68.AutoSize = True
         Me.Label68.Location = New System.Drawing.Point(334, 216)
         Me.Label68.Name = "Label68"
-        Me.Label68.Size = New System.Drawing.Size(75, 13)
+        Me.Label68.Size = New System.Drawing.Size(91, 17)
         Me.Label68.TabIndex = 32
         Me.Label68.Text = "Add Charge"
         '
@@ -2715,7 +2744,7 @@ Partial Class MaterialIssRec
         Me.Label64.AutoSize = True
         Me.Label64.Location = New System.Drawing.Point(205, 18)
         Me.Label64.Name = "Label64"
-        Me.Label64.Size = New System.Drawing.Size(51, 13)
+        Me.Label64.Size = New System.Drawing.Size(62, 17)
         Me.Label64.TabIndex = 2
         Me.Label64.Text = "Process"
         '
@@ -2724,7 +2753,7 @@ Partial Class MaterialIssRec
         Me.cmbSProcess.FormattingEnabled = True
         Me.cmbSProcess.Location = New System.Drawing.Point(270, 14)
         Me.cmbSProcess.Name = "cmbSProcess"
-        Me.cmbSProcess.Size = New System.Drawing.Size(209, 21)
+        Me.cmbSProcess.Size = New System.Drawing.Size(209, 25)
         Me.cmbSProcess.TabIndex = 3
         '
         'txtSRemark2
@@ -2732,7 +2761,7 @@ Partial Class MaterialIssRec
         Me.txtSRemark2.Location = New System.Drawing.Point(119, 402)
         Me.txtSRemark2.MaxLength = 50
         Me.txtSRemark2.Name = "txtSRemark2"
-        Me.txtSRemark2.Size = New System.Drawing.Size(358, 21)
+        Me.txtSRemark2.Size = New System.Drawing.Size(358, 24)
         Me.txtSRemark2.TabIndex = 49
         '
         'txtSRemark1
@@ -2740,7 +2769,7 @@ Partial Class MaterialIssRec
         Me.txtSRemark1.Location = New System.Drawing.Point(119, 382)
         Me.txtSRemark1.MaxLength = 50
         Me.txtSRemark1.Name = "txtSRemark1"
-        Me.txtSRemark1.Size = New System.Drawing.Size(358, 21)
+        Me.txtSRemark1.Size = New System.Drawing.Size(358, 24)
         Me.txtSRemark1.TabIndex = 48
         '
         'Label12
@@ -2748,7 +2777,7 @@ Partial Class MaterialIssRec
         Me.Label12.AutoSize = True
         Me.Label12.Location = New System.Drawing.Point(7, 386)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(52, 13)
+        Me.Label12.Size = New System.Drawing.Size(61, 17)
         Me.Label12.TabIndex = 47
         Me.Label12.Text = "Remark"
         '
@@ -2757,7 +2786,7 @@ Partial Class MaterialIssRec
         Me.lblSOrdNo.AutoSize = True
         Me.lblSOrdNo.Location = New System.Drawing.Point(8, 18)
         Me.lblSOrdNo.Name = "lblSOrdNo"
-        Me.lblSOrdNo.Size = New System.Drawing.Size(59, 13)
+        Me.lblSOrdNo.Size = New System.Drawing.Size(72, 17)
         Me.lblSOrdNo.TabIndex = 0
         Me.lblSOrdNo.Text = "Order No"
         '
@@ -2765,7 +2794,7 @@ Partial Class MaterialIssRec
         '
         Me.txtSOrdNo.Location = New System.Drawing.Point(119, 14)
         Me.txtSOrdNo.Name = "txtSOrdNo"
-        Me.txtSOrdNo.Size = New System.Drawing.Size(80, 21)
+        Me.txtSOrdNo.Size = New System.Drawing.Size(80, 24)
         Me.txtSOrdNo.TabIndex = 1
         '
         'Label42
@@ -2773,7 +2802,7 @@ Partial Class MaterialIssRec
         Me.Label42.AutoSize = True
         Me.Label42.Location = New System.Drawing.Point(8, 127)
         Me.Label42.Name = "Label42"
-        Me.Label42.Size = New System.Drawing.Size(40, 13)
+        Me.Label42.Size = New System.Drawing.Size(48, 17)
         Me.Label42.TabIndex = 12
         Me.Label42.Text = "Purity"
         '
@@ -2782,7 +2811,7 @@ Partial Class MaterialIssRec
         Me.Label43.AutoSize = True
         Me.Label43.Location = New System.Drawing.Point(8, 40)
         Me.Label43.Name = "Label43"
-        Me.Label43.Size = New System.Drawing.Size(37, 13)
+        Me.Label43.Size = New System.Drawing.Size(44, 17)
         Me.Label43.TabIndex = 4
         Me.Label43.Text = "Metal"
         '
@@ -2791,7 +2820,7 @@ Partial Class MaterialIssRec
         Me.Label45.AutoSize = True
         Me.Label45.Location = New System.Drawing.Point(8, 62)
         Me.Label45.Name = "Label45"
-        Me.Label45.Size = New System.Drawing.Size(60, 13)
+        Me.Label45.Size = New System.Drawing.Size(72, 17)
         Me.Label45.TabIndex = 6
         Me.Label45.Text = "Category"
         '
@@ -2800,7 +2829,7 @@ Partial Class MaterialIssRec
         Me.Label50.AutoSize = True
         Me.Label50.Location = New System.Drawing.Point(8, 84)
         Me.Label50.Name = "Label50"
-        Me.Label50.Size = New System.Drawing.Size(102, 13)
+        Me.Label50.Size = New System.Drawing.Size(124, 17)
         Me.Label50.TabIndex = 8
         Me.Label50.Text = "Issued Category"
         '
@@ -2809,7 +2838,7 @@ Partial Class MaterialIssRec
         Me.cmbSMetal.FormattingEnabled = True
         Me.cmbSMetal.Location = New System.Drawing.Point(119, 36)
         Me.cmbSMetal.Name = "cmbSMetal"
-        Me.cmbSMetal.Size = New System.Drawing.Size(360, 21)
+        Me.cmbSMetal.Size = New System.Drawing.Size(360, 25)
         Me.cmbSMetal.TabIndex = 5
         '
         'cmbSCategory
@@ -2817,7 +2846,7 @@ Partial Class MaterialIssRec
         Me.cmbSCategory.FormattingEnabled = True
         Me.cmbSCategory.Location = New System.Drawing.Point(119, 58)
         Me.cmbSCategory.Name = "cmbSCategory"
-        Me.cmbSCategory.Size = New System.Drawing.Size(360, 21)
+        Me.cmbSCategory.Size = New System.Drawing.Size(360, 25)
         Me.cmbSCategory.TabIndex = 7
         '
         'cmbSIssuedCategory
@@ -2825,7 +2854,7 @@ Partial Class MaterialIssRec
         Me.cmbSIssuedCategory.FormattingEnabled = True
         Me.cmbSIssuedCategory.Location = New System.Drawing.Point(119, 80)
         Me.cmbSIssuedCategory.Name = "cmbSIssuedCategory"
-        Me.cmbSIssuedCategory.Size = New System.Drawing.Size(360, 21)
+        Me.cmbSIssuedCategory.Size = New System.Drawing.Size(360, 25)
         Me.cmbSIssuedCategory.TabIndex = 9
         '
         'Label36
@@ -2833,7 +2862,7 @@ Partial Class MaterialIssRec
         Me.Label36.AutoSize = True
         Me.Label36.Location = New System.Drawing.Point(204, 216)
         Me.Label36.Name = "Label36"
-        Me.Label36.Size = New System.Drawing.Size(33, 13)
+        Me.Label36.Size = New System.Drawing.Size(40, 17)
         Me.Label36.TabIndex = 30
         Me.Label36.Text = "Rate"
         '
@@ -2841,7 +2870,7 @@ Partial Class MaterialIssRec
         '
         Me.txtSRate_OWN.Location = New System.Drawing.Point(252, 212)
         Me.txtSRate_OWN.Name = "txtSRate_OWN"
-        Me.txtSRate_OWN.Size = New System.Drawing.Size(80, 21)
+        Me.txtSRate_OWN.Size = New System.Drawing.Size(80, 24)
         Me.txtSRate_OWN.TabIndex = 31
         Me.txtSRate_OWN.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -2850,7 +2879,7 @@ Partial Class MaterialIssRec
         Me.Label40.AutoSize = True
         Me.Label40.Location = New System.Drawing.Point(7, 364)
         Me.Label40.Name = "Label40"
-        Me.Label40.Size = New System.Drawing.Size(51, 13)
+        Me.Label40.Size = New System.Drawing.Size(64, 17)
         Me.Label40.TabIndex = 43
         Me.Label40.Text = "Amount"
         '
@@ -2859,7 +2888,7 @@ Partial Class MaterialIssRec
         Me.cmbSCalcMode.FormattingEnabled = True
         Me.cmbSCalcMode.Location = New System.Drawing.Point(119, 212)
         Me.cmbSCalcMode.Name = "cmbSCalcMode"
-        Me.cmbSCalcMode.Size = New System.Drawing.Size(80, 21)
+        Me.cmbSCalcMode.Size = New System.Drawing.Size(80, 25)
         Me.cmbSCalcMode.TabIndex = 29
         '
         'cmbSUnit
@@ -2867,7 +2896,7 @@ Partial Class MaterialIssRec
         Me.cmbSUnit.FormattingEnabled = True
         Me.cmbSUnit.Location = New System.Drawing.Point(399, 190)
         Me.cmbSUnit.Name = "cmbSUnit"
-        Me.cmbSUnit.Size = New System.Drawing.Size(80, 21)
+        Me.cmbSUnit.Size = New System.Drawing.Size(80, 25)
         Me.cmbSUnit.TabIndex = 27
         '
         'Label44
@@ -2875,7 +2904,7 @@ Partial Class MaterialIssRec
         Me.Label44.AutoSize = True
         Me.Label44.Location = New System.Drawing.Point(8, 150)
         Me.Label44.Name = "Label44"
-        Me.Label44.Size = New System.Drawing.Size(34, 13)
+        Me.Label44.Size = New System.Drawing.Size(40, 17)
         Me.Label44.TabIndex = 16
         Me.Label44.Text = "Item"
         '
@@ -2883,7 +2912,7 @@ Partial Class MaterialIssRec
         '
         Me.txtSAmount_AMT.Location = New System.Drawing.Point(119, 360)
         Me.txtSAmount_AMT.Name = "txtSAmount_AMT"
-        Me.txtSAmount_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtSAmount_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtSAmount_AMT.TabIndex = 44
         '
         'lblSVatPer
@@ -2891,7 +2920,7 @@ Partial Class MaterialIssRec
         Me.lblSVatPer.AutoSize = True
         Me.lblSVatPer.Location = New System.Drawing.Point(8, 289)
         Me.lblSVatPer.Name = "lblSVatPer"
-        Me.lblSVatPer.Size = New System.Drawing.Size(43, 13)
+        Me.lblSVatPer.Size = New System.Drawing.Size(54, 17)
         Me.lblSVatPer.TabIndex = 36
         Me.lblSVatPer.Text = "Tds %"
         '
@@ -2899,14 +2928,14 @@ Partial Class MaterialIssRec
         '
         Me.txtSVatPer_PER.Location = New System.Drawing.Point(119, 285)
         Me.txtSVatPer_PER.Name = "txtSVatPer_PER"
-        Me.txtSVatPer_PER.Size = New System.Drawing.Size(80, 21)
+        Me.txtSVatPer_PER.Size = New System.Drawing.Size(80, 24)
         Me.txtSVatPer_PER.TabIndex = 37
         '
         'txtSPcs_NUM
         '
         Me.txtSPcs_NUM.Location = New System.Drawing.Point(119, 190)
         Me.txtSPcs_NUM.Name = "txtSPcs_NUM"
-        Me.txtSPcs_NUM.Size = New System.Drawing.Size(80, 21)
+        Me.txtSPcs_NUM.Size = New System.Drawing.Size(80, 24)
         Me.txtSPcs_NUM.TabIndex = 23
         '
         'Label47
@@ -2914,7 +2943,7 @@ Partial Class MaterialIssRec
         Me.Label47.AutoSize = True
         Me.Label47.Location = New System.Drawing.Point(8, 172)
         Me.Label47.Name = "Label47"
-        Me.Label47.Size = New System.Drawing.Size(54, 13)
+        Me.Label47.Size = New System.Drawing.Size(66, 17)
         Me.Label47.TabIndex = 18
         Me.Label47.Text = "Subitem"
         '
@@ -2923,7 +2952,7 @@ Partial Class MaterialIssRec
         Me.lblSVat.AutoSize = True
         Me.lblSVat.Location = New System.Drawing.Point(204, 289)
         Me.lblSVat.Name = "lblSVat"
-        Me.lblSVat.Size = New System.Drawing.Size(27, 13)
+        Me.lblSVat.Size = New System.Drawing.Size(34, 17)
         Me.lblSVat.TabIndex = 38
         Me.lblSVat.Text = "Tds"
         '
@@ -2932,7 +2961,7 @@ Partial Class MaterialIssRec
         Me.cmbSItem.FormattingEnabled = True
         Me.cmbSItem.Location = New System.Drawing.Point(119, 146)
         Me.cmbSItem.Name = "cmbSItem"
-        Me.cmbSItem.Size = New System.Drawing.Size(213, 21)
+        Me.cmbSItem.Size = New System.Drawing.Size(213, 25)
         Me.cmbSItem.TabIndex = 17
         '
         'Label49
@@ -2940,7 +2969,7 @@ Partial Class MaterialIssRec
         Me.Label49.AutoSize = True
         Me.Label49.Location = New System.Drawing.Point(8, 238)
         Me.Label49.Name = "Label49"
-        Me.Label49.Size = New System.Drawing.Size(67, 13)
+        Me.Label49.Size = New System.Drawing.Size(84, 17)
         Me.Label49.TabIndex = 34
         Me.Label49.Text = "Gross Amt"
         '
@@ -2948,14 +2977,14 @@ Partial Class MaterialIssRec
         '
         Me.txtSVat_AMT.Location = New System.Drawing.Point(252, 286)
         Me.txtSVat_AMT.Name = "txtSVat_AMT"
-        Me.txtSVat_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtSVat_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtSVat_AMT.TabIndex = 39
         '
         'txtSGrsWt_WET
         '
         Me.txtSGrsWt_WET.Location = New System.Drawing.Point(252, 190)
         Me.txtSGrsWt_WET.Name = "txtSGrsWt_WET"
-        Me.txtSGrsWt_WET.Size = New System.Drawing.Size(80, 21)
+        Me.txtSGrsWt_WET.Size = New System.Drawing.Size(80, 24)
         Me.txtSGrsWt_WET.TabIndex = 25
         Me.txtSGrsWt_WET.Text = "19999.999"
         '
@@ -2964,7 +2993,7 @@ Partial Class MaterialIssRec
         Me.Label53.AutoSize = True
         Me.Label53.Location = New System.Drawing.Point(8, 194)
         Me.Label53.Name = "Label53"
-        Me.Label53.Size = New System.Drawing.Size(26, 13)
+        Me.Label53.Size = New System.Drawing.Size(31, 17)
         Me.Label53.TabIndex = 22
         Me.Label53.Text = "Pcs"
         '
@@ -2973,7 +3002,7 @@ Partial Class MaterialIssRec
         Me.Label55.AutoSize = True
         Me.Label55.Location = New System.Drawing.Point(204, 194)
         Me.Label55.Name = "Label55"
-        Me.Label55.Size = New System.Drawing.Size(45, 13)
+        Me.Label55.Size = New System.Drawing.Size(57, 17)
         Me.Label55.TabIndex = 24
         Me.Label55.Text = "Weight"
         '
@@ -2982,7 +3011,7 @@ Partial Class MaterialIssRec
         Me.cmbSSubItem.FormattingEnabled = True
         Me.cmbSSubItem.Location = New System.Drawing.Point(119, 168)
         Me.cmbSSubItem.Name = "cmbSSubItem"
-        Me.cmbSSubItem.Size = New System.Drawing.Size(213, 21)
+        Me.cmbSSubItem.Size = New System.Drawing.Size(213, 25)
         Me.cmbSSubItem.TabIndex = 19
         '
         'Label25
@@ -2990,7 +3019,7 @@ Partial Class MaterialIssRec
         Me.Label25.AutoSize = True
         Me.Label25.Location = New System.Drawing.Point(8, 216)
         Me.Label25.Name = "Label25"
-        Me.Label25.Size = New System.Drawing.Size(66, 13)
+        Me.Label25.Size = New System.Drawing.Size(78, 17)
         Me.Label25.TabIndex = 28
         Me.Label25.Text = "Calc Mode"
         '
@@ -2999,7 +3028,7 @@ Partial Class MaterialIssRec
         Me.Label58.AutoSize = True
         Me.Label58.Location = New System.Drawing.Point(334, 194)
         Me.Label58.Name = "Label58"
-        Me.Label58.Size = New System.Drawing.Size(29, 13)
+        Me.Label58.Size = New System.Drawing.Size(36, 17)
         Me.Label58.TabIndex = 26
         Me.Label58.Text = "Unit"
         '
@@ -3007,17 +3036,17 @@ Partial Class MaterialIssRec
         '
         Me.txtSGrsAmt_AMT.Location = New System.Drawing.Point(119, 234)
         Me.txtSGrsAmt_AMT.Name = "txtSGrsAmt_AMT"
-        Me.txtSGrsAmt_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtSGrsAmt_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtSGrsAmt_AMT.TabIndex = 35
         Me.txtSGrsAmt_AMT.Text = "19999.999"
         '
         'tabOthers
         '
         Me.tabOthers.Controls.Add(Me.grpOthers)
-        Me.tabOthers.Location = New System.Drawing.Point(4, 25)
+        Me.tabOthers.Location = New System.Drawing.Point(4, 29)
         Me.tabOthers.Name = "tabOthers"
         Me.tabOthers.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabOthers.Size = New System.Drawing.Size(501, 528)
+        Me.tabOthers.Size = New System.Drawing.Size(501, 525)
         Me.tabOthers.TabIndex = 3
         Me.tabOthers.Text = "Others"
         Me.tabOthers.UseVisualStyleBackColor = True
@@ -3079,7 +3108,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOthIG_AMT.Location = New System.Drawing.Point(392, 25)
         Me.txtOthIG_AMT.Name = "txtOthIG_AMT"
-        Me.txtOthIG_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtOthIG_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtOthIG_AMT.TabIndex = 11
         '
         'Label94
@@ -3087,7 +3116,7 @@ Partial Class MaterialIssRec
         Me.Label94.AutoSize = True
         Me.Label94.Location = New System.Drawing.Point(326, 29)
         Me.Label94.Name = "Label94"
-        Me.Label94.Size = New System.Drawing.Size(40, 13)
+        Me.Label94.Size = New System.Drawing.Size(48, 17)
         Me.Label94.TabIndex = 10
         Me.Label94.Text = "I GST"
         '
@@ -3095,7 +3124,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOthIgst_AMT.Location = New System.Drawing.Point(392, 2)
         Me.txtOthIgst_AMT.Name = "txtOthIgst_AMT"
-        Me.txtOthIgst_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtOthIgst_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtOthIgst_AMT.TabIndex = 5
         '
         'Label95
@@ -3103,7 +3132,7 @@ Partial Class MaterialIssRec
         Me.Label95.AutoSize = True
         Me.Label95.Location = New System.Drawing.Point(326, 5)
         Me.Label95.Name = "Label95"
-        Me.Label95.Size = New System.Drawing.Size(52, 13)
+        Me.Label95.Size = New System.Drawing.Size(63, 17)
         Me.Label95.TabIndex = 4
         Me.Label95.Text = "I GST%"
         '
@@ -3112,7 +3141,7 @@ Partial Class MaterialIssRec
         Me.Label96.AutoSize = True
         Me.Label96.Location = New System.Drawing.Point(194, 5)
         Me.Label96.Name = "Label96"
-        Me.Label96.Size = New System.Drawing.Size(56, 13)
+        Me.Label96.Size = New System.Drawing.Size(68, 17)
         Me.Label96.TabIndex = 2
         Me.Label96.Text = "C GST%"
         '
@@ -3120,7 +3149,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOthCgst_AMT.Location = New System.Drawing.Point(245, 1)
         Me.txtOthCgst_AMT.Name = "txtOthCgst_AMT"
-        Me.txtOthCgst_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtOthCgst_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtOthCgst_AMT.TabIndex = 3
         '
         'Label97
@@ -3128,7 +3157,7 @@ Partial Class MaterialIssRec
         Me.Label97.AutoSize = True
         Me.Label97.Location = New System.Drawing.Point(194, 29)
         Me.Label97.Name = "Label97"
-        Me.Label97.Size = New System.Drawing.Size(44, 13)
+        Me.Label97.Size = New System.Drawing.Size(53, 17)
         Me.Label97.TabIndex = 8
         Me.Label97.Text = "C GST"
         '
@@ -3136,7 +3165,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOthCG_AMT.Location = New System.Drawing.Point(245, 25)
         Me.txtOthCG_AMT.Name = "txtOthCG_AMT"
-        Me.txtOthCG_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtOthCG_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtOthCG_AMT.TabIndex = 9
         '
         'Label98
@@ -3144,7 +3173,7 @@ Partial Class MaterialIssRec
         Me.Label98.AutoSize = True
         Me.Label98.Location = New System.Drawing.Point(1, 5)
         Me.Label98.Name = "Label98"
-        Me.Label98.Size = New System.Drawing.Size(55, 13)
+        Me.Label98.Size = New System.Drawing.Size(68, 17)
         Me.Label98.TabIndex = 0
         Me.Label98.Text = "S GST%"
         '
@@ -3152,7 +3181,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOthSgst_AMT.Location = New System.Drawing.Point(113, 1)
         Me.txtOthSgst_AMT.Name = "txtOthSgst_AMT"
-        Me.txtOthSgst_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtOthSgst_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtOthSgst_AMT.TabIndex = 1
         '
         'Label99
@@ -3160,7 +3189,7 @@ Partial Class MaterialIssRec
         Me.Label99.AutoSize = True
         Me.Label99.Location = New System.Drawing.Point(1, 29)
         Me.Label99.Name = "Label99"
-        Me.Label99.Size = New System.Drawing.Size(43, 13)
+        Me.Label99.Size = New System.Drawing.Size(53, 17)
         Me.Label99.TabIndex = 6
         Me.Label99.Text = "S GST"
         '
@@ -3168,7 +3197,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOthSG_AMT.Location = New System.Drawing.Point(112, 25)
         Me.txtOthSG_AMT.Name = "txtOthSG_AMT"
-        Me.txtOthSG_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtOthSG_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtOthSG_AMT.TabIndex = 7
         '
         'txtOthRemark2
@@ -3176,7 +3205,7 @@ Partial Class MaterialIssRec
         Me.txtOthRemark2.Location = New System.Drawing.Point(119, 318)
         Me.txtOthRemark2.MaxLength = 50
         Me.txtOthRemark2.Name = "txtOthRemark2"
-        Me.txtOthRemark2.Size = New System.Drawing.Size(359, 21)
+        Me.txtOthRemark2.Size = New System.Drawing.Size(359, 24)
         Me.txtOthRemark2.TabIndex = 23
         '
         'txtOthRemark1
@@ -3184,7 +3213,7 @@ Partial Class MaterialIssRec
         Me.txtOthRemark1.Location = New System.Drawing.Point(119, 298)
         Me.txtOthRemark1.MaxLength = 50
         Me.txtOthRemark1.Name = "txtOthRemark1"
-        Me.txtOthRemark1.Size = New System.Drawing.Size(359, 21)
+        Me.txtOthRemark1.Size = New System.Drawing.Size(359, 24)
         Me.txtOthRemark1.TabIndex = 22
         '
         'Label32
@@ -3192,7 +3221,7 @@ Partial Class MaterialIssRec
         Me.Label32.AutoSize = True
         Me.Label32.Location = New System.Drawing.Point(7, 19)
         Me.Label32.Name = "Label32"
-        Me.Label32.Size = New System.Drawing.Size(37, 13)
+        Me.Label32.Size = New System.Drawing.Size(44, 17)
         Me.Label32.TabIndex = 0
         Me.Label32.Text = "Metal"
         '
@@ -3201,7 +3230,7 @@ Partial Class MaterialIssRec
         Me.Label33.AutoSize = True
         Me.Label33.Location = New System.Drawing.Point(7, 45)
         Me.Label33.Name = "Label33"
-        Me.Label33.Size = New System.Drawing.Size(60, 13)
+        Me.Label33.Size = New System.Drawing.Size(72, 17)
         Me.Label33.TabIndex = 2
         Me.Label33.Text = "Category"
         '
@@ -3210,7 +3239,7 @@ Partial Class MaterialIssRec
         Me.cmbOthMetal.FormattingEnabled = True
         Me.cmbOthMetal.Location = New System.Drawing.Point(119, 15)
         Me.cmbOthMetal.Name = "cmbOthMetal"
-        Me.cmbOthMetal.Size = New System.Drawing.Size(222, 21)
+        Me.cmbOthMetal.Size = New System.Drawing.Size(222, 25)
         Me.cmbOthMetal.TabIndex = 1
         '
         'cmbOthCategory
@@ -3218,7 +3247,7 @@ Partial Class MaterialIssRec
         Me.cmbOthCategory.FormattingEnabled = True
         Me.cmbOthCategory.Location = New System.Drawing.Point(119, 41)
         Me.cmbOthCategory.Name = "cmbOthCategory"
-        Me.cmbOthCategory.Size = New System.Drawing.Size(222, 21)
+        Me.cmbOthCategory.Size = New System.Drawing.Size(222, 25)
         Me.cmbOthCategory.TabIndex = 3
         '
         'Label41
@@ -3226,7 +3255,7 @@ Partial Class MaterialIssRec
         Me.Label41.AutoSize = True
         Me.Label41.Location = New System.Drawing.Point(7, 151)
         Me.Label41.Name = "Label41"
-        Me.Label41.Size = New System.Drawing.Size(33, 13)
+        Me.Label41.Size = New System.Drawing.Size(40, 17)
         Me.Label41.TabIndex = 10
         Me.Label41.Text = "Rate"
         '
@@ -3234,7 +3263,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOthRate_AMT.Location = New System.Drawing.Point(119, 147)
         Me.txtOthRate_AMT.Name = "txtOthRate_AMT"
-        Me.txtOthRate_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtOthRate_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtOthRate_AMT.TabIndex = 11
         '
         'Label11
@@ -3242,7 +3271,7 @@ Partial Class MaterialIssRec
         Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(7, 302)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(52, 13)
+        Me.Label11.Size = New System.Drawing.Size(61, 17)
         Me.Label11.TabIndex = 21
         Me.Label11.Text = "Remark"
         '
@@ -3251,7 +3280,7 @@ Partial Class MaterialIssRec
         Me.Label46.AutoSize = True
         Me.Label46.Location = New System.Drawing.Point(7, 277)
         Me.Label46.Name = "Label46"
-        Me.Label46.Size = New System.Drawing.Size(51, 13)
+        Me.Label46.Size = New System.Drawing.Size(64, 17)
         Me.Label46.TabIndex = 19
         Me.Label46.Text = "Amount"
         '
@@ -3260,7 +3289,7 @@ Partial Class MaterialIssRec
         Me.Label48.AutoSize = True
         Me.Label48.Location = New System.Drawing.Point(7, 72)
         Me.Label48.Name = "Label48"
-        Me.Label48.Size = New System.Drawing.Size(34, 13)
+        Me.Label48.Size = New System.Drawing.Size(40, 17)
         Me.Label48.TabIndex = 4
         Me.Label48.Text = "Item"
         '
@@ -3268,7 +3297,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOthAmount_AMT.Location = New System.Drawing.Point(119, 273)
         Me.txtOthAmount_AMT.Name = "txtOthAmount_AMT"
-        Me.txtOthAmount_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtOthAmount_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtOthAmount_AMT.TabIndex = 20
         '
         'lblOthVatPer
@@ -3276,7 +3305,7 @@ Partial Class MaterialIssRec
         Me.lblOthVatPer.AutoSize = True
         Me.lblOthVatPer.Location = New System.Drawing.Point(7, 203)
         Me.lblOthVatPer.Name = "lblOthVatPer"
-        Me.lblOthVatPer.Size = New System.Drawing.Size(43, 13)
+        Me.lblOthVatPer.Size = New System.Drawing.Size(54, 17)
         Me.lblOthVatPer.TabIndex = 14
         Me.lblOthVatPer.Text = "Tds %"
         '
@@ -3284,14 +3313,14 @@ Partial Class MaterialIssRec
         '
         Me.txtOthVatPer_PER.Location = New System.Drawing.Point(119, 199)
         Me.txtOthVatPer_PER.Name = "txtOthVatPer_PER"
-        Me.txtOthVatPer_PER.Size = New System.Drawing.Size(80, 21)
+        Me.txtOthVatPer_PER.Size = New System.Drawing.Size(80, 24)
         Me.txtOthVatPer_PER.TabIndex = 15
         '
         'txtOthPcs_NUM
         '
         Me.txtOthPcs_NUM.Location = New System.Drawing.Point(119, 120)
         Me.txtOthPcs_NUM.Name = "txtOthPcs_NUM"
-        Me.txtOthPcs_NUM.Size = New System.Drawing.Size(80, 21)
+        Me.txtOthPcs_NUM.Size = New System.Drawing.Size(80, 24)
         Me.txtOthPcs_NUM.TabIndex = 9
         '
         'Label56
@@ -3299,7 +3328,7 @@ Partial Class MaterialIssRec
         Me.Label56.AutoSize = True
         Me.Label56.Location = New System.Drawing.Point(7, 98)
         Me.Label56.Name = "Label56"
-        Me.Label56.Size = New System.Drawing.Size(54, 13)
+        Me.Label56.Size = New System.Drawing.Size(66, 17)
         Me.Label56.TabIndex = 6
         Me.Label56.Text = "Subitem"
         '
@@ -3308,7 +3337,7 @@ Partial Class MaterialIssRec
         Me.lblOthVat.AutoSize = True
         Me.lblOthVat.Location = New System.Drawing.Point(202, 203)
         Me.lblOthVat.Name = "lblOthVat"
-        Me.lblOthVat.Size = New System.Drawing.Size(27, 13)
+        Me.lblOthVat.Size = New System.Drawing.Size(34, 17)
         Me.lblOthVat.TabIndex = 16
         Me.lblOthVat.Text = "Tds"
         '
@@ -3317,7 +3346,7 @@ Partial Class MaterialIssRec
         Me.cmbOthItem.FormattingEnabled = True
         Me.cmbOthItem.Location = New System.Drawing.Point(119, 68)
         Me.cmbOthItem.Name = "cmbOthItem"
-        Me.cmbOthItem.Size = New System.Drawing.Size(222, 21)
+        Me.cmbOthItem.Size = New System.Drawing.Size(222, 25)
         Me.cmbOthItem.TabIndex = 5
         '
         'Label59
@@ -3325,7 +3354,7 @@ Partial Class MaterialIssRec
         Me.Label59.AutoSize = True
         Me.Label59.Location = New System.Drawing.Point(7, 177)
         Me.Label59.Name = "Label59"
-        Me.Label59.Size = New System.Drawing.Size(67, 13)
+        Me.Label59.Size = New System.Drawing.Size(84, 17)
         Me.Label59.TabIndex = 12
         Me.Label59.Text = "Gross Amt"
         '
@@ -3333,7 +3362,7 @@ Partial Class MaterialIssRec
         '
         Me.txtOthVat_AMT.Location = New System.Drawing.Point(251, 199)
         Me.txtOthVat_AMT.Name = "txtOthVat_AMT"
-        Me.txtOthVat_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtOthVat_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtOthVat_AMT.TabIndex = 17
         '
         'Label60
@@ -3341,7 +3370,7 @@ Partial Class MaterialIssRec
         Me.Label60.AutoSize = True
         Me.Label60.Location = New System.Drawing.Point(7, 124)
         Me.Label60.Name = "Label60"
-        Me.Label60.Size = New System.Drawing.Size(26, 13)
+        Me.Label60.Size = New System.Drawing.Size(31, 17)
         Me.Label60.TabIndex = 8
         Me.Label60.Text = "Pcs"
         '
@@ -3350,47 +3379,20 @@ Partial Class MaterialIssRec
         Me.cmbOthSubItem.FormattingEnabled = True
         Me.cmbOthSubItem.Location = New System.Drawing.Point(119, 94)
         Me.cmbOthSubItem.Name = "cmbOthSubItem"
-        Me.cmbOthSubItem.Size = New System.Drawing.Size(222, 21)
+        Me.cmbOthSubItem.Size = New System.Drawing.Size(222, 25)
         Me.cmbOthSubItem.TabIndex = 7
         '
         'txtOthGrsAmt_AMT
         '
         Me.txtOthGrsAmt_AMT.Location = New System.Drawing.Point(119, 173)
         Me.txtOthGrsAmt_AMT.Name = "txtOthGrsAmt_AMT"
-        Me.txtOthGrsAmt_AMT.Size = New System.Drawing.Size(80, 21)
+        Me.txtOthGrsAmt_AMT.Size = New System.Drawing.Size(80, 24)
         Me.txtOthGrsAmt_AMT.TabIndex = 13
         Me.txtOthGrsAmt_AMT.Text = "19999.999"
         '
-        'Label71
-        '
-        Me.Label71.AutoSize = True
-        Me.Label71.BackColor = System.Drawing.Color.Lavender
-        Me.Label71.Location = New System.Drawing.Point(317, 10)
-        Me.Label71.Name = "Label71"
-        Me.Label71.Size = New System.Drawing.Size(46, 13)
-        Me.Label71.TabIndex = 1
-        Me.Label71.Text = "ItemId"
-        '
-        'Label109
-        '
-        Me.Label109.AutoSize = True
-        Me.Label109.BackColor = System.Drawing.Color.Lavender
-        Me.Label109.Location = New System.Drawing.Point(317, 32)
-        Me.Label109.Name = "Label109"
-        Me.Label109.Size = New System.Drawing.Size(42, 13)
-        Me.Label109.TabIndex = 3
-        Me.Label109.Text = "TagNo"
-        '
-        'txtItemId_NUM
-        '
-        Me.txtItemId_NUM.Location = New System.Drawing.Point(375, 6)
-        Me.txtItemId_NUM.Name = "txtItemId_NUM"
-        Me.txtItemId_NUM.Size = New System.Drawing.Size(116, 21)
-        Me.txtItemId_NUM.TabIndex = 2
-        '
         'MaterialIssRec
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.InactiveCaption
         Me.ClientSize = New System.Drawing.Size(521, 657)
@@ -3752,7 +3754,7 @@ Partial Class MaterialIssRec
     Friend WithEvents txtstdsaccode As TextBox
     Friend WithEvents Label108 As Label
     Friend WithEvents Cmbsacname As ComboBox
-    Friend WithEvents txtItemId_NUM As TextBox
     Friend WithEvents Label109 As Label
     Friend WithEvents Label71 As Label
+    Friend WithEvents txtItemId As TextBox
 End Class

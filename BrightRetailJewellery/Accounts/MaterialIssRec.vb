@@ -1091,7 +1091,7 @@ Public Class MaterialIssRec
         If oMaterial = Material.Receipt Then
             txtTagNo.Visible = False
             Label71.Visible = False
-            txtItemId_NUM.Visible = False
+            txtItemId.Visible = False
             Label109.Visible = False
         End If
         If MRMI_PreTouch And oMaterial = Material.Receipt Then
@@ -1495,25 +1495,25 @@ SKIPDEFPROCESS:
         End If
         If oMaterial = Material.Issue Then
             If rbtOrnament.Checked = True Then
-                txtItemId_NUM.Enabled = True
+                txtItemId.Enabled = True
                 txtTagNo.Enabled = True
                 ''txtTagNo.Select()
-                txtItemId_NUM.Select()
+                txtItemId.Select()
             ElseIf rbtStone.Checked = True Then
-                txtItemId_NUM.Enabled = True
+                txtItemId.Enabled = True
                 txtTagNo.Enabled = True
                 ''txtTagNo.Select()
-                txtItemId_NUM.Select()
+                txtItemId.Select()
             Else
-                txtItemId_NUM.Enabled = False
+                txtItemId.Enabled = False
                 txtTagNo.Enabled = False
-                txtItemId_NUM.Clear()
+                txtItemId.Clear()
                 txtTagNo.Clear()
             End If
         Else
-            txtItemId_NUM.Enabled = False
+            txtItemId.Enabled = False
             txtTagNo.Enabled = False
-            txtItemId_NUM.Clear()
+            txtItemId.Clear()
             txtTagNo.Clear()
         End If
     End Sub
@@ -1539,25 +1539,25 @@ SKIPDEFPROCESS:
 
         If oMaterial = Material.Issue Then
             If rbtOrnament.Checked = True Then
-                txtItemId_NUM.Enabled = True
+                txtItemId.Enabled = True
                 txtTagNo.Enabled = True
                 ''txtTagNo.Select()
-                txtItemId_NUM.Select()
+                txtItemId.Select()
             ElseIf rbtStone.Checked = True Then
-                txtItemId_NUM.Enabled = True
+                txtItemId.Enabled = True
                 txtTagNo.Enabled = True
                 ''txtTagNo.Select()
-                txtItemId_NUM.Select()
+                txtItemId.Select()
             Else
-                txtItemId_NUM.Enabled = False
+                txtItemId.Enabled = False
                 txtTagNo.Enabled = False
-                txtItemId_NUM.Clear()
+                txtItemId.Clear()
                 txtTagNo.Clear()
             End If
         Else
-            txtItemId_NUM.Enabled = False
+            txtItemId.Enabled = False
             txtTagNo.Enabled = False
-            txtItemId_NUM.Clear()
+            txtItemId.Clear()
             txtTagNo.Clear()
         End If
         If rbtStone.Checked = True Then
@@ -8215,13 +8215,13 @@ showjobs:
 
     Private Sub txtTagNo_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtTagNo.KeyDown
         If e.KeyCode = Keys.Enter Then
-            If Val(txtItemId_NUM.Text) = 0 Then Exit Sub
+            If Val(txtItemId.Text) = 0 Then Exit Sub
             If txtTagNo.Text = "" Then Exit Sub
             If editflag Then Exit Sub
             Dim dtTemp As New DataTable
             Dim dtTag As New DataTable
             Dim _Catname As String = ""
-            StrSql = "Select TAGKEY FROM " & cnAdminDb & "..ITEMTAG WHERE ITEMID = '" & Val(txtItemId_NUM.Text) & "' AND TAGNO = '" & txtTagNo.Text & "'"
+            StrSql = "Select TAGKEY FROM " & cnAdminDb & "..ITEMTAG WHERE ITEMID = '" & Val(txtItemId.Text) & "' AND TAGNO = '" & txtTagNo.Text & "'"
             Dim _SearchTagKey As String = objGPack.GetSqlValue(StrSql, "TAGKEY", "")
             If _SearchTagKey.ToString = "" Then
                 MsgBox("Invalid Itemid and Tagno..." & vbCrLf & "Record not found...", MsgBoxStyle.Information)
@@ -8951,6 +8951,18 @@ showjobs:
             End If
         End If
     End Sub
+    Private Sub txtItemId_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtItemId.KeyPress
+        If e.KeyChar = Chr(Keys.Enter) Then
+            Dim barcode2d() As String = txtItemId.Text.Split("-")
+            If barcode2d.Length = 2 Then
+                txtItemId.Text = barcode2d(0)
+                txtTagNo.Text = barcode2d(1)
+                txtTagNo_KeyDown(sender, New KeyEventArgs(Keys.Enter))
+                btnOk.Focus()
+            End If
+        End If
+    End Sub
+
     Private Sub Cmboacname_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Cmboacname.SelectedIndexChanged
         If Cmboacname.Text <> "" Then
             If UCase(oTransactionType) <> "PURCHASE RETURN" And UCase(oTransactionType) <> "INTERNAL TRANSFER" And UCase(oTransactionType) <> "APPROVAL RECEIPT" Then

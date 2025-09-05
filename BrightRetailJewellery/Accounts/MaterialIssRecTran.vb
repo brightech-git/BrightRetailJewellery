@@ -4413,299 +4413,356 @@ Optional ByVal Remark2 As String = Nothing
                 StrSql += " ,'" & IIf(.Cells("RATEFIXED").Value.ToString = "Y", "Y", "") & "'" 'RATEFIXED
                 StrSql += " )"
                 ExecQuery(SyncMode.Transaction, StrSql, cn, tran, CostCenterId)
-                If _JobNoEnable = True And _JobNo = False Then
-                    _JobNo = True
-                    Dim MaxSno As Integer
-                    StrSql = "SELECT ISNULL(MAX(SNO),0)+1 AS SNO FROM " & cnStockDb & "..JOBNODETAILS"
-                    MaxSno = Val(objGPack.GetSqlValue(StrSql, "SNO", 1, tran).ToString)
-                    StrSql = " INSERT INTO " & cnStockDb & "..JOBNODETAILS"
-                    StrSql += " ("
-                    StrSql += "  SNO,JOBNO,BATCHNO,ACCODE,TYPE)VALUES"
-                    StrSql += " ("
-                    StrSql += " " & MaxSno
-                    StrSql += " ,'" & .Cells("JOBNO").Value.ToString & "'"
-                    StrSql += " ,'" & BatchNo & "'" 'BATCHNO
-                    StrSql += " ,'" & _Accode & "'" 'ACCODE
-                    If OMaterialType = MaterialType.Issue Then
-                        StrSql += " ,'I'"  'TYPE
-                    Else
-                        StrSql += " ,'R'"  'TYPE
-                    End If
-                    StrSql += " )"
-                    ExecQuery(SyncMode.Transaction, StrSql, cn, tran, CostCenterId)
-                End If
-                If .Cells("RFID").Value.ToString.Trim <> "" Then
-                    StrSql = " INSERT INTO " & cnStockDb & "..MIMRRFID (SNO,RFID,ISSSNO,TRANTYPE) VALUES( "
-                    StrSql += vbCrLf + " '" & GetNewSno(TranSnoType.MIMRRFIDCODE, tran) & "'"
-                    StrSql += vbCrLf + " ,'" & .Cells("RFID").Value.ToString.Trim & "'"
-                    StrSql += vbCrLf + " ,'" & issSno & "'"
-                    StrSql += vbCrLf + " ,'" & IIf(OMaterialType = MaterialType.Issue, "MI", "MR") & "'"
-                    StrSql += vbCrLf + " )"
-                    ExecQuery(SyncMode.Transaction, StrSql, cn, tran, CostCenterId)
 
-                    StrSql = " SELECT 1 FROM " & cnAdminDb & "..SYSOBJECTS WHERE NAME='RFIDITEMTAGSTONE'"
-                    If objGPack.GetSqlValue(StrSql, , 0, tran) = 1 Then
-                        Dim RFIDTAG As String = .Cells("RFID").Value.ToString
-                        Dim RFIDSno As String = ""
-                        Dim RFIDStnSno As String = ""
-                        StrSql = "SELECT SNO FROM " & cnAdminDb & "..RFIDITEMTAG WHERE RFIDNO='" & .Cells("RFID").Value.ToString.Trim & "'"
-                        RFIDSno = objGPack.GetSqlValue(StrSql, "", "", tran).ToString
-                        RFIDStnSno = ""
-                        StrSql = "DECLARE @RETSNOVALUE VARCHAR(15) "
-                        StrSql += " EXEC " & cnStockDb & "..GET_ADMINSNO_TRAN "
-                        StrSql += " @COSTID = '" + CostCenterId + "' ,"
-                        StrSql += " @CTLID = 'RFIDITEMTAGSTONESNO' ,"
-                        StrSql += " @CHECKTABLENAME = 'RFIDITEMTAGSTONE' ,"
-                        StrSql += " @COMPANYID = '" + strCompanyId + "' ,"
-                        StrSql += " @RETVALUE = @RETSNOVALUE "
-                        StrSql += " OUTPUT SELECT @RETSNOVALUE"
-                        RFIDStnSno = objGPack.GetSqlValue(StrSql, "", "", tran).ToString
+                If OMaterialType = MaterialType.Issue Then
+                    StrSql = $"select TAGTYPE from {cnAdminDb}..ITEMMAST with(nolock) where ITEMID = {Itemid}"
 
-                        'Insert Rfid Keyno
-                        Dim RFIDKEYNO As String = ""
-                        Dim RecSno As String
-                        Dim Cent As String
-                        Dim TagColorId, TagCutId, TagClarityId, TagShapeId, TagSetTypeId As Integer
-                        Dim TagHeight, TagWidth As Decimal
-                        Dim TagRate, TagAmt As Decimal
-                        Dim TagCalMode, TagUnitt As String
-
-                        StrSql = " SELECT CENT FROM " & cnAdminDb & "..RFIDKEYMAST WHERE RFIDNO='" & RFIDTAG & "' "
-                        Cent = objGPack.GetSqlValue(StrSql, "CENT", "", tran)
-
-                        Dim dt As New DataTable
-                        StrSql = " SELECT RECSNO,COLORID "
-                        StrSql += " ,CUTID,CLARITYID,SHAPEID,SETTYPEID,HEIGHT,WIDTH"
-                        StrSql += " ,STNRATE,STNAMT,CALCMODE,STONEUNIT"
-                        StrSql += " FROM " & cnAdminDb & "..RFIDITEMTAGSTONE WHERE RFIDNO='" & RFIDTAG & "' AND ISSREC='R'"
-                        Cmd = New OleDbCommand(StrSql, cn, tran)
-                        Da = New OleDbDataAdapter(Cmd)
-                        Da.Fill(dt)
-                        If dt.Rows.Count > 0 Then
-                            With dt.Rows(0)
-                                RecSno = .Item("RECSNO").ToString
-                                TagColorId = Val(.Item("COLORID").ToString)
-                                TagCutId = Val(.Item("CUTID").ToString)
-                                TagClarityId = Val(.Item("CLARITYID").ToString)
-                                TagShapeId = Val(.Item("SHAPEID").ToString)
-                                TagSetTypeId = Val(.Item("SETTYPEID").ToString)
-                                TagHeight = Val(.Item("HEIGHT").ToString)
-                                TagWidth = Val(.Item("WIDTH").ToString)
-                                TagRate = Val(.Item("STNRATE").ToString)
-                                TagAmt = Val(.Item("STNAMT").ToString)
-                                TagCalMode = .Item("CALCMODE").ToString
-                                TagUnitt = .Item("STONEUNIT").ToString
-                            End With
-                        End If
-
-                        RFIDKEYNO = Convert.ToString(RFIDTAG.ToString + Format(Val(Cent), "0").ToString + TagCutId.ToString + TagColorId.ToString + TagClarityId.ToString + TagShapeId.ToString + TagSetTypeId.ToString).ToString
-
-                        StrSql = "INSERT INTO " & cnAdminDb & "..RFIDITEMTAGSTONE (SNO,RFIDSNO,RECDATE,ITEMID,COMPANYID,STNITEMID,STNSUBITEMID,RFIDNO,"
-                        StrSql += " TAGNO,STNPCS,STNWT,STNRATE,STNAMT,CALCMODE,STONEUNIT,ISSDATE,COSTID,SYSTEMID,"
-                        StrSql += " APPVER,TRANSFERED,USERID,TOFLAG,DESCRIP,UPDATED,UPTIME,ISSREC"
-                        StrSql += " ,CUTID,COLORID,CLARITYID,SETTYPEID,SHAPEID,HEIGHT,WIDTH,KEYNO,RECSNO,BATCHNO)VALUES("
-                        StrSql += " '" & RFIDStnSno & "','" & RFIDSno.ToString & "'"
-                        StrSql += " ,'" & dtpTrandate.Value.ToString("yyyy-MM-dd") & "'"
-                        StrSql += ",0" 'ITEMID
-                        StrSql += ",'" & strCompanyId & "'"
-                        StrSql += ",'" & Itemid & "'"
-                        StrSql += ",'" & subItemid & "'"
-                        StrSql += ",'" & RFIDTAG & "'"
-                        StrSql += ",'" & "".ToString & "'"
-                        StrSql += ",'" & Val(.Cells("PCS").Value.ToString) & "'"
-                        StrSql += ",'" & Val(.Cells("GRSWT").Value.ToString) & "'"
-                        StrSql += ",'" & TagRate & "'"
-                        StrSql += ",'" & TagAmt & "'"
-                        StrSql += ",'" & TagCalMode & "'"
-                        StrSql += ",'" & TagUnitt & "'"
-                        StrSql += ",NULL"
-                        StrSql += ",'" & CostCenterId & "'"
-                        StrSql += ",'" & userId & "'" 'Systemid
-                        StrSql += ",'" & VERSION & "'" 'Appver
-                        StrSql += ",'" & "".ToString & "'" 'Transfered
-                        StrSql += "," & userId & "" 'USERID
-                        StrSql += ",'" & "".ToString & "'" 'Toflag
-                        StrSql += ",'" & "".ToString & "'" 'Descrip
+                    If objGPack.GetSqlValue(StrSql, , , tran) = "N" Then
+                        Dim tagSno As String = GetNewSno(TranSnoType.ITEMNONTAGCODE, tran, "GET_ADMINSNO_TRAN")
+                        StrSql = " INSERT INTO " & cnAdminDb & "..ITEMNONTAG"
+                        StrSql += " ("
+                        StrSql += " SNO,ITEMID,SUBITEMID,COMPANYID,RECDATE,"
+                        StrSql += " PCS,GRSWT,LESSWT,NETWT,"
+                        StrSql += " FINRATE,ISSTYPE,RECISS,POSTED,"
+                        StrSql += " PACKETNO,DREFNO,ITEMCTRID,"
+                        StrSql += " ORDREPNO,ORSNO,NARRATION,"
+                        StrSql += " RATE,COSTID,"
+                        StrSql += " CTGRM,DESIGNERID,ITEMTYPEID,"
+                        StrSql += " CARRYFLAG,REASON,BATCHNO,CANCEL,"
+                        StrSql += " USERID,UPDATED,UPTIME,SYSTEMID,APPVER,EXTRAWT,TCOSTID)VALUES("
+                        StrSql += " '" & tagSno & "'" 'SNO
+                        StrSql += " ," & Itemid & "" 'ITEMID
+                        StrSql += " ," & subItemid & "" 'SUBITEMID
+                        StrSql += " ,'" & GetStockCompId() & "'" 'COMPANYID
+                        StrSql += " ,'" & dtpTrandate.Value.ToString("yyyy-MM-dd") & "'" 'RECDATE
+                        StrSql += " ," & Val(.Cells("PCS").Value.ToString) & "" 'PCS
+                        StrSql += " ," & Val(.Cells("GRSWT").Value.ToString) & "" 'GRSWT
+                        StrSql += " ," & Val(.Cells("LESSWT").Value.ToString) & "" 'LESSWT
+                        StrSql += " ," & Val(.Cells("NETWT").Value.ToString) & "" 'NETWT
+                        StrSql += " ," & Val(.Cells("RATE").Value.ToString) & "" 'FINRATE
+                        StrSql += " ,'MI'" 'ISSTYPE
+                        StrSql += " ,'I'" 'RECISS
+                        StrSql += " ,''" 'POSTED
+                        StrSql += " ,''" 'PACKETNO
+                        StrSql += " ,0" 'DREFNO
+                        StrSql += " ,NULL" 'ITEMCTRID
+                        StrSql += " ,''" 'ORDREPNO
+                        StrSql += " ,''" 'ORSNO
+                        StrSql += " ,'Material ISSUE'" 'NARRATION
+                        StrSql += " ," & Val(.Cells("BOARDRATE").Value.ToString) & "" 'RATE
+                        StrSql += " ,'" & cnCostId & "'" 'COSTID
+                        StrSql += " ,''"
+                        StrSql += " ,0" 'DESIGNERID
+                        StrSql += " ,0" 'ITEMTYPEID
+                        StrSql += " ,''" 'CARRYFLAG
+                        StrSql += " ,'0'" 'REASON
+                        StrSql += " ,'" + BatchNo + "'" 'BATCHNO
+                        StrSql += " ,''" 'CANCEL
+                        StrSql += " ," & userId & "" 'USERID
                         StrSql += " ,'" & Today.Date.ToString("yyyy-MM-dd") & "'" 'UPDATED
-                        StrSql += " ,'" & Today.Date.ToString("yyyy-MM-dd") & " " & Date.Now.ToLongTimeString & "'" 'UPTIME
-                        StrSql += ",'" & "I".ToString & "'"
-                        StrSql += ",'" & TagCutId.ToString & "'"
-                        StrSql += ",'" & TagColorId.ToString & "'"
-                        StrSql += ",'" & TagClarityId.ToString & "'"
-                        StrSql += ",'" & TagSetTypeId.ToString & "'"
-                        StrSql += ",'" & TagShapeId.ToString & "'"
-                        StrSql += ",'" & TagHeight.ToString & "'"
-                        StrSql += ",'" & TagWidth.ToString & "'"
-                        StrSql += ",'" & RFIDKEYNO.ToString & "'"
-                        StrSql += ",'" & RecSno & "','" & BatchNo & "')"
+                        StrSql += " ,'" & Date.Now.ToLongTimeString & "'" 'UPTIME
+                        StrSql += " ,'" & systemId & "'" 'SYSTEMID
+                        StrSql += " ,'" & VERSION & "'" 'APPVER
+                        StrSql += " ,'0'" 'EXTRAWT
+                        StrSql += " ,'" & cnCostId & "'" 'TCOSTID
+                        StrSql += " )"
+                        ExecQuery(SyncMode.Transaction, StrSql, cn, tran, CostCenterId)
+                    End If
+                End If
+
+
+                If _JobNoEnable = True And _JobNo = False Then
+                        _JobNo = True
+                        Dim MaxSno As Integer
+                        StrSql = "SELECT ISNULL(MAX(SNO),0)+1 AS SNO FROM " & cnStockDb & "..JOBNODETAILS"
+                        MaxSno = Val(objGPack.GetSqlValue(StrSql, "SNO", 1, tran).ToString)
+                        StrSql = " INSERT INTO " & cnStockDb & "..JOBNODETAILS"
+                        StrSql += " ("
+                        StrSql += "  SNO,JOBNO,BATCHNO,ACCODE,TYPE)VALUES"
+                        StrSql += " ("
+                        StrSql += " " & MaxSno
+                        StrSql += " ,'" & .Cells("JOBNO").Value.ToString & "'"
+                        StrSql += " ,'" & BatchNo & "'" 'BATCHNO
+                        StrSql += " ,'" & _Accode & "'" 'ACCODE
+                        If OMaterialType = MaterialType.Issue Then
+                            StrSql += " ,'I'"  'TYPE
+                        Else
+                            StrSql += " ,'R'"  'TYPE
+                        End If
+                        StrSql += " )"
+                        ExecQuery(SyncMode.Transaction, StrSql, cn, tran, CostCenterId)
+                    End If
+                    If .Cells("RFID").Value.ToString.Trim <> "" Then
+                        StrSql = " INSERT INTO " & cnStockDb & "..MIMRRFID (SNO,RFID,ISSSNO,TRANTYPE) VALUES( "
+                        StrSql += vbCrLf + " '" & GetNewSno(TranSnoType.MIMRRFIDCODE, tran) & "'"
+                        StrSql += vbCrLf + " ,'" & .Cells("RFID").Value.ToString.Trim & "'"
+                        StrSql += vbCrLf + " ,'" & issSno & "'"
+                        StrSql += vbCrLf + " ,'" & IIf(OMaterialType = MaterialType.Issue, "MI", "MR") & "'"
+                        StrSql += vbCrLf + " )"
                         ExecQuery(SyncMode.Transaction, StrSql, cn, tran, CostCenterId)
 
-                        StrSql = " SELECT RFIDNO,KEYNO,SUM(CASE WHEN ISSREC='R' THEN STNPCS ELSE -1*STNPCS END)AS STNPCS,"
-                        StrSql += vbCrLf + " SUM(CASE WHEN ISSREC='R' THEN STNWT ELSE -1*STNWT END)AS STNWT "
-                        StrSql += vbCrLf + " FROM " & cnAdminDb & "..RFIDITEMTAGSTONE"
-                        StrSql += vbCrLf + " WHERE RFIDNO='" & RFIDTAG & "' AND KEYNO='" & RFIDKEYNO & "'"
-                        StrSql += vbCrLf + " GROUP BY RFIDNO,KEYNO"
-                        Dim StnBalPcs As Integer
-                        Dim StnBalWt As Integer
-                        Cmd = New OleDbCommand(StrSql, cn, tran)
-                        Da = New OleDbDataAdapter(Cmd)
-                        dt = New DataTable
-                        Da.Fill(dt)
-                        If dt.Rows.Count > 0 Then
-                            StnBalPcs = Val(dt.Rows(0).Item("STNPCS").ToString)
-                            StnBalWt = Val(dt.Rows(0).Item("STNWT").ToString)
-                            If StnBalPcs = 0 And StnBalWt = 0 Then
-                                StrSql = " UPDATE " & cnAdminDb & "..RFIDKEYMAST SET STATUS='C' WHERE RFIDNO='" & RFIDTAG & "' AND KEYNO='" & RFIDKEYNO & "'"
-                                Cmd = New OleDbCommand(StrSql, cn, tran)
-                                Cmd.ExecuteNonQuery()
+                        StrSql = " SELECT 1 FROM " & cnAdminDb & "..SYSOBJECTS WHERE NAME='RFIDITEMTAGSTONE'"
+                        If objGPack.GetSqlValue(StrSql, , 0, tran) = 1 Then
+                            Dim RFIDTAG As String = .Cells("RFID").Value.ToString
+                            Dim RFIDSno As String = ""
+                            Dim RFIDStnSno As String = ""
+                            StrSql = "SELECT SNO FROM " & cnAdminDb & "..RFIDITEMTAG WHERE RFIDNO='" & .Cells("RFID").Value.ToString.Trim & "'"
+                            RFIDSno = objGPack.GetSqlValue(StrSql, "", "", tran).ToString
+                            RFIDStnSno = ""
+                            StrSql = "DECLARE @RETSNOVALUE VARCHAR(15) "
+                            StrSql += " EXEC " & cnStockDb & "..GET_ADMINSNO_TRAN "
+                            StrSql += " @COSTID = '" + CostCenterId + "' ,"
+                            StrSql += " @CTLID = 'RFIDITEMTAGSTONESNO' ,"
+                            StrSql += " @CHECKTABLENAME = 'RFIDITEMTAGSTONE' ,"
+                            StrSql += " @COMPANYID = '" + strCompanyId + "' ,"
+                            StrSql += " @RETVALUE = @RETSNOVALUE "
+                            StrSql += " OUTPUT SELECT @RETSNOVALUE"
+                            RFIDStnSno = objGPack.GetSqlValue(StrSql, "", "", tran).ToString
+
+                            'Insert Rfid Keyno
+                            Dim RFIDKEYNO As String = ""
+                            Dim RecSno As String
+                            Dim Cent As String
+                            Dim TagColorId, TagCutId, TagClarityId, TagShapeId, TagSetTypeId As Integer
+                            Dim TagHeight, TagWidth As Decimal
+                            Dim TagRate, TagAmt As Decimal
+                            Dim TagCalMode, TagUnitt As String
+
+                            StrSql = " SELECT CENT FROM " & cnAdminDb & "..RFIDKEYMAST WHERE RFIDNO='" & RFIDTAG & "' "
+                            Cent = objGPack.GetSqlValue(StrSql, "CENT", "", tran)
+
+                            Dim dt As New DataTable
+                            StrSql = " SELECT RECSNO,COLORID "
+                            StrSql += " ,CUTID,CLARITYID,SHAPEID,SETTYPEID,HEIGHT,WIDTH"
+                            StrSql += " ,STNRATE,STNAMT,CALCMODE,STONEUNIT"
+                            StrSql += " FROM " & cnAdminDb & "..RFIDITEMTAGSTONE WHERE RFIDNO='" & RFIDTAG & "' AND ISSREC='R'"
+                            Cmd = New OleDbCommand(StrSql, cn, tran)
+                            Da = New OleDbDataAdapter(Cmd)
+                            Da.Fill(dt)
+                            If dt.Rows.Count > 0 Then
+                                With dt.Rows(0)
+                                    RecSno = .Item("RECSNO").ToString
+                                    TagColorId = Val(.Item("COLORID").ToString)
+                                    TagCutId = Val(.Item("CUTID").ToString)
+                                    TagClarityId = Val(.Item("CLARITYID").ToString)
+                                    TagShapeId = Val(.Item("SHAPEID").ToString)
+                                    TagSetTypeId = Val(.Item("SETTYPEID").ToString)
+                                    TagHeight = Val(.Item("HEIGHT").ToString)
+                                    TagWidth = Val(.Item("WIDTH").ToString)
+                                    TagRate = Val(.Item("STNRATE").ToString)
+                                    TagAmt = Val(.Item("STNAMT").ToString)
+                                    TagCalMode = .Item("CALCMODE").ToString
+                                    TagUnitt = .Item("STONEUNIT").ToString
+                                End With
+                            End If
+
+                            RFIDKEYNO = Convert.ToString(RFIDTAG.ToString + Format(Val(Cent), "0").ToString + TagCutId.ToString + TagColorId.ToString + TagClarityId.ToString + TagShapeId.ToString + TagSetTypeId.ToString).ToString
+
+                            StrSql = "INSERT INTO " & cnAdminDb & "..RFIDITEMTAGSTONE (SNO,RFIDSNO,RECDATE,ITEMID,COMPANYID,STNITEMID,STNSUBITEMID,RFIDNO,"
+                            StrSql += " TAGNO,STNPCS,STNWT,STNRATE,STNAMT,CALCMODE,STONEUNIT,ISSDATE,COSTID,SYSTEMID,"
+                            StrSql += " APPVER,TRANSFERED,USERID,TOFLAG,DESCRIP,UPDATED,UPTIME,ISSREC"
+                            StrSql += " ,CUTID,COLORID,CLARITYID,SETTYPEID,SHAPEID,HEIGHT,WIDTH,KEYNO,RECSNO,BATCHNO)VALUES("
+                            StrSql += " '" & RFIDStnSno & "','" & RFIDSno.ToString & "'"
+                            StrSql += " ,'" & dtpTrandate.Value.ToString("yyyy-MM-dd") & "'"
+                            StrSql += ",0" 'ITEMID
+                            StrSql += ",'" & strCompanyId & "'"
+                            StrSql += ",'" & Itemid & "'"
+                            StrSql += ",'" & subItemid & "'"
+                            StrSql += ",'" & RFIDTAG & "'"
+                            StrSql += ",'" & "".ToString & "'"
+                            StrSql += ",'" & Val(.Cells("PCS").Value.ToString) & "'"
+                            StrSql += ",'" & Val(.Cells("GRSWT").Value.ToString) & "'"
+                            StrSql += ",'" & TagRate & "'"
+                            StrSql += ",'" & TagAmt & "'"
+                            StrSql += ",'" & TagCalMode & "'"
+                            StrSql += ",'" & TagUnitt & "'"
+                            StrSql += ",NULL"
+                            StrSql += ",'" & CostCenterId & "'"
+                            StrSql += ",'" & userId & "'" 'Systemid
+                            StrSql += ",'" & VERSION & "'" 'Appver
+                            StrSql += ",'" & "".ToString & "'" 'Transfered
+                            StrSql += "," & userId & "" 'USERID
+                            StrSql += ",'" & "".ToString & "'" 'Toflag
+                            StrSql += ",'" & "".ToString & "'" 'Descrip
+                            StrSql += " ,'" & Today.Date.ToString("yyyy-MM-dd") & "'" 'UPDATED
+                            StrSql += " ,'" & Today.Date.ToString("yyyy-MM-dd") & " " & Date.Now.ToLongTimeString & "'" 'UPTIME
+                            StrSql += ",'" & "I".ToString & "'"
+                            StrSql += ",'" & TagCutId.ToString & "'"
+                            StrSql += ",'" & TagColorId.ToString & "'"
+                            StrSql += ",'" & TagClarityId.ToString & "'"
+                            StrSql += ",'" & TagSetTypeId.ToString & "'"
+                            StrSql += ",'" & TagShapeId.ToString & "'"
+                            StrSql += ",'" & TagHeight.ToString & "'"
+                            StrSql += ",'" & TagWidth.ToString & "'"
+                            StrSql += ",'" & RFIDKEYNO.ToString & "'"
+                            StrSql += ",'" & RecSno & "','" & BatchNo & "')"
+                            ExecQuery(SyncMode.Transaction, StrSql, cn, tran, CostCenterId)
+
+                            StrSql = " SELECT RFIDNO,KEYNO,SUM(CASE WHEN ISSREC='R' THEN STNPCS ELSE -1*STNPCS END)AS STNPCS,"
+                            StrSql += vbCrLf + " SUM(CASE WHEN ISSREC='R' THEN STNWT ELSE -1*STNWT END)AS STNWT "
+                            StrSql += vbCrLf + " FROM " & cnAdminDb & "..RFIDITEMTAGSTONE"
+                            StrSql += vbCrLf + " WHERE RFIDNO='" & RFIDTAG & "' AND KEYNO='" & RFIDKEYNO & "'"
+                            StrSql += vbCrLf + " GROUP BY RFIDNO,KEYNO"
+                            Dim StnBalPcs As Integer
+                            Dim StnBalWt As Integer
+                            Cmd = New OleDbCommand(StrSql, cn, tran)
+                            Da = New OleDbDataAdapter(Cmd)
+                            dt = New DataTable
+                            Da.Fill(dt)
+                            If dt.Rows.Count > 0 Then
+                                StnBalPcs = Val(dt.Rows(0).Item("STNPCS").ToString)
+                                StnBalWt = Val(dt.Rows(0).Item("STNWT").ToString)
+                                If StnBalPcs = 0 And StnBalWt = 0 Then
+                                    StrSql = " UPDATE " & cnAdminDb & "..RFIDKEYMAST SET STATUS='C' WHERE RFIDNO='" & RFIDTAG & "' AND KEYNO='" & RFIDKEYNO & "'"
+                                    Cmd = New OleDbCommand(StrSql, cn, tran)
+                                    Cmd.ExecuteNonQuery()
+                                End If
                             End If
                         End If
                     End If
-                End If
-
-                If cmbTransactionType.Text = "PURCHASE[APPROVAL]" Then
-                    'For Reverse entry only for Transaction Type PURCHASE[APPROVAL]
-                    Dim RecTouch As Decimal = 0
-                    Dim RecPurity As Decimal = 0
-                    Dim RecPurewt As Decimal = 0
-                    StrSql = "SELECT TOUCH,PURITY FROM " & cnStockDb & "..RECEIPT WHERE SNO='" & .Cells("ORSNO").Value.ToString() & "'"
-                    Dim drr As DataRow = GetSqlRow(StrSql, cn, tran)
-                    If Not drr Is Nothing Then
-                        RecTouch = Val(drr("TOUCH").ToString)
-                        RecPurity = Val(drr("PURITY").ToString)
-                        RecPurewt = funcCalcOPureWt(Mid(.Cells("GRSNET").Value.ToString, 1, 1),
+                    If cmbTransactionType.Text = "PURCHASE[APPROVAL]" Then
+                        'For Reverse entry only for Transaction Type PURCHASE[APPROVAL]
+                        Dim RecTouch As Decimal = 0
+                        Dim RecPurity As Decimal = 0
+                        Dim RecPurewt As Decimal = 0
+                        StrSql = "SELECT TOUCH,PURITY FROM " & cnStockDb & "..RECEIPT WHERE SNO='" & .Cells("ORSNO").Value.ToString() & "'"
+                        Dim drr As DataRow = GetSqlRow(StrSql, cn, tran)
+                        If Not drr Is Nothing Then
+                            RecTouch = Val(drr("TOUCH").ToString)
+                            RecPurity = Val(drr("PURITY").ToString)
+                            RecPurewt = funcCalcOPureWt(Mid(.Cells("GRSNET").Value.ToString, 1, 1),
                             Val(.Cells("GRSWT").Value.ToString), Val(.Cells("NETWT").Value.ToString) _
                             , wast, RecTouch, RecPurity, .Cells("METAL").Value.ToString)
-                    End If
-                    issAppNo = GetNewSno(IIf(_AccAudit, TranSnoType.TISSUECODE, TranSnoType.ISSUECODE), tran)
-                    StrSql = " INSERT INTO " & cnStockDb & "..ISSUE"
-                    StrSql += " ("
-                    StrSql += "  SNO,TRANNO,TRANDATE,TRANTYPE,STKTYPE,PCS"
-                    StrSql += " ,GRSWT,NETWT,LESSWT,PUREWT"
-                    StrSql += " ,TAGNO,ITEMID,SUBITEMID,WASTPER"
-                    StrSql += " ,WASTAGE,MCGRM,MCHARGE,AMOUNT"
-                    StrSql += " ,RATE,BOARDRATE,SALEMODE,GRSNET"
-                    StrSql += " ,TRANSTATUS,REFNO,REFDATE,COSTID"
-                    StrSql += " ,COMPANYID,FLAG,EMPID,TAGGRSWT"
-                    StrSql += " ,TAGNETWT,TAGRATEID,TAGSVALUE,TAGDESIGNER"
-                    StrSql += " ,ITEMCTRID,ITEMTYPEID,PURITY,TABLECODE"
-                    StrSql += " ,INCENTIVE,WEIGHTUNIT,CATCODE,OCATCODE"
-                    StrSql += " ,ACCODE,ALLOY,BATCHNO,REMARK1"
-                    StrSql += " ,REMARK2,USERID,UPDATED,UPTIME,SYSTEMID,DISCOUNT,RUNNO,CASHID,TAX,TDS"
-                    StrSql += " ,STNAMT,MISCAMT,METALID,STONEUNIT,APPVER,TOUCH,ORDSTATE_ID"
-                    If _JobNoEnable = True Then
-                        StrSql += " ,JOBNO"
-                    ElseIf OrdLotid <> 0 Then
-                        StrSql += " ,JOBNO"
-                    End If
-                    StrSql += " ,SEIVE,BAGNO "
-                    StrSql += " ,STNGRPID,APRXAMT,APRXTAX,RATEFIXED)"
-                    StrSql += " VALUES("
-                    StrSql += " '" & issAppNo & "'" ''SNO
-                    StrSql += " ," & TranNoApp & "" 'TRANNO
-                    StrSql += " ,'" & dtpTrandate.Value.ToString("yyyy-MM-dd") & "'" 'TRANDATE
-                    StrSql += " ,'IAP'" 'TRANTYPE
-                    StrSql += " ,'" & _StkType & "'" 'STKTYPE
-                    StrSql += " ," & Val(.Cells("PCS").Value.ToString) & "" 'PCS
-                    StrSql += " ," & Val(.Cells("GRSWT").Value.ToString) & "" 'GRSWT
-                    StrSql += " ," & Val(.Cells("NETWT").Value.ToString) & "" 'NETWT
-                    StrSql += " ," & Val(.Cells("LESSWT").Value.ToString) & "" 'LESSWT
-                    StrSql += " ," & RecPurewt & "" 'PUREWT
-                    ''StrSql += " ,''" 'TAGNO
-                    If .Cells("TAGNO").Value.ToString <> "" And (cmbTransactionType.Text = "ISSUE" Or cmbTransactionType.Text = "PURCHASE RETURN") Then
-                        StrSql += " ,'" & .Cells("TAGNO").Value.ToString & "'" 'TAGNO
-                    Else
-                        StrSql += " ,''" 'TAGNO
-                    End If
-                    StrSql += " ," & Itemid & "" 'ITEMID
-                    StrSql += " ," & subItemid & "" 'SUBITEMID
-                    StrSql += " ," & wastPer & "" 'WASTPER
-                    StrSql += " ," & wast & "" 'WASTAGE
-                    StrSql += " ,NULL" 'MCGRM
-                    StrSql += " ,NULL"  'MCHARGE
-                    StrSql += " ,NULL"  'AMOUNT
-                    'StrSql += " ," & Val(.Cells("MCGRM").Value.ToString) & "" 'MCGRM
-                    'StrSql += " ," & Val(.Cells("MC").Value.ToString) & "" 'MCHARGE
-                    'StrSql += " ," & Val(.Cells("GROSSAMT").Value.ToString) & "" 'AMOUNT
-                    StrSql += " ," & Val(.Cells("RATE").Value.ToString) & "" 'RATE
-                    StrSql += " ," & Val(.Cells("BOARDRATE").Value.ToString) & "" 'BOARDRATE
-                    StrSql += " ,''" 'SALEMODE
-                    StrSql += " ,'" & Mid(.Cells("GRSNET").Value.ToString, 1, 1) & "'" 'GRSNET
-                    StrSql += " ,''" 'TRANSTATUS ''
-                    StrSql += " ,'" & .Cells("ORSNO").Value.ToString & "'" 'REFNO ''
-                    StrSql += " ,NULL" 'REFDATE NULL
-                    StrSql += " ,'" & CostCenterId & "'" 'COSTID 
-                    StrSql += " ,'" & strCompanyId & "'" 'COMPANYID
-                    StrSql += " ,'" & .Cells("TYPE").Value.ToString & "'" 'FLAG
-                    StrSql += " ,0" 'EMPID
-                    StrSql += " ,0" 'TAGGRSWT
-                    StrSql += " ,0" 'TAGNETWT
-                    StrSql += " ,0" 'TAGRATEID
-                    StrSql += " ,0" 'TAGSVALUE
-                    StrSql += " ,''" 'TAGDESIGNER  
-                    StrSql += " ,0" 'ITEMCTRID
-                    StrSql += " ," & itemTypeId & "" 'ITEMTYPEID
-                    StrSql += " ," & RecPurity & "" 'PURITY
-                    StrSql += " ,''" 'TABLECODE
-                    StrSql += " ,''" 'INCENTIVE
-                    StrSql += " ,'" & Mid(.Cells("CALCMODE").Value.ToString, 1, 1) & "'" 'WEIGHTUNIT
-                    StrSql += " ,'" & catCode & "'" 'CATCODE
-                    StrSql += " ,'" & OCatcode & "'" 'OCATCODE
-                    If .Cells("ACCODE").Value.ToString <> "" Then
-                        StrSql += " ,'" & .Cells("ACCODE").Value.ToString & "'" 'REFNO ''
-                    Else
-                        StrSql += " ,'" & _Accode & "'" 'ACCODE
-                    End If
-                    StrSql += " ," & alloy & "" 'ALLOY
-                    StrSql += " ,'" & BatchNo & "'" 'BATCHNO
-                    ''StrSql += " ,'" & .Cells("REMARK1").Value.ToString & "'" 'REMARK1
-                    ''StrSql += " ,'REVERSE ENTRY AGAINST PURCHASE[APP]'" 'REMARK2
+                        End If
+                        issAppNo = GetNewSno(IIf(_AccAudit, TranSnoType.TISSUECODE, TranSnoType.ISSUECODE), tran)
+                        StrSql = " INSERT INTO " & cnStockDb & "..ISSUE"
+                        StrSql += " ("
+                        StrSql += "  SNO,TRANNO,TRANDATE,TRANTYPE,STKTYPE,PCS"
+                        StrSql += " ,GRSWT,NETWT,LESSWT,PUREWT"
+                        StrSql += " ,TAGNO,ITEMID,SUBITEMID,WASTPER"
+                        StrSql += " ,WASTAGE,MCGRM,MCHARGE,AMOUNT"
+                        StrSql += " ,RATE,BOARDRATE,SALEMODE,GRSNET"
+                        StrSql += " ,TRANSTATUS,REFNO,REFDATE,COSTID"
+                        StrSql += " ,COMPANYID,FLAG,EMPID,TAGGRSWT"
+                        StrSql += " ,TAGNETWT,TAGRATEID,TAGSVALUE,TAGDESIGNER"
+                        StrSql += " ,ITEMCTRID,ITEMTYPEID,PURITY,TABLECODE"
+                        StrSql += " ,INCENTIVE,WEIGHTUNIT,CATCODE,OCATCODE"
+                        StrSql += " ,ACCODE,ALLOY,BATCHNO,REMARK1"
+                        StrSql += " ,REMARK2,USERID,UPDATED,UPTIME,SYSTEMID,DISCOUNT,RUNNO,CASHID,TAX,TDS"
+                        StrSql += " ,STNAMT,MISCAMT,METALID,STONEUNIT,APPVER,TOUCH,ORDSTATE_ID"
+                        If _JobNoEnable = True Then
+                            StrSql += " ,JOBNO"
+                        ElseIf OrdLotid <> 0 Then
+                            StrSql += " ,JOBNO"
+                        End If
+                        StrSql += " ,SEIVE,BAGNO "
+                        StrSql += " ,STNGRPID,APRXAMT,APRXTAX,RATEFIXED)"
+                        StrSql += " VALUES("
+                        StrSql += " '" & issAppNo & "'" ''SNO
+                        StrSql += " ," & TranNoApp & "" 'TRANNO
+                        StrSql += " ,'" & dtpTrandate.Value.ToString("yyyy-MM-dd") & "'" 'TRANDATE
+                        StrSql += " ,'IAP'" 'TRANTYPE
+                        StrSql += " ,'" & _StkType & "'" 'STKTYPE
+                        StrSql += " ," & Val(.Cells("PCS").Value.ToString) & "" 'PCS
+                        StrSql += " ," & Val(.Cells("GRSWT").Value.ToString) & "" 'GRSWT
+                        StrSql += " ," & Val(.Cells("NETWT").Value.ToString) & "" 'NETWT
+                        StrSql += " ," & Val(.Cells("LESSWT").Value.ToString) & "" 'LESSWT
+                        StrSql += " ," & RecPurewt & "" 'PUREWT
+                        ''StrSql += " ,''" 'TAGNO
+                        If .Cells("TAGNO").Value.ToString <> "" And (cmbTransactionType.Text = "ISSUE" Or cmbTransactionType.Text = "PURCHASE RETURN") Then
+                            StrSql += " ,'" & .Cells("TAGNO").Value.ToString & "'" 'TAGNO
+                        Else
+                            StrSql += " ,''" 'TAGNO
+                        End If
+                        StrSql += " ," & Itemid & "" 'ITEMID
+                        StrSql += " ," & subItemid & "" 'SUBITEMID
+                        StrSql += " ," & wastPer & "" 'WASTPER
+                        StrSql += " ," & wast & "" 'WASTAGE
+                        StrSql += " ,NULL" 'MCGRM
+                        StrSql += " ,NULL"  'MCHARGE
+                        StrSql += " ,NULL"  'AMOUNT
+                        'StrSql += " ," & Val(.Cells("MCGRM").Value.ToString) & "" 'MCGRM
+                        'StrSql += " ," & Val(.Cells("MC").Value.ToString) & "" 'MCHARGE
+                        'StrSql += " ," & Val(.Cells("GROSSAMT").Value.ToString) & "" 'AMOUNT
+                        StrSql += " ," & Val(.Cells("RATE").Value.ToString) & "" 'RATE
+                        StrSql += " ," & Val(.Cells("BOARDRATE").Value.ToString) & "" 'BOARDRATE
+                        StrSql += " ,''" 'SALEMODE
+                        StrSql += " ,'" & Mid(.Cells("GRSNET").Value.ToString, 1, 1) & "'" 'GRSNET
+                        StrSql += " ,''" 'TRANSTATUS ''
+                        StrSql += " ,'" & .Cells("ORSNO").Value.ToString & "'" 'REFNO ''
+                        StrSql += " ,NULL" 'REFDATE NULL
+                        StrSql += " ,'" & CostCenterId & "'" 'COSTID 
+                        StrSql += " ,'" & strCompanyId & "'" 'COMPANYID
+                        StrSql += " ,'" & .Cells("TYPE").Value.ToString & "'" 'FLAG
+                        StrSql += " ,0" 'EMPID
+                        StrSql += " ,0" 'TAGGRSWT
+                        StrSql += " ,0" 'TAGNETWT
+                        StrSql += " ,0" 'TAGRATEID
+                        StrSql += " ,0" 'TAGSVALUE
+                        StrSql += " ,''" 'TAGDESIGNER  
+                        StrSql += " ,0" 'ITEMCTRID
+                        StrSql += " ," & itemTypeId & "" 'ITEMTYPEID
+                        StrSql += " ," & RecPurity & "" 'PURITY
+                        StrSql += " ,''" 'TABLECODE
+                        StrSql += " ,''" 'INCENTIVE
+                        StrSql += " ,'" & Mid(.Cells("CALCMODE").Value.ToString, 1, 1) & "'" 'WEIGHTUNIT
+                        StrSql += " ,'" & catCode & "'" 'CATCODE
+                        StrSql += " ,'" & OCatcode & "'" 'OCATCODE
+                        If .Cells("ACCODE").Value.ToString <> "" Then
+                            StrSql += " ,'" & .Cells("ACCODE").Value.ToString & "'" 'REFNO ''
+                        Else
+                            StrSql += " ,'" & _Accode & "'" 'ACCODE
+                        End If
+                        StrSql += " ," & alloy & "" 'ALLOY
+                        StrSql += " ,'" & BatchNo & "'" 'BATCHNO
+                        ''StrSql += " ,'" & .Cells("REMARK1").Value.ToString & "'" 'REMARK1
+                        ''StrSql += " ,'REVERSE ENTRY AGAINST PURCHASE[APP]'" 'REMARK2
 
-                    If SPECIFICFORMAT = "1" And .Cells("REMARK1").Value.ToString = "" Then
-                        StrSql += " ,'" & txtRemark1.Text & "'" 'REMARK1
-                    Else
-                        StrSql += " ,'" & .Cells("REMARK1").Value.ToString & "'" 'REMARK1
-                    End If
-                    If SPECIFICFORMAT = "1" And .Cells("REMARK2").Value.ToString = "" Then
-                        StrSql += " ,'" & txtRemark2.Text & "'" 'REMARK2
-                    Else
-                        StrSql += " ,'REVERSE ENTRY AGAINST PURCHASE[APP]'" 'REMARK2
-                    End If
+                        If SPECIFICFORMAT = "1" And .Cells("REMARK1").Value.ToString = "" Then
+                            StrSql += " ,'" & txtRemark1.Text & "'" 'REMARK1
+                        Else
+                            StrSql += " ,'" & .Cells("REMARK1").Value.ToString & "'" 'REMARK1
+                        End If
+                        If SPECIFICFORMAT = "1" And .Cells("REMARK2").Value.ToString = "" Then
+                            StrSql += " ,'" & txtRemark2.Text & "'" 'REMARK2
+                        Else
+                            StrSql += " ,'REVERSE ENTRY AGAINST PURCHASE[APP]'" 'REMARK2
+                        End If
 
-                    StrSql += " ,'" & userId & "'" 'USERID
-                    StrSql += " ,'" & Today.Date.ToString("yyyy-MM-dd") & "'" 'UPDATED
-                    StrSql += " ,'" & Date.Now.ToLongTimeString & "'" 'UPTIME
-                    StrSql += " ,'" & systemId & "'" 'SYSTEMID
-                    StrSql += " ,0" 'DISCOUNT
-                    StrSql += " ,''" 'RUNNO
-                    StrSql += " ,'" & _CashCtr & "'" 'CASHID
-                    StrSql += " ," & Tax & "" 'TAX
-                    StrSql += " ," & Tds & "" 'TDS
-                    StrSql += " ,0" 'STNAMT
-                    StrSql += " ,0" 'MISCAMT
-                    StrSql += " ,'" & objGPack.GetSqlValue("SELECT METALID FROM " & cnAdminDb & "..METALMAST WHERE METALNAME = '" & .Cells("METAL").Value.ToString & "'", , , tran) & "'" 'METALID
-                    StrSql += " ,'" & Mid(.Cells("UNIT").Value.ToString, 1, 1) & "'" 'STONEUNIT
-                    StrSql += " ,'" & VERSION & "'" 'APPVER
-                    StrSql += " ,'" & RecTouch & "'" 'TOUCH
-                    StrSql += " ," & OrdStateId & "" 'ORDSTATE_ID
-                    If _JobNoEnable = True Then
-                        StrSql += " ,'" & .Cells("JOBNO").Value.ToString & "'"
-                    ElseIf OrdLotid <> 0 Then
-                        StrSql += " ," & OrdLotid & "" 'ORDlot_no
+                        StrSql += " ,'" & userId & "'" 'USERID
+                        StrSql += " ,'" & Today.Date.ToString("yyyy-MM-dd") & "'" 'UPDATED
+                        StrSql += " ,'" & Date.Now.ToLongTimeString & "'" 'UPTIME
+                        StrSql += " ,'" & systemId & "'" 'SYSTEMID
+                        StrSql += " ,0" 'DISCOUNT
+                        StrSql += " ,''" 'RUNNO
+                        StrSql += " ,'" & _CashCtr & "'" 'CASHID
+                        StrSql += " ," & Tax & "" 'TAX
+                        StrSql += " ," & Tds & "" 'TDS
+                        StrSql += " ,0" 'STNAMT
+                        StrSql += " ,0" 'MISCAMT
+                        StrSql += " ,'" & objGPack.GetSqlValue("SELECT METALID FROM " & cnAdminDb & "..METALMAST WHERE METALNAME = '" & .Cells("METAL").Value.ToString & "'", , , tran) & "'" 'METALID
+                        StrSql += " ,'" & Mid(.Cells("UNIT").Value.ToString, 1, 1) & "'" 'STONEUNIT
+                        StrSql += " ,'" & VERSION & "'" 'APPVER
+                        StrSql += " ,'" & RecTouch & "'" 'TOUCH
+                        StrSql += " ," & OrdStateId & "" 'ORDSTATE_ID
+                        If _JobNoEnable = True Then
+                            StrSql += " ,'" & .Cells("JOBNO").Value.ToString & "'"
+                        ElseIf OrdLotid <> 0 Then
+                            StrSql += " ," & OrdLotid & "" 'ORDlot_no
+                        End If
+                        StrSql += " ,'" & .Cells("SEIVE").Value.ToString & "'" 'SEIVE
+                        StrSql += ",'" & IIf(Transistno <> 0, Transistno.ToString, "") & "'" 'BAGNO
+                        StrSql += " ,'" & .Cells("STNGRPID").Value.ToString & "'" 'STNGRPID
+                        StrSql += " ,'" & Val(.Cells("APPROXAMT").Value.ToString) & "'" 'APPROXAMT
+                        StrSql += " ,'" & Val(.Cells("APPROXTAX").Value.ToString) & "'" 'APPROXTAX
+                        StrSql += " ,'" & IIf(.Cells("RATEFIXED").Value.ToString = "Y", "Y", "") & "'" 'RATEFIXED
+                        StrSql += " )"
+                        ExecQuery(SyncMode.Transaction, StrSql, cn, tran, CostCenterId)
                     End If
-                    StrSql += " ,'" & .Cells("SEIVE").Value.ToString & "'" 'SEIVE
-                    StrSql += ",'" & IIf(Transistno <> 0, Transistno.ToString, "") & "'" 'BAGNO
-                    StrSql += " ,'" & .Cells("STNGRPID").Value.ToString & "'" 'STNGRPID
-                    StrSql += " ,'" & Val(.Cells("APPROXAMT").Value.ToString) & "'" 'APPROXAMT
-                    StrSql += " ,'" & Val(.Cells("APPROXTAX").Value.ToString) & "'" 'APPROXTAX
-                    StrSql += " ,'" & IIf(.Cells("RATEFIXED").Value.ToString = "Y", "Y", "") & "'" 'RATEFIXED
-                    StrSql += " )"
-                    ExecQuery(SyncMode.Transaction, StrSql, cn, tran, CostCenterId)
                 End If
-            End If
 
 
-            If _JobNoEnable = True And EditBatchno = Nothing Then
+                If _JobNoEnable = True And EditBatchno = Nothing Then
                 If (GetCostId(cnCostId) & GetCompanyId(strCompanyId) & "J" & Mid(Format(cnTranToDate, "dd/MM/yyyy"), 9, 2).ToString & (ObjMaterialDia.JobNo + 1)) = .Cells("JOBNO").Value.ToString Then
                     StrSql = " UPDATE " & cnStockDb & "..BILLCONTROL SET CTLTEXT = '" & (ObjMaterialDia.JobNo + 1) & "' "
                     StrSql += " WHERE CTLID = 'GEN-JOBNO' AND COMPANYID = '" & strCompanyId & "'"
