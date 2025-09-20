@@ -333,6 +333,178 @@ Public Class frmSmithBalanceDetailedReport
         strSql += vbCrLf + " )OPE"
         strSql += vbCrLf + " GROUP BY METALID,ACNAME,REMARK1,REMARK2"
         strSql += vbCrLf + " UNION ALL"
+
+        '020825
+        'strSql += vbCrLf + " /** TRANSACTION **/"
+        'strSql += vbCrLf + " SELECT isnull((SELECT CATNAME FROM " & cnAdminDb & "..CATEGORY WHERE CATCODE = I.OCATCODE),'')+case WHEN I.tranflag in('WC','AC') AND I.TRANTYPE = 'IRC' THEN 'RATE CUT @'+CONVERT(VARCHAR(10),I.RATE)+'/-' END   AS PARTICULAR"
+        'strSql += vbCrLf + " ,I.TRANNO,CASE WHEN I.TRANTYPE = 'MI' THEN 'MISS' ELSE 'ISS' END TRANTYPE,CONVERT(VARCHAR,I.TRANDATE,103)TDATE ,CASE WHEN ISNULL(I.REFDATE,'')='' THEN CONVERT(VARCHAR,I.TRANDATE,103) ELSE CONVERT(VARCHAR,I.REFDATE,103) END BILLDATE"
+        'strSql += vbCrLf + " ,CASE WHEN I.SUBITEMID <> 0 THEN (SELECT SUBITEMNAME FROM " & cnAdminDb & "..SUBITEMMAST WHERE SUBITEMID = I.SUBITEMID)"
+        'strSql += vbCrLf + " ELSE (SELECT ITEMNAME FROM " & cnAdminDb & "..ITEMMAST WHERE ITEMID = I.ITEMID) END AS [DESCRIPTION]"
+        'If chkRunningBal.Checked Then
+        '    strSql += vbCrLf + ",I.PCS IPCS"
+        '    If ChkWithWast.Checked Then
+        '        strSql += vbCrLf + " ,CASE WHEN I.TRANTYPE NOT IN('MI','IAP') AND P.METALTYPE='O' THEN I.GRSWT+ISNULL(I.ALLOY,0)+ISNULL(WASTAGE,0) ELSE I.GRSWT+ISNULL(WASTAGE,0)-ISNULL(I.ALLOY,0) END IGRSWT"
+        '        strSql += vbCrLf + " ,CASE WHEN I.TRANTYPE NOT IN('MI','IAP') AND P.METALTYPE='O' THEN I.NETWT+ISNULL(I.ALLOY,0)+ISNULL(WASTAGE,0) ELSE I.NETWT+ISNULL(WASTAGE,0)-ISNULL(I.ALLOY,0) END INETWT"
+        '    Else
+        '        strSql += vbCrLf + ",I.GRSWT IGRSWT"
+        '        strSql += vbCrLf + ",I.NETWT INETWT"
+        '    End If
+        '    strSql += vbCrLf + ",CASE WHEN ISNULL(A.ACCODE,'') = '' THEN I.PUREWT ELSE 0 END IPUREWT,CONVERT(NUMERIC(12,2),TOUCH) ITOUCH,0 RPCS,0 RGRSWT,0 RNETWT,0 RPUREWT,0 RTOUCH"
+        '    strSql += vbCrLf + ",CASE WHEN ISNULL(A.ACCODE,'') = '' THEN (CASE WHEN ISNULL(I.TRANFLAG,'') NOT IN('AC','WC') THEN I.AMOUNT ELSE 0 END) ELSE 0 END AS DEBIT,0 CREDIT"
+        'Else
+        '    If rbtGrossWeight.Checked Then
+        '        strSql += vbCrLf + " ,I.PCS IPCS,0 RPCS"
+        '        If ChkWithWast.Checked Then
+        '            strSql += vbCrLf + " ,CASE WHEN I.TRANTYPE NOT IN('MI','IAP') AND P.METALTYPE='O' THEN I.GRSWT+ISNULL(I.ALLOY,0)+ISNULL(WASTAGE,0) ELSE I.GRSWT+ISNULL(WASTAGE,0)-ISNULL(I.ALLOY,0) END ISSUE"
+        '        Else
+        '            strSql += vbCrLf + ",I.GRSWT ISSUE"
+        '        End If
+        '        strSql += vbCrLf + " ,0 RECEIPT"
+        '        strSql += vbCrLf + ",CASE WHEN ISNULL(A.ACCODE,'') = '' THEN (CASE WHEN ISNULL(I.TRANFLAG,'') NOT IN('AC','WC') THEN I.AMOUNT ELSE 0 END) ELSE 0 END AS DEBIT,0 CREDIT"
+        '    ElseIf rbtNetWeight.Checked Then
+        '        strSql += vbCrLf + " ,I.PCS IPCS,0 RPCS"
+        '        If ChkWithWast.Checked Then
+        '            strSql += vbCrLf + " ,CASE WHEN I.TRANTYPE NOT IN('MI','IAP') AND P.METALTYPE='O' THEN I.NETWT+ISNULL(I.ALLOY,0)+ISNULL(WASTAGE,0) ELSE I.NETWT+ISNULL(WASTAGE,0)-ISNULL(I.ALLOY,0) END ISSUE"
+        '        Else
+        '            strSql += vbCrLf + " ,I.NETWT ISSUE"
+        '        End If
+        '        strSql += vbCrLf + " ,0 RECEIPT,CASE WHEN ISNULL(A.ACCODE,'') = '' THEN (CASE WHEN ISNULL(I.TRANFLAG,'') NOT IN('AC','WC') THEN I.AMOUNT ELSE 0 END) ELSE 0 END AS DEBIT,0 CREDIT"
+        '    Else
+        '        strSql += vbCrLf + " ,I.PCS IPCS,0 RPCS,CASE WHEN ISNULL(A.ACCODE,'') = '' THEN I.PUREWT ELSE 0 END ISSUE,0 RECEIPT,CASE WHEN ISNULL(A.ACCODE,'') = '' THEN (CASE WHEN ISNULL(I.TRANFLAG,'') NOT IN('AC','WC') THEN I.AMOUNT ELSE 0 END) ELSE 0 END AS DEBIT,0 CREDIT"
+        '    End If
+        'End If
+        'strSql += vbCrLf + " ,3 RESULT,' 'COLHEAD,I.TRANDATE,I.REFDATE AS BDATE"
+        'strSql += vbCrLf + " ,(SELECT METALNAME FROM " & cnAdminDb & "..METALMAST WHERE METALID = I.METALID)AS METALNAME"
+        'strSql += vbCrLf + " ,I.BATCHNO,(SELECT ACNAME FROM " & cnAdminDb & "..ACHEAD WHERE ACCODE=I.ACCODE)ACNAME ,'N' TFILTER"
+        'strSql += vbCrLf + " ,I.REMARK1,I.REMARK2"
+        'strSql += vbCrLf + " FROM " & cnStockDb & "..ISSUE AS I "
+        'strSql += vbCrLf + " INNER JOIN " & cnAdminDb & "..CATEGORY AS C ON C.CATCODE = I.CATCODE"
+        'strSql += vbCrLf + " LEFT JOIN " & cnAdminDb & "..PURITYMAST P ON P.PURITYID=C.PURITYID"
+        'strSql += vbCrLf + " Left JOIN " & cnStockDb & "..ACCTRAN A ON I.BATCHNO = A.BATCHNO And A.ACCODE = 'CASH'"
+        'strSql += vbCrLf + " WHERE I.TRANDATE BETWEEN '" & dtpFrom.Value.ToString("yyyy-MM-dd") & "' AND '" & dtpTo.Value.ToString("yyyy-MM-dd") & "'"
+        'strSql += vbCrLf + " AND ISNULL(I.CANCEL,'') = ''"
+        'strSql += vbCrLf + " AND I.ACCODE IN (SELECT ACCODE FROM " & cnAdminDb & "..ACHEAD " & acfilter & ")"
+        'If chkCostName <> "" Then strSql += vbCrLf + " AND COSTID IN (SELECT COSTID FROM " & cnAdminDb & "..COSTCENTRE WHERE COSTNAME IN (" & chkCostName & "))"
+        'If chkMetalName <> "" Then strSql += vbCrLf + " AND I.CATCODE IN (SELECT CATCODE FROM " & cnAdminDb & "..CATEGORY WHERE METALID IN (SELECT METALID FROM " & cnAdminDb & "..METALMAST WHERE METALNAME IN (" & chkMetalName & ")))"
+        'If chkCategory <> "" Then strSql += vbCrLf + " AND I.CATCODE IN (SELECT CATCODE FROM " & cnAdminDb & "..CATEGORY WHERE CATNAME IN (" & chkCategory & "))"
+        'If trantype <> "" Then strSql += vbCrLf + " AND I.TRANTYPE IN (" & trantype & ")"
+        'If ChkApproval.Checked = False Then
+        '    strSql += vbCrLf + " AND I.TRANTYPE NOT IN ('" & WitApproval & "')"
+        'End If
+        'strSql += vbCrLf + " AND I.COMPANYID IN(  " & SelectedCompanyId & "  )"
+        'strSql += vbCrLf + " AND I.TRANTYPE NOT IN ('IPU','RPU','AI','AR')"
+        'strSql += vbCrLf + " UNION ALL"
+        'strSql += vbCrLf + " SELECT ISNULL((SELECT CATNAME FROM " & cnAdminDb & "..CATEGORY WHERE CATCODE = R.CATCODE),'')++case WHEN TRANFLAG IN('AC','WC') AND R.TRANTYPE = 'RRC' THEN 'RATE CUT @'+CONVERT(VARCHAR(10),RATE)+'/-' END  AS PARTICULAR"
+        'strSql += vbCrLf + " ,TRANNO,'REC' TRANTYPE,CONVERT(VARCHAR,TRANDATE,103)TDATE,CONVERT(VARCHAR,REFDATE,103)BILLDATE"
+        'strSql += vbCrLf + " ,CASE WHEN R.SUBITEMID <> 0 THEN (SELECT SUBITEMNAME FROM " & cnAdminDb & "..SUBITEMMAST WHERE SUBITEMID = R.SUBITEMID)"
+        'strSql += vbCrLf + " ELSE (SELECT ITEMNAME FROM " & cnAdminDb & "..ITEMMAST WHERE ITEMID = R.ITEMID) END AS [DESCRIPTION]"
+        'If chkRunningBal.Checked Then
+        '    strSql += vbCrLf + ",0 IPCS,0 IGRSWT,0 INETWT,0 IPUREWT,0 ITOUCH,PCS RPCS"
+        '    If ChkWithWast.Checked Then
+        '        strSql += vbCrLf + " ,CASE WHEN R.TRANTYPE IN('RAP') THEN GRSWT "
+        '        strSql += vbCrLf + " ELSE GRSWT+ISNULL(WASTAGE,0)+ISNULL(R.ALLOY,0) END RGRSWT"
+        '        strSql += vbCrLf + " ,CASE WHEN R.TRANTYPE IN('RAP') THEN NETWT "
+        '        strSql += vbCrLf + " ELSE NETWT+ISNULL(WASTAGE,0)+ISNULL(R.ALLOY,0) END RNETWT"
+        '    Else
+        '        strSql += vbCrLf + ",GRSWT RGRSWT"
+        '        strSql += vbCrLf + ",NETWT RNETWT"
+        '    End If
+        '    strSql += vbCrLf + ",PUREWT RPUREWT"
+        '    strSql += vbCrLf + " ,CONVERT(NUMERIC(12,2),TOUCH) RTOUCH,0 DEBIT,CASE WHEN ISNULL(TRANFLAG,'') NOT IN('AC','WC') "
+        '    strSql += vbCrLf + " THEN AMOUNT ELSE 0 END AS CREDIT"
+        'Else
+        '    If rbtGrossWeight.Checked Then
+        '        strSql += vbCrLf + " ,0 IPCS,PCS RPCS,0 ISSUE"
+        '        If ChkWithWast.Checked Then
+        '            strSql += vbCrLf + ",CASE WHEN R.TRANTYPE IN('RAP') THEN GRSWT ELSE GRSWT+ISNULL(WASTAGE,0)+ISNULL(R.ALLOY,0) END RECEIPT"
+        '        Else
+        '            strSql += vbCrLf + ",GRSWT RECEIPT"
+        '        End If
+        '        strSql += vbCrLf + ",0DEBIT,CASE WHEN ISNULL(TRANFLAG,'') NOT IN('AC','WC') THEN AMOUNT ELSE 0 END AS  CREDIT"
+        '    ElseIf rbtNetWeight.Checked Then
+        '        strSql += vbCrLf + " ,0 IPCS,PCS RPCS,0 ISSUE"
+        '        If ChkWithWast.Checked Then
+        '            strSql += vbCrLf + ",CASE WHEN R.TRANTYPE IN('RAP') THEN NETWT ELSE NETWT+ISNULL(WASTAGE,0)+ISNULL(R.ALLOY,0) END RECEIPT"
+        '        Else
+        '            strSql += vbCrLf + ",NETWT RECEIPT"
+        '        End If
+        '        strSql += vbCrLf + ",0 DEBIT,CASE WHEN ISNULL(TRANFLAG,'') NOT IN('AC','WC') THEN AMOUNT ELSE 0 END AS  CREDIT"
+        '    Else
+        '        strSql += vbCrLf + " ,0 IPCS,PCS RPCS,0 ISSUE,PUREWT RECEIPT,0 DEBIT"
+        '        strSql += vbCrLf + ",CASE WHEN ISNULL(TRANFLAG,'') NOT IN('AC','WC') THEN AMOUNT ELSE 0 END AS CREDIT"
+        '    End If
+        'End If
+        'strSql += vbCrLf + " ,3 RESULT,' 'COLHEAD,TRANDATE,REFDATE AS BDATE"
+        ''strSql += vbCrLf + " ,(SELECT METALNAME FROM " & cnAdminDb & "..METALMAST WHERE METALID =  (SELECT METALID FROM " & cnAdminDb & "..CATEGORY WHERE CATCODE = R.CATCODE))AS METALNAME"
+        'strSql += vbCrLf + " ,(SELECT METALNAME FROM " & cnAdminDb & "..METALMAST WHERE METALID = R.METALID)AS METALNAME"
+        'strSql += vbCrLf + " ,BATCHNO,(SELECT ACNAME FROM " & cnAdminDb & "..ACHEAD WHERE ACCODE=R.ACCODE)ACNAME ,'N' TFILTER"
+        'strSql += vbCrLf + " ,REMARK1,REMARK2"
+        'strSql += vbCrLf + " FROM " & cnStockDb & "..RECEIPT AS R WHERE TRANDATE BETWEEN '" & dtpFrom.Value.ToString("yyyy-MM-dd") & "' AND '" & dtpTo.Value.ToString("yyyy-MM-dd") & "'"
+        'strSql += vbCrLf + " AND ISNULL(CANCEL,'') = ''"
+        'strSql += vbCrLf + " AND R.ACCODE IN (SELECT ACCODE FROM " & cnAdminDb & "..ACHEAD " & acfilter & ")"
+        'If chkCostName <> "" Then strSql += vbCrLf + " AND COSTID IN (SELECT COSTID FROM " & cnAdminDb & "..COSTCENTRE WHERE COSTNAME IN (" & chkCostName & "))"
+        'If chkMetalName <> "" Then strSql += vbCrLf + " AND CATCODE IN (SELECT CATCODE FROM " & cnAdminDb & "..CATEGORY WHERE METALID IN (SELECT METALID FROM " & cnAdminDb & "..METALMAST WHERE METALNAME IN (" & chkMetalName & ")))"
+        'If chkCategory <> "" Then strSql += vbCrLf + " AND CATCODE IN (SELECT CATCODE FROM " & cnAdminDb & "..CATEGORY WHERE CATNAME IN (" & chkCategory & "))"
+        'If trantype <> "" Then strSql += vbCrLf + " AND R.TRANTYPE IN (" & trantype & ")"
+        'If ChkApproval.Checked = False Then
+        '    strSql += vbCrLf + " AND R.TRANTYPE NOT IN ('" & WitApproval & "')"
+        'End If
+        'strSql += vbCrLf + " AND COMPANYID IN(  " & SelectedCompanyId & "  )"
+        'strSql += vbCrLf + " AND R.TRANTYPE NOT IN ('IPU','RPU','AI','AR')"
+        'strSql += vbCrLf + "  UNION ALL"
+        'strSql += vbCrLf + "  SELECT CA.CATNAME AS PARTICULAR,S.TRANNO,'ISS' TRANTYPE,CONVERT(VARCHAR,S.TRANDATE,103)TDATE,CONVERT(VARCHAR,I.REFDATE,103)BILLDATE,IM.ITEMNAME [DESCRIPTION]"
+        'If chkRunningBal.Checked Then
+        '    strSql += vbCrLf + " ,S.STNPCS AS IPCS,CONVERT(NUMERIC(15,3),S.STNWT) IGRSWT,CONVERT(NUMERIC(15,3),S.STNWT) INETWT,0 IPUREWT,0 ITOUCH,0 AS RPCS,0 RGRSWT,0 RNETWT,0 PUREWT,0 RTOUCH,0 DEBIT,0 CREDIT"
+        'Else
+        '    strSql += vbCrLf + " ,S.STNPCS AS IPCS,0 AS RPCS,S.STNWT ISSUE,0 RECEIPT,0 DEBIT,0 CREDIT"
+        'End If
+        'strSql += vbCrLf + " ,3 RESULT,' 'COLHEAD,S.TRANDATE,I.REFDATE AS BDATE,ME.METALNAME AS METALNAME,S.BATCHNO"
+        'strSql += vbCrLf + " ,(SELECT ACNAME FROM " & cnAdminDb & "..ACHEAD WHERE ACCODE=I.ACCODE)ACNAME ,'N' TFILTER"
+        'strSql += vbCrLf + " ,''REMARK1,''REMARK2"
+        'strSql += vbCrLf + "  FROM " & cnStockDb & "..ISSSTONE AS S"
+        'strSql += vbCrLf + "  INNER JOIN " & cnAdminDb & "..ITEMMAST AS IM ON IM.ITEMID = S.STNITEMID"
+        'strSql += vbCrLf + "  INNER JOIN " & cnAdminDb & "..CATEGORY AS CA ON CA.CATCODE = IM.CATCODE " & IIf(chkCategory <> "", " AND CA.CATNAME IN (" & chkCategory & ")", "")
+        'strSql += vbCrLf + "  INNER JOIN " & cnAdminDb & "..METALMAST AS ME ON ME.METALID = IM.METALID " & IIf(chkMetalName <> "", " AND ME.METALNAME IN (" & chkMetalName & ")", "")
+        'strSql += vbCrLf + "  INNER JOIN " & cnStockDb & "..ISSUE AS I ON S.ISSSNO = I.SNO "
+        'strSql += vbCrLf + "  AND I.TRANDATE BETWEEN '" & dtpFrom.Value.ToString("yyyy-MM-dd") & "' AND '" & dtpTo.Value.ToString("yyyy-MM-dd") & "'"
+        'strSql += vbCrLf + "  AND ISNULL(I.CANCEL,'') = ''"
+        'strSql += vbCrLf + " AND I.ACCODE IN (SELECT ACCODE FROM " & cnAdminDb & "..ACHEAD " & acfilter & ")"
+        'If chkCostName <> "" Then strSql += vbCrLf + "  AND S.COSTID IN (SELECT COSTID FROM " & cnAdminDb & "..COSTCENTRE WHERE COSTNAME IN (" & chkCostName & "))"
+        'If trantype <> "" Then strSql += vbCrLf + "  AND S.TRANTYPE IN (" & trantype & ")"
+        'If ChkApproval.Checked = False Then
+        '    strSql += vbCrLf + " AND I.TRANTYPE NOT IN ('" & WitApproval & "')"
+        'End If
+        'strSql += vbCrLf + " AND S.COMPANYID IN(  " & SelectedCompanyId & "  )"
+        'strSql += vbCrLf + "  AND ISNULL(I.CANCEL,'') = ''"
+        'strSql += vbCrLf + " AND S.TRANTYPE NOT IN ('IPU','RPU','AI','AR')"
+        'strSql += vbCrLf + "  UNION ALL"
+        'strSql += vbCrLf + "  SELECT CA.CATNAME AS PARTICULAR,S.TRANNO,'REC' TRANTYPE,CONVERT(VARCHAR,S.TRANDATE,103)TDATE,CONVERT(VARCHAR,I.REFDATE,103)BILLDATE,IM.ITEMNAME [DESCRIPTION]"
+        'If chkRunningBal.Checked Then
+        '    strSql += vbCrLf + " ,0 IPCS,0 IGRSWT,0 INETWT,0 IPUREWT,0 ITOUCH,S.STNPCS AS RPCS,CONVERT(NUMERIC(15,3),S.STNWT) RGRSWT,CONVERT(NUMERIC(15,3),S.STNWT) RNETWT,0 PUREWT,0 RTOUCH,0 DEBIT,0 CREDIT"
+        'Else
+        '    strSql += vbCrLf + " ,0 IPCS,S.STNPCS AS RPCS,0 ISSUE,S.STNWT RECEIPT,0 DEBIT,0 CREDIT"
+        'End If
+        'strSql += vbCrLf + " ,3 RESULT,' 'COLHEAD,S.TRANDATE,I.REFDATE AS BDATE,ME.METALNAME AS METALNAME,S.BATCHNO"
+        'strSql += vbCrLf + " ,(SELECT ACNAME FROM " & cnAdminDb & "..ACHEAD WHERE ACCODE=I.ACCODE)ACNAME ,'N' TFILTER"
+        'strSql += vbCrLf + " ,''REMARK1,''REMARK2"
+        'strSql += vbCrLf + "  FROM " & cnStockDb & "..RECEIPTSTONE AS S"
+        'strSql += vbCrLf + "  INNER JOIN " & cnAdminDb & "..ITEMMAST AS IM ON IM.ITEMID = S.STNITEMID"
+        'strSql += vbCrLf + "  INNER JOIN " & cnAdminDb & "..CATEGORY AS CA ON CA.CATCODE = IM.CATCODE " & IIf(chkCategory <> "", " AND CA.CATNAME IN (" & chkCategory & ")", "")
+        'strSql += vbCrLf + "  INNER JOIN " & cnAdminDb & "..METALMAST AS ME ON ME.METALID = IM.METALID " & IIf(chkMetalName <> "", " AND ME.METALNAME IN (" & chkMetalName & ")", "")
+        'strSql += vbCrLf + "  INNER JOIN " & cnStockDb & "..RECEIPT AS I ON S.ISSSNO = I.SNO "
+        'strSql += vbCrLf + "  AND I.TRANDATE BETWEEN '" & dtpFrom.Value.ToString("yyyy-MM-dd") & "' AND '" & dtpTo.Value.ToString("yyyy-MM-dd") & "'"
+        'strSql += vbCrLf + "  AND ISNULL(I.CANCEL,'') = ''"
+        'strSql += vbCrLf + " AND I.ACCODE IN (SELECT ACCODE FROM " & cnAdminDb & "..ACHEAD " & acfilter & ")"
+        'If chkCostName <> "" Then strSql += vbCrLf + "  AND S.COSTID IN (SELECT COSTID FROM " & cnAdminDb & "..COSTCENTRE WHERE COSTNAME IN (" & chkCostName & "))"
+        'If trantype <> "" Then strSql += vbCrLf + "  AND S.TRANTYPE IN (" & trantype & ")"
+        'If ChkApproval.Checked = False Then
+        '    strSql += vbCrLf + " AND S.TRANTYPE NOT IN ('" & WitApproval & "')"
+        'End If
+        'If LocalOutSt <> "" Then strSql += vbCrLf + " AND I.ACCODE IN (SELECT ACCODE FROM " & cnAdminDb & "..ACHEAD WHERE LOCALOUTST ='" & LocalOutSt & "')"
+        'strSql += vbCrLf + " AND S.COMPANYID IN(  " & SelectedCompanyId & "  )"
+        'strSql += vbCrLf + "  AND ISNULL(I.CANCEL,'') = ''"
+        'strSql += vbCrLf + " AND S.TRANTYPE NOT IN ('IPU','RPU','AI','AR')"
+
         strSql += vbCrLf + " /** TRANSACTION **/"
         strSql += vbCrLf + " SELECT isnull((SELECT CATNAME FROM " & cnAdminDb & "..CATEGORY WHERE CATCODE = I.OCATCODE),'')+case WHEN tranflag in('WC','AC') AND I.TRANTYPE = 'IRC' THEN 'RATE CUT @'+CONVERT(VARCHAR(10),RATE)+'/-' END   AS PARTICULAR"
         strSql += vbCrLf + " ,TRANNO,CASE WHEN I.TRANTYPE = 'MI' THEN 'MISS' ELSE 'ISS' END TRANTYPE,CONVERT(VARCHAR,TRANDATE,103)TDATE ,CASE WHEN ISNULL(REFDATE,'')='' THEN CONVERT(VARCHAR,TRANDATE,103) ELSE CONVERT(VARCHAR,REFDATE,103) END BILLDATE"
@@ -372,7 +544,6 @@ Public Class frmSmithBalanceDetailedReport
             End If
         End If
         strSql += vbCrLf + " ,3 RESULT,' 'COLHEAD,TRANDATE,REFDATE AS BDATE"
-        'strSql += vbCrLf + " ,(SELECT METALNAME FROM " & cnAdminDb & "..METALMAST WHERE METALID =  (SELECT METALID FROM " & cnAdminDb & "..CATEGORY WHERE CATCODE = I.OCATCODE))AS METALNAME"
         strSql += vbCrLf + " ,(SELECT METALNAME FROM " & cnAdminDb & "..METALMAST WHERE METALID = I.METALID)AS METALNAME"
         strSql += vbCrLf + " ,BATCHNO,(SELECT ACNAME FROM " & cnAdminDb & "..ACHEAD WHERE ACCODE=I.ACCODE)ACNAME ,'N' TFILTER"
         strSql += vbCrLf + " ,REMARK1,REMARK2"
@@ -433,7 +604,6 @@ Public Class frmSmithBalanceDetailedReport
             End If
         End If
         strSql += vbCrLf + " ,3 RESULT,' 'COLHEAD,TRANDATE,REFDATE AS BDATE"
-        'strSql += vbCrLf + " ,(SELECT METALNAME FROM " & cnAdminDb & "..METALMAST WHERE METALID =  (SELECT METALID FROM " & cnAdminDb & "..CATEGORY WHERE CATCODE = R.CATCODE))AS METALNAME"
         strSql += vbCrLf + " ,(SELECT METALNAME FROM " & cnAdminDb & "..METALMAST WHERE METALID = R.METALID)AS METALNAME"
         strSql += vbCrLf + " ,BATCHNO,(SELECT ACNAME FROM " & cnAdminDb & "..ACHEAD WHERE ACCODE=R.ACCODE)ACNAME ,'N' TFILTER"
         strSql += vbCrLf + " ,REMARK1,REMARK2"
@@ -692,6 +862,8 @@ Public Class frmSmithBalanceDetailedReport
         strSql += vbCrLf + " AND T.ACCODE IN (SELECT ACCODE FROM " & cnAdminDb & "..ACHEAD " & acfilter & ")"
         If chkCostName <> "" Then strSql += vbCrLf + " AND COSTID IN (SELECT COSTID FROM " & cnAdminDb & "..COSTCENTRE WHERE COSTNAME IN (" & chkCostName & "))"
         strSql += vbCrLf + "     AND COMPANYID IN(  " & SelectedCompanyId & "  )"
+
+        '230825
         strSql += vbCrLf + "     AND BATCHNO NOT IN "
         strSql += vbCrLf + "     (SELECT DISTINCT BATCHNO FROM " & cnStockDb & "..ISSUE"
         strSql += vbCrLf + " 	 WHERE TRANDATE BETWEEN '" & dtpFrom.Value.ToString("yyyy-MM-dd") & "' AND '" & dtpTo.Value.ToString("yyyy-MM-dd") & "'"
@@ -937,29 +1109,42 @@ Public Class frmSmithBalanceDetailedReport
         If chkRunningBal.Checked Then
             strSql = " ;with CTE as("
             strSql += vbCrLf + " Select * From TEMPTABLEDB..TEMP" & Sysid & "SMITHBALDET"
-            strSql += vbCrLf + " Where RESULT = 4"
+            strSql += vbCrLf + " Where RESULT IN (2,3)"
             strSql += vbCrLf + " ),"
             strSql += vbCrLf + " CTE1 as("
             strSql += vbCrLf + " Select ACNAME, METALNAME, TRANDATE,TRANNO,SUM(ISNULL(RPUREWT, 0) - ISNULL(IPUREWT, 0)) OVER (PARTITION BY ACNAME, METALNAME ORDER BY TRANDATE,TRANNO) As RUNWT,"
             strSql += vbCrLf + " SUM(ISNULL(DEBIT, 0) - ISNULL(CREDIT, 0)) OVER (PARTITION BY ACNAME, METALNAME ORDER BY TRANDATE,TRANNO) As RUNBAL"
             strSql += vbCrLf + " From TEMPTABLEDB..TEMP" & Sysid & "SMITHBALDET"
-            strSql += vbCrLf + " Where RESULT = 4"
+            strSql += vbCrLf + " Where RESULT IN (2,3)"
             strSql += vbCrLf + " )"
-            strSql += vbCrLf + " Select PARTICULAR,cte.TRANNO,TRANTYPE,TDATE,BILLDATE,DESCRIPTION,IPCS,IGRSWT,INETWT,IPUREWT,ITOUCH,RPCS,RGRSWT,RNETWT,RPUREWT,RTOUCH,DEBIT,CREDIT,CTE1.RUNWT,CTE1.RUNBAL,RESULT,COLHEAD,cte.TRANDATE,BDATE,cte.METALNAME,"
+            strSql += vbCrLf + " ,CTE2 as("
+            strSql += vbCrLf + " Select DISTINCT PARTICULAR,cte.TRANNO,TRANTYPE,TDATE,BILLDATE,DESCRIPTION,IPCS,IGRSWT,INETWT,IPUREWT,ITOUCH,RPCS,RGRSWT,RNETWT,RPUREWT,RTOUCH,DEBIT,CREDIT,CTE1.RUNWT,CTE1.RUNBAL,RESULT,COLHEAD,cte.TRANDATE,BDATE,cte.METALNAME,"
             strSql += vbCrLf + " BATCHNO, cte.ACNAME, TFILTER, REMARK1, REMARK2, SNO from CTE"
             strSql += vbCrLf + " inner Join CTE1 on CTE.ACNAME = CTE1.ACNAME And CTE.METALNAME = CTE1.METALNAME And CTE.TRANDATE = CTE1.TRANDATE And CTE.TRANNO = CTE1.TRANNO"
             strSql += vbCrLf + " UNION ALL"
-            strSql += vbCrLf + " select PARTICULAR,TRANNO,TRANTYPE,TDATE,BILLDATE,DESCRIPTION,IPCS,IGRSWT,INETWT,IPUREWT,ITOUCH,RPCS,RGRSWT,RNETWT,RPUREWT,RTOUCH,DEBIT,CREDIT,0 RUNWT,0 RUNBAL,RESULT,COLHEAD,TRANDATE,BDATE,"
+            strSql += vbCrLf + " select DISTINCT PARTICULAR,TRANNO,TRANTYPE,TDATE,BILLDATE,DESCRIPTION,IPCS,IGRSWT,INETWT,IPUREWT,ITOUCH,RPCS,RGRSWT,RNETWT,RPUREWT,RTOUCH,DEBIT,CREDIT,0 RUNWT,0 RUNBAL,RESULT,COLHEAD,TRANDATE,BDATE,"
             strSql += vbCrLf + " METALNAME,BATCHNO,ACNAME,TFILTER,REMARK1,REMARK2,SNO from TEMPTABLEDB..TEMP" & Sysid & "SMITHBALDET"
-            strSql += vbCrLf + " WHERE RESULT <> 4"
+            strSql += vbCrLf + " WHERE 1=1 AND RESULT NOT IN (3)"
+
+            '230825
+            strSql += vbCrLf + " AND ISNULL(BATCHNO,'') NOT IN(Select DISTINCT BATCHNO from CTE inner Join CTE1 on CTE.ACNAME = CTE1.ACNAME And CTE.METALNAME = CTE1.METALNAME And CTE.TRANDATE = CTE1.TRANDATE And CTE.TRANNO = CTE1.TRANNO WHERE ISNULL(BATCHNO,'')<>''))"
+
+            strSql += vbCrLf + " ,CTE3 as(select ROW_NUMBER()over(partition by batchno order by RUNBAL desc)Cnt,* from CTE2 where ISNULL(BATCHNO,'') <> '')"
+            strSql += vbCrLf + " select PARTICULAR,TRANNO,TRANTYPE,TDATE,BILLDATE,DESCRIPTION,IPCS,IGRSWT,INETWT,ITOUCH,IPUREWT,RPCS,RGRSWT,RNETWT,RTOUCH,RPUREWT,DEBIT,CREDIT,RUNWT,RUNBAL,RESULT,COLHEAD,TRANDATE,BDATE,METALNAME,"
+            strSql += vbCrLf + " BATCHNO,ACNAME, TFILTER, REMARK1, REMARK2, SNO from CTE3 --where Cnt = 1"
+            strSql += vbCrLf + " union"
+            strSql += vbCrLf + " select PARTICULAR,TRANNO,TRANTYPE,TDATE,BILLDATE,DESCRIPTION,IPCS,IGRSWT,INETWT,ITOUCH,IPUREWT,RPCS,RGRSWT,RNETWT,RTOUCH,RPUREWT,DEBIT,CREDIT,RUNWT,RUNBAL,RESULT,COLHEAD,TRANDATE,BDATE,METALNAME,"
+            strSql += vbCrLf + " BATCHNO,ACNAME, TFILTER, REMARK1, REMARK2, SNO from CTE2 where isnull(BATCHNO,'') not in (select BATCHNO from CTE3 where Cnt = 2)"
         Else
             strSql = " SELECT * FROM TEMPTABLEDB..TEMP" & Sysid & "SMITHBALDET"
         End If
         strSql += vbCrLf + " ORDER BY ACNAME,METALNAME,RESULT"
         If chkTranno.Checked Then
             strSql += vbCrLf + " ,BDATE,TRANDATE,TRANNO"
+            'strSql += vbCrLf + " ,BDATE,TRANNO"
         Else
             strSql += vbCrLf + " ,TRANDATE,TRANNO"
+            'strSql += vbCrLf + " ,TRANNO"
         End If
 
         Dim dtGrid As New DataTable
@@ -1320,11 +1505,11 @@ Public Class frmSmithBalanceDetailedReport
         If Not f.gridView.ColumnCount > 0 Then Exit Sub
         If Not f.gridViewHeader.ColumnCount > 0 Then Exit Sub
         With f.gridViewHeader
-            .Columns("PARTICULAR~TRANNO~TRANTYPE~TDATE~BILLDATE~DESCRIPTION").Width = f.gridView.Columns("PARTICULAR").Width +
-            f.gridView.Columns("TRANNO").Width +
-            f.gridView.Columns("TRANTYPE").Width +
-            f.gridView.Columns("TDATE").Width +
-            f.gridView.Columns("BILLDATE").Width +
+            .Columns("PARTICULAR~TRANNO~TRANTYPE~TDATE~BILLDATE~DESCRIPTION").Width = f.gridView.Columns("PARTICULAR").Width + _
+            f.gridView.Columns("TRANNO").Width + _
+            f.gridView.Columns("TRANTYPE").Width + _
+            f.gridView.Columns("TDATE").Width + _
+            f.gridView.Columns("BILLDATE").Width + _
             f.gridView.Columns("DESCRIPTION").Width
             If chkRunningBal.Checked Then
                 .Columns("IPCS~IGRSWT~INETWT~IPUREWT~ITOUCH").Width = f.gridView.Columns("IPCS").Width + f.gridView.Columns("IGRSWT").Width + f.gridView.Columns("INETWT").Width + f.gridView.Columns("IPUREWT").Width + f.gridView.Columns("ITOUCH").Width
@@ -1393,11 +1578,11 @@ Public Class frmSmithBalanceDetailedReport
         If Not GridView.ColumnCount > 0 Then Exit Sub
         If Not gridViewHeader.ColumnCount > 0 Then Exit Sub
         With gridViewHeader
-            .Columns("PARTICULAR~TRANNO~TRANTYPE~TDATE~BILLDATE~DESCRIPTION").Width = GridView.Columns("PARTICULAR").Width +
-            GridView.Columns("TRANNO").Width +
-            GridView.Columns("TRANTYPE").Width +
-            GridView.Columns("TDATE").Width +
-            GridView.Columns("BILLDATE").Width +
+            .Columns("PARTICULAR~TRANNO~TRANTYPE~TDATE~BILLDATE~DESCRIPTION").Width = GridView.Columns("PARTICULAR").Width + _
+            GridView.Columns("TRANNO").Width + _
+            GridView.Columns("TRANTYPE").Width + _
+            GridView.Columns("TDATE").Width + _
+            GridView.Columns("BILLDATE").Width + _
             IIf(GridView.Columns("DESCRIPTION").Visible, GridView.Columns("DESCRIPTION").Width, 0)
             If SmithFormat = 1 Then
                 .Columns("ITOUCH~IPCS~IGRSWT~ISTNWT~INETWT~IWAST~ISSWT~IPUREWT").Width = IIf(GridView.Columns("ITOUCH").Visible, GridView.Columns("ITOUCH").Width, 0) _
@@ -1458,7 +1643,7 @@ Public Class frmSmithBalanceDetailedReport
                     .Columns(cnt).Visible = False
                 Next
             End If
-
+            
 
             .Columns("PARTICULAR").Width = 200
             .Columns("TRANNO").Width = 60
@@ -1773,10 +1958,10 @@ Public Class frmSmithBalanceDetailedReport
         Dim chkMetalNames As String = GetChecked_CheckedList(chkLstMetal)
         chkLstCategory.Items.Clear()
         If chkMetalNames <> "" Then
-            strSql = " SELECT CATNAME FROM " & cnAdminDb & "..CATEGORY "
-            strSql += " WHERE METALID IN (SELECT METALID FROM " & cnAdminDb & "..METALMAST WHERE METALNAME IN (" & chkMetalNames & "))"
-            strSql += " ORDER BY CATNAME"
-            FillCheckedListBox(strSql, chkLstCategory)
+            strsql = " SELECT CATNAME FROM " & cnAdminDb & "..CATEGORY "
+            strsql += " WHERE METALID IN (SELECT METALID FROM " & cnAdminDb & "..METALMAST WHERE METALNAME IN (" & chkMetalNames & "))"
+            strsql += " ORDER BY CATNAME"
+            FillCheckedListBox(strsql, chkLstCategory)
         End If
     End Sub
 
