@@ -3359,7 +3359,8 @@ Public Class frmBillView
                                     cmd.ExecuteNonQuery()
                                     MessageBox.Show($"IRN Generated : {eInvDirectBillResponse.data.Irn} sucessfully.")
                                 Else
-                                    MessageBox.Show("Failed while generating the IRN")
+
+                                    MessageBox.Show("Failed while generating the IRN" + vbCrLf + eInvDirectBillResponse.status_desc.ToString)
                                 End If
                             End If
                         End If

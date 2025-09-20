@@ -69,8 +69,8 @@ Public Class GSTBill
             igstAmt = dtItem.AsEnumerable().Sum(Function(row) row.Field(Of Decimal)("IGST"))
         Else
             igstAmt = 0
-            cgstAmt = dtItem.AsEnumerable().Sum(Function(row) row.Field(Of Decimal)("TAX")) / 2
-            sgstAmt = dtItem.AsEnumerable().Sum(Function(row) row.Field(Of Decimal)("TAX")) / 2
+            cgstAmt = dtItem.AsEnumerable().Sum(Function(row) row.Field(Of Decimal)("CGST"))
+            sgstAmt = dtItem.AsEnumerable().Sum(Function(row) row.Field(Of Decimal)("SGST"))
         End If
 
         einvoice.Version = "1.1"
@@ -149,13 +149,17 @@ Public Class GSTBill
             .Discount = 0,'row("DISCOUNT").ToString, Suresh 15-07-25
             .AssAmt = row("AMOUNT").ToString,
             .GstRt = row("SALESTAX").ToString,
-            .SgstAmt = sgstAmt,
-            .CgstAmt = cgstAmt,
-            .IgstAmt = igstAmt,
+            .SgstAmt = row("SGST").ToString,
+            .CgstAmt = row("CGST").ToString,
+            .IgstAmt = row("IGST").ToString,
             .TotItemVal = row("TOTALAMT").ToString
             })
         Next
 
+
+        ' .SgstAmt = sgstAmt,
+        '.CgstAmt = cgstAmt,
+        '    .IgstAmt = igstAmt,
         einvoice.TranDtls = TranDtls
         einvoice.DocDtls = DocDtls
         einvoice.SellerDtls = SellerDtls
