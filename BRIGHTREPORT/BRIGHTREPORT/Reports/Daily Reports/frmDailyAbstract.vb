@@ -9111,9 +9111,9 @@ Public Class frmDailyAbstract
 
         StrSql = " INSERT INTO TEMPTABLEDB..TEMP" & systemId & "COLDET"
         StrSql += vbCrLf + " (CATNAME,RECEIPT,PAYMENT) "
-        StrSql += vbCrLf + $" select 'BR TRF ADVANCE' DESCRIPTION,sum(Amount)Receipt,null Payment from {cnAdminDb}.dbo.OUTSTANDING where 1=1 and ISNULL(COSTID,'') <> ''"
-        StrSql += vbCrLf + $" and TRANDATE between '{dtpFrom.Value}' and '{dtpTo.Value}' and RECPAY = 'R' and COSTID <> substring(RUNNO,0,3)"
-        StrSql += vbCrLf + $" and isnull(CANCEL,'') = ''"
+        StrSql += vbCrLf + $" select 'BR TRF ADVANCE' DESCRIPTION,case when RECPAY = 'R' then sum(Amount) else null end Receipt,case when RECPAY = 'P' then sum(Amount) else null end Payment from {cnAdminDb}.dbo.OUTSTANDING where 1=1 and ISNULL(COSTID,'') <> ''"
+        StrSql += vbCrLf + $" and TRANDATE between '{dtpFrom.Value}' and '{dtpTo.Value}' and TRANSTATUS = 'T'"
+        StrSql += vbCrLf + $" and isnull(CANCEL,'') = '' AND ((RECPAY = 'P' AND COSTID = SUBSTRING(RUNNO, 0, 3)) OR RECPAY <> 'P') group by RECPAY"
         Cmd = New OleDbCommand(StrSql, cn) : Cmd.CommandTimeout = 1000
         Cmd.ExecuteNonQuery()
 

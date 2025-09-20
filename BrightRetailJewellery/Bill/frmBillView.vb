@@ -3528,6 +3528,17 @@ Public Class frmBillView
                     If dt.Rows.Count > 0 Then
                         MessageBox.Show("This Bill cannot be edited because Credit or debit bill...", "Warning")
                     Else
+                        strSql = "select a.* from " & cnAdminDb & "..PERSONALINFO a"
+                        strSql += vbCrLf + " inner join " & cnAdminDb & "..CUSTOMERINFO b on a.SNO = b.PSNO "
+                        strSql += vbCrLf + " where b.BATCHNO = '" & gridFullView.CurrentRow.Cells("BATCHNO").Value.ToString & "' "
+                        cmd = New OleDbCommand(strSql, cn, tran)
+                        da = New OleDbDataAdapter(cmd)
+                        dt = New DataTable
+                        da.Fill(dt)
+                        If Not String.IsNullOrEmpty(dt.Rows(0)("GSTNO").ToString) Then
+                            MessageBox.Show("This Bill cannot be edited because GST bill...", "Warning")
+                            Exit Sub
+                        End If
                         ShowRetailEdit(gridFullView.CurrentRow.Cells("BATCHNO").Value.ToString, gridFullView.CurrentRow.Cells("ITRANNO").Value.ToString,
                                dtpBillDate.Value)
                     End If

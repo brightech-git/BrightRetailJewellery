@@ -883,7 +883,7 @@ Public Class frmOutstanding_Transfer
         Else
             strSql += " ,0" 'EMPID
         End If
-        strSql += " ,''" 'TRANSTATUS
+        strSql += " ,'T'" 'TRANSTATUS
         strSql += " ," & purity & "" 'PURITY
         strSql += " ,'" & CatCode & "'" 'CATCODE
         strSql += " ,'" & Batchno & "'" 'BATCHNO
