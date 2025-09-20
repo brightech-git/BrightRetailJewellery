@@ -167,7 +167,9 @@ Public Class frmMaterialReceiptVsStock
                 .Columns.Add("RPCS~RGRSWT~RNETWT~RDIAWT", GetType(String))
                 .Columns.Add("IPCS~IGRSWT~INETWT~IDIAWT", GetType(String))
                 .Columns.Add("LITEMNAME~LPCS~LGRSWT~LNETWT~LDIAWT", GetType(String))
-                .Columns.Add("TPCS~TGRSWT~TNETWT~TDIAWT~REMARKS", GetType(String))
+                .Columns.Add("TPCS~TGRSWT~TNETWT~TDIAWT", GetType(String))
+                .Columns.Add("PRPCS~PRGRSWT~PRNETWT~PRDIAWT", GetType(String))
+                .Columns.Add("BPCS~BGRSWT~BNETWT~BDIAWT~REMARKS", GetType(String))
             End If
             .Columns.Add("SCROLL", GetType(String))
 
@@ -181,7 +183,9 @@ Public Class frmMaterialReceiptVsStock
                 .Columns("RPCS~RGRSWT~RNETWT~RDIAWT").Caption = "RECEIPT"
                 .Columns("IPCS~IGRSWT~INETWT~IDIAWT").Caption = "ISSUE"
                 .Columns("LITEMNAME~LPCS~LGRSWT~LNETWT~LDIAWT").Caption = "LOT"
-                .Columns("TPCS~TGRSWT~TNETWT~TDIAWT~REMARKS").Caption = "TAG/NONTAG"
+                .Columns("TPCS~TGRSWT~TNETWT~TDIAWT").Caption = "TAG/NONTAG"
+                .Columns("PRPCS~PRGRSWT~PRNETWT~PRDIAWT").Caption = "PURCHASE RETURN"
+                .Columns("BPCS~BGRSWT~BNETWT~BDIAWT~REMARKS").Caption = "BALANCE"
             End If
             .Columns("SCROLL").Caption = ""
         End With
@@ -252,11 +256,13 @@ Public Class frmMaterialReceiptVsStock
                     .Rows(J).DefaultCellStyle.ForeColor = Color.Red
                 End If
             Next
-            Dim colhead(3) As String
+            Dim colhead(5) As String
             colhead(0) = "R"
             colhead(1) = "L"
             colhead(2) = "T"
             colhead(3) = "I"
+            colhead(4) = "PR"
+            colhead(5) = "B"
             For i As Integer = 0 To colhead.Length - 1
                 With .Columns(colhead(i) & "PCS")
                     .HeaderText = "PCS"
@@ -349,9 +355,17 @@ Public Class frmMaterialReceiptVsStock
                     .Width = gridView.Columns("LITEMNAME").Width + gridView.Columns("LPCS").Width + gridView.Columns("LGRSWT").Width + gridView.Columns("LNETWT").Width + gridView.Columns("LDIAWT").Width
                     .HeaderText = "LOT"
                 End With
-                With .Columns("TPCS~TGRSWT~TNETWT~TDIAWT~REMARKS")
-                    .Width = gridView.Columns("TPCS").Width + gridView.Columns("TGRSWT").Width + gridView.Columns("TNETWT").Width + gridView.Columns("REMARKS").Width + gridView.Columns("TDIAWT").Width
+                With .Columns("TPCS~TGRSWT~TNETWT~TDIAWT")
+                    .Width = gridView.Columns("TPCS").Width + gridView.Columns("TGRSWT").Width + gridView.Columns("TNETWT").Width + gridView.Columns("TDIAWT").Width
                     .HeaderText = "TAG/NONTAG"
+                End With
+                With .Columns("PRPCS~PRGRSWT~PRNETWT~PRDIAWT")
+                    .Width = gridView.Columns("PRPCS").Width + gridView.Columns("PRGRSWT").Width + gridView.Columns("PRNETWT").Width + gridView.Columns("PRDIAWT").Width
+                    .HeaderText = "PURCHASE RETURN"
+                End With
+                With .Columns("BPCS~BGRSWT~BNETWT~BDIAWT~REMARKS")
+                    .Width = gridView.Columns("BPCS").Width + gridView.Columns("BGRSWT").Width + gridView.Columns("BNETWT").Width + gridView.Columns("BDIAWT").Width + gridView.Columns("REMARKS").Width
+                    .HeaderText = "BALANCE"
                 End With
             End If
             With .Columns("SCROLL")
