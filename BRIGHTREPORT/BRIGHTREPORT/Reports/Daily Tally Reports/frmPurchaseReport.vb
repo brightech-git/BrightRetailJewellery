@@ -517,7 +517,13 @@ Public Class frmPurchaseReport
         If rbtDetailed.Checked And (ChkBillSum.Checked Or chkNodewiseSummary.Checked = True) Then
             strSql = " SELECT * FROM TEMPTABLEDB..TEMPPUSR_VIEW_NEW ORDER BY SRESULT,TRANDATE,TRANNO"
         Else
-            strSql = " SELECT * FROM TEMPTABLEDB..TEMPPUSR_VIEW ORDER BY SRESULT,TRANDATE,TRANNO"
+            If chkPurityRange.Checked Then
+                strSql = "SELECT P.DESCRIPTION,v.* FROM TEMPTABLEDB..TEMPPUSR_VIEW V"
+                strSql += vbCrLf + $"JOIN {cnAdminDb}..PURITYRANGE P ON V.PURITY BETWEEN P.FROMPURE AND P.TOPURE "
+                strSql += vbCrLf + "ORDER BY P.DESCRIPTION,SRESULT,TRANDATE,TRANNO"
+            Else
+                strSql = " SELECT * FROM TEMPTABLEDB..TEMPPUSR_VIEW ORDER BY SRESULT,TRANDATE,TRANNO"
+            End If
         End If
 
         Dim DtGrid As New DataTable
@@ -565,6 +571,9 @@ Public Class frmPurchaseReport
         For cnt As Integer = 0 To ChkLstGroupBy.CheckedItems.Count - 1
             ObjGrouper.pColumns_Group.Add(ChkLstGroupBy.CheckedItems.Item(cnt).ToString)
         Next
+        If chkPurityRange.Checked Then
+            ObjGrouper.pColumns_Group.Add("DESCRIPTION")
+        End If
         ObjGrouper.pColumns_Sum.Add("PCS")
         ObjGrouper.pColumns_Sum.Add("GRSWT")
         ObjGrouper.pColumns_Sum.Add("LESSWT")

@@ -1923,6 +1923,7 @@ WegithCalc:
         Else
             txtLotNo_Num_Man.Select()
         End If
+        poGrid.DataSource = Nothing : poGrid.Visible = False
         Return 1
     End Function
 
@@ -7847,6 +7848,21 @@ nnnext:
         itemName = DR.Item("ITEMNAME").ToString
         PoNumber = DR.Item("PONUMBER").ToString
         lblPoNumber.Text = PoNumber
+        poGrid.DataSource = Nothing
+        poGrid.Visible = False
+        If Not String.IsNullOrEmpty(PoNumber) Then
+            strSql = $"select ITEMID,PARTICULAR,PO_PIECES PIECES,PONUMBER from {cnAdminDb}..PURCHASEORDER where PONUMBER='{PoNumber}'"
+            Dim dt As DataTable = GetSqlTable(strSql, cn)
+            If dt.Rows.Count > 0 Then
+                poGrid.DataSource = Nothing
+                poGrid.DataSource = dt
+                poGrid.Visible = True
+                poGrid.Columns("ITEMID").Width = 50
+                poGrid.Columns("PIECES").Width = 50
+                poGrid.Columns("PARTICULAR").Width = 250
+                poGrid.Columns("PONUMBER").Width = 200
+            End If
+        End If
         If DR.Item("HALLMARK").ToString = "Y" Then
             NeedHallmark = True
         Else

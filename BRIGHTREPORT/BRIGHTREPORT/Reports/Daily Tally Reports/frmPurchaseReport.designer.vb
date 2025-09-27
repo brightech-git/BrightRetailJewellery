@@ -21,6 +21,7 @@ Partial Class frmPurchaseReport
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.grpControls = New System.Windows.Forms.GroupBox()
+        Me.chkPurityRange = New System.Windows.Forms.CheckBox()
         Me.chkTotalSummay = New System.Windows.Forms.CheckBox()
         Me.chkNodewiseSummary = New System.Windows.Forms.CheckBox()
         Me.chkcmbCategory = New BrighttechPack.CheckedComboBox()
@@ -129,6 +130,7 @@ Partial Class frmPurchaseReport
         '
         'grpControls
         '
+        Me.grpControls.Controls.Add(Me.chkPurityRange)
         Me.grpControls.Controls.Add(Me.chkTotalSummay)
         Me.grpControls.Controls.Add(Me.chkNodewiseSummary)
         Me.grpControls.Controls.Add(Me.chkcmbCategory)
@@ -176,12 +178,22 @@ Partial Class frmPurchaseReport
         Me.grpControls.TabIndex = 0
         Me.grpControls.TabStop = False
         '
+        'chkPurityRange
+        '
+        Me.chkPurityRange.AutoSize = True
+        Me.chkPurityRange.Location = New System.Drawing.Point(255, 255)
+        Me.chkPurityRange.Name = "chkPurityRange"
+        Me.chkPurityRange.Size = New System.Drawing.Size(119, 21)
+        Me.chkPurityRange.TabIndex = 41
+        Me.chkPurityRange.Text = "Purity Range"
+        Me.chkPurityRange.UseVisualStyleBackColor = True
+        '
         'chkTotalSummay
         '
         Me.chkTotalSummay.AutoSize = True
         Me.chkTotalSummay.Location = New System.Drawing.Point(310, 548)
         Me.chkTotalSummay.Name = "chkTotalSummay"
-        Me.chkTotalSummay.Size = New System.Drawing.Size(108, 17)
+        Me.chkTotalSummay.Size = New System.Drawing.Size(129, 21)
         Me.chkTotalSummay.TabIndex = 36
         Me.chkTotalSummay.Text = "Total Summay"
         Me.chkTotalSummay.UseVisualStyleBackColor = True
@@ -191,7 +203,7 @@ Partial Class frmPurchaseReport
         Me.chkNodewiseSummary.AutoSize = True
         Me.chkNodewiseSummary.Location = New System.Drawing.Point(359, 483)
         Me.chkNodewiseSummary.Name = "chkNodewiseSummary"
-        Me.chkNodewiseSummary.Size = New System.Drawing.Size(115, 17)
+        Me.chkNodewiseSummary.Size = New System.Drawing.Size(138, 21)
         Me.chkNodewiseSummary.TabIndex = 39
         Me.chkNodewiseSummary.Text = "Node Summary"
         Me.chkNodewiseSummary.UseVisualStyleBackColor = True
@@ -206,7 +218,7 @@ Partial Class frmPurchaseReport
         Me.chkcmbCategory.IntegralHeight = False
         Me.chkcmbCategory.Location = New System.Drawing.Point(104, 163)
         Me.chkcmbCategory.Name = "chkcmbCategory"
-        Me.chkcmbCategory.Size = New System.Drawing.Size(222, 22)
+        Me.chkcmbCategory.Size = New System.Drawing.Size(222, 25)
         Me.chkcmbCategory.TabIndex = 11
         Me.chkcmbCategory.ValueSeparator = ", "
         '
@@ -215,7 +227,7 @@ Partial Class frmPurchaseReport
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(22, 168)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(60, 13)
+        Me.Label6.Size = New System.Drawing.Size(72, 17)
         Me.Label6.TabIndex = 10
         Me.Label6.Text = "Category"
         '
@@ -228,7 +240,7 @@ Partial Class frmPurchaseReport
         Me.chkcmbCash.IntegralHeight = False
         Me.chkcmbCash.Location = New System.Drawing.Point(104, 135)
         Me.chkcmbCash.Name = "chkcmbCash"
-        Me.chkcmbCash.Size = New System.Drawing.Size(222, 22)
+        Me.chkcmbCash.Size = New System.Drawing.Size(222, 25)
         Me.chkcmbCash.TabIndex = 9
         Me.chkcmbCash.ValueSeparator = ", "
         '
@@ -237,7 +249,7 @@ Partial Class frmPurchaseReport
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(22, 140)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(86, 13)
+        Me.Label5.Size = New System.Drawing.Size(105, 17)
         Me.Label5.TabIndex = 8
         Me.Label5.Text = "Cash Counter"
         '
@@ -250,7 +262,7 @@ Partial Class frmPurchaseReport
         Me.chkCmbItem.IntegralHeight = False
         Me.chkCmbItem.Location = New System.Drawing.Point(104, 191)
         Me.chkCmbItem.Name = "chkCmbItem"
-        Me.chkCmbItem.Size = New System.Drawing.Size(222, 22)
+        Me.chkCmbItem.Size = New System.Drawing.Size(222, 25)
         Me.chkCmbItem.TabIndex = 13
         Me.chkCmbItem.ValueSeparator = ", "
         '
@@ -259,7 +271,7 @@ Partial Class frmPurchaseReport
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(22, 196)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(71, 13)
+        Me.Label4.Size = New System.Drawing.Size(84, 17)
         Me.Label4.TabIndex = 12
         Me.Label4.Text = "Item Name"
         '
@@ -268,7 +280,7 @@ Partial Class frmPurchaseReport
         Me.ChkWithGST.AutoSize = True
         Me.ChkWithGST.Location = New System.Drawing.Point(310, 527)
         Me.ChkWithGST.Name = "ChkWithGST"
-        Me.ChkWithGST.Size = New System.Drawing.Size(79, 17)
+        Me.ChkWithGST.Size = New System.Drawing.Size(98, 21)
         Me.ChkWithGST.TabIndex = 33
         Me.ChkWithGST.Text = "With GST"
         Me.ChkWithGST.UseVisualStyleBackColor = True
@@ -287,7 +299,7 @@ Partial Class frmPurchaseReport
         Me.ChkBillSum.AutoSize = True
         Me.ChkBillSum.Location = New System.Drawing.Point(256, 483)
         Me.ChkBillSum.Name = "ChkBillSum"
-        Me.ChkBillSum.Size = New System.Drawing.Size(103, 17)
+        Me.ChkBillSum.Size = New System.Drawing.Size(121, 21)
         Me.ChkBillSum.TabIndex = 29
         Me.ChkBillSum.Text = "Bill Summary"
         Me.ChkBillSum.UseVisualStyleBackColor = True
@@ -298,7 +310,7 @@ Partial Class frmPurchaseReport
         Me.chkNodeSelectAll.AutoSize = True
         Me.chkNodeSelectAll.Location = New System.Drawing.Point(28, 257)
         Me.chkNodeSelectAll.Name = "chkNodeSelectAll"
-        Me.chkNodeSelectAll.Size = New System.Drawing.Size(71, 17)
+        Me.chkNodeSelectAll.Size = New System.Drawing.Size(85, 21)
         Me.chkNodeSelectAll.TabIndex = 16
         Me.chkNodeSelectAll.Text = "Node Id"
         Me.chkNodeSelectAll.UseVisualStyleBackColor = True
@@ -308,7 +320,7 @@ Partial Class frmPurchaseReport
         Me.chkLstNodeId.FormattingEnabled = True
         Me.chkLstNodeId.Location = New System.Drawing.Point(25, 274)
         Me.chkLstNodeId.Name = "chkLstNodeId"
-        Me.chkLstNodeId.Size = New System.Drawing.Size(305, 68)
+        Me.chkLstNodeId.Size = New System.Drawing.Size(305, 61)
         Me.chkLstNodeId.TabIndex = 18
         '
         'chkSubitem
@@ -317,7 +329,7 @@ Partial Class frmPurchaseReport
         Me.chkSubitem.Enabled = False
         Me.chkSubitem.Location = New System.Drawing.Point(181, 527)
         Me.chkSubitem.Name = "chkSubitem"
-        Me.chkSubitem.Size = New System.Drawing.Size(116, 17)
+        Me.chkSubitem.Size = New System.Drawing.Size(139, 21)
         Me.chkSubitem.TabIndex = 32
         Me.chkSubitem.Text = "Sub Item Name"
         Me.chkSubitem.UseVisualStyleBackColor = True
@@ -338,7 +350,7 @@ Partial Class frmPurchaseReport
         Me.chkOrdAdv.AutoSize = True
         Me.chkOrdAdv.Location = New System.Drawing.Point(297, 3)
         Me.chkOrdAdv.Name = "chkOrdAdv"
-        Me.chkOrdAdv.Size = New System.Drawing.Size(85, 17)
+        Me.chkOrdAdv.Size = New System.Drawing.Size(102, 21)
         Me.chkOrdAdv.TabIndex = 3
         Me.chkOrdAdv.Text = "Order Adv"
         Me.chkOrdAdv.UseVisualStyleBackColor = True
@@ -348,7 +360,7 @@ Partial Class frmPurchaseReport
         Me.ChkPartlySales.AutoSize = True
         Me.ChkPartlySales.Location = New System.Drawing.Point(202, 4)
         Me.ChkPartlySales.Name = "ChkPartlySales"
-        Me.ChkPartlySales.Size = New System.Drawing.Size(94, 17)
+        Me.ChkPartlySales.Size = New System.Drawing.Size(111, 21)
         Me.ChkPartlySales.TabIndex = 2
         Me.ChkPartlySales.Text = "Partly Sales"
         Me.ChkPartlySales.UseVisualStyleBackColor = True
@@ -358,7 +370,7 @@ Partial Class frmPurchaseReport
         Me.ChkSalesReturn.AutoSize = True
         Me.ChkSalesReturn.Location = New System.Drawing.Point(91, 3)
         Me.ChkSalesReturn.Name = "ChkSalesReturn"
-        Me.ChkSalesReturn.Size = New System.Drawing.Size(99, 17)
+        Me.ChkSalesReturn.Size = New System.Drawing.Size(120, 21)
         Me.ChkSalesReturn.TabIndex = 1
         Me.ChkSalesReturn.Text = "Sales Return"
         Me.ChkSalesReturn.UseVisualStyleBackColor = True
@@ -368,7 +380,7 @@ Partial Class frmPurchaseReport
         Me.ChkPurchase.AutoSize = True
         Me.ChkPurchase.Location = New System.Drawing.Point(9, 4)
         Me.ChkPurchase.Name = "ChkPurchase"
-        Me.ChkPurchase.Size = New System.Drawing.Size(78, 17)
+        Me.ChkPurchase.Size = New System.Drawing.Size(93, 21)
         Me.ChkPurchase.TabIndex = 0
         Me.ChkPurchase.Text = "Purchase"
         Me.ChkPurchase.UseVisualStyleBackColor = True
@@ -388,7 +400,7 @@ Partial Class frmPurchaseReport
         Me.rbtOWN.AutoSize = True
         Me.rbtOWN.Location = New System.Drawing.Point(90, 2)
         Me.rbtOWN.Name = "rbtOWN"
-        Me.rbtOWN.Size = New System.Drawing.Size(84, 17)
+        Me.rbtOWN.Size = New System.Drawing.Size(100, 21)
         Me.rbtOWN.TabIndex = 1
         Me.rbtOWN.Text = "Own Make"
         Me.rbtOWN.UseVisualStyleBackColor = True
@@ -398,7 +410,7 @@ Partial Class frmPurchaseReport
         Me.rbtOther.AutoSize = True
         Me.rbtOther.Location = New System.Drawing.Point(201, 2)
         Me.rbtOther.Name = "rbtOther"
-        Me.rbtOther.Size = New System.Drawing.Size(91, 17)
+        Me.rbtOther.Size = New System.Drawing.Size(109, 21)
         Me.rbtOther.TabIndex = 2
         Me.rbtOther.Text = "Other Make"
         Me.rbtOther.UseVisualStyleBackColor = True
@@ -409,7 +421,7 @@ Partial Class frmPurchaseReport
         Me.rbtMake.Checked = True
         Me.rbtMake.Location = New System.Drawing.Point(9, 1)
         Me.rbtMake.Name = "rbtMake"
-        Me.rbtMake.Size = New System.Drawing.Size(51, 17)
+        Me.rbtMake.Size = New System.Drawing.Size(63, 21)
         Me.rbtMake.TabIndex = 0
         Me.rbtMake.TabStop = True
         Me.rbtMake.Text = "Both"
@@ -422,7 +434,7 @@ Partial Class frmPurchaseReport
         Me.ChkPurchaseMelting.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ChkPurchaseMelting.Location = New System.Drawing.Point(181, 548)
         Me.ChkPurchaseMelting.Name = "ChkPurchaseMelting"
-        Me.ChkPurchaseMelting.Size = New System.Drawing.Size(122, 17)
+        Me.ChkPurchaseMelting.Size = New System.Drawing.Size(147, 21)
         Me.ChkPurchaseMelting.TabIndex = 35
         Me.ChkPurchaseMelting.Text = "Purchase Melting"
         Me.ChkPurchaseMelting.UseVisualStyleBackColor = True
@@ -442,7 +454,7 @@ Partial Class frmPurchaseReport
         Me.rbtPurchaseOnly.AutoSize = True
         Me.rbtPurchaseOnly.Location = New System.Drawing.Point(90, 4)
         Me.rbtPurchaseOnly.Name = "rbtPurchaseOnly"
-        Me.rbtPurchaseOnly.Size = New System.Drawing.Size(110, 17)
+        Me.rbtPurchaseOnly.Size = New System.Drawing.Size(132, 21)
         Me.rbtPurchaseOnly.TabIndex = 1
         Me.rbtPurchaseOnly.Text = "Cash Purchase"
         Me.rbtPurchaseOnly.UseVisualStyleBackColor = True
@@ -452,7 +464,7 @@ Partial Class frmPurchaseReport
         Me.rbtSalesPurchase.AutoSize = True
         Me.rbtSalesPurchase.Location = New System.Drawing.Point(201, 4)
         Me.rbtSalesPurchase.Name = "rbtSalesPurchase"
-        Me.rbtSalesPurchase.Size = New System.Drawing.Size(80, 17)
+        Me.rbtSalesPurchase.Size = New System.Drawing.Size(97, 21)
         Me.rbtSalesPurchase.TabIndex = 2
         Me.rbtSalesPurchase.Text = "Exchange"
         Me.rbtSalesPurchase.UseVisualStyleBackColor = True
@@ -463,7 +475,7 @@ Partial Class frmPurchaseReport
         Me.rbtboth_Pur_Sal.Checked = True
         Me.rbtboth_Pur_Sal.Location = New System.Drawing.Point(9, 3)
         Me.rbtboth_Pur_Sal.Name = "rbtboth_Pur_Sal"
-        Me.rbtboth_Pur_Sal.Size = New System.Drawing.Size(51, 17)
+        Me.rbtboth_Pur_Sal.Size = New System.Drawing.Size(63, 21)
         Me.rbtboth_Pur_Sal.TabIndex = 0
         Me.rbtboth_Pur_Sal.TabStop = True
         Me.rbtboth_Pur_Sal.Text = "Both"
@@ -474,7 +486,7 @@ Partial Class frmPurchaseReport
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(22, 462)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(59, 13)
+        Me.Label3.Size = New System.Drawing.Size(71, 17)
         Me.Label3.TabIndex = 25
         Me.Label3.Text = "Order By"
         '
@@ -494,7 +506,7 @@ Partial Class frmPurchaseReport
         Me.rbtDefault.Checked = True
         Me.rbtDefault.Location = New System.Drawing.Point(3, 3)
         Me.rbtDefault.Name = "rbtDefault"
-        Me.rbtDefault.Size = New System.Drawing.Size(66, 17)
+        Me.rbtDefault.Size = New System.Drawing.Size(79, 21)
         Me.rbtDefault.TabIndex = 0
         Me.rbtDefault.TabStop = True
         Me.rbtDefault.Text = "Default"
@@ -506,7 +518,7 @@ Partial Class frmPurchaseReport
         Me.rbtEstimation.AutoSize = True
         Me.rbtEstimation.Location = New System.Drawing.Point(81, 3)
         Me.rbtEstimation.Name = "rbtEstimation"
-        Me.rbtEstimation.Size = New System.Drawing.Size(84, 17)
+        Me.rbtEstimation.Size = New System.Drawing.Size(103, 21)
         Me.rbtEstimation.TabIndex = 1
         Me.rbtEstimation.Text = "Estimation"
         Me.rbtEstimation.UseVisualStyleBackColor = True
@@ -516,7 +528,7 @@ Partial Class frmPurchaseReport
         Me.rbtEmpid.AutoSize = True
         Me.rbtEmpid.Location = New System.Drawing.Point(170, 3)
         Me.rbtEmpid.Name = "rbtEmpid"
-        Me.rbtEmpid.Size = New System.Drawing.Size(81, 17)
+        Me.rbtEmpid.Size = New System.Drawing.Size(96, 21)
         Me.rbtEmpid.TabIndex = 2
         Me.rbtEmpid.Text = "Employee"
         Me.rbtEmpid.UseVisualStyleBackColor = True
@@ -526,7 +538,7 @@ Partial Class frmPurchaseReport
         Me.chkGrtotal.AutoSize = True
         Me.chkGrtotal.Location = New System.Drawing.Point(88, 548)
         Me.chkGrtotal.Name = "chkGrtotal"
-        Me.chkGrtotal.Size = New System.Drawing.Size(92, 17)
+        Me.chkGrtotal.Size = New System.Drawing.Size(111, 21)
         Me.chkGrtotal.TabIndex = 34
         Me.chkGrtotal.Text = "Grand Total"
         Me.chkGrtotal.UseVisualStyleBackColor = True
@@ -536,7 +548,7 @@ Partial Class frmPurchaseReport
         Me.chkItem.AutoSize = True
         Me.chkItem.Location = New System.Drawing.Point(88, 527)
         Me.chkItem.Name = "chkItem"
-        Me.chkItem.Size = New System.Drawing.Size(90, 17)
+        Me.chkItem.Size = New System.Drawing.Size(106, 21)
         Me.chkItem.TabIndex = 31
         Me.chkItem.Text = "Item Name"
         Me.chkItem.UseVisualStyleBackColor = True
@@ -550,7 +562,7 @@ Partial Class frmPurchaseReport
         Me.chkCmbMetal.IntegralHeight = False
         Me.chkCmbMetal.Location = New System.Drawing.Point(104, 107)
         Me.chkCmbMetal.Name = "chkCmbMetal"
-        Me.chkCmbMetal.Size = New System.Drawing.Size(222, 22)
+        Me.chkCmbMetal.Size = New System.Drawing.Size(222, 25)
         Me.chkCmbMetal.TabIndex = 7
         Me.chkCmbMetal.ValueSeparator = ", "
         '
@@ -569,7 +581,7 @@ Partial Class frmPurchaseReport
         Me.rbtMarked.AutoSize = True
         Me.rbtMarked.Location = New System.Drawing.Point(81, 3)
         Me.rbtMarked.Name = "rbtMarked"
-        Me.rbtMarked.Size = New System.Drawing.Size(67, 17)
+        Me.rbtMarked.Size = New System.Drawing.Size(79, 21)
         Me.rbtMarked.TabIndex = 1
         Me.rbtMarked.TabStop = True
         Me.rbtMarked.Text = "Marked"
@@ -580,7 +592,7 @@ Partial Class frmPurchaseReport
         Me.rbtUnmarked.AutoSize = True
         Me.rbtUnmarked.Location = New System.Drawing.Point(171, 3)
         Me.rbtUnmarked.Name = "rbtUnmarked"
-        Me.rbtUnmarked.Size = New System.Drawing.Size(84, 17)
+        Me.rbtUnmarked.Size = New System.Drawing.Size(100, 21)
         Me.rbtUnmarked.TabIndex = 2
         Me.rbtUnmarked.TabStop = True
         Me.rbtUnmarked.Text = "Unmarked"
@@ -591,7 +603,7 @@ Partial Class frmPurchaseReport
         Me.rbtBothMU.AutoSize = True
         Me.rbtBothMU.Location = New System.Drawing.Point(4, 3)
         Me.rbtBothMU.Name = "rbtBothMU"
-        Me.rbtBothMU.Size = New System.Drawing.Size(51, 17)
+        Me.rbtBothMU.Size = New System.Drawing.Size(63, 21)
         Me.rbtBothMU.TabIndex = 0
         Me.rbtBothMU.TabStop = True
         Me.rbtBothMU.Text = "Both"
@@ -600,9 +612,9 @@ Partial Class frmPurchaseReport
         'chkPureWtBased
         '
         Me.chkPureWtBased.AutoSize = True
-        Me.chkPureWtBased.Location = New System.Drawing.Point(216, 258)
+        Me.chkPureWtBased.Location = New System.Drawing.Point(118, 258)
         Me.chkPureWtBased.Name = "chkPureWtBased"
-        Me.chkPureWtBased.Size = New System.Drawing.Size(110, 17)
+        Me.chkPureWtBased.Size = New System.Drawing.Size(135, 21)
         Me.chkPureWtBased.TabIndex = 17
         Me.chkPureWtBased.Text = "Pure Wt Based"
         Me.chkPureWtBased.UseVisualStyleBackColor = True
@@ -613,7 +625,7 @@ Partial Class frmPurchaseReport
         Me.ChkLstGroupBy.Items.AddRange(New Object() {"METAL", "CATEGORY", "ITEMTYPE", "CASHCOUNTER", "MAKEWISE", "EMPNAME", "NODE"})
         Me.ChkLstGroupBy.Location = New System.Drawing.Point(85, 418)
         Me.ChkLstGroupBy.Name = "ChkLstGroupBy"
-        Me.ChkLstGroupBy.Size = New System.Drawing.Size(190, 36)
+        Me.ChkLstGroupBy.Size = New System.Drawing.Size(190, 23)
         Me.ChkLstGroupBy.TabIndex = 24
         '
         'rbtSummary
@@ -621,7 +633,7 @@ Partial Class frmPurchaseReport
         Me.rbtSummary.AutoSize = True
         Me.rbtSummary.Location = New System.Drawing.Point(166, 482)
         Me.rbtSummary.Name = "rbtSummary"
-        Me.rbtSummary.Size = New System.Drawing.Size(81, 17)
+        Me.rbtSummary.Size = New System.Drawing.Size(96, 21)
         Me.rbtSummary.TabIndex = 28
         Me.rbtSummary.Text = "Summary"
         Me.rbtSummary.UseVisualStyleBackColor = True
@@ -632,7 +644,7 @@ Partial Class frmPurchaseReport
         Me.rbtDetailed.Checked = True
         Me.rbtDetailed.Location = New System.Drawing.Point(88, 482)
         Me.rbtDetailed.Name = "rbtDetailed"
-        Me.rbtDetailed.Size = New System.Drawing.Size(72, 17)
+        Me.rbtDetailed.Size = New System.Drawing.Size(85, 21)
         Me.rbtDetailed.TabIndex = 27
         Me.rbtDetailed.TabStop = True
         Me.rbtDetailed.Text = "Detailed"
@@ -643,7 +655,7 @@ Partial Class frmPurchaseReport
         Me.cmbCostCentre.FormattingEnabled = True
         Me.cmbCostCentre.Location = New System.Drawing.Point(104, 217)
         Me.cmbCostCentre.Name = "cmbCostCentre"
-        Me.cmbCostCentre.Size = New System.Drawing.Size(222, 21)
+        Me.cmbCostCentre.Size = New System.Drawing.Size(222, 25)
         Me.cmbCostCentre.TabIndex = 15
         '
         'Label1
@@ -651,7 +663,7 @@ Partial Class frmPurchaseReport
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(22, 221)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(76, 13)
+        Me.Label1.Size = New System.Drawing.Size(93, 17)
         Me.Label1.TabIndex = 14
         Me.Label1.Text = "Cost Centre"
         '
@@ -660,7 +672,7 @@ Partial Class frmPurchaseReport
         Me.chkCompanySelectAll.AutoSize = True
         Me.chkCompanySelectAll.Location = New System.Drawing.Point(28, 33)
         Me.chkCompanySelectAll.Name = "chkCompanySelectAll"
-        Me.chkCompanySelectAll.Size = New System.Drawing.Size(81, 17)
+        Me.chkCompanySelectAll.Size = New System.Drawing.Size(96, 21)
         Me.chkCompanySelectAll.TabIndex = 4
         Me.chkCompanySelectAll.Text = "Company"
         Me.chkCompanySelectAll.UseVisualStyleBackColor = True
@@ -670,7 +682,7 @@ Partial Class frmPurchaseReport
         Me.chkLstCompany.FormattingEnabled = True
         Me.chkLstCompany.Location = New System.Drawing.Point(25, 52)
         Me.chkLstCompany.Name = "chkLstCompany"
-        Me.chkLstCompany.Size = New System.Drawing.Size(301, 52)
+        Me.chkLstCompany.Size = New System.Drawing.Size(301, 42)
         Me.chkLstCompany.TabIndex = 5
         '
         'dtpTo
@@ -681,7 +693,7 @@ Partial Class frmPurchaseReport
         Me.dtpTo.MinimumDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpTo.Name = "dtpTo"
         Me.dtpTo.Seperator = Global.Microsoft.VisualBasic.ChrW(47)
-        Me.dtpTo.Size = New System.Drawing.Size(93, 21)
+        Me.dtpTo.Size = New System.Drawing.Size(93, 24)
         Me.dtpTo.TabIndex = 3
         Me.dtpTo.Text = "07/03/9998"
         Me.dtpTo.Value = New Date(9998, 3, 7, 0, 0, 0, 0)
@@ -694,7 +706,7 @@ Partial Class frmPurchaseReport
         Me.dtpFrom.MinimumDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpFrom.Name = "dtpFrom"
         Me.dtpFrom.Seperator = Global.Microsoft.VisualBasic.ChrW(47)
-        Me.dtpFrom.Size = New System.Drawing.Size(93, 21)
+        Me.dtpFrom.Size = New System.Drawing.Size(93, 24)
         Me.dtpFrom.TabIndex = 1
         Me.dtpFrom.Text = "07/03/9998"
         Me.dtpFrom.Value = New Date(9998, 3, 7, 0, 0, 0, 0)
@@ -731,7 +743,7 @@ Partial Class frmPurchaseReport
         Me.lblDateTo.AutoSize = True
         Me.lblDateTo.Location = New System.Drawing.Point(198, 14)
         Me.lblDateTo.Name = "lblDateTo"
-        Me.lblDateTo.Size = New System.Drawing.Size(20, 13)
+        Me.lblDateTo.Size = New System.Drawing.Size(24, 17)
         Me.lblDateTo.TabIndex = 2
         Me.lblDateTo.Text = "To"
         '
@@ -740,7 +752,7 @@ Partial Class frmPurchaseReport
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(21, 422)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(61, 13)
+        Me.Label2.Size = New System.Drawing.Size(75, 17)
         Me.Label2.TabIndex = 23
         Me.Label2.Text = "Group By"
         '
@@ -749,7 +761,7 @@ Partial Class frmPurchaseReport
         Me.lblMetalName.AutoSize = True
         Me.lblMetalName.Location = New System.Drawing.Point(22, 112)
         Me.lblMetalName.Name = "lblMetalName"
-        Me.lblMetalName.Size = New System.Drawing.Size(74, 13)
+        Me.lblMetalName.Size = New System.Drawing.Size(88, 17)
         Me.lblMetalName.TabIndex = 6
         Me.lblMetalName.Text = "Metal Name"
         '
@@ -758,7 +770,7 @@ Partial Class frmPurchaseReport
         Me.lblDateFrom.AutoSize = True
         Me.lblDateFrom.Location = New System.Drawing.Point(22, 14)
         Me.lblDateFrom.Name = "lblDateFrom"
-        Me.lblDateFrom.Size = New System.Drawing.Size(67, 13)
+        Me.lblDateFrom.Size = New System.Drawing.Size(82, 17)
         Me.lblDateFrom.TabIndex = 0
         Me.lblDateFrom.Text = "DateFrom "
         '
@@ -771,7 +783,7 @@ Partial Class frmPurchaseReport
         Me.chknode.IntegralHeight = False
         Me.chknode.Location = New System.Drawing.Point(723, 225)
         Me.chknode.Name = "chknode"
-        Me.chknode.Size = New System.Drawing.Size(121, 22)
+        Me.chknode.Size = New System.Drawing.Size(121, 25)
         Me.chknode.TabIndex = 2
         Me.chknode.ValueSeparator = ","
         Me.chknode.Visible = False
@@ -781,7 +793,7 @@ Partial Class frmPurchaseReport
         Me.lblNodeID.AutoSize = True
         Me.lblNodeID.Location = New System.Drawing.Point(723, 209)
         Me.lblNodeID.Name = "lblNodeID"
-        Me.lblNodeID.Size = New System.Drawing.Size(54, 13)
+        Me.lblNodeID.Size = New System.Drawing.Size(65, 17)
         Me.lblNodeID.TabIndex = 1
         Me.lblNodeID.Text = "Node ID"
         Me.lblNodeID.Visible = False
@@ -802,7 +814,7 @@ Partial Class frmPurchaseReport
         Me.rbtPurchase.AutoSize = True
         Me.rbtPurchase.Location = New System.Drawing.Point(79, 6)
         Me.rbtPurchase.Name = "rbtPurchase"
-        Me.rbtPurchase.Size = New System.Drawing.Size(77, 17)
+        Me.rbtPurchase.Size = New System.Drawing.Size(92, 21)
         Me.rbtPurchase.TabIndex = 1
         Me.rbtPurchase.Text = "Purchase"
         Me.rbtPurchase.UseVisualStyleBackColor = True
@@ -812,7 +824,7 @@ Partial Class frmPurchaseReport
         Me.rbtSalesReturn.AutoSize = True
         Me.rbtSalesReturn.Location = New System.Drawing.Point(162, 5)
         Me.rbtSalesReturn.Name = "rbtSalesReturn"
-        Me.rbtSalesReturn.Size = New System.Drawing.Size(94, 17)
+        Me.rbtSalesReturn.Size = New System.Drawing.Size(114, 21)
         Me.rbtSalesReturn.TabIndex = 2
         Me.rbtSalesReturn.Text = "SalesReturn"
         Me.rbtSalesReturn.UseVisualStyleBackColor = True
@@ -823,7 +835,7 @@ Partial Class frmPurchaseReport
         Me.rbtBoth.Checked = True
         Me.rbtBoth.Location = New System.Drawing.Point(19, 5)
         Me.rbtBoth.Name = "rbtBoth"
-        Me.rbtBoth.Size = New System.Drawing.Size(51, 17)
+        Me.rbtBoth.Size = New System.Drawing.Size(63, 21)
         Me.rbtBoth.TabIndex = 0
         Me.rbtBoth.TabStop = True
         Me.rbtBoth.Text = "Both"
@@ -834,7 +846,7 @@ Partial Class frmPurchaseReport
         Me.chkGroupByItemType.AutoSize = True
         Me.chkGroupByItemType.Location = New System.Drawing.Point(723, 288)
         Me.chkGroupByItemType.Name = "chkGroupByItemType"
-        Me.chkGroupByItemType.Size = New System.Drawing.Size(137, 17)
+        Me.chkGroupByItemType.Size = New System.Drawing.Size(166, 21)
         Me.chkGroupByItemType.TabIndex = 4
         Me.chkGroupByItemType.Text = "Group by ItemType"
         Me.chkGroupByItemType.UseVisualStyleBackColor = True
@@ -857,7 +869,7 @@ Partial Class frmPurchaseReport
         Me.rbtTypeWise.AutoSize = True
         Me.rbtTypeWise.Location = New System.Drawing.Point(77, 3)
         Me.rbtTypeWise.Name = "rbtTypeWise"
-        Me.rbtTypeWise.Size = New System.Drawing.Size(79, 17)
+        Me.rbtTypeWise.Size = New System.Drawing.Size(96, 21)
         Me.rbtTypeWise.TabIndex = 1
         Me.rbtTypeWise.TabStop = True
         Me.rbtTypeWise.Text = "TypeWise"
@@ -868,7 +880,7 @@ Partial Class frmPurchaseReport
         Me.rbtBillDateWise.AutoSize = True
         Me.rbtBillDateWise.Location = New System.Drawing.Point(163, 3)
         Me.rbtBillDateWise.Name = "rbtBillDateWise"
-        Me.rbtBillDateWise.Size = New System.Drawing.Size(69, 17)
+        Me.rbtBillDateWise.Size = New System.Drawing.Size(81, 21)
         Me.rbtBillDateWise.TabIndex = 2
         Me.rbtBillDateWise.TabStop = True
         Me.rbtBillDateWise.Text = "BillDate"
@@ -879,7 +891,7 @@ Partial Class frmPurchaseReport
         Me.rbtBillNo.AutoSize = True
         Me.rbtBillNo.Location = New System.Drawing.Point(238, 3)
         Me.rbtBillNo.Name = "rbtBillNo"
-        Me.rbtBillNo.Size = New System.Drawing.Size(57, 17)
+        Me.rbtBillNo.Size = New System.Drawing.Size(67, 21)
         Me.rbtBillNo.TabIndex = 3
         Me.rbtBillNo.TabStop = True
         Me.rbtBillNo.Text = "BillNo"
@@ -890,7 +902,7 @@ Partial Class frmPurchaseReport
         Me.lblDisplayBy.AutoSize = True
         Me.lblDisplayBy.Location = New System.Drawing.Point(3, 5)
         Me.lblDisplayBy.Name = "lblDisplayBy"
-        Me.lblDisplayBy.Size = New System.Drawing.Size(68, 13)
+        Me.lblDisplayBy.Size = New System.Drawing.Size(81, 17)
         Me.lblDisplayBy.TabIndex = 0
         Me.lblDisplayBy.Text = "Display By"
         '
@@ -918,7 +930,7 @@ Partial Class frmPurchaseReport
         Me.pnlGrid.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pnlGrid.Location = New System.Drawing.Point(0, 42)
         Me.pnlGrid.Name = "pnlGrid"
-        Me.pnlGrid.Size = New System.Drawing.Size(1037, 518)
+        Me.pnlGrid.Size = New System.Drawing.Size(1037, 514)
         Me.pnlGrid.TabIndex = 1
         '
         'gridView
@@ -934,20 +946,20 @@ Partial Class frmPurchaseReport
         Me.gridView.Name = "gridView"
         Me.gridView.RowHeadersVisible = False
         Me.gridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect
-        Me.gridView.Size = New System.Drawing.Size(1037, 518)
+        Me.gridView.Size = New System.Drawing.Size(1037, 514)
         Me.gridView.TabIndex = 0
         '
         'cmbGridShortCut
         '
         Me.cmbGridShortCut.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ResizeToolStripMenuItem})
         Me.cmbGridShortCut.Name = "ContextMenuStrip2"
-        Me.cmbGridShortCut.Size = New System.Drawing.Size(136, 26)
+        Me.cmbGridShortCut.Size = New System.Drawing.Size(157, 28)
         '
         'ResizeToolStripMenuItem
         '
         Me.ResizeToolStripMenuItem.CheckOnClick = True
         Me.ResizeToolStripMenuItem.Name = "ResizeToolStripMenuItem"
-        Me.ResizeToolStripMenuItem.Size = New System.Drawing.Size(135, 22)
+        Me.ResizeToolStripMenuItem.Size = New System.Drawing.Size(156, 24)
         Me.ResizeToolStripMenuItem.Text = "Auto Resize"
         '
         'lblTitle
@@ -965,13 +977,13 @@ Partial Class frmPurchaseReport
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.ExitToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(121, 48)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(137, 52)
         '
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
         Me.NewToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(120, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(136, 24)
         Me.NewToolStripMenuItem.Text = "&New "
         Me.NewToolStripMenuItem.Visible = False
         '
@@ -979,7 +991,7 @@ Partial Class frmPurchaseReport
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
         Me.ExitToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F12
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(120, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(136, 24)
         Me.ExitToolStripMenuItem.Text = "&Exit"
         Me.ExitToolStripMenuItem.Visible = False
         '
@@ -1002,10 +1014,10 @@ Partial Class frmPurchaseReport
         Me.tabGen.Controls.Add(Me.pnlGroupBy)
         Me.tabGen.Controls.Add(Me.pnlType)
         Me.tabGen.Controls.Add(Me.lblNodeID)
-        Me.tabGen.Location = New System.Drawing.Point(4, 22)
+        Me.tabGen.Location = New System.Drawing.Point(4, 26)
         Me.tabGen.Name = "tabGen"
         Me.tabGen.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabGen.Size = New System.Drawing.Size(1043, 606)
+        Me.tabGen.Size = New System.Drawing.Size(1043, 602)
         Me.tabGen.TabIndex = 0
         Me.tabGen.Text = "Gen"
         Me.tabGen.UseVisualStyleBackColor = True
@@ -1013,10 +1025,10 @@ Partial Class frmPurchaseReport
         'tabView
         '
         Me.tabView.Controls.Add(Me.pnlView)
-        Me.tabView.Location = New System.Drawing.Point(4, 22)
+        Me.tabView.Location = New System.Drawing.Point(4, 26)
         Me.tabView.Name = "tabView"
         Me.tabView.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabView.Size = New System.Drawing.Size(1043, 606)
+        Me.tabView.Size = New System.Drawing.Size(1043, 602)
         Me.tabView.TabIndex = 1
         Me.tabView.Text = "View"
         Me.tabView.UseVisualStyleBackColor = True
@@ -1029,7 +1041,7 @@ Partial Class frmPurchaseReport
         Me.pnlView.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pnlView.Location = New System.Drawing.Point(3, 3)
         Me.pnlView.Name = "pnlView"
-        Me.pnlView.Size = New System.Drawing.Size(1037, 600)
+        Me.pnlView.Size = New System.Drawing.Size(1037, 596)
         Me.pnlView.TabIndex = 0
         '
         'Panel1
@@ -1038,7 +1050,7 @@ Partial Class frmPurchaseReport
         Me.Panel1.Controls.Add(Me.btnExport)
         Me.Panel1.Controls.Add(Me.btnPrint)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel1.Location = New System.Drawing.Point(0, 560)
+        Me.Panel1.Location = New System.Drawing.Point(0, 556)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1037, 40)
         Me.Panel1.TabIndex = 1
@@ -1063,7 +1075,7 @@ Partial Class frmPurchaseReport
         '
         'frmPurchaseReport
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(1051, 632)
         Me.ContextMenuStrip = Me.ContextMenuStrip1
@@ -1192,4 +1204,5 @@ Partial Class frmPurchaseReport
     Friend WithEvents Label5 As System.Windows.Forms.Label
     Friend WithEvents chkNodewiseSummary As CheckBox
     Friend WithEvents chkTotalSummay As CheckBox
+    Friend WithEvents chkPurityRange As CheckBox
 End Class

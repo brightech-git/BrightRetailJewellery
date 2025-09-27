@@ -31,7 +31,7 @@ Public Class frmPurchaseOrderDetail
     Private Sub ShowDetail(metal As String, itemId As String, fromDate As Date, toDate As Date, poNo As String, item As String, totPieces As Integer)
         Try
             'strSql = $"select cast(a.ITEMID as nvarchar(100))+ '-' + b.ITEMNAME ITEM,a.PARTICULAR,a.PO_PIECES,a.POFROMDATE POSTINGFROM,a.POTODATE POSTINGTO,a.PONUMBER,a.PODATE from {cnAdminDb}.. PURCHASEORDER a"
-            strSql = $"select a.PARTICULAR,a.PO_PIECES,a.PODATE from {cnAdminDb}.. PURCHASEORDER a"
+            strSql = $"select a.PARTICULAR,a.PO_PIECES,CONVERT(VARCHAR(10), a.PODATE, 105) PODATE from {cnAdminDb}.. PURCHASEORDER a"
             strSql += $" join {cnAdminDb}..itemmast b on a.itemid = b.ITEMID"
             strSql += " where ISNULL(po_pieces,0)<>0"
             If metal <> "ALL" And metal <> "" Then

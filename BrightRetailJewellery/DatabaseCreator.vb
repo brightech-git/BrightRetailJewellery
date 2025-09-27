@@ -129369,7 +129369,8 @@ ByVal PurchaseTaxName As String
         AdmindbInsertValuesToSoftControl(compId + suffix, "BILLPRINT_SMITHBALANCE", "SMITH BALANCE PRINT IN BILLPRINTING [Y]ES,[N]O", "T", "N", "P")
         AdmindbInsertValuesToSoftControl(compId + suffix, "ADD_UPDATE_RESTRICT_ACCODE", "ADDRESS UPDATE RESTRICT EDIT ACCODE [Y]ES\[N]O", "T", "N", "A")
         AdmindbInsertValuesToSoftControl(compId + suffix, "ADD_UPDATE_RESTRICT_NAME", "ADDRESS UPDATE RESTRICT EDIT NAME [Y]ES\[N]O", "T", "N", "A")
-
+        AdmindbInsertValuesToSoftControl(compId + suffix, "JND_CREDIT", "JND AND CREDIT ALLOWED OTHER BRANCH (Y/N)", "T", "Y", "P")
+        AdmindbInsertValuesToSoftControl(compId + suffix, "MANDATE_PARTY_NAME", "MANDATORY TO ENTER THE PARTY NAME (Y/N)", "T", "N", "P")
 
         'AdmindbInsertValuesToSoftControl(compId + suffix, "ADD_UPDATE_RESTRICT_NAME", "ADDRESS UPDATE RESTRICT EDIT NAME [Y]ES\[N]O", "T", "N", "A")
 

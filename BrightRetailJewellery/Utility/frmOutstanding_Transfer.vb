@@ -1453,6 +1453,13 @@ Public Class frmOutstanding_Transfer
                 MsgBox("This Refno Already Tally or wrong Refno", MsgBoxStyle.Information)
                 Exit Sub
             End If
+
+            If GetAdmindbSoftValue("JND_CREDIT", "Y", tran) = "N" AndAlso dtitem.Rows(0)("TRANTYPE").ToString = "CREDIT" Then
+                btnTransfer.Enabled = False
+                MsgBox("JND AND CREDIT not allowed to transfer the credit.", MsgBoxStyle.Information)
+                Exit Sub
+            End If
+
             Dim dtTemp As New DataTable
             If GridView.Rows.Count > 0 Then
                 If dtitem.Rows.Count > 0 Then

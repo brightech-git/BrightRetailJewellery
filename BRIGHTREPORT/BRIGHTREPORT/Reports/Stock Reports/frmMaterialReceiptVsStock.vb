@@ -256,13 +256,13 @@ Public Class frmMaterialReceiptVsStock
                     .Rows(J).DefaultCellStyle.ForeColor = Color.Red
                 End If
             Next
-            Dim colhead(5) As String
+            Dim colhead(3) As String
             colhead(0) = "R"
             colhead(1) = "L"
             colhead(2) = "T"
             colhead(3) = "I"
-            colhead(4) = "PR"
-            colhead(5) = "B"
+            'colhead(4) = "PR"
+            ' colhead(5) = "B"
             For i As Integer = 0 To colhead.Length - 1
                 With .Columns(colhead(i) & "PCS")
                     .HeaderText = "PCS"

@@ -200,7 +200,7 @@ Public Class frmPurchaseOrder
         If Trim(chkCmbItem.Text.ToString) = "ALL" Or Trim(chkCmbItem.Text.ToString) = "" Then itemid = "ALL" Else itemid = GetSelecteditemid(chkCmbItem, True)
 
         If optDetail.Checked Then
-            strSql = $"select cast(0 as bit) [MARK], cast(a.ITEMID as nvarchar(100))+ '-' + b.ITEMNAME ITEM,a.PARTICULAR,a.PO_PIECES,a.POFROMDATE POSTINGFROM,a.POTODATE POSTINGTO,a.PONUMBER,a.PODATE,a.TRANDATE [TRANS DATE] from {cnAdminDb}.. PURCHASEORDER a"
+            strSql = $"select cast(0 as bit) [MARK], a.PONUMBER, cast(a.ITEMID as nvarchar(100))+ '-' + b.ITEMNAME ITEM,a.PARTICULAR,a.PO_PIECES,CONVERT(VARCHAR(10), a.POFROMDATE, 105) POSTINGFROM,CONVERT(VARCHAR(10), a.POTODATE, 105) POSTINGTO,CONVERT(VARCHAR(10), a.PODATE, 105) PODATE,CONVERT(VARCHAR(10), a.TRANDATE, 105) [TRANS DATE] from {cnAdminDb}.. PURCHASEORDER a"
             strSql += $" join {cnAdminDb}..itemmast b on a.itemid = b.ITEMID"
             strSql += " where ISNULL(po_pieces,0)<>0"
             If chkCmbMetal.Text.ToString <> "ALL" And chkCmbMetal.Text.ToString <> "" Then
@@ -212,7 +212,7 @@ Public Class frmPurchaseOrder
             strSql += " order by ponumber"
             chkSelectAll.Visible = True : btnMerge.Visible = True
         Else
-            strSql = $"select cast(a.ITEMID as nvarchar(100))+ '-' + b.ITEMNAME ITEM,SUM(a.PO_PIECES) PO_PIECES,a.PONUMBER,a.PODATE,a.TRANDATE [TRANS DATE] from {cnAdminDb}.. PURCHASEORDER a"
+            strSql = $"select cast(a.ITEMID as nvarchar(100))+ '-' + b.ITEMNAME ITEM, a.PONUMBER, SUM(a.PO_PIECES) PO_PIECES,CONVERT(VARCHAR(10), a.PODATE, 105) PODATE,CONVERT(VARCHAR(10), a.TRANDATE, 105) [TRANS DATE] from {cnAdminDb}.. PURCHASEORDER a"
             strSql += $" join {cnAdminDb}..itemmast b on a.itemid = b.ITEMID"
             strSql += " where ISNULL(po_pieces,0)<>0"
             If chkCmbMetal.Text.ToString <> "ALL" And chkCmbMetal.Text.ToString <> "" Then
@@ -381,18 +381,18 @@ Public Class frmPurchaseOrder
     End Sub
     Private Sub gridView_CellMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles gridView.CellMouseClick
         If gridView.Columns(e.ColumnIndex).Name = "MARK" Then
-            Dim item As String = gridView.Rows(e.RowIndex).Cells(1).Value
+            Dim poNumber As String = gridView.Rows(e.RowIndex).Cells("PONUMBER").Value
             If Not IsDBNull(gridView.Rows(e.RowIndex).Cells("TRANS DATE").Value) Then Exit Sub
             If gridView.Rows(e.RowIndex).Cells(e.ColumnIndex).Value = False Then
                 'gridView.Rows(e.RowIndex).Cells(e.ColumnIndex).Value = True
                 For Each row As DataGridViewRow In gridView.Rows
-                    If row.Cells("ITEM").Value.ToString() = item Then
+                    If row.Cells("PONUMBER").Value.ToString() = poNumber Then
                         row.Cells("MARK").Value = "True"
                     End If
                 Next
             Else
                 For Each row As DataGridViewRow In gridView.Rows
-                    If row.Cells("ITEM").Value.ToString() = item Then
+                    If row.Cells("PONUMBER").Value.ToString() = poNumber Then
                         row.Cells("MARK").Value = "False"
                     End If
                 Next
@@ -429,11 +429,13 @@ Public Class frmPurchaseOrder
             End Using
 
             'strSql = $"select distinct ITEMID from {cnAdminDb}..PURCHASEORDER where PONUMBER = 'RTM'"
-            strSql = $"select distinct ITEMID from {cnAdminDb}..PURCHASEORDER"
-            Dim distinctDt As DataTable = GetSqlTable(strSql, cn)
+            'strSql = $"select distinct ITEMID from {cnAdminDb}..PURCHASEORDER"
+            'Dim distinctDt As DataTable = GetSqlTable(strSql, cn)
+            Dim distinctDt As DataTable = filteredTable.AsDataView.ToTable(True, "ITEM", "PONUMBER")
             For Each row As DataRow In distinctDt.Rows
+                Dim itemId As String = row("ITEM").ToString().Split("-"c)(0)
                 'strSql = $"select min(pofromdate)frm, max(potodate)[to] from {cnAdminDb}..PURCHASEORDER where PONUMBER = 'RTM' and ITEMID = {row("ITEMID").ToString()}"
-                strSql = $"select cast(min(pofromdate) as date)frm, cast(max(potodate) as date) [to] from {cnAdminDb}..PURCHASEORDER where ITEMID = {row("ITEMID").ToString()}"
+                strSql = $"select cast(min(pofromdate) as date)frm, cast(max(potodate) as date) [to] from {cnAdminDb}..PURCHASEORDER where ITEMID = {itemId} and PONUMBER = '{row("PONUMBER").ToString()}'"
                 Dim dtMinMax As New DataTable
                 cmd = New OleDb.OleDbCommand(strSql, cn)
                 da = New OleDbDataAdapter(cmd)
@@ -444,8 +446,8 @@ Public Class frmPurchaseOrder
                 strSql = "select ISNULL(ctltext,0)+1 ctltext from " & cnStockDb & "..BILLCONTROL where CTLID = 'MET-O-PUR' and COMPANYID = '" & strCompanyId & "'"
                 Dim poNum As Integer = objGPack.GetSqlValue(strSql, , , tran)
                 'Dim ActPoNum As String = $"{cnCostId}-{row("ITEMID").ToString()}-({dtpFrom.Value.ToString("ddMM")}/{dtpTo.Value.ToString("ddMM")}/{dtpTo.Value.ToString("yy")})-M{poNum.ToString("0000")}"
-                Dim ActPoNum As String = $"{cnCostId}-{row("ITEMID").ToString()}-({frmDt.ToString("ddMM")}/{toDt.ToString("ddMM")}/{toDt.ToString("yy")})-M{poNum.ToString("0000")}"
-                strSql = $"update {cnAdminDb}.. PURCHASEORDER set PONUMBER = '{ActPoNum}',PODATE = '{Now.Date}', POFROMDATE = '{dtMinMax.Rows(0)(0)}', POTODATE = '{dtMinMax.Rows(0)(1)}' where itemid = {row("ITEMID").ToString()}"
+                Dim ActPoNum As String = $"{cnCostId}-{itemId}-({frmDt.ToString("ddMM")}/{toDt.ToString("ddMM")}/{toDt.ToString("yy")})-M{poNum.ToString("0000")}"
+                strSql = $"update {cnAdminDb}.. PURCHASEORDER set PONUMBER = '{ActPoNum}',PODATE = '{Now.Date}', POFROMDATE = '{dtMinMax.Rows(0)(0)}', POTODATE = '{dtMinMax.Rows(0)(1)}' where itemid = {itemId} and PONUMBER = '{row("PONUMBER").ToString()}'"
                 strSql += vbCrLf + $"update {cnStockDb}..BILLCONTROL set ctltext = '{poNum}' where CTLID = 'MET-O-PUR' and COMPANYID = '{strCompanyId}'"
                 cmd = New OleDb.OleDbCommand(strSql, cn)
                 cmd.CommandTimeout = 100000

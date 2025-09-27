@@ -732,10 +732,12 @@ GETNSNO:
     Private Function ValidatateAddress() As Boolean
 
         If txtAddressName.Text.Trim = "" Then
-            MsgBox("Enter the name", MsgBoxStyle.Information)
-            txtAddressName.Focus()
-            Return False
-            Exit Function
+            If GetAdmindbSoftValue("MANDATE_PARTY_NAME", "Y") = "Y" Then
+                MsgBox("Enter the name", MsgBoxStyle.Information)
+                txtAddressName.Focus()
+                Return False
+                Exit Function
+            End If
         End If
 
         If txtAddressDueDays_NUM.Enabled And dtpAddressDueDate.Enabled And Validate_DueDate Then

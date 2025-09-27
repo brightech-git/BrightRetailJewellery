@@ -1,9 +1,9 @@
-<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class frmItemTag
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         If disposing AndAlso components IsNot Nothing Then
             components.Dispose()
@@ -17,7 +17,7 @@ Partial Class frmItemTag
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.Label20 = New System.Windows.Forms.Label()
@@ -101,6 +101,7 @@ Partial Class frmItemTag
         Me.ModifyData = New System.Windows.Forms.Label()
         Me.SplitData = New System.Windows.Forms.Label()
         Me.cmbItem_MAN = New System.Windows.Forms.ComboBox()
+        Me.lblPoNumber = New System.Windows.Forms.Label()
         Me.lblItemChange = New System.Windows.Forms.Label()
         Me.dtpRecieptDate = New BrighttechPack.DatePicker(Me.components)
         Me.chkGuaranteeCard = New System.Windows.Forms.CheckBox()
@@ -296,7 +297,10 @@ Partial Class frmItemTag
         Me.txtOrderNo = New System.Windows.Forms.TextBox()
         Me.cmsSetItem = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.SetItemToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.lblPoNumber = New System.Windows.Forms.Label()
+        Me.poGrid = New System.Windows.Forms.DataGridView()
+        Me.CachedCformletter1 = New BrighttechRetailJewellery.CachedCformletter()
+        Me.CachedCformletter2 = New BrighttechRetailJewellery.CachedCformletter()
+        Me.Panel2 = New System.Windows.Forms.Panel()
         Me.grpSaveControls.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
         CType(Me.picCapture, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -333,6 +337,8 @@ Partial Class frmItemTag
         CType(Me.gridHallmarkDetails, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlMain.SuspendLayout()
         Me.cmsSetItem.SuspendLayout()
+        CType(Me.poGrid, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel2.SuspendLayout()
         Me.SuspendLayout()
         '
         'Label20
@@ -341,7 +347,7 @@ Partial Class frmItemTag
         Me.Label20.ForeColor = System.Drawing.SystemColors.ControlText
         Me.Label20.Location = New System.Drawing.Point(244, 10)
         Me.Label20.Name = "Label20"
-        Me.Label20.Size = New System.Drawing.Size(52, 13)
+        Me.Label20.Size = New System.Drawing.Size(61, 17)
         Me.Label20.TabIndex = 8
         Me.Label20.Text = "Balance"
         Me.Label20.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -352,7 +358,7 @@ Partial Class frmItemTag
         Me.Label24.ForeColor = System.Drawing.SystemColors.ControlText
         Me.Label24.Location = New System.Drawing.Point(76, 10)
         Me.Label24.Name = "Label24"
-        Me.Label24.Size = New System.Drawing.Size(24, 13)
+        Me.Label24.Size = New System.Drawing.Size(31, 17)
         Me.Label24.TabIndex = 2
         Me.Label24.Text = "Lot"
         Me.Label24.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -383,7 +389,7 @@ Partial Class frmItemTag
         Me.Label22.ForeColor = System.Drawing.SystemColors.ControlText
         Me.Label22.Location = New System.Drawing.Point(152, 10)
         Me.Label22.Name = "Label22"
-        Me.Label22.Size = New System.Drawing.Size(69, 13)
+        Me.Label22.Size = New System.Drawing.Size(83, 17)
         Me.Label22.TabIndex = 5
         Me.Label22.Text = "Completed"
         Me.Label22.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -444,7 +450,7 @@ Partial Class frmItemTag
         Me.Label13.AutoSize = True
         Me.Label13.Location = New System.Drawing.Point(3, 3)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(55, 13)
+        Me.Label13.Size = New System.Drawing.Size(69, 17)
         Me.Label13.TabIndex = 0
         Me.Label13.Text = "Lot Type"
         Me.Label13.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -464,7 +470,7 @@ Partial Class frmItemTag
         Me.Label12.AutoSize = True
         Me.Label12.Location = New System.Drawing.Point(3, 20)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(36, 13)
+        Me.Label12.Size = New System.Drawing.Size(44, 17)
         Me.Label12.TabIndex = 0
         Me.Label12.Text = "From"
         Me.Label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -485,7 +491,7 @@ Partial Class frmItemTag
         Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(3, 37)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(20, 13)
+        Me.Label11.Size = New System.Drawing.Size(24, 17)
         Me.Label11.TabIndex = 0
         Me.Label11.Text = "To"
         Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -513,6 +519,7 @@ Partial Class frmItemTag
         '
         'grpSaveControls
         '
+        Me.grpSaveControls.Controls.Add(Me.Panel2)
         Me.grpSaveControls.Controls.Add(Me.chkOldTagRecdate)
         Me.grpSaveControls.Controls.Add(Me.dtpOldTagRecDate_OWN)
         Me.grpSaveControls.Controls.Add(Me.txtWorkOrderNo)
@@ -600,7 +607,7 @@ Partial Class frmItemTag
         Me.grpSaveControls.Dock = System.Windows.Forms.DockStyle.Top
         Me.grpSaveControls.Location = New System.Drawing.Point(0, 0)
         Me.grpSaveControls.Name = "grpSaveControls"
-        Me.grpSaveControls.Size = New System.Drawing.Size(1028, 421)
+        Me.grpSaveControls.Size = New System.Drawing.Size(1826, 421)
         Me.grpSaveControls.TabIndex = 0
         Me.grpSaveControls.TabStop = False
         '
@@ -610,22 +617,23 @@ Partial Class frmItemTag
         Me.chkOldTagRecdate.ContextMenuStrip = Me.ContextMenuStrip1
         Me.chkOldTagRecdate.Location = New System.Drawing.Point(3, 269)
         Me.chkOldTagRecdate.Name = "chkOldTagRecdate"
-        Me.chkOldTagRecdate.Size = New System.Drawing.Size(85, 17)
+        Me.chkOldTagRecdate.Size = New System.Drawing.Size(102, 21)
         Me.chkOldTagRecdate.TabIndex = 20
         Me.chkOldTagRecdate.Text = "R TagDate"
         Me.chkOldTagRecdate.UseVisualStyleBackColor = True
         '
         'ContextMenuStrip1
         '
+        Me.ContextMenuStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SaveToolStripMenuItem, Me.NewToolStripMenuItem, Me.ExitToolStripMenuItem, Me.EditGridToolStripMenuItem, Me.ItemChangeToolStripMenuItem, Me.WeighingScalePropertyToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(204, 136)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(241, 148)
         '
         'SaveToolStripMenuItem
         '
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
         Me.SaveToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(240, 24)
         Me.SaveToolStripMenuItem.Text = "Save"
         Me.SaveToolStripMenuItem.Visible = False
         '
@@ -633,7 +641,7 @@ Partial Class frmItemTag
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
         Me.NewToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(240, 24)
         Me.NewToolStripMenuItem.Text = "New"
         Me.NewToolStripMenuItem.Visible = False
         '
@@ -641,7 +649,7 @@ Partial Class frmItemTag
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
         Me.ExitToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F12
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(240, 24)
         Me.ExitToolStripMenuItem.Text = "Exit"
         Me.ExitToolStripMenuItem.Visible = False
         '
@@ -649,7 +657,7 @@ Partial Class frmItemTag
         '
         Me.EditGridToolStripMenuItem.Name = "EditGridToolStripMenuItem"
         Me.EditGridToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2
-        Me.EditGridToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
+        Me.EditGridToolStripMenuItem.Size = New System.Drawing.Size(240, 24)
         Me.EditGridToolStripMenuItem.Text = "EditGrid"
         Me.EditGridToolStripMenuItem.Visible = False
         '
@@ -657,14 +665,14 @@ Partial Class frmItemTag
         '
         Me.ItemChangeToolStripMenuItem.Name = "ItemChangeToolStripMenuItem"
         Me.ItemChangeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5
-        Me.ItemChangeToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
+        Me.ItemChangeToolStripMenuItem.Size = New System.Drawing.Size(240, 24)
         Me.ItemChangeToolStripMenuItem.Text = "ItemChange"
         Me.ItemChangeToolStripMenuItem.Visible = False
         '
         'WeighingScalePropertyToolStripMenuItem
         '
         Me.WeighingScalePropertyToolStripMenuItem.Name = "WeighingScalePropertyToolStripMenuItem"
-        Me.WeighingScalePropertyToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
+        Me.WeighingScalePropertyToolStripMenuItem.Size = New System.Drawing.Size(240, 24)
         Me.WeighingScalePropertyToolStripMenuItem.Text = "Weighing Scale Property"
         '
         'dtpOldTagRecDate_OWN
@@ -675,7 +683,7 @@ Partial Class frmItemTag
         Me.dtpOldTagRecDate_OWN.MinimumDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpOldTagRecDate_OWN.Name = "dtpOldTagRecDate_OWN"
         Me.dtpOldTagRecDate_OWN.Seperator = Global.Microsoft.VisualBasic.ChrW(47)
-        Me.dtpOldTagRecDate_OWN.Size = New System.Drawing.Size(94, 21)
+        Me.dtpOldTagRecDate_OWN.Size = New System.Drawing.Size(94, 24)
         Me.dtpOldTagRecDate_OWN.TabIndex = 21
         Me.dtpOldTagRecDate_OWN.Text = "07/03/9998"
         Me.dtpOldTagRecDate_OWN.Value = New Date(9998, 3, 7, 0, 0, 0, 0)
@@ -685,7 +693,7 @@ Partial Class frmItemTag
         Me.txtWorkOrderNo.Location = New System.Drawing.Point(679, 216)
         Me.txtWorkOrderNo.MaxLength = 20
         Me.txtWorkOrderNo.Name = "txtWorkOrderNo"
-        Me.txtWorkOrderNo.Size = New System.Drawing.Size(91, 21)
+        Me.txtWorkOrderNo.Size = New System.Drawing.Size(91, 24)
         Me.txtWorkOrderNo.TabIndex = 49
         '
         'Label19
@@ -693,7 +701,7 @@ Partial Class frmItemTag
         Me.Label19.AutoSize = True
         Me.Label19.Location = New System.Drawing.Point(577, 220)
         Me.Label19.Name = "Label19"
-        Me.Label19.Size = New System.Drawing.Size(92, 13)
+        Me.Label19.Size = New System.Drawing.Size(114, 17)
         Me.Label19.TabIndex = 48
         Me.Label19.Text = "Work Order No"
         Me.Label19.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -704,7 +712,7 @@ Partial Class frmItemTag
         Me.cmbCalType.FormattingEnabled = True
         Me.cmbCalType.Location = New System.Drawing.Point(97, 242)
         Me.cmbCalType.Name = "cmbCalType"
-        Me.cmbCalType.Size = New System.Drawing.Size(94, 21)
+        Me.cmbCalType.Size = New System.Drawing.Size(94, 25)
         Me.cmbCalType.TabIndex = 76
         '
         'Label17
@@ -712,7 +720,7 @@ Partial Class frmItemTag
         Me.Label17.AutoSize = True
         Me.Label17.Location = New System.Drawing.Point(6, 246)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(57, 13)
+        Me.Label17.Size = New System.Drawing.Size(67, 17)
         Me.Label17.TabIndex = 75
         Me.Label17.Text = "Cal Type"
         Me.Label17.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -722,7 +730,7 @@ Partial Class frmItemTag
         Me.Label16.AutoSize = True
         Me.Label16.Location = New System.Drawing.Point(196, 246)
         Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(53, 13)
+        Me.Label16.Size = New System.Drawing.Size(64, 17)
         Me.Label16.TabIndex = 77
         Me.Label16.Text = "SetItem"
         Me.Label16.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -733,7 +741,7 @@ Partial Class frmItemTag
         Me.CmbSetItem.FormattingEnabled = True
         Me.CmbSetItem.Location = New System.Drawing.Point(252, 242)
         Me.CmbSetItem.Name = "CmbSetItem"
-        Me.CmbSetItem.Size = New System.Drawing.Size(85, 21)
+        Me.CmbSetItem.Size = New System.Drawing.Size(85, 25)
         Me.CmbSetItem.TabIndex = 78
         '
         'Label14
@@ -741,7 +749,7 @@ Partial Class frmItemTag
         Me.Label14.AutoSize = True
         Me.Label14.Location = New System.Drawing.Point(196, 197)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(31, 13)
+        Me.Label14.Size = New System.Drawing.Size(38, 17)
         Me.Label14.TabIndex = 16
         Me.Label14.Text = "HSN"
         Me.Label14.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -752,7 +760,7 @@ Partial Class frmItemTag
         Me.txtHSN.Location = New System.Drawing.Point(248, 193)
         Me.txtHSN.MaxLength = 15
         Me.txtHSN.Name = "txtHSN"
-        Me.txtHSN.Size = New System.Drawing.Size(89, 21)
+        Me.txtHSN.Size = New System.Drawing.Size(89, 24)
         Me.txtHSN.TabIndex = 17
         '
         'lblDiscPer
@@ -760,7 +768,7 @@ Partial Class frmItemTag
         Me.lblDiscPer.AutoSize = True
         Me.lblDiscPer.Location = New System.Drawing.Point(577, 377)
         Me.lblDiscPer.Name = "lblDiscPer"
-        Me.lblDiscPer.Size = New System.Drawing.Size(96, 13)
+        Me.lblDiscPer.Size = New System.Drawing.Size(121, 17)
         Me.lblDiscPer.TabIndex = 68
         Me.lblDiscPer.Text = "Disc on Wast %"
         Me.lblDiscPer.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -771,7 +779,7 @@ Partial Class frmItemTag
         Me.txtWDisc_Per.Location = New System.Drawing.Point(679, 373)
         Me.txtWDisc_Per.MaxLength = 10
         Me.txtWDisc_Per.Name = "txtWDisc_Per"
-        Me.txtWDisc_Per.Size = New System.Drawing.Size(91, 21)
+        Me.txtWDisc_Per.Size = New System.Drawing.Size(91, 24)
         Me.txtWDisc_Per.TabIndex = 69
         Me.txtWDisc_Per.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.txtWDisc_Per.Visible = False
@@ -783,7 +791,7 @@ Partial Class frmItemTag
         Me.lblStkType.ForeColor = System.Drawing.Color.Red
         Me.lblStkType.Location = New System.Drawing.Point(200, 22)
         Me.lblStkType.Name = "lblStkType"
-        Me.lblStkType.Size = New System.Drawing.Size(0, 13)
+        Me.lblStkType.Size = New System.Drawing.Size(0, 17)
         Me.lblStkType.TabIndex = 69
         '
         'CmbUnit
@@ -792,7 +800,7 @@ Partial Class frmItemTag
         Me.CmbUnit.Items.AddRange(New Object() {"C", "G"})
         Me.CmbUnit.Location = New System.Drawing.Point(541, 106)
         Me.CmbUnit.Name = "CmbUnit"
-        Me.CmbUnit.Size = New System.Drawing.Size(32, 21)
+        Me.CmbUnit.Size = New System.Drawing.Size(32, 25)
         Me.CmbUnit.TabIndex = 37
         Me.CmbUnit.Visible = False
         '
@@ -801,7 +809,7 @@ Partial Class frmItemTag
         Me.Label10.AutoSize = True
         Me.Label10.Location = New System.Drawing.Point(577, 354)
         Me.Label10.Name = "Label10"
-        Me.Label10.Size = New System.Drawing.Size(64, 13)
+        Me.Label10.Size = New System.Drawing.Size(79, 17)
         Me.Label10.TabIndex = 64
         Me.Label10.Text = "Set Tagno"
         Me.Label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -812,7 +820,7 @@ Partial Class frmItemTag
         Me.txtSetTagno.Location = New System.Drawing.Point(679, 350)
         Me.txtSetTagno.MaxLength = 10
         Me.txtSetTagno.Name = "txtSetTagno"
-        Me.txtSetTagno.Size = New System.Drawing.Size(91, 21)
+        Me.txtSetTagno.Size = New System.Drawing.Size(91, 24)
         Me.txtSetTagno.TabIndex = 65
         '
         'chkFixedVa
@@ -821,7 +829,7 @@ Partial Class frmItemTag
         Me.chkFixedVa.ContextMenuStrip = Me.ContextMenuStrip1
         Me.chkFixedVa.Location = New System.Drawing.Point(214, 292)
         Me.chkFixedVa.Name = "chkFixedVa"
-        Me.chkFixedVa.Size = New System.Drawing.Size(76, 17)
+        Me.chkFixedVa.Size = New System.Drawing.Size(92, 21)
         Me.chkFixedVa.TabIndex = 24
         Me.chkFixedVa.Text = "Fixed VA"
         Me.chkFixedVa.UseVisualStyleBackColor = True
@@ -831,7 +839,7 @@ Partial Class frmItemTag
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(9, 122)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(32, 13)
+        Me.Label6.Size = New System.Drawing.Size(37, 17)
         Me.Label6.TabIndex = 8
         Me.Label6.Text = "Seal"
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -840,7 +848,7 @@ Partial Class frmItemTag
         '
         Me.txt_seal.Location = New System.Drawing.Point(97, 118)
         Me.txt_seal.Name = "txt_seal"
-        Me.txt_seal.Size = New System.Drawing.Size(240, 21)
+        Me.txt_seal.Size = New System.Drawing.Size(240, 24)
         Me.txt_seal.TabIndex = 9
         '
         'picCapture
@@ -856,7 +864,7 @@ Partial Class frmItemTag
         'PictureBox1
         '
         Me.PictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
-        Me.PictureBox1.Location = New System.Drawing.Point(1106, 22)
+        Me.PictureBox1.Location = New System.Drawing.Point(986, 15)
         Me.PictureBox1.Name = "PictureBox1"
         Me.PictureBox1.Size = New System.Drawing.Size(12, 22)
         Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
@@ -881,7 +889,7 @@ Partial Class frmItemTag
         Me.txtPurchaseValue_Amt_Hide.Enabled = False
         Me.txtPurchaseValue_Amt_Hide.Location = New System.Drawing.Point(415, 1)
         Me.txtPurchaseValue_Amt_Hide.Name = "txtPurchaseValue_Amt_Hide"
-        Me.txtPurchaseValue_Amt_Hide.Size = New System.Drawing.Size(10, 21)
+        Me.txtPurchaseValue_Amt_Hide.Size = New System.Drawing.Size(10, 24)
         Me.txtPurchaseValue_Amt_Hide.TabIndex = 57
         Me.txtPurchaseValue_Amt_Hide.TabStop = False
         Me.txtPurchaseValue_Amt_Hide.Text = "999999.99"
@@ -892,7 +900,7 @@ Partial Class frmItemTag
         Me.Label62.AutoSize = True
         Me.Label62.Location = New System.Drawing.Point(226, 4)
         Me.Label62.Name = "Label62"
-        Me.Label62.Size = New System.Drawing.Size(98, 13)
+        Me.Label62.Size = New System.Drawing.Size(118, 17)
         Me.Label62.TabIndex = 3
         Me.Label62.Text = "Purchase  Value"
         '
@@ -901,7 +909,7 @@ Partial Class frmItemTag
         Me.txtRefVal_AMT.Location = New System.Drawing.Point(185, 0)
         Me.txtRefVal_AMT.MaxLength = 10
         Me.txtRefVal_AMT.Name = "txtRefVal_AMT"
-        Me.txtRefVal_AMT.Size = New System.Drawing.Size(36, 21)
+        Me.txtRefVal_AMT.Size = New System.Drawing.Size(36, 24)
         Me.txtRefVal_AMT.TabIndex = 56
         Me.txtRefVal_AMT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -910,7 +918,7 @@ Partial Class frmItemTag
         Me.txtSalValue_Amt_Man.Location = New System.Drawing.Point(117, 0)
         Me.txtSalValue_Amt_Man.MaxLength = 10
         Me.txtSalValue_Amt_Man.Name = "txtSalValue_Amt_Man"
-        Me.txtSalValue_Amt_Man.Size = New System.Drawing.Size(66, 21)
+        Me.txtSalValue_Amt_Man.Size = New System.Drawing.Size(66, 24)
         Me.txtSalValue_Amt_Man.TabIndex = 1
         Me.txtSalValue_Amt_Man.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -919,7 +927,7 @@ Partial Class frmItemTag
         Me.Label53.AutoSize = True
         Me.Label53.Location = New System.Drawing.Point(1, 4)
         Me.Label53.Name = "Label53"
-        Me.Label53.Size = New System.Drawing.Size(67, 13)
+        Me.Label53.Size = New System.Drawing.Size(79, 17)
         Me.Label53.TabIndex = 0
         Me.Label53.Text = "Sale Value"
         Me.Label53.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -929,7 +937,7 @@ Partial Class frmItemTag
         Me.txtPurchaseValue_Amt.Enabled = False
         Me.txtPurchaseValue_Amt.Location = New System.Drawing.Point(327, 0)
         Me.txtPurchaseValue_Amt.Name = "txtPurchaseValue_Amt"
-        Me.txtPurchaseValue_Amt.Size = New System.Drawing.Size(133, 21)
+        Me.txtPurchaseValue_Amt.Size = New System.Drawing.Size(133, 24)
         Me.txtPurchaseValue_Amt.TabIndex = 4
         Me.txtPurchaseValue_Amt.Text = "999999.99"
         '
@@ -938,7 +946,7 @@ Partial Class frmItemTag
         Me.Label27.AutoSize = True
         Me.Label27.Location = New System.Drawing.Point(577, 331)
         Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(101, 13)
+        Me.Label27.Size = New System.Drawing.Size(119, 17)
         Me.Label27.TabIndex = 60
         Me.Label27.Text = "Hallmark Center"
         Me.Label27.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -949,7 +957,7 @@ Partial Class frmItemTag
         Me.txtHmCentre.Location = New System.Drawing.Point(679, 327)
         Me.txtHmCentre.MaxLength = 10
         Me.txtHmCentre.Name = "txtHmCentre"
-        Me.txtHmCentre.Size = New System.Drawing.Size(91, 21)
+        Me.txtHmCentre.Size = New System.Drawing.Size(91, 24)
         Me.txtHmCentre.TabIndex = 61
         '
         'Label26
@@ -957,7 +965,7 @@ Partial Class frmItemTag
         Me.Label26.AutoSize = True
         Me.Label26.Location = New System.Drawing.Point(354, 331)
         Me.Label26.Name = "Label26"
-        Me.Label26.Size = New System.Drawing.Size(77, 13)
+        Me.Label26.Size = New System.Drawing.Size(91, 17)
         Me.Label26.TabIndex = 58
         Me.Label26.Text = "Hallmark No"
         Me.Label26.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -968,7 +976,7 @@ Partial Class frmItemTag
         Me.txtHmBillNo.Location = New System.Drawing.Point(469, 327)
         Me.txtHmBillNo.MaxLength = 10
         Me.txtHmBillNo.Name = "txtHmBillNo"
-        Me.txtHmBillNo.Size = New System.Drawing.Size(104, 21)
+        Me.txtHmBillNo.Size = New System.Drawing.Size(104, 24)
         Me.txtHmBillNo.TabIndex = 59
         '
         'pnlMax
@@ -993,7 +1001,7 @@ Partial Class frmItemTag
         Me.txtMaxMkCharge_Amt.Location = New System.Drawing.Point(328, 23)
         Me.txtMaxMkCharge_Amt.MaxLength = 10
         Me.txtMaxMkCharge_Amt.Name = "txtMaxMkCharge_Amt"
-        Me.txtMaxMkCharge_Amt.Size = New System.Drawing.Size(91, 21)
+        Me.txtMaxMkCharge_Amt.Size = New System.Drawing.Size(91, 24)
         Me.txtMaxMkCharge_Amt.TabIndex = 7
         Me.txtMaxMkCharge_Amt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -1002,7 +1010,7 @@ Partial Class frmItemTag
         Me.txtMaxMkCharge_Org.Location = New System.Drawing.Point(329, 23)
         Me.txtMaxMkCharge_Org.MaxLength = 10
         Me.txtMaxMkCharge_Org.Name = "txtMaxMkCharge_Org"
-        Me.txtMaxMkCharge_Org.Size = New System.Drawing.Size(20, 21)
+        Me.txtMaxMkCharge_Org.Size = New System.Drawing.Size(20, 24)
         Me.txtMaxMkCharge_Org.TabIndex = 70
         Me.txtMaxMkCharge_Org.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.txtMaxMkCharge_Org.Visible = False
@@ -1012,7 +1020,7 @@ Partial Class frmItemTag
         Me.txtMaxWastage_Org.Location = New System.Drawing.Point(92, 21)
         Me.txtMaxWastage_Org.MaxLength = 10
         Me.txtMaxWastage_Org.Name = "txtMaxWastage_Org"
-        Me.txtMaxWastage_Org.Size = New System.Drawing.Size(20, 21)
+        Me.txtMaxWastage_Org.Size = New System.Drawing.Size(20, 24)
         Me.txtMaxWastage_Org.TabIndex = 69
         Me.txtMaxWastage_Org.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.txtMaxWastage_Org.Visible = False
@@ -1022,7 +1030,7 @@ Partial Class frmItemTag
         Me.Label45.AutoSize = True
         Me.Label45.Location = New System.Drawing.Point(3, 1)
         Me.Label45.Name = "Label45"
-        Me.Label45.Size = New System.Drawing.Size(98, 13)
+        Me.Label45.Size = New System.Drawing.Size(122, 17)
         Me.Label45.TabIndex = 0
         Me.Label45.Text = "Max Wastage %"
         Me.Label45.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1032,7 +1040,7 @@ Partial Class frmItemTag
         Me.txtMaxWastage_Per.Location = New System.Drawing.Point(118, 1)
         Me.txtMaxWastage_Per.MaxLength = 10
         Me.txtMaxWastage_Per.Name = "txtMaxWastage_Per"
-        Me.txtMaxWastage_Per.Size = New System.Drawing.Size(104, 21)
+        Me.txtMaxWastage_Per.Size = New System.Drawing.Size(104, 24)
         Me.txtMaxWastage_Per.TabIndex = 1
         Me.txtMaxWastage_Per.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -1041,7 +1049,7 @@ Partial Class frmItemTag
         Me.txtMaxWastage_Wet.Location = New System.Drawing.Point(118, 23)
         Me.txtMaxWastage_Wet.MaxLength = 10
         Me.txtMaxWastage_Wet.Name = "txtMaxWastage_Wet"
-        Me.txtMaxWastage_Wet.Size = New System.Drawing.Size(104, 21)
+        Me.txtMaxWastage_Wet.Size = New System.Drawing.Size(104, 24)
         Me.txtMaxWastage_Wet.TabIndex = 5
         Me.txtMaxWastage_Wet.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -1050,7 +1058,7 @@ Partial Class frmItemTag
         Me.Label46.AutoSize = True
         Me.Label46.Location = New System.Drawing.Point(3, 23)
         Me.Label46.Name = "Label46"
-        Me.Label46.Size = New System.Drawing.Size(82, 13)
+        Me.Label46.Size = New System.Drawing.Size(102, 17)
         Me.Label46.TabIndex = 4
         Me.Label46.Text = "Max Wastage"
         Me.Label46.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1060,7 +1068,7 @@ Partial Class frmItemTag
         Me.Label47.AutoSize = True
         Me.Label47.Location = New System.Drawing.Point(226, 27)
         Me.Label47.Name = "Label47"
-        Me.Label47.Size = New System.Drawing.Size(52, 13)
+        Me.Label47.Size = New System.Drawing.Size(62, 17)
         Me.Label47.TabIndex = 6
         Me.Label47.Text = "Max MC"
         Me.Label47.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1070,7 +1078,7 @@ Partial Class frmItemTag
         Me.txtMaxMcPerGrm_Amt.Location = New System.Drawing.Point(328, 1)
         Me.txtMaxMcPerGrm_Amt.MaxLength = 10
         Me.txtMaxMcPerGrm_Amt.Name = "txtMaxMcPerGrm_Amt"
-        Me.txtMaxMcPerGrm_Amt.Size = New System.Drawing.Size(91, 21)
+        Me.txtMaxMcPerGrm_Amt.Size = New System.Drawing.Size(91, 24)
         Me.txtMaxMcPerGrm_Amt.TabIndex = 3
         Me.txtMaxMcPerGrm_Amt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -1079,7 +1087,7 @@ Partial Class frmItemTag
         Me.Label44.AutoSize = True
         Me.Label44.Location = New System.Drawing.Point(226, 5)
         Me.Label44.Name = "Label44"
-        Me.Label44.Size = New System.Drawing.Size(101, 13)
+        Me.Label44.Size = New System.Drawing.Size(121, 17)
         Me.Label44.TabIndex = 2
         Me.Label44.Text = "Max Mc Per Grm"
         Me.Label44.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1089,7 +1097,7 @@ Partial Class frmItemTag
         Me.Label80.AutoSize = True
         Me.Label80.Location = New System.Drawing.Point(353, 243)
         Me.Label80.Name = "Label80"
-        Me.Label80.Size = New System.Drawing.Size(40, 13)
+        Me.Label80.Size = New System.Drawing.Size(49, 17)
         Me.Label80.TabIndex = 50
         Me.Label80.Text = "Touch"
         Me.Label80.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1098,7 +1106,7 @@ Partial Class frmItemTag
         '
         Me.txtTouch_AMT.Location = New System.Drawing.Point(469, 238)
         Me.txtTouch_AMT.Name = "txtTouch_AMT"
-        Me.txtTouch_AMT.Size = New System.Drawing.Size(104, 21)
+        Me.txtTouch_AMT.Size = New System.Drawing.Size(104, 24)
         Me.txtTouch_AMT.TabIndex = 51
         '
         'cmbCounter_MAN
@@ -1106,7 +1114,7 @@ Partial Class frmItemTag
         Me.cmbCounter_MAN.FormattingEnabled = True
         Me.cmbCounter_MAN.Location = New System.Drawing.Point(97, 218)
         Me.cmbCounter_MAN.Name = "cmbCounter_MAN"
-        Me.cmbCounter_MAN.Size = New System.Drawing.Size(240, 21)
+        Me.cmbCounter_MAN.Size = New System.Drawing.Size(240, 25)
         Me.cmbCounter_MAN.TabIndex = 19
         '
         'Label79
@@ -1114,7 +1122,7 @@ Partial Class frmItemTag
         Me.Label79.AutoSize = True
         Me.Label79.Location = New System.Drawing.Point(353, 355)
         Me.Label79.Name = "Label79"
-        Me.Label79.Size = New System.Drawing.Size(35, 13)
+        Me.Label79.Size = New System.Drawing.Size(42, 17)
         Me.Label79.TabIndex = 62
         Me.Label79.Text = "RFID"
         Me.Label79.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1125,7 +1133,7 @@ Partial Class frmItemTag
         Me.txtRfId.Location = New System.Drawing.Point(469, 350)
         Me.txtRfId.MaxLength = 24
         Me.txtRfId.Name = "txtRfId"
-        Me.txtRfId.Size = New System.Drawing.Size(104, 21)
+        Me.txtRfId.Size = New System.Drawing.Size(104, 24)
         Me.txtRfId.TabIndex = 63
         '
         'grpWtMachingDet
@@ -1149,7 +1157,7 @@ Partial Class frmItemTag
         Me.Label78.Font = New System.Drawing.Font("Verdana", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label78.Location = New System.Drawing.Point(3, 13)
         Me.Label78.Name = "Label78"
-        Me.Label78.Size = New System.Drawing.Size(54, 12)
+        Me.Label78.Size = New System.Drawing.Size(69, 14)
         Me.Label78.TabIndex = 57
         Me.Label78.Text = "ReadData"
         '
@@ -1159,7 +1167,7 @@ Partial Class frmItemTag
         Me.Label77.Font = New System.Drawing.Font("Verdana", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label77.Location = New System.Drawing.Point(3, 61)
         Me.Label77.Name = "Label77"
-        Me.Label77.Size = New System.Drawing.Size(62, 12)
+        Me.Label77.Size = New System.Drawing.Size(77, 14)
         Me.Label77.TabIndex = 57
         Me.Label77.Text = "ModifyData"
         '
@@ -1169,7 +1177,7 @@ Partial Class frmItemTag
         Me.ReadData.Font = New System.Drawing.Font("Verdana", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ReadData.Location = New System.Drawing.Point(3, 25)
         Me.ReadData.Name = "ReadData"
-        Me.ReadData.Size = New System.Drawing.Size(54, 12)
+        Me.ReadData.Size = New System.Drawing.Size(69, 14)
         Me.ReadData.TabIndex = 57
         Me.ReadData.Text = "ReadData"
         '
@@ -1179,7 +1187,7 @@ Partial Class frmItemTag
         Me.Label76.Font = New System.Drawing.Font("Verdana", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label76.Location = New System.Drawing.Point(3, 38)
         Me.Label76.Name = "Label76"
-        Me.Label76.Size = New System.Drawing.Size(52, 12)
+        Me.Label76.Size = New System.Drawing.Size(64, 14)
         Me.Label76.TabIndex = 57
         Me.Label76.Text = "SplitData"
         '
@@ -1189,7 +1197,7 @@ Partial Class frmItemTag
         Me.ModifyData.Font = New System.Drawing.Font("Verdana", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ModifyData.Location = New System.Drawing.Point(3, 73)
         Me.ModifyData.Name = "ModifyData"
-        Me.ModifyData.Size = New System.Drawing.Size(62, 12)
+        Me.ModifyData.Size = New System.Drawing.Size(77, 14)
         Me.ModifyData.TabIndex = 57
         Me.ModifyData.Text = "ModifyData"
         '
@@ -1199,7 +1207,7 @@ Partial Class frmItemTag
         Me.SplitData.Font = New System.Drawing.Font("Verdana", 6.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.SplitData.Location = New System.Drawing.Point(3, 49)
         Me.SplitData.Name = "SplitData"
-        Me.SplitData.Size = New System.Drawing.Size(52, 12)
+        Me.SplitData.Size = New System.Drawing.Size(64, 14)
         Me.SplitData.TabIndex = 57
         Me.SplitData.Text = "SplitData"
         '
@@ -1208,8 +1216,18 @@ Partial Class frmItemTag
         Me.cmbItem_MAN.FormattingEnabled = True
         Me.cmbItem_MAN.Location = New System.Drawing.Point(97, 43)
         Me.cmbItem_MAN.Name = "cmbItem_MAN"
-        Me.cmbItem_MAN.Size = New System.Drawing.Size(240, 21)
+        Me.cmbItem_MAN.Size = New System.Drawing.Size(240, 25)
         Me.cmbItem_MAN.TabIndex = 3
+        '
+        'lblPoNumber
+        '
+        Me.lblPoNumber.AutoSize = True
+        Me.lblPoNumber.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPoNumber.ForeColor = System.Drawing.Color.MidnightBlue
+        Me.lblPoNumber.Location = New System.Drawing.Point(94, 272)
+        Me.lblPoNumber.Name = "lblPoNumber"
+        Me.lblPoNumber.Size = New System.Drawing.Size(0, 17)
+        Me.lblPoNumber.TabIndex = 56
         '
         'lblItemChange
         '
@@ -1218,7 +1236,7 @@ Partial Class frmItemTag
         Me.lblItemChange.ForeColor = System.Drawing.Color.Red
         Me.lblItemChange.Location = New System.Drawing.Point(197, 22)
         Me.lblItemChange.Name = "lblItemChange"
-        Me.lblItemChange.Size = New System.Drawing.Size(122, 13)
+        Me.lblItemChange.Size = New System.Drawing.Size(149, 17)
         Me.lblItemChange.TabIndex = 56
         Me.lblItemChange.Text = "[F5] Item Change"
         '
@@ -1230,7 +1248,7 @@ Partial Class frmItemTag
         Me.dtpRecieptDate.MinimumDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpRecieptDate.Name = "dtpRecieptDate"
         Me.dtpRecieptDate.Seperator = Global.Microsoft.VisualBasic.ChrW(47)
-        Me.dtpRecieptDate.Size = New System.Drawing.Size(94, 21)
+        Me.dtpRecieptDate.Size = New System.Drawing.Size(94, 24)
         Me.dtpRecieptDate.TabIndex = 13
         Me.dtpRecieptDate.Text = "07/03/9998"
         Me.dtpRecieptDate.Value = New Date(9998, 3, 7, 0, 0, 0, 0)
@@ -1240,7 +1258,7 @@ Partial Class frmItemTag
         Me.chkGuaranteeCard.AutoSize = True
         Me.chkGuaranteeCard.Location = New System.Drawing.Point(214, 313)
         Me.chkGuaranteeCard.Name = "chkGuaranteeCard"
-        Me.chkGuaranteeCard.Size = New System.Drawing.Size(118, 17)
+        Me.chkGuaranteeCard.Size = New System.Drawing.Size(141, 21)
         Me.chkGuaranteeCard.TabIndex = 25
         Me.chkGuaranteeCard.Text = "Guarantee Card"
         Me.chkGuaranteeCard.UseVisualStyleBackColor = True
@@ -1250,7 +1268,7 @@ Partial Class frmItemTag
         Me.txtStyleCode.Location = New System.Drawing.Point(679, 238)
         Me.txtStyleCode.MaxLength = 20
         Me.txtStyleCode.Name = "txtStyleCode"
-        Me.txtStyleCode.Size = New System.Drawing.Size(91, 21)
+        Me.txtStyleCode.Size = New System.Drawing.Size(91, 24)
         Me.txtStyleCode.TabIndex = 53
         '
         'GroupBox3
@@ -1312,7 +1330,7 @@ Partial Class frmItemTag
         Me.Label18.ForeColor = System.Drawing.SystemColors.ActiveCaption
         Me.Label18.Location = New System.Drawing.Point(4, 71)
         Me.Label18.Name = "Label18"
-        Me.Label18.Size = New System.Drawing.Size(45, 13)
+        Me.Label18.Size = New System.Drawing.Size(58, 17)
         Me.Label18.TabIndex = 11
         Me.Label18.Text = "Net Wt"
         Me.Label18.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1323,7 +1341,7 @@ Partial Class frmItemTag
         Me.Label31.ForeColor = System.Drawing.SystemColors.ActiveCaption
         Me.Label31.Location = New System.Drawing.Point(4, 28)
         Me.Label31.Name = "Label31"
-        Me.Label31.Size = New System.Drawing.Size(43, 13)
+        Me.Label31.Size = New System.Drawing.Size(50, 17)
         Me.Label31.TabIndex = 0
         Me.Label31.Text = "Pieces"
         Me.Label31.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1334,7 +1352,7 @@ Partial Class frmItemTag
         Me.Label30.ForeColor = System.Drawing.SystemColors.ActiveCaption
         Me.Label30.Location = New System.Drawing.Point(4, 49)
         Me.Label30.Name = "Label30"
-        Me.Label30.Size = New System.Drawing.Size(46, 13)
+        Me.Label30.Size = New System.Drawing.Size(59, 17)
         Me.Label30.TabIndex = 1
         Me.Label30.Text = "Grs Wt"
         Me.Label30.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1435,7 +1453,7 @@ Partial Class frmItemTag
         Me.lblMiscAmount.AutoSize = True
         Me.lblMiscAmount.Location = New System.Drawing.Point(3, 87)
         Me.lblMiscAmount.Name = "lblMiscAmount"
-        Me.lblMiscAmount.Size = New System.Drawing.Size(58, 13)
+        Me.lblMiscAmount.Size = New System.Drawing.Size(71, 17)
         Me.lblMiscAmount.TabIndex = 29
         Me.lblMiscAmount.Text = "Misc Amt"
         Me.lblMiscAmount.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1465,7 +1483,7 @@ Partial Class frmItemTag
         Me.Label63.AutoSize = True
         Me.Label63.Location = New System.Drawing.Point(3, 121)
         Me.Label63.Name = "Label63"
-        Me.Label63.Size = New System.Drawing.Size(94, 13)
+        Me.Label63.Size = New System.Drawing.Size(115, 17)
         Me.Label63.TabIndex = 31
         Me.Label63.Text = "Multi Metal Amt"
         Me.Label63.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1475,7 +1493,7 @@ Partial Class frmItemTag
         Me.lblMultiMetalWt.AutoSize = True
         Me.lblMultiMetalWt.Location = New System.Drawing.Point(3, 104)
         Me.lblMultiMetalWt.Name = "lblMultiMetalWt"
-        Me.lblMultiMetalWt.Size = New System.Drawing.Size(86, 13)
+        Me.lblMultiMetalWt.Size = New System.Drawing.Size(107, 17)
         Me.lblMultiMetalWt.TabIndex = 31
         Me.lblMultiMetalWt.Text = "Multi Metal Wt"
         Me.lblMultiMetalWt.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1515,7 +1533,7 @@ Partial Class frmItemTag
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(3, 54)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(69, 13)
+        Me.Label2.Size = New System.Drawing.Size(86, 17)
         Me.Label2.TabIndex = 0
         Me.Label2.Text = "Last TagNo"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1566,7 +1584,7 @@ Partial Class frmItemTag
         Me.Label103.ForeColor = System.Drawing.SystemColors.ActiveCaption
         Me.Label103.Location = New System.Drawing.Point(3, 136)
         Me.Label103.Name = "Label103"
-        Me.Label103.Size = New System.Drawing.Size(83, 13)
+        Me.Label103.Size = New System.Drawing.Size(102, 17)
         Me.Label103.TabIndex = 29
         Me.Label103.Text = "Stone Details"
         Me.Label103.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1575,7 +1593,7 @@ Partial Class frmItemTag
         '
         Me.txtPurity_Per.Location = New System.Drawing.Point(90, 393)
         Me.txtPurity_Per.Name = "txtPurity_Per"
-        Me.txtPurity_Per.Size = New System.Drawing.Size(94, 21)
+        Me.txtPurity_Per.Size = New System.Drawing.Size(94, 24)
         Me.txtPurity_Per.TabIndex = 15
         Me.txtPurity_Per.Visible = False
         '
@@ -1585,7 +1603,7 @@ Partial Class frmItemTag
         Me.Label98.ForeColor = System.Drawing.SystemColors.ActiveCaption
         Me.Label98.Location = New System.Drawing.Point(3, 221)
         Me.Label98.Name = "Label98"
-        Me.Label98.Size = New System.Drawing.Size(101, 13)
+        Me.Label98.Size = New System.Drawing.Size(122, 17)
         Me.Label98.TabIndex = 29
         Me.Label98.Text = "Diamond Details"
         Me.Label98.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1595,7 +1613,7 @@ Partial Class frmItemTag
         Me.Label93.AutoSize = True
         Me.Label93.Location = New System.Drawing.Point(3, 153)
         Me.Label93.Name = "Label93"
-        Me.Label93.Size = New System.Drawing.Size(26, 13)
+        Me.Label93.Size = New System.Drawing.Size(31, 17)
         Me.Label93.TabIndex = 29
         Me.Label93.Text = "Pcs"
         Me.Label93.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1605,7 +1623,7 @@ Partial Class frmItemTag
         Me.Label95.AutoSize = True
         Me.Label95.Location = New System.Drawing.Point(3, 170)
         Me.Label95.Name = "Label95"
-        Me.Label95.Size = New System.Drawing.Size(39, 13)
+        Me.Label95.Size = New System.Drawing.Size(46, 17)
         Me.Label95.TabIndex = 29
         Me.Label95.Text = "Carat"
         Me.Label95.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1616,7 +1634,7 @@ Partial Class frmItemTag
         Me.Label91.ForeColor = System.Drawing.SystemColors.ActiveCaption
         Me.Label91.Location = New System.Drawing.Point(3, 308)
         Me.Label91.Name = "Label91"
-        Me.Label91.Size = New System.Drawing.Size(98, 13)
+        Me.Label91.Size = New System.Drawing.Size(118, 17)
         Me.Label91.TabIndex = 29
         Me.Label91.Text = "Precious Details"
         Me.Label91.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1626,7 +1644,7 @@ Partial Class frmItemTag
         Me.Label96.AutoSize = True
         Me.Label96.Location = New System.Drawing.Point(3, 187)
         Me.Label96.Name = "Label96"
-        Me.Label96.Size = New System.Drawing.Size(39, 13)
+        Me.Label96.Size = New System.Drawing.Size(46, 17)
         Me.Label96.TabIndex = 29
         Me.Label96.Text = "Gram"
         Me.Label96.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1636,7 +1654,7 @@ Partial Class frmItemTag
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(3, 70)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(69, 13)
+        Me.Label4.Size = New System.Drawing.Size(88, 17)
         Me.Label4.TabIndex = 0
         Me.Label4.Text = "Last TagWt"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1656,7 +1674,7 @@ Partial Class frmItemTag
         Me.Label97.AutoSize = True
         Me.Label97.Location = New System.Drawing.Point(3, 204)
         Me.Label97.Name = "Label97"
-        Me.Label97.Size = New System.Drawing.Size(51, 13)
+        Me.Label97.Size = New System.Drawing.Size(64, 17)
         Me.Label97.TabIndex = 29
         Me.Label97.Text = "Amount"
         Me.Label97.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1666,7 +1684,7 @@ Partial Class frmItemTag
         Me.Label105.AutoSize = True
         Me.Label105.Location = New System.Drawing.Point(3, 325)
         Me.Label105.Name = "Label105"
-        Me.Label105.Size = New System.Drawing.Size(26, 13)
+        Me.Label105.Size = New System.Drawing.Size(31, 17)
         Me.Label105.TabIndex = 29
         Me.Label105.Text = "Pcs"
         Me.Label105.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1696,7 +1714,7 @@ Partial Class frmItemTag
         Me.Label40.AutoSize = True
         Me.Label40.Location = New System.Drawing.Point(1, 397)
         Me.Label40.Name = "Label40"
-        Me.Label40.Size = New System.Drawing.Size(40, 13)
+        Me.Label40.Size = New System.Drawing.Size(48, 17)
         Me.Label40.TabIndex = 14
         Me.Label40.Text = "Purity"
         Me.Label40.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1707,7 +1725,7 @@ Partial Class frmItemTag
         Me.Label99.AutoSize = True
         Me.Label99.Location = New System.Drawing.Point(3, 239)
         Me.Label99.Name = "Label99"
-        Me.Label99.Size = New System.Drawing.Size(26, 13)
+        Me.Label99.Size = New System.Drawing.Size(31, 17)
         Me.Label99.TabIndex = 29
         Me.Label99.Text = "Pcs"
         Me.Label99.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1717,7 +1735,7 @@ Partial Class frmItemTag
         Me.Label100.AutoSize = True
         Me.Label100.Location = New System.Drawing.Point(3, 256)
         Me.Label100.Name = "Label100"
-        Me.Label100.Size = New System.Drawing.Size(39, 13)
+        Me.Label100.Size = New System.Drawing.Size(46, 17)
         Me.Label100.TabIndex = 29
         Me.Label100.Text = "Carat"
         Me.Label100.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1727,7 +1745,7 @@ Partial Class frmItemTag
         Me.Label108.AutoSize = True
         Me.Label108.Location = New System.Drawing.Point(3, 376)
         Me.Label108.Name = "Label108"
-        Me.Label108.Size = New System.Drawing.Size(51, 13)
+        Me.Label108.Size = New System.Drawing.Size(64, 17)
         Me.Label108.TabIndex = 29
         Me.Label108.Text = "Amount"
         Me.Label108.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1737,7 +1755,7 @@ Partial Class frmItemTag
         Me.Label101.AutoSize = True
         Me.Label101.Location = New System.Drawing.Point(3, 273)
         Me.Label101.Name = "Label101"
-        Me.Label101.Size = New System.Drawing.Size(39, 13)
+        Me.Label101.Size = New System.Drawing.Size(46, 17)
         Me.Label101.TabIndex = 29
         Me.Label101.Text = "Gram"
         Me.Label101.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1757,7 +1775,7 @@ Partial Class frmItemTag
         Me.Label102.AutoSize = True
         Me.Label102.Location = New System.Drawing.Point(3, 290)
         Me.Label102.Name = "Label102"
-        Me.Label102.Size = New System.Drawing.Size(51, 13)
+        Me.Label102.Size = New System.Drawing.Size(64, 17)
         Me.Label102.TabIndex = 29
         Me.Label102.Text = "Amount"
         Me.Label102.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1767,7 +1785,7 @@ Partial Class frmItemTag
         Me.Label107.AutoSize = True
         Me.Label107.Location = New System.Drawing.Point(3, 359)
         Me.Label107.Name = "Label107"
-        Me.Label107.Size = New System.Drawing.Size(39, 13)
+        Me.Label107.Size = New System.Drawing.Size(46, 17)
         Me.Label107.TabIndex = 29
         Me.Label107.Text = "Gram"
         Me.Label107.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1787,7 +1805,7 @@ Partial Class frmItemTag
         Me.Label106.AutoSize = True
         Me.Label106.Location = New System.Drawing.Point(3, 342)
         Me.Label106.Name = "Label106"
-        Me.Label106.Size = New System.Drawing.Size(39, 13)
+        Me.Label106.Size = New System.Drawing.Size(46, 17)
         Me.Label106.TabIndex = 29
         Me.Label106.Text = "Carat"
         Me.Label106.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1798,7 +1816,7 @@ Partial Class frmItemTag
         Me.cmbTableCode.FormattingEnabled = True
         Me.cmbTableCode.Location = New System.Drawing.Point(469, 216)
         Me.cmbTableCode.Name = "cmbTableCode"
-        Me.cmbTableCode.Size = New System.Drawing.Size(104, 21)
+        Me.cmbTableCode.Size = New System.Drawing.Size(104, 25)
         Me.cmbTableCode.TabIndex = 47
         '
         'Label33
@@ -1806,7 +1824,7 @@ Partial Class frmItemTag
         Me.Label33.AutoSize = True
         Me.Label33.Location = New System.Drawing.Point(9, 22)
         Me.Label33.Name = "Label33"
-        Me.Label33.Size = New System.Drawing.Size(43, 13)
+        Me.Label33.Size = New System.Drawing.Size(55, 17)
         Me.Label33.TabIndex = 0
         Me.Label33.Text = "Lot No"
         Me.Label33.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1834,7 +1852,7 @@ Partial Class frmItemTag
         Me.txtLotNo_Num_Man.Location = New System.Drawing.Point(97, 18)
         Me.txtLotNo_Num_Man.MaxLength = 7
         Me.txtLotNo_Num_Man.Name = "txtLotNo_Num_Man"
-        Me.txtLotNo_Num_Man.Size = New System.Drawing.Size(94, 21)
+        Me.txtLotNo_Num_Man.Size = New System.Drawing.Size(94, 24)
         Me.txtLotNo_Num_Man.TabIndex = 1
         '
         'btnAttachImage
@@ -1851,7 +1869,7 @@ Partial Class frmItemTag
         Me.cmbCostCentre_Man.FormattingEnabled = True
         Me.cmbCostCentre_Man.Location = New System.Drawing.Point(97, 68)
         Me.cmbCostCentre_Man.Name = "cmbCostCentre_Man"
-        Me.cmbCostCentre_Man.Size = New System.Drawing.Size(240, 21)
+        Me.cmbCostCentre_Man.Size = New System.Drawing.Size(240, 25)
         Me.cmbCostCentre_Man.TabIndex = 5
         '
         'cmbItemType_MAN
@@ -1859,7 +1877,7 @@ Partial Class frmItemTag
         Me.cmbItemType_MAN.FormattingEnabled = True
         Me.cmbItemType_MAN.Location = New System.Drawing.Point(97, 93)
         Me.cmbItemType_MAN.Name = "cmbItemType_MAN"
-        Me.cmbItemType_MAN.Size = New System.Drawing.Size(240, 21)
+        Me.cmbItemType_MAN.Size = New System.Drawing.Size(240, 25)
         Me.cmbItemType_MAN.TabIndex = 7
         '
         'Label55
@@ -1867,7 +1885,7 @@ Partial Class frmItemTag
         Me.Label55.AutoSize = True
         Me.Label55.Location = New System.Drawing.Point(353, 377)
         Me.Label55.Name = "Label55"
-        Me.Label55.Size = New System.Drawing.Size(60, 13)
+        Me.Label55.Size = New System.Drawing.Size(73, 17)
         Me.Label55.TabIndex = 66
         Me.Label55.Text = "Narration"
         Me.Label55.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1877,7 +1895,7 @@ Partial Class frmItemTag
         Me.txtMetalRate_Amt.Location = New System.Drawing.Point(97, 193)
         Me.txtMetalRate_Amt.MaxLength = 7
         Me.txtMetalRate_Amt.Name = "txtMetalRate_Amt"
-        Me.txtMetalRate_Amt.Size = New System.Drawing.Size(94, 21)
+        Me.txtMetalRate_Amt.Size = New System.Drawing.Size(94, 24)
         Me.txtMetalRate_Amt.TabIndex = 15
         '
         'txtNarration
@@ -1886,7 +1904,7 @@ Partial Class frmItemTag
         Me.txtNarration.Location = New System.Drawing.Point(469, 373)
         Me.txtNarration.MaxLength = 50
         Me.txtNarration.Name = "txtNarration"
-        Me.txtNarration.Size = New System.Drawing.Size(104, 21)
+        Me.txtNarration.Size = New System.Drawing.Size(104, 24)
         Me.txtNarration.TabIndex = 67
         '
         'Label42
@@ -1894,7 +1912,7 @@ Partial Class frmItemTag
         Me.Label42.AutoSize = True
         Me.Label42.Location = New System.Drawing.Point(9, 197)
         Me.Label42.Name = "Label42"
-        Me.Label42.Size = New System.Drawing.Size(33, 13)
+        Me.Label42.Size = New System.Drawing.Size(40, 17)
         Me.Label42.TabIndex = 14
         Me.Label42.Text = "Rate"
         Me.Label42.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1904,7 +1922,7 @@ Partial Class frmItemTag
         Me.cmbItemSize.FormattingEnabled = True
         Me.cmbItemSize.Location = New System.Drawing.Point(469, 40)
         Me.cmbItemSize.Name = "cmbItemSize"
-        Me.cmbItemSize.Size = New System.Drawing.Size(297, 21)
+        Me.cmbItemSize.Size = New System.Drawing.Size(297, 25)
         Me.cmbItemSize.TabIndex = 30
         '
         'Label41
@@ -1912,7 +1930,7 @@ Partial Class frmItemTag
         Me.Label41.AutoSize = True
         Me.Label41.Location = New System.Drawing.Point(9, 97)
         Me.Label41.Name = "Label41"
-        Me.Label41.Size = New System.Drawing.Size(58, 13)
+        Me.Label41.Size = New System.Drawing.Size(70, 17)
         Me.Label41.TabIndex = 6
         Me.Label41.Text = "&Tag Type"
         Me.Label41.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1922,7 +1940,7 @@ Partial Class frmItemTag
         Me.cmbSubItem_Man.FormattingEnabled = True
         Me.cmbSubItem_Man.Location = New System.Drawing.Point(469, 18)
         Me.cmbSubItem_Man.Name = "cmbSubItem_Man"
-        Me.cmbSubItem_Man.Size = New System.Drawing.Size(297, 21)
+        Me.cmbSubItem_Man.Size = New System.Drawing.Size(297, 25)
         Me.cmbSubItem_Man.TabIndex = 28
         '
         'cmbDesigner_MAN
@@ -1930,7 +1948,7 @@ Partial Class frmItemTag
         Me.cmbDesigner_MAN.FormattingEnabled = True
         Me.cmbDesigner_MAN.Location = New System.Drawing.Point(97, 143)
         Me.cmbDesigner_MAN.Name = "cmbDesigner_MAN"
-        Me.cmbDesigner_MAN.Size = New System.Drawing.Size(240, 21)
+        Me.cmbDesigner_MAN.Size = New System.Drawing.Size(240, 25)
         Me.cmbDesigner_MAN.TabIndex = 11
         '
         'cmbCalcMode
@@ -1939,7 +1957,7 @@ Partial Class frmItemTag
         Me.cmbCalcMode.FormattingEnabled = True
         Me.cmbCalcMode.Location = New System.Drawing.Point(469, 194)
         Me.cmbCalcMode.Name = "cmbCalcMode"
-        Me.cmbCalcMode.Size = New System.Drawing.Size(104, 21)
+        Me.cmbCalcMode.Size = New System.Drawing.Size(104, 25)
         Me.cmbCalcMode.TabIndex = 45
         '
         'Label34
@@ -1947,7 +1965,7 @@ Partial Class frmItemTag
         Me.Label34.AutoSize = True
         Me.Label34.Location = New System.Drawing.Point(9, 47)
         Me.Label34.Name = "Label34"
-        Me.Label34.Size = New System.Drawing.Size(71, 13)
+        Me.Label34.Size = New System.Drawing.Size(84, 17)
         Me.Label34.TabIndex = 2
         Me.Label34.Text = "Item Name"
         Me.Label34.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1957,7 +1975,7 @@ Partial Class frmItemTag
         Me.Label64.AutoSize = True
         Me.Label64.Location = New System.Drawing.Point(577, 241)
         Me.Label64.Name = "Label64"
-        Me.Label64.Size = New System.Drawing.Size(70, 13)
+        Me.Label64.Size = New System.Drawing.Size(84, 17)
         Me.Label64.TabIndex = 52
         Me.Label64.Text = "Style Code"
         Me.Label64.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1967,7 +1985,7 @@ Partial Class frmItemTag
         Me.Label9.AutoSize = True
         Me.Label9.Location = New System.Drawing.Point(353, 220)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(71, 13)
+        Me.Label9.Size = New System.Drawing.Size(84, 17)
         Me.Label9.TabIndex = 46
         Me.Label9.Text = "Table Code"
         Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1978,7 +1996,7 @@ Partial Class frmItemTag
         Me.chkAutomaticWt.ContextMenuStrip = Me.ContextMenuStrip1
         Me.chkAutomaticWt.Location = New System.Drawing.Point(97, 292)
         Me.chkAutomaticWt.Name = "chkAutomaticWt"
-        Me.chkAutomaticWt.Size = New System.Drawing.Size(71, 17)
+        Me.chkAutomaticWt.Size = New System.Drawing.Size(90, 21)
         Me.chkAutomaticWt.TabIndex = 22
         Me.chkAutomaticWt.Text = "Auto Wt"
         Me.chkAutomaticWt.UseVisualStyleBackColor = True
@@ -1988,7 +2006,7 @@ Partial Class frmItemTag
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(353, 44)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(62, 13)
+        Me.Label3.Size = New System.Drawing.Size(74, 17)
         Me.Label3.TabIndex = 29
         Me.Label3.Text = "Item Size"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -1998,7 +2016,7 @@ Partial Class frmItemTag
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(9, 172)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(80, 13)
+        Me.Label1.Size = New System.Drawing.Size(97, 17)
         Me.Label1.TabIndex = 12
         Me.Label1.Text = "Receipt Date"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -2008,7 +2026,7 @@ Partial Class frmItemTag
         Me.chkBarcodePrint.AutoSize = True
         Me.chkBarcodePrint.Location = New System.Drawing.Point(97, 313)
         Me.chkBarcodePrint.Name = "chkBarcodePrint"
-        Me.chkBarcodePrint.Size = New System.Drawing.Size(76, 17)
+        Me.chkBarcodePrint.Size = New System.Drawing.Size(90, 21)
         Me.chkBarcodePrint.TabIndex = 23
         Me.chkBarcodePrint.Text = "BarCode"
         Me.chkBarcodePrint.UseVisualStyleBackColor = True
@@ -2018,7 +2036,7 @@ Partial Class frmItemTag
         Me.Label38.AutoSize = True
         Me.Label38.Location = New System.Drawing.Point(6, 222)
         Me.Label38.Name = "Label38"
-        Me.Label38.Size = New System.Drawing.Size(53, 13)
+        Me.Label38.Size = New System.Drawing.Size(65, 17)
         Me.Label38.TabIndex = 18
         Me.Label38.Text = "&Counter"
         Me.Label38.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -2028,7 +2046,7 @@ Partial Class frmItemTag
         Me.Label56.AutoSize = True
         Me.Label56.Location = New System.Drawing.Point(353, 22)
         Me.Label56.Name = "Label56"
-        Me.Label56.Size = New System.Drawing.Size(56, 13)
+        Me.Label56.Size = New System.Drawing.Size(68, 17)
         Me.Label56.TabIndex = 27
         Me.Label56.Text = "SubItem"
         Me.Label56.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -2038,7 +2056,7 @@ Partial Class frmItemTag
         Me.Label52.AutoSize = True
         Me.Label52.Location = New System.Drawing.Point(353, 198)
         Me.Label52.Name = "Label52"
-        Me.Label52.Size = New System.Drawing.Size(66, 13)
+        Me.Label52.Size = New System.Drawing.Size(78, 17)
         Me.Label52.TabIndex = 44
         Me.Label52.Text = "Calc Mode"
         Me.Label52.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -2048,7 +2066,7 @@ Partial Class frmItemTag
         Me.Label32.AutoSize = True
         Me.Label32.Location = New System.Drawing.Point(9, 72)
         Me.Label32.Name = "Label32"
-        Me.Label32.Size = New System.Drawing.Size(76, 13)
+        Me.Label32.Size = New System.Drawing.Size(93, 17)
         Me.Label32.TabIndex = 4
         Me.Label32.Text = "Cost Centre"
         Me.Label32.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -2058,7 +2076,7 @@ Partial Class frmItemTag
         Me.label50.AutoSize = True
         Me.label50.Location = New System.Drawing.Point(353, 176)
         Me.label50.Name = "label50"
-        Me.label50.Size = New System.Drawing.Size(33, 13)
+        Me.label50.Size = New System.Drawing.Size(40, 17)
         Me.label50.TabIndex = 42
         Me.label50.Text = "Rate"
         Me.label50.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -2068,7 +2086,7 @@ Partial Class frmItemTag
         Me.Label54.AutoSize = True
         Me.Label54.Location = New System.Drawing.Point(9, 147)
         Me.Label54.Name = "Label54"
-        Me.Label54.Size = New System.Drawing.Size(62, 13)
+        Me.Label54.Size = New System.Drawing.Size(75, 17)
         Me.Label54.TabIndex = 10
         Me.Label54.Text = "&Designer "
         Me.Label54.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -2078,7 +2096,7 @@ Partial Class frmItemTag
         Me.Label43.AutoSize = True
         Me.Label43.Location = New System.Drawing.Point(353, 154)
         Me.Label43.Name = "Label43"
-        Me.Label43.Size = New System.Drawing.Size(68, 13)
+        Me.Label43.Size = New System.Drawing.Size(86, 17)
         Me.Label43.TabIndex = 40
         Me.Label43.Text = "Net Weight"
         Me.Label43.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -2097,14 +2115,15 @@ Partial Class frmItemTag
         '
         'ContextMenuStripImage
         '
+        Me.ContextMenuStripImage.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.ContextMenuStripImage.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.DeleteToolStripMenuItem})
         Me.ContextMenuStripImage.Name = "ContextMenuStripImage"
-        Me.ContextMenuStripImage.Size = New System.Drawing.Size(118, 26)
+        Me.ContextMenuStripImage.Size = New System.Drawing.Size(133, 28)
         '
         'DeleteToolStripMenuItem
         '
         Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
-        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(132, 24)
         Me.DeleteToolStripMenuItem.Text = "Remove"
         '
         'txtRate_Amt
@@ -2112,7 +2131,7 @@ Partial Class frmItemTag
         Me.txtRate_Amt.Location = New System.Drawing.Point(469, 172)
         Me.txtRate_Amt.MaxLength = 10
         Me.txtRate_Amt.Name = "txtRate_Amt"
-        Me.txtRate_Amt.Size = New System.Drawing.Size(104, 21)
+        Me.txtRate_Amt.Size = New System.Drawing.Size(104, 24)
         Me.txtRate_Amt.TabIndex = 43
         Me.txtRate_Amt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -2121,7 +2140,7 @@ Partial Class frmItemTag
         Me.txtTagNo__Man.Location = New System.Drawing.Point(469, 62)
         Me.txtTagNo__Man.MaxLength = 8
         Me.txtTagNo__Man.Name = "txtTagNo__Man"
-        Me.txtTagNo__Man.Size = New System.Drawing.Size(104, 21)
+        Me.txtTagNo__Man.Size = New System.Drawing.Size(104, 24)
         Me.txtTagNo__Man.TabIndex = 32
         Me.txtTagNo__Man.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -2130,7 +2149,7 @@ Partial Class frmItemTag
         Me.Label39.AutoSize = True
         Me.Label39.Location = New System.Drawing.Point(353, 132)
         Me.Label39.Name = "Label39"
-        Me.Label39.Size = New System.Drawing.Size(74, 13)
+        Me.Label39.Size = New System.Drawing.Size(94, 17)
         Me.Label39.TabIndex = 38
         Me.Label39.Text = "Less Weight"
         Me.Label39.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -2140,7 +2159,7 @@ Partial Class frmItemTag
         Me.Label36.AutoSize = True
         Me.Label36.Location = New System.Drawing.Point(353, 66)
         Me.Label36.Name = "Label36"
-        Me.Label36.Size = New System.Drawing.Size(46, 13)
+        Me.Label36.Size = New System.Drawing.Size(56, 17)
         Me.Label36.TabIndex = 31
         Me.Label36.Text = "Tag No"
         Me.Label36.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -2150,7 +2169,7 @@ Partial Class frmItemTag
         Me.txtNetWt_Wet.Location = New System.Drawing.Point(469, 150)
         Me.txtNetWt_Wet.MaxLength = 10
         Me.txtNetWt_Wet.Name = "txtNetWt_Wet"
-        Me.txtNetWt_Wet.Size = New System.Drawing.Size(104, 21)
+        Me.txtNetWt_Wet.Size = New System.Drawing.Size(104, 24)
         Me.txtNetWt_Wet.TabIndex = 41
         Me.txtNetWt_Wet.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -2159,7 +2178,7 @@ Partial Class frmItemTag
         Me.txtGrossWt_Wet.Location = New System.Drawing.Point(469, 106)
         Me.txtGrossWt_Wet.MaxLength = 10
         Me.txtGrossWt_Wet.Name = "txtGrossWt_Wet"
-        Me.txtGrossWt_Wet.Size = New System.Drawing.Size(104, 21)
+        Me.txtGrossWt_Wet.Size = New System.Drawing.Size(104, 24)
         Me.txtGrossWt_Wet.TabIndex = 36
         Me.txtGrossWt_Wet.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -2168,7 +2187,7 @@ Partial Class frmItemTag
         Me.Label35.AutoSize = True
         Me.Label35.Location = New System.Drawing.Point(353, 88)
         Me.Label35.Name = "Label35"
-        Me.Label35.Size = New System.Drawing.Size(43, 13)
+        Me.Label35.Size = New System.Drawing.Size(50, 17)
         Me.Label35.TabIndex = 33
         Me.Label35.Text = "Pieces"
         Me.Label35.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -2178,7 +2197,7 @@ Partial Class frmItemTag
         Me.Label37.AutoSize = True
         Me.Label37.Location = New System.Drawing.Point(353, 110)
         Me.Label37.Name = "Label37"
-        Me.Label37.Size = New System.Drawing.Size(82, 13)
+        Me.Label37.Size = New System.Drawing.Size(104, 17)
         Me.Label37.TabIndex = 35
         Me.Label37.Text = "Gross Weight"
         Me.Label37.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -2188,7 +2207,7 @@ Partial Class frmItemTag
         Me.txtLessWt_Wet.Location = New System.Drawing.Point(469, 128)
         Me.txtLessWt_Wet.MaxLength = 10
         Me.txtLessWt_Wet.Name = "txtLessWt_Wet"
-        Me.txtLessWt_Wet.Size = New System.Drawing.Size(104, 21)
+        Me.txtLessWt_Wet.Size = New System.Drawing.Size(104, 24)
         Me.txtLessWt_Wet.TabIndex = 39
         Me.txtLessWt_Wet.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -2197,7 +2216,7 @@ Partial Class frmItemTag
         Me.txtPieces_Num_Man.Location = New System.Drawing.Point(469, 84)
         Me.txtPieces_Num_Man.MaxLength = 8
         Me.txtPieces_Num_Man.Name = "txtPieces_Num_Man"
-        Me.txtPieces_Num_Man.Size = New System.Drawing.Size(104, 21)
+        Me.txtPieces_Num_Man.Size = New System.Drawing.Size(104, 24)
         Me.txtPieces_Num_Man.TabIndex = 34
         Me.txtPieces_Num_Man.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -2215,7 +2234,7 @@ Partial Class frmItemTag
         Me.TabControl1.Multiline = True
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(1028, 214)
+        Me.TabControl1.Size = New System.Drawing.Size(1826, 214)
         Me.TabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed
         Me.TabControl1.TabIndex = 0
         '
@@ -2225,7 +2244,7 @@ Partial Class frmItemTag
         Me.tabTag.Location = New System.Drawing.Point(4, 22)
         Me.tabTag.Name = "tabTag"
         Me.tabTag.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabTag.Size = New System.Drawing.Size(1020, 188)
+        Me.tabTag.Size = New System.Drawing.Size(1818, 188)
         Me.tabTag.TabIndex = 0
         Me.tabTag.Text = "Loaded Tag's"
         Me.tabTag.UseVisualStyleBackColor = True
@@ -2239,7 +2258,8 @@ Partial Class frmItemTag
         Me.gridView.Location = New System.Drawing.Point(3, 3)
         Me.gridView.Name = "gridView"
         Me.gridView.ReadOnly = True
-        Me.gridView.Size = New System.Drawing.Size(1014, 182)
+        Me.gridView.RowHeadersWidth = 51
+        Me.gridView.Size = New System.Drawing.Size(1812, 182)
         Me.gridView.TabIndex = 0
         '
         'tabMultiMetal
@@ -2251,7 +2271,7 @@ Partial Class frmItemTag
         Me.tabMultiMetal.Controls.Add(Me.Label7)
         Me.tabMultiMetal.Location = New System.Drawing.Point(4, 22)
         Me.tabMultiMetal.Name = "tabMultiMetal"
-        Me.tabMultiMetal.Size = New System.Drawing.Size(1020, 188)
+        Me.tabMultiMetal.Size = New System.Drawing.Size(1818, 188)
         Me.tabMultiMetal.TabIndex = 2
         Me.tabMultiMetal.Text = "Multi Metal"
         Me.tabMultiMetal.UseVisualStyleBackColor = True
@@ -2260,7 +2280,7 @@ Partial Class frmItemTag
         '
         Me.txtMMRate.Location = New System.Drawing.Point(918, 120)
         Me.txtMMRate.Name = "txtMMRate"
-        Me.txtMMRate.Size = New System.Drawing.Size(52, 21)
+        Me.txtMMRate.Size = New System.Drawing.Size(52, 24)
         Me.txtMMRate.TabIndex = 39
         Me.txtMMRate.Visible = False
         '
@@ -2268,7 +2288,7 @@ Partial Class frmItemTag
         '
         Me.txtMMRowIndex.Location = New System.Drawing.Point(928, 80)
         Me.txtMMRowIndex.Name = "txtMMRowIndex"
-        Me.txtMMRowIndex.Size = New System.Drawing.Size(43, 21)
+        Me.txtMMRowIndex.Size = New System.Drawing.Size(43, 24)
         Me.txtMMRowIndex.TabIndex = 38
         Me.txtMMRowIndex.Visible = False
         '
@@ -2310,7 +2330,7 @@ Partial Class frmItemTag
         '
         Me.txtMMNetwt_Wet.Location = New System.Drawing.Point(416, 21)
         Me.txtMMNetwt_Wet.Name = "txtMMNetwt_Wet"
-        Me.txtMMNetwt_Wet.Size = New System.Drawing.Size(74, 21)
+        Me.txtMMNetwt_Wet.Size = New System.Drawing.Size(74, 24)
         Me.txtMMNetwt_Wet.TabIndex = 5
         Me.txtMMNetwt_Wet.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.txtMMNetwt_Wet.Visible = False
@@ -2331,48 +2351,49 @@ Partial Class frmItemTag
         '
         Me.txtMMAmount_AMT.Location = New System.Drawing.Point(739, 21)
         Me.txtMMAmount_AMT.Name = "txtMMAmount_AMT"
-        Me.txtMMAmount_AMT.Size = New System.Drawing.Size(97, 21)
+        Me.txtMMAmount_AMT.Size = New System.Drawing.Size(97, 24)
         Me.txtMMAmount_AMT.TabIndex = 15
         '
         'txtMMMc_AMT
         '
         Me.txtMMMc_AMT.Location = New System.Drawing.Point(665, 21)
         Me.txtMMMc_AMT.Name = "txtMMMc_AMT"
-        Me.txtMMMc_AMT.Size = New System.Drawing.Size(74, 21)
+        Me.txtMMMc_AMT.Size = New System.Drawing.Size(74, 24)
         Me.txtMMMc_AMT.TabIndex = 13
         '
         'txtMMWastage_WET
         '
         Me.txtMMWastage_WET.Location = New System.Drawing.Point(547, 21)
         Me.txtMMWastage_WET.Name = "txtMMWastage_WET"
-        Me.txtMMWastage_WET.Size = New System.Drawing.Size(61, 21)
+        Me.txtMMWastage_WET.Size = New System.Drawing.Size(61, 24)
         Me.txtMMWastage_WET.TabIndex = 9
         '
         'txtMMMcPerGRm_AMT
         '
         Me.txtMMMcPerGRm_AMT.Location = New System.Drawing.Point(608, 21)
         Me.txtMMMcPerGRm_AMT.Name = "txtMMMcPerGRm_AMT"
-        Me.txtMMMcPerGRm_AMT.Size = New System.Drawing.Size(57, 21)
+        Me.txtMMMcPerGRm_AMT.Size = New System.Drawing.Size(57, 24)
         Me.txtMMMcPerGRm_AMT.TabIndex = 11
         '
         'txtMMWastagePer_PER
         '
         Me.txtMMWastagePer_PER.Location = New System.Drawing.Point(490, 21)
         Me.txtMMWastagePer_PER.Name = "txtMMWastagePer_PER"
-        Me.txtMMWastagePer_PER.Size = New System.Drawing.Size(57, 21)
+        Me.txtMMWastagePer_PER.Size = New System.Drawing.Size(57, 24)
         Me.txtMMWastagePer_PER.TabIndex = 7
         '
         'txtMMCategory
         '
         Me.txtMMCategory.Location = New System.Drawing.Point(0, 21)
         Me.txtMMCategory.Name = "txtMMCategory"
-        Me.txtMMCategory.Size = New System.Drawing.Size(342, 21)
+        Me.txtMMCategory.Size = New System.Drawing.Size(342, 24)
         Me.txtMMCategory.TabIndex = 1
         '
         'gridMultimetal
         '
         Me.gridMultimetal.AllowUserToAddRows = False
         Me.gridMultimetal.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.gridMultimetal.ColumnHeadersHeight = 29
         Me.gridMultimetal.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         Me.gridMultimetal.ColumnHeadersVisible = False
         Me.gridMultimetal.Dock = System.Windows.Forms.DockStyle.Bottom
@@ -2380,6 +2401,7 @@ Partial Class frmItemTag
         Me.gridMultimetal.Name = "gridMultimetal"
         Me.gridMultimetal.ReadOnly = True
         Me.gridMultimetal.RowHeadersVisible = False
+        Me.gridMultimetal.RowHeadersWidth = 51
         Me.gridMultimetal.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         Me.gridMultimetal.RowTemplate.Height = 20
         Me.gridMultimetal.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.[False]
@@ -2400,6 +2422,7 @@ Partial Class frmItemTag
         Me.gridMultiMetalTotal.Name = "gridMultiMetalTotal"
         Me.gridMultiMetalTotal.ReadOnly = True
         Me.gridMultiMetalTotal.RowHeadersVisible = False
+        Me.gridMultiMetalTotal.RowHeadersWidth = 51
         Me.gridMultiMetalTotal.Size = New System.Drawing.Size(835, 19)
         Me.gridMultiMetalTotal.TabIndex = 17
         '
@@ -2484,7 +2507,7 @@ Partial Class frmItemTag
         '
         Me.txtMMWeight_Wet.Location = New System.Drawing.Point(342, 21)
         Me.txtMMWeight_Wet.Name = "txtMMWeight_Wet"
-        Me.txtMMWeight_Wet.Size = New System.Drawing.Size(74, 21)
+        Me.txtMMWeight_Wet.Size = New System.Drawing.Size(74, 24)
         Me.txtMMWeight_Wet.TabIndex = 3
         Me.txtMMWeight_Wet.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -2492,7 +2515,7 @@ Partial Class frmItemTag
         '
         Me.txtMMTotWeight.Location = New System.Drawing.Point(917, 53)
         Me.txtMMTotWeight.Name = "txtMMTotWeight"
-        Me.txtMMTotWeight.Size = New System.Drawing.Size(75, 21)
+        Me.txtMMTotWeight.Size = New System.Drawing.Size(75, 24)
         Me.txtMMTotWeight.TabIndex = 37
         Me.txtMMTotWeight.Visible = False
         '
@@ -2521,7 +2544,7 @@ Partial Class frmItemTag
         Me.tabStone.Location = New System.Drawing.Point(4, 22)
         Me.tabStone.Name = "tabStone"
         Me.tabStone.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabStone.Size = New System.Drawing.Size(1020, 188)
+        Me.tabStone.Size = New System.Drawing.Size(1818, 188)
         Me.tabStone.TabIndex = 1
         Me.tabStone.Text = "Stone"
         Me.tabStone.UseVisualStyleBackColor = True
@@ -2530,7 +2553,7 @@ Partial Class frmItemTag
         '
         Me.txtStRowIndex.Location = New System.Drawing.Point(820, 167)
         Me.txtStRowIndex.Name = "txtStRowIndex"
-        Me.txtStRowIndex.Size = New System.Drawing.Size(46, 21)
+        Me.txtStRowIndex.Size = New System.Drawing.Size(46, 24)
         Me.txtStRowIndex.TabIndex = 7
         Me.txtStRowIndex.Visible = False
         '
@@ -2599,7 +2622,7 @@ Partial Class frmItemTag
         '
         Me.txtStWPer_AMT.Location = New System.Drawing.Point(631, 22)
         Me.txtStWPer_AMT.Name = "txtStWPer_AMT"
-        Me.txtStWPer_AMT.Size = New System.Drawing.Size(39, 21)
+        Me.txtStWPer_AMT.Size = New System.Drawing.Size(39, 24)
         Me.txtStWPer_AMT.TabIndex = 16
         Me.txtStWPer_AMT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -2618,7 +2641,7 @@ Partial Class frmItemTag
         '
         Me.txtStAmount_Amt.Location = New System.Drawing.Point(920, 22)
         Me.txtStAmount_Amt.Name = "txtStAmount_Amt"
-        Me.txtStAmount_Amt.Size = New System.Drawing.Size(88, 21)
+        Me.txtStAmount_Amt.Size = New System.Drawing.Size(88, 24)
         Me.txtStAmount_Amt.TabIndex = 27
         Me.txtStAmount_Amt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -2638,7 +2661,7 @@ Partial Class frmItemTag
         Me.CmbStClarity.FormattingEnabled = True
         Me.CmbStClarity.Location = New System.Drawing.Point(420, 22)
         Me.CmbStClarity.Name = "CmbStClarity"
-        Me.CmbStClarity.Size = New System.Drawing.Size(78, 21)
+        Me.CmbStClarity.Size = New System.Drawing.Size(78, 25)
         Me.CmbStClarity.TabIndex = 11
         '
         'CmbStSubItem
@@ -2646,7 +2669,7 @@ Partial Class frmItemTag
         Me.CmbStSubItem.FormattingEnabled = True
         Me.CmbStSubItem.Location = New System.Drawing.Point(232, 22)
         Me.CmbStSubItem.Name = "CmbStSubItem"
-        Me.CmbStSubItem.Size = New System.Drawing.Size(138, 21)
+        Me.CmbStSubItem.Size = New System.Drawing.Size(138, 25)
         Me.CmbStSubItem.TabIndex = 7
         '
         'lblCalcType
@@ -2664,7 +2687,7 @@ Partial Class frmItemTag
         '
         Me.txtStSubItem.Location = New System.Drawing.Point(232, 22)
         Me.txtStSubItem.Name = "txtStSubItem"
-        Me.txtStSubItem.Size = New System.Drawing.Size(138, 21)
+        Me.txtStSubItem.Size = New System.Drawing.Size(138, 24)
         Me.txtStSubItem.TabIndex = 6
         '
         'lblClarity
@@ -2694,7 +2717,7 @@ Partial Class frmItemTag
         Me.CmbStSize.FormattingEnabled = True
         Me.CmbStSize.Location = New System.Drawing.Point(578, 22)
         Me.CmbStSize.Name = "CmbStSize"
-        Me.CmbStSize.Size = New System.Drawing.Size(55, 21)
+        Me.CmbStSize.Size = New System.Drawing.Size(55, 25)
         Me.CmbStSize.TabIndex = 15
         '
         'cmbStItem
@@ -2702,7 +2725,7 @@ Partial Class frmItemTag
         Me.cmbStItem.FormattingEnabled = True
         Me.cmbStItem.Location = New System.Drawing.Point(60, 22)
         Me.cmbStItem.Name = "cmbStItem"
-        Me.cmbStItem.Size = New System.Drawing.Size(171, 21)
+        Me.cmbStItem.Size = New System.Drawing.Size(171, 25)
         Me.cmbStItem.TabIndex = 4
         '
         'lblRate
@@ -2720,7 +2743,7 @@ Partial Class frmItemTag
         '
         Me.txtStItem.Location = New System.Drawing.Point(60, 22)
         Me.txtStItem.Name = "txtStItem"
-        Me.txtStItem.Size = New System.Drawing.Size(171, 21)
+        Me.txtStItem.Size = New System.Drawing.Size(171, 24)
         Me.txtStItem.TabIndex = 3
         '
         'lblSize
@@ -2749,7 +2772,7 @@ Partial Class frmItemTag
         '
         Me.txtstPackettno.Location = New System.Drawing.Point(0, 22)
         Me.txtstPackettno.Name = "txtstPackettno"
-        Me.txtstPackettno.Size = New System.Drawing.Size(59, 21)
+        Me.txtstPackettno.Size = New System.Drawing.Size(59, 24)
         Me.txtstPackettno.TabIndex = 1
         '
         'gridStone
@@ -2764,6 +2787,7 @@ Partial Class frmItemTag
         Me.gridStone.Name = "gridStone"
         Me.gridStone.ReadOnly = True
         Me.gridStone.RowHeadersVisible = False
+        Me.gridStone.RowHeadersWidth = 51
         Me.gridStone.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         Me.gridStone.RowTemplate.Height = 20
         Me.gridStone.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.[False]
@@ -2789,7 +2813,7 @@ Partial Class frmItemTag
         Me.cmbStCalc.FormattingEnabled = True
         Me.cmbStCalc.Location = New System.Drawing.Point(802, 22)
         Me.cmbStCalc.Name = "cmbStCalc"
-        Me.cmbStCalc.Size = New System.Drawing.Size(39, 21)
+        Me.cmbStCalc.Size = New System.Drawing.Size(39, 25)
         Me.cmbStCalc.TabIndex = 23
         '
         'lblShape
@@ -2827,6 +2851,7 @@ Partial Class frmItemTag
         Me.gridStoneFooter.Name = "gridStoneFooter"
         Me.gridStoneFooter.ReadOnly = True
         Me.gridStoneFooter.RowHeadersVisible = False
+        Me.gridStoneFooter.RowHeadersWidth = 51
         Me.gridStoneFooter.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         Me.gridStoneFooter.Size = New System.Drawing.Size(1012, 19)
         Me.gridStoneFooter.TabIndex = 29
@@ -2858,7 +2883,7 @@ Partial Class frmItemTag
         Me.CmbStShape.FormattingEnabled = True
         Me.CmbStShape.Location = New System.Drawing.Point(497, 22)
         Me.CmbStShape.Name = "CmbStShape"
-        Me.CmbStShape.Size = New System.Drawing.Size(80, 21)
+        Me.CmbStShape.Size = New System.Drawing.Size(80, 25)
         Me.CmbStShape.TabIndex = 13
         '
         'cmbStUnit
@@ -2867,14 +2892,14 @@ Partial Class frmItemTag
         Me.cmbStUnit.FormattingEnabled = True
         Me.cmbStUnit.Location = New System.Drawing.Point(763, 22)
         Me.cmbStUnit.Name = "cmbStUnit"
-        Me.cmbStUnit.Size = New System.Drawing.Size(39, 21)
+        Me.cmbStUnit.Size = New System.Drawing.Size(39, 25)
         Me.cmbStUnit.TabIndex = 21
         '
         'txtStRate_Amt
         '
         Me.txtStRate_Amt.Location = New System.Drawing.Point(842, 22)
         Me.txtStRate_Amt.Name = "txtStRate_Amt"
-        Me.txtStRate_Amt.Size = New System.Drawing.Size(77, 21)
+        Me.txtStRate_Amt.Size = New System.Drawing.Size(77, 24)
         Me.txtStRate_Amt.TabIndex = 25
         Me.txtStRate_Amt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -2882,7 +2907,7 @@ Partial Class frmItemTag
         '
         Me.txtStWeight.Location = New System.Drawing.Point(700, 22)
         Me.txtStWeight.Name = "txtStWeight"
-        Me.txtStWeight.Size = New System.Drawing.Size(62, 21)
+        Me.txtStWeight.Size = New System.Drawing.Size(62, 24)
         Me.txtStWeight.TabIndex = 19
         Me.txtStWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -2890,7 +2915,7 @@ Partial Class frmItemTag
         '
         Me.txtStPcs_Num.Location = New System.Drawing.Point(669, 22)
         Me.txtStPcs_Num.Name = "txtStPcs_Num"
-        Me.txtStPcs_Num.Size = New System.Drawing.Size(31, 21)
+        Me.txtStPcs_Num.Size = New System.Drawing.Size(31, 24)
         Me.txtStPcs_Num.TabIndex = 17
         Me.txtStPcs_Num.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -2899,7 +2924,7 @@ Partial Class frmItemTag
         Me.CmbStColor.FormattingEnabled = True
         Me.CmbStColor.Location = New System.Drawing.Point(371, 22)
         Me.CmbStColor.Name = "CmbStColor"
-        Me.CmbStColor.Size = New System.Drawing.Size(48, 21)
+        Me.CmbStColor.Size = New System.Drawing.Size(48, 25)
         Me.CmbStColor.TabIndex = 9
         '
         'txtStTotAmount
@@ -2907,7 +2932,7 @@ Partial Class frmItemTag
         Me.txtStTotAmount.Enabled = False
         Me.txtStTotAmount.Location = New System.Drawing.Point(738, 167)
         Me.txtStTotAmount.Name = "txtStTotAmount"
-        Me.txtStTotAmount.Size = New System.Drawing.Size(76, 21)
+        Me.txtStTotAmount.Size = New System.Drawing.Size(76, 24)
         Me.txtStTotAmount.TabIndex = 6
         Me.txtStTotAmount.Visible = False
         '
@@ -2916,7 +2941,7 @@ Partial Class frmItemTag
         Me.txtStMetalCode.Enabled = False
         Me.txtStMetalCode.Location = New System.Drawing.Point(901, 167)
         Me.txtStMetalCode.Name = "txtStMetalCode"
-        Me.txtStMetalCode.Size = New System.Drawing.Size(19, 21)
+        Me.txtStMetalCode.Size = New System.Drawing.Size(19, 24)
         Me.txtStMetalCode.TabIndex = 8
         Me.txtStMetalCode.Visible = False
         '
@@ -2925,7 +2950,7 @@ Partial Class frmItemTag
         Me.txtStTotWeight.Enabled = False
         Me.txtStTotWeight.Location = New System.Drawing.Point(601, 167)
         Me.txtStTotWeight.Name = "txtStTotWeight"
-        Me.txtStTotWeight.Size = New System.Drawing.Size(74, 21)
+        Me.txtStTotWeight.Size = New System.Drawing.Size(74, 24)
         Me.txtStTotWeight.TabIndex = 4
         Me.txtStTotWeight.Visible = False
         '
@@ -2934,7 +2959,7 @@ Partial Class frmItemTag
         Me.txtStTotPcs.Enabled = False
         Me.txtStTotPcs.Location = New System.Drawing.Point(496, 167)
         Me.txtStTotPcs.Name = "txtStTotPcs"
-        Me.txtStTotPcs.Size = New System.Drawing.Size(39, 21)
+        Me.txtStTotPcs.Size = New System.Drawing.Size(39, 24)
         Me.txtStTotPcs.TabIndex = 2
         Me.txtStTotPcs.Visible = False
         '
@@ -2944,7 +2969,7 @@ Partial Class frmItemTag
         Me.Label66.Enabled = False
         Me.Label66.Location = New System.Drawing.Point(672, 170)
         Me.Label66.Name = "Label66"
-        Me.Label66.Size = New System.Drawing.Size(56, 13)
+        Me.Label66.Size = New System.Drawing.Size(69, 17)
         Me.Label66.TabIndex = 5
         Me.Label66.Text = "AMOUNT"
         Me.Label66.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -2956,7 +2981,7 @@ Partial Class frmItemTag
         Me.Label65.Enabled = False
         Me.Label65.Location = New System.Drawing.Point(541, 174)
         Me.Label65.Name = "Label65"
-        Me.Label65.Size = New System.Drawing.Size(54, 13)
+        Me.Label65.Size = New System.Drawing.Size(67, 17)
         Me.Label65.TabIndex = 3
         Me.Label65.Text = "WEIGHT"
         Me.Label65.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -2968,7 +2993,7 @@ Partial Class frmItemTag
         Me.Label5.Enabled = False
         Me.Label5.Location = New System.Drawing.Point(427, 174)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(62, 13)
+        Me.Label5.Size = New System.Drawing.Size(74, 17)
         Me.Label5.TabIndex = 1
         Me.Label5.Text = "Total PCS"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -2982,7 +3007,7 @@ Partial Class frmItemTag
         Me.tabOtherCharges.Controls.Add(Me.Label8)
         Me.tabOtherCharges.Location = New System.Drawing.Point(4, 22)
         Me.tabOtherCharges.Name = "tabOtherCharges"
-        Me.tabOtherCharges.Size = New System.Drawing.Size(1020, 188)
+        Me.tabOtherCharges.Size = New System.Drawing.Size(1818, 188)
         Me.tabOtherCharges.TabIndex = 3
         Me.tabOtherCharges.Text = "Miscellaneous"
         Me.tabOtherCharges.UseVisualStyleBackColor = True
@@ -2991,7 +3016,7 @@ Partial Class frmItemTag
         '
         Me.txtMiscRowIndex.Location = New System.Drawing.Point(820, 80)
         Me.txtMiscRowIndex.Name = "txtMiscRowIndex"
-        Me.txtMiscRowIndex.Size = New System.Drawing.Size(43, 21)
+        Me.txtMiscRowIndex.Size = New System.Drawing.Size(43, 24)
         Me.txtMiscRowIndex.TabIndex = 32
         Me.txtMiscRowIndex.Visible = False
         '
@@ -3021,7 +3046,7 @@ Partial Class frmItemTag
         '
         Me.txtMiscMisc.Location = New System.Drawing.Point(0, 22)
         Me.txtMiscMisc.Name = "txtMiscMisc"
-        Me.txtMiscMisc.Size = New System.Drawing.Size(298, 21)
+        Me.txtMiscMisc.Size = New System.Drawing.Size(298, 24)
         Me.txtMiscMisc.TabIndex = 1
         '
         'Label71
@@ -3050,6 +3075,7 @@ Partial Class frmItemTag
         '
         Me.gridMisc.AllowUserToAddRows = False
         Me.gridMisc.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.gridMisc.ColumnHeadersHeight = 29
         Me.gridMisc.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         Me.gridMisc.ColumnHeadersVisible = False
         Me.gridMisc.Dock = System.Windows.Forms.DockStyle.Bottom
@@ -3057,6 +3083,7 @@ Partial Class frmItemTag
         Me.gridMisc.Name = "gridMisc"
         Me.gridMisc.ReadOnly = True
         Me.gridMisc.RowHeadersVisible = False
+        Me.gridMisc.RowHeadersWidth = 51
         Me.gridMisc.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         Me.gridMisc.RowTemplate.Height = 20
         Me.gridMisc.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.[False]
@@ -3077,6 +3104,7 @@ Partial Class frmItemTag
         Me.gridMiscFooter.Name = "gridMiscFooter"
         Me.gridMiscFooter.ReadOnly = True
         Me.gridMiscFooter.RowHeadersVisible = False
+        Me.gridMiscFooter.RowHeadersWidth = 51
         Me.gridMiscFooter.Size = New System.Drawing.Size(418, 19)
         Me.gridMiscFooter.TabIndex = 5
         '
@@ -3084,7 +3112,7 @@ Partial Class frmItemTag
         '
         Me.txtMiscAmount_Amt.Location = New System.Drawing.Point(299, 22)
         Me.txtMiscAmount_Amt.Name = "txtMiscAmount_Amt"
-        Me.txtMiscAmount_Amt.Size = New System.Drawing.Size(99, 21)
+        Me.txtMiscAmount_Amt.Size = New System.Drawing.Size(99, 24)
         Me.txtMiscAmount_Amt.TabIndex = 3
         Me.txtMiscAmount_Amt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -3093,7 +3121,7 @@ Partial Class frmItemTag
         Me.txtMiscTotAmt.Enabled = False
         Me.txtMiscTotAmt.Location = New System.Drawing.Point(876, 23)
         Me.txtMiscTotAmt.Name = "txtMiscTotAmt"
-        Me.txtMiscTotAmt.Size = New System.Drawing.Size(76, 21)
+        Me.txtMiscTotAmt.Size = New System.Drawing.Size(76, 24)
         Me.txtMiscTotAmt.TabIndex = 31
         Me.txtMiscTotAmt.Visible = False
         '
@@ -3103,7 +3131,7 @@ Partial Class frmItemTag
         Me.Label8.Enabled = False
         Me.Label8.Location = New System.Drawing.Point(873, 7)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(82, 13)
+        Me.Label8.Size = New System.Drawing.Size(102, 17)
         Me.Label8.TabIndex = 0
         Me.Label8.Text = "Total Amount"
         Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -3113,7 +3141,7 @@ Partial Class frmItemTag
         '
         Me.tabPurchase.Location = New System.Drawing.Point(4, 22)
         Me.tabPurchase.Name = "tabPurchase"
-        Me.tabPurchase.Size = New System.Drawing.Size(1020, 188)
+        Me.tabPurchase.Size = New System.Drawing.Size(1818, 188)
         Me.tabPurchase.TabIndex = 5
         Me.tabPurchase.Text = "Purchase"
         Me.tabPurchase.UseVisualStyleBackColor = True
@@ -3125,7 +3153,7 @@ Partial Class frmItemTag
         Me.TabHallmark.Location = New System.Drawing.Point(4, 22)
         Me.TabHallmark.Name = "TabHallmark"
         Me.TabHallmark.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabHallmark.Size = New System.Drawing.Size(1020, 188)
+        Me.TabHallmark.Size = New System.Drawing.Size(1818, 188)
         Me.TabHallmark.TabIndex = 6
         Me.TabHallmark.Text = "Hallmark"
         Me.TabHallmark.UseVisualStyleBackColor = True
@@ -3134,7 +3162,7 @@ Partial Class frmItemTag
         '
         Me.txthallmarkRowIndex.Location = New System.Drawing.Point(848, 87)
         Me.txthallmarkRowIndex.Name = "txthallmarkRowIndex"
-        Me.txthallmarkRowIndex.Size = New System.Drawing.Size(43, 21)
+        Me.txthallmarkRowIndex.Size = New System.Drawing.Size(43, 24)
         Me.txthallmarkRowIndex.TabIndex = 33
         Me.txthallmarkRowIndex.Visible = False
         '
@@ -3155,16 +3183,16 @@ Partial Class frmItemTag
         Me.Panel1.Controls.Add(Me.gridHallmarkDetails)
         Me.Panel1.Controls.Add(Me.txtHallmarkNo)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Panel1.Location = New System.Drawing.Point(3, 17)
+        Me.Panel1.Location = New System.Drawing.Point(3, 20)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(420, 170)
+        Me.Panel1.Size = New System.Drawing.Size(420, 167)
         Me.Panel1.TabIndex = 0
         '
         'txtTagWt_WET
         '
         Me.txtTagWt_WET.Location = New System.Drawing.Point(0, 22)
         Me.txtTagWt_WET.Name = "txtTagWt_WET"
-        Me.txtTagWt_WET.Size = New System.Drawing.Size(218, 21)
+        Me.txtTagWt_WET.Size = New System.Drawing.Size(218, 24)
         Me.txtTagWt_WET.TabIndex = 1
         Me.txtTagWt_WET.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -3194,13 +3222,15 @@ Partial Class frmItemTag
         '
         Me.gridHallmarkDetails.AllowUserToAddRows = False
         Me.gridHallmarkDetails.BorderStyle = System.Windows.Forms.BorderStyle.None
+        Me.gridHallmarkDetails.ColumnHeadersHeight = 29
         Me.gridHallmarkDetails.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         Me.gridHallmarkDetails.ColumnHeadersVisible = False
         Me.gridHallmarkDetails.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.gridHallmarkDetails.Location = New System.Drawing.Point(0, 49)
+        Me.gridHallmarkDetails.Location = New System.Drawing.Point(0, 46)
         Me.gridHallmarkDetails.Name = "gridHallmarkDetails"
         Me.gridHallmarkDetails.ReadOnly = True
         Me.gridHallmarkDetails.RowHeadersVisible = False
+        Me.gridHallmarkDetails.RowHeadersWidth = 51
         Me.gridHallmarkDetails.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
         Me.gridHallmarkDetails.RowTemplate.Height = 20
         Me.gridHallmarkDetails.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.[False]
@@ -3212,7 +3242,7 @@ Partial Class frmItemTag
         '
         Me.txtHallmarkNo.Location = New System.Drawing.Point(219, 22)
         Me.txtHallmarkNo.Name = "txtHallmarkNo"
-        Me.txtHallmarkNo.Size = New System.Drawing.Size(199, 21)
+        Me.txtHallmarkNo.Size = New System.Drawing.Size(199, 24)
         Me.txtHallmarkNo.TabIndex = 3
         '
         'pnlMain
@@ -3222,7 +3252,7 @@ Partial Class frmItemTag
         Me.pnlMain.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pnlMain.Location = New System.Drawing.Point(0, 0)
         Me.pnlMain.Name = "pnlMain"
-        Me.pnlMain.Size = New System.Drawing.Size(1028, 635)
+        Me.pnlMain.Size = New System.Drawing.Size(1826, 635)
         Me.pnlMain.TabIndex = 0
         '
         'lblOrder
@@ -3230,7 +3260,7 @@ Partial Class frmItemTag
         Me.lblOrder.AutoSize = True
         Me.lblOrder.Location = New System.Drawing.Point(196, 172)
         Me.lblOrder.Name = "lblOrder"
-        Me.lblOrder.Size = New System.Drawing.Size(47, 13)
+        Me.lblOrder.Size = New System.Drawing.Size(58, 17)
         Me.lblOrder.TabIndex = 0
         Me.lblOrder.Text = "Ord No"
         Me.lblOrder.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -3241,37 +3271,51 @@ Partial Class frmItemTag
         Me.txtOrderNo.Location = New System.Drawing.Point(248, 168)
         Me.txtOrderNo.MaxLength = 7
         Me.txtOrderNo.Name = "txtOrderNo"
-        Me.txtOrderNo.Size = New System.Drawing.Size(89, 21)
+        Me.txtOrderNo.Size = New System.Drawing.Size(89, 24)
         Me.txtOrderNo.TabIndex = 1
         '
         'cmsSetItem
         '
+        Me.cmsSetItem.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.cmsSetItem.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SetItemToolStripMenuItem})
         Me.cmsSetItem.Name = "cmsSetItem"
-        Me.cmsSetItem.Size = New System.Drawing.Size(118, 26)
+        Me.cmsSetItem.Size = New System.Drawing.Size(134, 28)
         '
         'SetItemToolStripMenuItem
         '
         Me.SetItemToolStripMenuItem.Name = "SetItemToolStripMenuItem"
-        Me.SetItemToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
+        Me.SetItemToolStripMenuItem.Size = New System.Drawing.Size(133, 24)
         Me.SetItemToolStripMenuItem.Text = "Set Item"
         Me.SetItemToolStripMenuItem.Visible = False
         '
-        'lblPoNumber
+        'poGrid
         '
-        Me.lblPoNumber.AutoSize = True
-        Me.lblPoNumber.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPoNumber.ForeColor = System.Drawing.Color.MidnightBlue
-        Me.lblPoNumber.Location = New System.Drawing.Point(94, 272)
-        Me.lblPoNumber.Name = "lblPoNumber"
-        Me.lblPoNumber.Size = New System.Drawing.Size(0, 13)
-        Me.lblPoNumber.TabIndex = 56
+        Me.poGrid.AllowUserToAddRows = False
+        Me.poGrid.AllowUserToDeleteRows = False
+        Me.poGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.poGrid.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.poGrid.Location = New System.Drawing.Point(0, 0)
+        Me.poGrid.Name = "poGrid"
+        Me.poGrid.ReadOnly = True
+        Me.poGrid.RowHeadersWidth = 51
+        Me.poGrid.RowTemplate.Height = 24
+        Me.poGrid.Size = New System.Drawing.Size(843, 374)
+        Me.poGrid.TabIndex = 79
+        Me.poGrid.Visible = False
+        '
+        'Panel2
+        '
+        Me.Panel2.Controls.Add(Me.poGrid)
+        Me.Panel2.Location = New System.Drawing.Point(976, 47)
+        Me.Panel2.Name = "Panel2"
+        Me.Panel2.Size = New System.Drawing.Size(843, 374)
+        Me.Panel2.TabIndex = 80
         '
         'frmItemTag
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1028, 635)
+        Me.ClientSize = New System.Drawing.Size(1826, 635)
         Me.ContextMenuStrip = Me.ContextMenuStrip1
         Me.ControlBox = False
         Me.Controls.Add(Me.lblOrder)
@@ -3333,6 +3377,8 @@ Partial Class frmItemTag
         CType(Me.gridHallmarkDetails, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlMain.ResumeLayout(False)
         Me.cmsSetItem.ResumeLayout(False)
+        CType(Me.poGrid, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel2.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -3614,4 +3660,8 @@ Partial Class frmItemTag
     Friend WithEvents dtpOldTagRecDate_OWN As BrighttechPack.DatePicker
     Friend WithEvents chkOldTagRecdate As CheckBox
     Friend WithEvents lblPoNumber As Label
+    Friend WithEvents poGrid As DataGridView
+    Friend WithEvents CachedCformletter1 As CachedCformletter
+    Friend WithEvents CachedCformletter2 As CachedCformletter
+    Friend WithEvents Panel2 As Panel
 End Class
