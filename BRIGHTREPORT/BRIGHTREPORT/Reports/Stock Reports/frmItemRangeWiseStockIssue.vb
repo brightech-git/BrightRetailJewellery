@@ -400,7 +400,7 @@ Public Class frmItemRangeWiseStockIssue
                 strSql += vbCrLf + " AND RESULT = 5 "
             End If
             strSql += vbCrLf + " )as x"
-            strSql += vbCrLf + $" left join {cnAdminDb}..PURCHASEORDER y on x.PARTICULAR = y.PARTICULAR and y.POFROMDATE = '{dtpFrom.Value}' and y.POTODATE = '{dtpTo.Value}'"
+            strSql += vbCrLf + $" left join {cnAdminDb}..PURCHASEORDER y on x.PARTICULAR = y.PARTICULAR and y.POFROMDATE >= '{dtpFrom.Value}' and y.POTODATE <= '{dtpTo.Value}'"
             strSql += vbCrLf + " ORDER BY COSTCENTRE,METAL,COUNTER"
             If rbtSubItem.Checked Then
                 strSql += vbCrLf + " ,ITEM,SUBITEM,RESULT"
@@ -1570,7 +1570,7 @@ Public Class frmItemRangeWiseStockIssue
 
             For Each row As DataGridViewRow In gridView.Rows
                 If Not row.IsNewRow Then
-                    If row.Cells("RESULT").Value = 5 And Not IsDBNull(row.Cells("PO_PIECES").Value) Then
+                    If row.Cells("RESULT").Value = 5 And Not IsDBNull(row.Cells("PO_PIECES").Value) And row.Cells("PONUMBER").Value = "" Then
                         Dim dataRow As DataRow = dt.NewRow()
                         dataRow("PARTICULAR") = row.Cells("PARTICULAR").Value
                         dataRow("ITEM") = row.Cells("ITEM").Value

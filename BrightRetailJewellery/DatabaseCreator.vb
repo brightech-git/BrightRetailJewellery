@@ -143963,6 +143963,11 @@ ByVal PurchaseTaxName As String
 
             funcCreateTransactionDbTables()
 
+            strSql = " IF (SELECT COUNT(*) FROM " & tranDbName & "..SYSCOLUMNS WHERE NAME='PONUMBER' AND ID=OBJECT_ID('" & tranDbName & "..ITEMLOT'))<0"
+            strSql += " ALTER TABLE " & tranDbName & "..ITEMLOT ADD PONUMBER NVARCHAR(200)"
+            cmd = New OleDbCommand(strSql, cn, tran)
+            cmd.ExecuteNonQuery()
+
             '''TEMPUPDATE
             '''             
             strSql = " IF (SELECT COUNT(*) FROM " & tranDbName & "..SYSCOLUMNS WHERE NAME='JJFRMNO' AND ID=OBJECT_ID('" & tranDbName & "..ISSSTONE'))>0"

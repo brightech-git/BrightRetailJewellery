@@ -465,6 +465,7 @@ Partial Class Main
         Me.RangeWiseStockIssueToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.RangeWiseStockToolStripMenuItemCostCentre = New System.Windows.Forms.ToolStripMenuItem()
         Me.PurchaseOrderToolStripMenuItem1 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.PurchaseOrderTrackingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ItemwiseStockMRMIToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.BookVsCounterToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.VaultReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -735,12 +736,12 @@ Partial Class Main
         Me.receiveThread = New System.ComponentModel.BackgroundWorker()
         Me.GlobalDateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
-        Me.PurchaseOrderTrackingToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.StatusStrip1.SuspendLayout
-        Me.MenuStrip1.SuspendLayout
-        Me.tStripTitle.SuspendLayout
-        Me.CompanyShortCut.SuspendLayout
-        Me.SuspendLayout
+        Me.ToolStripMenuItem25 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.StatusStrip1.SuspendLayout()
+        Me.MenuStrip1.SuspendLayout()
+        Me.tStripTitle.SuspendLayout()
+        Me.CompanyShortCut.SuspendLayout()
+        Me.SuspendLayout()
         '
         'StatusStrip1
         '
@@ -760,7 +761,7 @@ Partial Class Main
         Me.TransactionYearTStripLabel.BorderSides = CType((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right), System.Windows.Forms.ToolStripStatusLabelBorderSides)
         Me.TransactionYearTStripLabel.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold)
         Me.TransactionYearTStripLabel.Name = "TransactionYearTStripLabel"
-        Me.TransactionYearTStripLabel.Size = New System.Drawing.Size(154, 16)
+        Me.TransactionYearTStripLabel.Size = New System.Drawing.Size(183, 15)
         Me.TransactionYearTStripLabel.Text = "ToolStripStatusLabel1"
         '
         'pnlUserName
@@ -770,7 +771,7 @@ Partial Class Main
         Me.pnlUserName.BorderSides = CType((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right), System.Windows.Forms.ToolStripStatusLabelBorderSides)
         Me.pnlUserName.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.pnlUserName.Name = "pnlUserName"
-        Me.pnlUserName.Size = New System.Drawing.Size(150, 16)
+        Me.pnlUserName.Size = New System.Drawing.Size(150, 15)
         Me.pnlUserName.Text = "User Name"
         Me.pnlUserName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -779,7 +780,7 @@ Partial Class Main
         Me.tStripBarStatus.AutoSize = False
         Me.tStripBarStatus.BorderSides = CType((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right), System.Windows.Forms.ToolStripStatusLabelBorderSides)
         Me.tStripBarStatus.Name = "tStripBarStatus"
-        Me.tStripBarStatus.Size = New System.Drawing.Size(550, 16)
+        Me.tStripBarStatus.Size = New System.Drawing.Size(550, 15)
         Me.tStripBarStatus.Text = "Bar Status"
         Me.tStripBarStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         '
@@ -789,7 +790,7 @@ Partial Class Main
         Me.pBar.ForeColor = System.Drawing.Color.DarkRed
         Me.pBar.Name = "pBar"
         Me.pBar.RightToLeftLayout = True
-        Me.pBar.Size = New System.Drawing.Size(33, 15)
+        Me.pBar.Size = New System.Drawing.Size(33, 13)
         '
         'tStripModuleId
         '
@@ -798,7 +799,7 @@ Partial Class Main
         Me.tStripModuleId.ForeColor = System.Drawing.Color.Red
         Me.tStripModuleId.Name = "tStripModuleId"
         Me.tStripModuleId.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.tStripModuleId.Size = New System.Drawing.Size(79, 16)
+        Me.tStripModuleId.Size = New System.Drawing.Size(97, 15)
         Me.tStripModuleId.Text = "AGM-01-01"
         '
         'tStripHelp
@@ -806,7 +807,7 @@ Partial Class Main
         Me.tStripHelp.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tStripHelp.ForeColor = System.Drawing.Color.Red
         Me.tStripHelp.Name = "tStripHelp"
-        Me.tStripHelp.Size = New System.Drawing.Size(150, 16)
+        Me.tStripHelp.Size = New System.Drawing.Size(179, 15)
         Me.tStripHelp.Text = "ToolStripStatusLabel1"
         '
         'ShortCutKey
@@ -814,6 +815,7 @@ Partial Class Main
         Me.ShortCutKey.BorderSides = CType((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left Or System.Windows.Forms.ToolStripStatusLabelBorderSides.Right), System.Windows.Forms.ToolStripStatusLabelBorderSides)
         Me.ShortCutKey.BorderStyle = System.Windows.Forms.Border3DStyle.Sunken
         Me.ShortCutKey.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.ShortCutKey.Margin = New System.Windows.Forms.Padding(0, 3, 0, 2)
         Me.ShortCutKey.Name = "ShortCutKey"
         Me.ShortCutKey.Size = New System.Drawing.Size(4, 16)
         '
@@ -823,7 +825,7 @@ Partial Class Main
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripMaster, Me.tStripRateEntry, Me.tStripAccounts, Me.tStripStockMenu, Me.tStripEstimation, Me.tStripBilling, Me.tStripOrder, Me.tStripReports, Me.WholeSaleToolStripMenuItem1, Me.tStripSavingsScheme, Me.AddressBookToolStripMenuItem, Me.tStripUtility, Me.tStripExit})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(1370, 24)
+        Me.MenuStrip1.Size = New System.Drawing.Size(1370, 28)
         Me.MenuStrip1.TabIndex = 3
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -831,14 +833,14 @@ Partial Class Main
         '
         Me.tStripMaster.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripAcc, Me.tStripItem, Me.tStripUsers, Me.RollToolStripMenuItem, Me.ToolStripMenuItem12, Me.PackingComplementryToolStripMenuItem})
         Me.tStripMaster.Name = "tStripMaster"
-        Me.tStripMaster.Size = New System.Drawing.Size(55, 20)
+        Me.tStripMaster.Size = New System.Drawing.Size(68, 24)
         Me.tStripMaster.Text = "&Master"
         '
         'tStripAcc
         '
         Me.tStripAcc.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripAccGroup, Me.tStripAccHead, Me.AccountTypeToolStripMenuItem, Me.tStripAcctSchedule, Me.tStripCostCentre, Me.tStripDesigner, Me.tStripCreditCard, Me.tStripProcessType, Me.tStripNarration, Me.tStripcompany, Me.tStripAccEntryMaster, Me.TDSCategoryToolStripMenuItem, Me.AdditionalChargesToolStripMenuItem, Me.PriviledToolStripMenuItem, Me.BudgetControlToolStripMenuItem, Me.AutoBrsMasterToolStripMenuItem, Me.AddressToolStripMenuItem, Me.GiftVoucherDenominationToolStripMenuItem, Me.AccountHeadAttachmentsToolStripMenuItem, Me.GSTCategoryToolStripMenuItem, Me.CreditCardSlabToolStripMenuItem, Me.PrivilegeTypeToolStripMenuItem, Me.PaymodeTypeToolStripMenuItem, Me.HallMarkCenterToolStripMenuItem})
         Me.tStripAcc.Name = "tStripAcc"
-        Me.tStripAcc.Size = New System.Drawing.Size(173, 22)
+        Me.tStripAcc.Size = New System.Drawing.Size(216, 26)
         Me.tStripAcc.Text = "Accounts"
         '
         'tStripAccGroup
@@ -848,7 +850,7 @@ Partial Class Main
         Me.tStripAccGroup.Name = "tStripAccGroup"
         Me.tStripAccGroup.ShortcutKeyDisplayString = "AGM-1-1"
         Me.tStripAccGroup.ShowShortcutKeys = False
-        Me.tStripAccGroup.Size = New System.Drawing.Size(214, 22)
+        Me.tStripAccGroup.Size = New System.Drawing.Size(264, 26)
         Me.tStripAccGroup.Text = "Account Group"
         '
         'tStripAccHead
@@ -858,7 +860,7 @@ Partial Class Main
         Me.tStripAccHead.Name = "tStripAccHead"
         Me.tStripAccHead.ShortcutKeyDisplayString = "AGM-1-2"
         Me.tStripAccHead.ShowShortcutKeys = False
-        Me.tStripAccHead.Size = New System.Drawing.Size(214, 22)
+        Me.tStripAccHead.Size = New System.Drawing.Size(264, 26)
         Me.tStripAccHead.Text = "Account Head"
         '
         'AccountTypeToolStripMenuItem
@@ -868,7 +870,7 @@ Partial Class Main
         Me.AccountTypeToolStripMenuItem.Name = "AccountTypeToolStripMenuItem"
         Me.AccountTypeToolStripMenuItem.ShortcutKeyDisplayString = "AGM-1-15"
         Me.AccountTypeToolStripMenuItem.ShowShortcutKeys = False
-        Me.AccountTypeToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.AccountTypeToolStripMenuItem.Size = New System.Drawing.Size(264, 26)
         Me.AccountTypeToolStripMenuItem.Text = "Account Type"
         '
         'tStripAcctSchedule
@@ -876,7 +878,7 @@ Partial Class Main
         Me.tStripAcctSchedule.AccessibleDescription = "frmAccgroupschedule"
         Me.tStripAcctSchedule.AccessibleName = "M"
         Me.tStripAcctSchedule.Name = "tStripAcctSchedule"
-        Me.tStripAcctSchedule.Size = New System.Drawing.Size(214, 22)
+        Me.tStripAcctSchedule.Size = New System.Drawing.Size(264, 26)
         Me.tStripAcctSchedule.Text = "Account Schedule Update"
         '
         'tStripCostCentre
@@ -886,7 +888,7 @@ Partial Class Main
         Me.tStripCostCentre.Name = "tStripCostCentre"
         Me.tStripCostCentre.ShortcutKeyDisplayString = "AGM-1-3"
         Me.tStripCostCentre.ShowShortcutKeys = False
-        Me.tStripCostCentre.Size = New System.Drawing.Size(214, 22)
+        Me.tStripCostCentre.Size = New System.Drawing.Size(264, 26)
         Me.tStripCostCentre.Text = "Cost Centre"
         '
         'tStripDesigner
@@ -896,7 +898,7 @@ Partial Class Main
         Me.tStripDesigner.Name = "tStripDesigner"
         Me.tStripDesigner.ShortcutKeyDisplayString = "AGM-1-4"
         Me.tStripDesigner.ShowShortcutKeys = False
-        Me.tStripDesigner.Size = New System.Drawing.Size(214, 22)
+        Me.tStripDesigner.Size = New System.Drawing.Size(264, 26)
         Me.tStripDesigner.Text = "Designer"
         '
         'tStripCreditCard
@@ -906,7 +908,7 @@ Partial Class Main
         Me.tStripCreditCard.Name = "tStripCreditCard"
         Me.tStripCreditCard.ShortcutKeyDisplayString = "AGM-1-5"
         Me.tStripCreditCard.ShowShortcutKeys = False
-        Me.tStripCreditCard.Size = New System.Drawing.Size(214, 22)
+        Me.tStripCreditCard.Size = New System.Drawing.Size(264, 26)
         Me.tStripCreditCard.Text = "Credit Card"
         '
         'tStripProcessType
@@ -916,7 +918,7 @@ Partial Class Main
         Me.tStripProcessType.Name = "tStripProcessType"
         Me.tStripProcessType.ShortcutKeyDisplayString = "AGM-1-6"
         Me.tStripProcessType.ShowShortcutKeys = False
-        Me.tStripProcessType.Size = New System.Drawing.Size(214, 22)
+        Me.tStripProcessType.Size = New System.Drawing.Size(264, 26)
         Me.tStripProcessType.Text = "Cash Transaction"
         '
         'tStripNarration
@@ -926,7 +928,7 @@ Partial Class Main
         Me.tStripNarration.Name = "tStripNarration"
         Me.tStripNarration.ShortcutKeyDisplayString = "AGM-1-7"
         Me.tStripNarration.ShowShortcutKeys = False
-        Me.tStripNarration.Size = New System.Drawing.Size(214, 22)
+        Me.tStripNarration.Size = New System.Drawing.Size(264, 26)
         Me.tStripNarration.Text = "Narration"
         '
         'tStripcompany
@@ -936,7 +938,7 @@ Partial Class Main
         Me.tStripcompany.Name = "tStripcompany"
         Me.tStripcompany.ShortcutKeyDisplayString = "AGM-1-8"
         Me.tStripcompany.ShowShortcutKeys = False
-        Me.tStripcompany.Size = New System.Drawing.Size(214, 22)
+        Me.tStripcompany.Size = New System.Drawing.Size(264, 26)
         Me.tStripcompany.Text = "Company"
         '
         'tStripAccEntryMaster
@@ -946,7 +948,7 @@ Partial Class Main
         Me.tStripAccEntryMaster.Name = "tStripAccEntryMaster"
         Me.tStripAccEntryMaster.ShortcutKeyDisplayString = "AGM-1-9"
         Me.tStripAccEntryMaster.ShowShortcutKeys = False
-        Me.tStripAccEntryMaster.Size = New System.Drawing.Size(214, 22)
+        Me.tStripAccEntryMaster.Size = New System.Drawing.Size(264, 26)
         Me.tStripAccEntryMaster.Text = "Account Entry"
         '
         'TDSCategoryToolStripMenuItem
@@ -956,7 +958,7 @@ Partial Class Main
         Me.TDSCategoryToolStripMenuItem.Name = "TDSCategoryToolStripMenuItem"
         Me.TDSCategoryToolStripMenuItem.ShortcutKeyDisplayString = "AGM-1-10"
         Me.TDSCategoryToolStripMenuItem.ShowShortcutKeys = False
-        Me.TDSCategoryToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.TDSCategoryToolStripMenuItem.Size = New System.Drawing.Size(264, 26)
         Me.TDSCategoryToolStripMenuItem.Text = "TDS Category"
         '
         'AdditionalChargesToolStripMenuItem
@@ -966,7 +968,7 @@ Partial Class Main
         Me.AdditionalChargesToolStripMenuItem.Name = "AdditionalChargesToolStripMenuItem"
         Me.AdditionalChargesToolStripMenuItem.ShortcutKeyDisplayString = "AGM-1-11"
         Me.AdditionalChargesToolStripMenuItem.ShowShortcutKeys = False
-        Me.AdditionalChargesToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.AdditionalChargesToolStripMenuItem.Size = New System.Drawing.Size(264, 26)
         Me.AdditionalChargesToolStripMenuItem.Text = "Additional Charges"
         '
         'PriviledToolStripMenuItem
@@ -976,7 +978,7 @@ Partial Class Main
         Me.PriviledToolStripMenuItem.Name = "PriviledToolStripMenuItem"
         Me.PriviledToolStripMenuItem.ShortcutKeyDisplayString = "AGM-1-12"
         Me.PriviledToolStripMenuItem.ShowShortcutKeys = False
-        Me.PriviledToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.PriviledToolStripMenuItem.Size = New System.Drawing.Size(264, 26)
         Me.PriviledToolStripMenuItem.Text = "Priviledge"
         '
         'BudgetControlToolStripMenuItem
@@ -986,7 +988,7 @@ Partial Class Main
         Me.BudgetControlToolStripMenuItem.Name = "BudgetControlToolStripMenuItem"
         Me.BudgetControlToolStripMenuItem.ShortcutKeyDisplayString = "AGM-1-13"
         Me.BudgetControlToolStripMenuItem.ShowShortcutKeys = False
-        Me.BudgetControlToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.BudgetControlToolStripMenuItem.Size = New System.Drawing.Size(264, 26)
         Me.BudgetControlToolStripMenuItem.Text = "Budget Control"
         '
         'AutoBrsMasterToolStripMenuItem
@@ -996,7 +998,7 @@ Partial Class Main
         Me.AutoBrsMasterToolStripMenuItem.Name = "AutoBrsMasterToolStripMenuItem"
         Me.AutoBrsMasterToolStripMenuItem.ShortcutKeyDisplayString = "AGM-1-14"
         Me.AutoBrsMasterToolStripMenuItem.ShowShortcutKeys = False
-        Me.AutoBrsMasterToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.AutoBrsMasterToolStripMenuItem.Size = New System.Drawing.Size(264, 26)
         Me.AutoBrsMasterToolStripMenuItem.Text = "Auto Brs Master"
         '
         'AddressToolStripMenuItem
@@ -1006,7 +1008,7 @@ Partial Class Main
         Me.AddressToolStripMenuItem.Name = "AddressToolStripMenuItem"
         Me.AddressToolStripMenuItem.ShortcutKeyDisplayString = "AGM-1-14"
         Me.AddressToolStripMenuItem.ShowShortcutKeys = False
-        Me.AddressToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.AddressToolStripMenuItem.Size = New System.Drawing.Size(264, 26)
         Me.AddressToolStripMenuItem.Text = "Address"
         '
         'GiftVoucherDenominationToolStripMenuItem
@@ -1016,7 +1018,7 @@ Partial Class Main
         Me.GiftVoucherDenominationToolStripMenuItem.Name = "GiftVoucherDenominationToolStripMenuItem"
         Me.GiftVoucherDenominationToolStripMenuItem.ShortcutKeyDisplayString = "AGM-1-15"
         Me.GiftVoucherDenominationToolStripMenuItem.ShowShortcutKeys = False
-        Me.GiftVoucherDenominationToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.GiftVoucherDenominationToolStripMenuItem.Size = New System.Drawing.Size(264, 26)
         Me.GiftVoucherDenominationToolStripMenuItem.Text = "Gift Voucher Denomination"
         '
         'AccountHeadAttachmentsToolStripMenuItem
@@ -1025,7 +1027,7 @@ Partial Class Main
         Me.AccountHeadAttachmentsToolStripMenuItem.Name = "AccountHeadAttachmentsToolStripMenuItem"
         Me.AccountHeadAttachmentsToolStripMenuItem.ShortcutKeyDisplayString = "AGM-1-16"
         Me.AccountHeadAttachmentsToolStripMenuItem.ShowShortcutKeys = False
-        Me.AccountHeadAttachmentsToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.AccountHeadAttachmentsToolStripMenuItem.Size = New System.Drawing.Size(264, 26)
         Me.AccountHeadAttachmentsToolStripMenuItem.Text = "Account Head Attachments"
         '
         'GSTCategoryToolStripMenuItem
@@ -1035,38 +1037,38 @@ Partial Class Main
         Me.GSTCategoryToolStripMenuItem.Name = "GSTCategoryToolStripMenuItem"
         Me.GSTCategoryToolStripMenuItem.ShortcutKeyDisplayString = "AGM-1-17"
         Me.GSTCategoryToolStripMenuItem.ShowShortcutKeys = False
-        Me.GSTCategoryToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.GSTCategoryToolStripMenuItem.Size = New System.Drawing.Size(264, 26)
         Me.GSTCategoryToolStripMenuItem.Text = "GST Category"
         '
         'CreditCardSlabToolStripMenuItem
         '
         Me.CreditCardSlabToolStripMenuItem.Name = "CreditCardSlabToolStripMenuItem"
-        Me.CreditCardSlabToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.CreditCardSlabToolStripMenuItem.Size = New System.Drawing.Size(264, 26)
         Me.CreditCardSlabToolStripMenuItem.Text = "Credit Card Slab"
         '
         'PrivilegeTypeToolStripMenuItem
         '
         Me.PrivilegeTypeToolStripMenuItem.Name = "PrivilegeTypeToolStripMenuItem"
-        Me.PrivilegeTypeToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.PrivilegeTypeToolStripMenuItem.Size = New System.Drawing.Size(264, 26)
         Me.PrivilegeTypeToolStripMenuItem.Text = "Privilege Type"
         '
         'PaymodeTypeToolStripMenuItem
         '
         Me.PaymodeTypeToolStripMenuItem.Name = "PaymodeTypeToolStripMenuItem"
-        Me.PaymodeTypeToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.PaymodeTypeToolStripMenuItem.Size = New System.Drawing.Size(264, 26)
         Me.PaymodeTypeToolStripMenuItem.Text = "Paymode Type"
         '
         'HallMarkCenterToolStripMenuItem
         '
         Me.HallMarkCenterToolStripMenuItem.Name = "HallMarkCenterToolStripMenuItem"
-        Me.HallMarkCenterToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.HallMarkCenterToolStripMenuItem.Size = New System.Drawing.Size(264, 26)
         Me.HallMarkCenterToolStripMenuItem.Text = "Hall Mark Center"
         '
         'tStripItem
         '
         Me.tStripItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripTax, Me.tStripMetal, Me.tStripPurity, Me.CategoryGroupToolStripMenuItem, Me.tStripCategory, Me.tStripItemGroup, Me.tStripSubItemGroup, Me.tStripItemMaster, Me.tStripSubItemMaster, Me.tStripItemCounter, Me.tStripItemSize, Me.ItemTypeToolStripMenuItem, Me.tStripValueAdded, Me.tStripOtherCharge, Me.MultiDiscountToolStripMenuItem, Me.tStripStockReorder, Me.tStripStateCategory, Me.StateWiseItemMastToolStripMenuItem, Me.DiscToolStripMenuItem, Me.CentToolStripMenuItem, Me.MarginToolStripMenuItem, Me.OrderStatusToolStripMenuItem, Me.SalesCommisionToolStripMenuItem, Me.DealerWastageAddedToolStripMenuItem, Me.DealerVAToolStripMenuItem, Me.TargetCounterToolStripMenuItem, Me.RangeMasterToolStripMenuItem, Me.SubItemWiseSmithLinkToolStripMenuItem, Me.ToolStripMenuItem20, Me.IncentiveToolStripMenuItem, Me.ItemtagAdditionalMasterToolStripMenuItem, Me.ItemPostToolStripMenuItem, Me.DesignerVAToolStripMenuItem, Me.ItemCounterGrp, Me.tStripBranchVa, Me.tStripOrderAdditionMaster, Me.ToolStripMenuItem24, Me.DealerStuddedDetail})
         Me.tStripItem.Name = "tStripItem"
-        Me.tStripItem.Size = New System.Drawing.Size(173, 22)
+        Me.tStripItem.Size = New System.Drawing.Size(216, 26)
         Me.tStripItem.Text = "Item"
         '
         'tStripTax
@@ -1076,7 +1078,7 @@ Partial Class Main
         Me.tStripTax.Name = "tStripTax"
         Me.tStripTax.ShortcutKeyDisplayString = "AGM-2-1"
         Me.tStripTax.ShowShortcutKeys = False
-        Me.tStripTax.Size = New System.Drawing.Size(221, 22)
+        Me.tStripTax.Size = New System.Drawing.Size(280, 26)
         Me.tStripTax.Text = "Tax"
         '
         'tStripMetal
@@ -1086,7 +1088,7 @@ Partial Class Main
         Me.tStripMetal.Name = "tStripMetal"
         Me.tStripMetal.ShortcutKeyDisplayString = "AGM-2-2"
         Me.tStripMetal.ShowShortcutKeys = False
-        Me.tStripMetal.Size = New System.Drawing.Size(221, 22)
+        Me.tStripMetal.Size = New System.Drawing.Size(280, 26)
         Me.tStripMetal.Text = "Metal"
         '
         'tStripPurity
@@ -1096,7 +1098,7 @@ Partial Class Main
         Me.tStripPurity.Name = "tStripPurity"
         Me.tStripPurity.ShortcutKeyDisplayString = "AGM-2-3"
         Me.tStripPurity.ShowShortcutKeys = False
-        Me.tStripPurity.Size = New System.Drawing.Size(221, 22)
+        Me.tStripPurity.Size = New System.Drawing.Size(280, 26)
         Me.tStripPurity.Text = "Purity"
         '
         'CategoryGroupToolStripMenuItem
@@ -1106,7 +1108,7 @@ Partial Class Main
         Me.CategoryGroupToolStripMenuItem.Name = "CategoryGroupToolStripMenuItem"
         Me.CategoryGroupToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-4"
         Me.CategoryGroupToolStripMenuItem.ShowShortcutKeys = False
-        Me.CategoryGroupToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
+        Me.CategoryGroupToolStripMenuItem.Size = New System.Drawing.Size(280, 26)
         Me.CategoryGroupToolStripMenuItem.Text = "Category Group"
         '
         'tStripCategory
@@ -1116,7 +1118,7 @@ Partial Class Main
         Me.tStripCategory.Name = "tStripCategory"
         Me.tStripCategory.ShortcutKeyDisplayString = "AGM-2-5"
         Me.tStripCategory.ShowShortcutKeys = False
-        Me.tStripCategory.Size = New System.Drawing.Size(221, 22)
+        Me.tStripCategory.Size = New System.Drawing.Size(280, 26)
         Me.tStripCategory.Text = "Category"
         '
         'tStripItemGroup
@@ -1126,7 +1128,7 @@ Partial Class Main
         Me.tStripItemGroup.Name = "tStripItemGroup"
         Me.tStripItemGroup.ShortcutKeyDisplayString = "AGM-2-6"
         Me.tStripItemGroup.ShowShortcutKeys = False
-        Me.tStripItemGroup.Size = New System.Drawing.Size(221, 22)
+        Me.tStripItemGroup.Size = New System.Drawing.Size(280, 26)
         Me.tStripItemGroup.Text = "Item Group"
         '
         'tStripSubItemGroup
@@ -1136,7 +1138,7 @@ Partial Class Main
         Me.tStripSubItemGroup.Name = "tStripSubItemGroup"
         Me.tStripSubItemGroup.ShortcutKeyDisplayString = "AGM-2-7"
         Me.tStripSubItemGroup.ShowShortcutKeys = False
-        Me.tStripSubItemGroup.Size = New System.Drawing.Size(221, 22)
+        Me.tStripSubItemGroup.Size = New System.Drawing.Size(280, 26)
         Me.tStripSubItemGroup.Text = "Sub Item Group"
         '
         'tStripItemMaster
@@ -1146,7 +1148,7 @@ Partial Class Main
         Me.tStripItemMaster.Name = "tStripItemMaster"
         Me.tStripItemMaster.ShortcutKeyDisplayString = "AGM-2-8"
         Me.tStripItemMaster.ShowShortcutKeys = False
-        Me.tStripItemMaster.Size = New System.Drawing.Size(221, 22)
+        Me.tStripItemMaster.Size = New System.Drawing.Size(280, 26)
         Me.tStripItemMaster.Text = "Item Master"
         '
         'tStripSubItemMaster
@@ -1156,7 +1158,7 @@ Partial Class Main
         Me.tStripSubItemMaster.Name = "tStripSubItemMaster"
         Me.tStripSubItemMaster.ShortcutKeyDisplayString = "AGM-2-9"
         Me.tStripSubItemMaster.ShowShortcutKeys = False
-        Me.tStripSubItemMaster.Size = New System.Drawing.Size(221, 22)
+        Me.tStripSubItemMaster.Size = New System.Drawing.Size(280, 26)
         Me.tStripSubItemMaster.Text = "Sub Item Master"
         '
         'tStripItemCounter
@@ -1166,7 +1168,7 @@ Partial Class Main
         Me.tStripItemCounter.Name = "tStripItemCounter"
         Me.tStripItemCounter.ShortcutKeyDisplayString = "AGM-2-10"
         Me.tStripItemCounter.ShowShortcutKeys = False
-        Me.tStripItemCounter.Size = New System.Drawing.Size(221, 22)
+        Me.tStripItemCounter.Size = New System.Drawing.Size(280, 26)
         Me.tStripItemCounter.Text = "Item Counter"
         '
         'tStripItemSize
@@ -1176,7 +1178,7 @@ Partial Class Main
         Me.tStripItemSize.Name = "tStripItemSize"
         Me.tStripItemSize.ShortcutKeyDisplayString = "AGM-2-11"
         Me.tStripItemSize.ShowShortcutKeys = False
-        Me.tStripItemSize.Size = New System.Drawing.Size(221, 22)
+        Me.tStripItemSize.Size = New System.Drawing.Size(280, 26)
         Me.tStripItemSize.Text = "Item Size"
         '
         'ItemTypeToolStripMenuItem
@@ -1185,7 +1187,7 @@ Partial Class Main
         Me.ItemTypeToolStripMenuItem.Name = "ItemTypeToolStripMenuItem"
         Me.ItemTypeToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-12"
         Me.ItemTypeToolStripMenuItem.ShowShortcutKeys = False
-        Me.ItemTypeToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
+        Me.ItemTypeToolStripMenuItem.Size = New System.Drawing.Size(280, 26)
         Me.ItemTypeToolStripMenuItem.Text = "ItemType"
         '
         'TagTypeToolStripMenuItem
@@ -1195,7 +1197,7 @@ Partial Class Main
         Me.TagTypeToolStripMenuItem.Name = "TagTypeToolStripMenuItem"
         Me.TagTypeToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-12-1"
         Me.TagTypeToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagTypeToolStripMenuItem.Size = New System.Drawing.Size(169, 22)
+        Me.TagTypeToolStripMenuItem.Size = New System.Drawing.Size(210, 26)
         Me.TagTypeToolStripMenuItem.Text = "Tag Type"
         '
         'PurchaseItemTypeToolStripMenuItem
@@ -1205,7 +1207,7 @@ Partial Class Main
         Me.PurchaseItemTypeToolStripMenuItem.Name = "PurchaseItemTypeToolStripMenuItem"
         Me.PurchaseItemTypeToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-12-2"
         Me.PurchaseItemTypeToolStripMenuItem.ShowShortcutKeys = False
-        Me.PurchaseItemTypeToolStripMenuItem.Size = New System.Drawing.Size(169, 22)
+        Me.PurchaseItemTypeToolStripMenuItem.Size = New System.Drawing.Size(210, 26)
         Me.PurchaseItemTypeToolStripMenuItem.Text = "Purchase Item Type"
         '
         'tStripValueAdded
@@ -1215,7 +1217,7 @@ Partial Class Main
         Me.tStripValueAdded.Name = "tStripValueAdded"
         Me.tStripValueAdded.ShortcutKeyDisplayString = "AGM-2-13"
         Me.tStripValueAdded.ShowShortcutKeys = False
-        Me.tStripValueAdded.Size = New System.Drawing.Size(221, 22)
+        Me.tStripValueAdded.Size = New System.Drawing.Size(280, 26)
         Me.tStripValueAdded.Text = "Value Added"
         Me.tStripValueAdded.ToolTipText = "Wastage Mc Fixing"
         '
@@ -1226,7 +1228,7 @@ Partial Class Main
         Me.tStripOtherCharge.Name = "tStripOtherCharge"
         Me.tStripOtherCharge.ShortcutKeyDisplayString = "AGM-2-14"
         Me.tStripOtherCharge.ShowShortcutKeys = False
-        Me.tStripOtherCharge.Size = New System.Drawing.Size(221, 22)
+        Me.tStripOtherCharge.Size = New System.Drawing.Size(280, 26)
         Me.tStripOtherCharge.Text = "Other Charges"
         '
         'ChargesToolStripMenuItem
@@ -1236,7 +1238,7 @@ Partial Class Main
         Me.ChargesToolStripMenuItem.Name = "ChargesToolStripMenuItem"
         Me.ChargesToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-14-1"
         Me.ChargesToolStripMenuItem.ShowShortcutKeys = False
-        Me.ChargesToolStripMenuItem.Size = New System.Drawing.Size(167, 22)
+        Me.ChargesToolStripMenuItem.Size = New System.Drawing.Size(208, 26)
         Me.ChargesToolStripMenuItem.Text = "Charges"
         '
         'AcctwiseChargesToolStripMenuItem
@@ -1246,7 +1248,7 @@ Partial Class Main
         Me.AcctwiseChargesToolStripMenuItem.Name = "AcctwiseChargesToolStripMenuItem"
         Me.AcctwiseChargesToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-14-2"
         Me.AcctwiseChargesToolStripMenuItem.ShowShortcutKeys = False
-        Me.AcctwiseChargesToolStripMenuItem.Size = New System.Drawing.Size(167, 22)
+        Me.AcctwiseChargesToolStripMenuItem.Size = New System.Drawing.Size(208, 26)
         Me.AcctwiseChargesToolStripMenuItem.Text = "Acctwise Charges"
         '
         'CertificateChargesToolStripMenuItem
@@ -1256,7 +1258,7 @@ Partial Class Main
         Me.CertificateChargesToolStripMenuItem.Name = "CertificateChargesToolStripMenuItem"
         Me.CertificateChargesToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-14-3"
         Me.CertificateChargesToolStripMenuItem.ShowShortcutKeys = False
-        Me.CertificateChargesToolStripMenuItem.Size = New System.Drawing.Size(167, 22)
+        Me.CertificateChargesToolStripMenuItem.Size = New System.Drawing.Size(208, 26)
         Me.CertificateChargesToolStripMenuItem.Text = "Certificate Charges"
         '
         'MultiDiscountToolStripMenuItem
@@ -1266,7 +1268,7 @@ Partial Class Main
         Me.MultiDiscountToolStripMenuItem.Name = "MultiDiscountToolStripMenuItem"
         Me.MultiDiscountToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-15"
         Me.MultiDiscountToolStripMenuItem.ShowShortcutKeys = False
-        Me.MultiDiscountToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
+        Me.MultiDiscountToolStripMenuItem.Size = New System.Drawing.Size(280, 26)
         Me.MultiDiscountToolStripMenuItem.Text = "Multi Discount"
         '
         'tStripStockReorder
@@ -1276,7 +1278,7 @@ Partial Class Main
         Me.tStripStockReorder.Name = "tStripStockReorder"
         Me.tStripStockReorder.ShortcutKeyDisplayString = "AGM-2-16"
         Me.tStripStockReorder.ShowShortcutKeys = False
-        Me.tStripStockReorder.Size = New System.Drawing.Size(221, 22)
+        Me.tStripStockReorder.Size = New System.Drawing.Size(280, 26)
         Me.tStripStockReorder.Text = "Reorder Stock"
         '
         'ToolStripMenuItem17
@@ -1286,7 +1288,7 @@ Partial Class Main
         Me.ToolStripMenuItem17.Name = "ToolStripMenuItem17"
         Me.ToolStripMenuItem17.ShortcutKeyDisplayString = "AGM-2-16-1"
         Me.ToolStripMenuItem17.ShowShortcutKeys = False
-        Me.ToolStripMenuItem17.Size = New System.Drawing.Size(255, 22)
+        Me.ToolStripMenuItem17.Size = New System.Drawing.Size(318, 26)
         Me.ToolStripMenuItem17.Text = "Stock Reorder"
         '
         'PieceWiseStockReorderToolStripMenuItem
@@ -1296,7 +1298,7 @@ Partial Class Main
         Me.PieceWiseStockReorderToolStripMenuItem.Name = "PieceWiseStockReorderToolStripMenuItem"
         Me.PieceWiseStockReorderToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-16-2"
         Me.PieceWiseStockReorderToolStripMenuItem.ShowShortcutKeys = False
-        Me.PieceWiseStockReorderToolStripMenuItem.Size = New System.Drawing.Size(255, 22)
+        Me.PieceWiseStockReorderToolStripMenuItem.Size = New System.Drawing.Size(318, 26)
         Me.PieceWiseStockReorderToolStripMenuItem.Text = "Piece Wise Stock Reorder"
         '
         'PcsAndWeightWiseStockReorderToolStripMenuItem
@@ -1306,7 +1308,7 @@ Partial Class Main
         Me.PcsAndWeightWiseStockReorderToolStripMenuItem.Name = "PcsAndWeightWiseStockReorderToolStripMenuItem"
         Me.PcsAndWeightWiseStockReorderToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-16-3"
         Me.PcsAndWeightWiseStockReorderToolStripMenuItem.ShowShortcutKeys = False
-        Me.PcsAndWeightWiseStockReorderToolStripMenuItem.Size = New System.Drawing.Size(255, 22)
+        Me.PcsAndWeightWiseStockReorderToolStripMenuItem.Size = New System.Drawing.Size(318, 26)
         Me.PcsAndWeightWiseStockReorderToolStripMenuItem.Tag = ""
         Me.PcsAndWeightWiseStockReorderToolStripMenuItem.Text = "Pcs And Weight Wise Stock Reorder"
         '
@@ -1317,7 +1319,7 @@ Partial Class Main
         Me.StockReorderBulkToolStripMenuItem.Name = "StockReorderBulkToolStripMenuItem"
         Me.StockReorderBulkToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-16-4"
         Me.StockReorderBulkToolStripMenuItem.ShowShortcutKeys = False
-        Me.StockReorderBulkToolStripMenuItem.Size = New System.Drawing.Size(255, 22)
+        Me.StockReorderBulkToolStripMenuItem.Size = New System.Drawing.Size(318, 26)
         Me.StockReorderBulkToolStripMenuItem.Text = "Stock Reorder Bulk"
         '
         'tStripStateCategory
@@ -1327,7 +1329,7 @@ Partial Class Main
         Me.tStripStateCategory.Name = "tStripStateCategory"
         Me.tStripStateCategory.ShortcutKeyDisplayString = "AGM-2-17"
         Me.tStripStateCategory.ShowShortcutKeys = False
-        Me.tStripStateCategory.Size = New System.Drawing.Size(221, 22)
+        Me.tStripStateCategory.Size = New System.Drawing.Size(280, 26)
         Me.tStripStateCategory.Text = "State wise Category mast"
         '
         'StateWiseItemMastToolStripMenuItem
@@ -1337,7 +1339,7 @@ Partial Class Main
         Me.StateWiseItemMastToolStripMenuItem.Name = "StateWiseItemMastToolStripMenuItem"
         Me.StateWiseItemMastToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-18"
         Me.StateWiseItemMastToolStripMenuItem.ShowShortcutKeys = False
-        Me.StateWiseItemMastToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
+        Me.StateWiseItemMastToolStripMenuItem.Size = New System.Drawing.Size(280, 26)
         Me.StateWiseItemMastToolStripMenuItem.Text = "State wise Item mast"
         '
         'DiscToolStripMenuItem
@@ -1346,7 +1348,7 @@ Partial Class Main
         Me.DiscToolStripMenuItem.Name = "DiscToolStripMenuItem"
         Me.DiscToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-19"
         Me.DiscToolStripMenuItem.ShowShortcutKeys = False
-        Me.DiscToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
+        Me.DiscToolStripMenuItem.Size = New System.Drawing.Size(280, 26)
         Me.DiscToolStripMenuItem.Text = "Discount"
         '
         'tStripDiscount
@@ -1356,7 +1358,7 @@ Partial Class Main
         Me.tStripDiscount.Name = "tStripDiscount"
         Me.tStripDiscount.ShortcutKeyDisplayString = "AGM-2-19-1"
         Me.tStripDiscount.ShowShortcutKeys = False
-        Me.tStripDiscount.Size = New System.Drawing.Size(175, 22)
+        Me.tStripDiscount.Size = New System.Drawing.Size(219, 26)
         Me.tStripDiscount.Text = "Discount"
         '
         'SchemeOfferToolStripMenuItem
@@ -1366,7 +1368,7 @@ Partial Class Main
         Me.SchemeOfferToolStripMenuItem.Name = "SchemeOfferToolStripMenuItem"
         Me.SchemeOfferToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-19-2"
         Me.SchemeOfferToolStripMenuItem.ShowShortcutKeys = False
-        Me.SchemeOfferToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+        Me.SchemeOfferToolStripMenuItem.Size = New System.Drawing.Size(219, 26)
         Me.SchemeOfferToolStripMenuItem.Text = "Scheme Offer"
         '
         'tStripSchemeOfferRange
@@ -1376,13 +1378,13 @@ Partial Class Main
         Me.tStripSchemeOfferRange.Name = "tStripSchemeOfferRange"
         Me.tStripSchemeOfferRange.ShortcutKeyDisplayString = "AGM-2-19-3"
         Me.tStripSchemeOfferRange.ShowShortcutKeys = False
-        Me.tStripSchemeOfferRange.Size = New System.Drawing.Size(175, 22)
+        Me.tStripSchemeOfferRange.Size = New System.Drawing.Size(219, 26)
         Me.tStripSchemeOfferRange.Text = "Scheme Offer Range"
         '
         'SchemeNoOfferToolStripMenuItem
         '
         Me.SchemeNoOfferToolStripMenuItem.Name = "SchemeNoOfferToolStripMenuItem"
-        Me.SchemeNoOfferToolStripMenuItem.Size = New System.Drawing.Size(175, 22)
+        Me.SchemeNoOfferToolStripMenuItem.Size = New System.Drawing.Size(219, 26)
         Me.SchemeNoOfferToolStripMenuItem.Text = "Scheme NoOffer"
         '
         'CentToolStripMenuItem
@@ -1391,7 +1393,7 @@ Partial Class Main
         Me.CentToolStripMenuItem.Name = "CentToolStripMenuItem"
         Me.CentToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-20"
         Me.CentToolStripMenuItem.ShowShortcutKeys = False
-        Me.CentToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
+        Me.CentToolStripMenuItem.Size = New System.Drawing.Size(280, 26)
         Me.CentToolStripMenuItem.Text = "Cent"
         '
         'StnCutToolStripMenuItem
@@ -1401,7 +1403,7 @@ Partial Class Main
         Me.StnCutToolStripMenuItem.Name = "StnCutToolStripMenuItem"
         Me.StnCutToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-20-1"
         Me.StnCutToolStripMenuItem.ShowShortcutKeys = False
-        Me.StnCutToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
+        Me.StnCutToolStripMenuItem.Size = New System.Drawing.Size(207, 26)
         Me.StnCutToolStripMenuItem.Text = "Stone Cut"
         '
         'StoneColorToolStripMenuItem
@@ -1411,7 +1413,7 @@ Partial Class Main
         Me.StoneColorToolStripMenuItem.Name = "StoneColorToolStripMenuItem"
         Me.StoneColorToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-20-2"
         Me.StoneColorToolStripMenuItem.ShowShortcutKeys = False
-        Me.StoneColorToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
+        Me.StoneColorToolStripMenuItem.Size = New System.Drawing.Size(207, 26)
         Me.StoneColorToolStripMenuItem.Text = "Stone Color"
         '
         'StoneClarityToolStripMenuItem
@@ -1421,7 +1423,7 @@ Partial Class Main
         Me.StoneClarityToolStripMenuItem.Name = "StoneClarityToolStripMenuItem"
         Me.StoneClarityToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-20-3"
         Me.StoneClarityToolStripMenuItem.ShowShortcutKeys = False
-        Me.StoneClarityToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
+        Me.StoneClarityToolStripMenuItem.Size = New System.Drawing.Size(207, 26)
         Me.StoneClarityToolStripMenuItem.Text = "Stone Clarity"
         '
         'StoneShapeToolStripMenuItem
@@ -1431,7 +1433,7 @@ Partial Class Main
         Me.StoneShapeToolStripMenuItem.Name = "StoneShapeToolStripMenuItem"
         Me.StoneShapeToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-20-4"
         Me.StoneShapeToolStripMenuItem.ShowShortcutKeys = False
-        Me.StoneShapeToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
+        Me.StoneShapeToolStripMenuItem.Size = New System.Drawing.Size(207, 26)
         Me.StoneShapeToolStripMenuItem.Text = "Stone Shape"
         '
         'StoneSizeToolStripMenuItem
@@ -1439,7 +1441,7 @@ Partial Class Main
         Me.StoneSizeToolStripMenuItem.AccessibleDescription = "frmStnSize"
         Me.StoneSizeToolStripMenuItem.AccessibleName = "M"
         Me.StoneSizeToolStripMenuItem.Name = "StoneSizeToolStripMenuItem"
-        Me.StoneSizeToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
+        Me.StoneSizeToolStripMenuItem.Size = New System.Drawing.Size(207, 26)
         Me.StoneSizeToolStripMenuItem.Text = "Stone Size"
         '
         'CentSizeToolStripMenuItem
@@ -1449,7 +1451,7 @@ Partial Class Main
         Me.CentSizeToolStripMenuItem.Name = "CentSizeToolStripMenuItem"
         Me.CentSizeToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-20-5"
         Me.CentSizeToolStripMenuItem.ShowShortcutKeys = False
-        Me.CentSizeToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
+        Me.CentSizeToolStripMenuItem.Size = New System.Drawing.Size(207, 26)
         Me.CentSizeToolStripMenuItem.Text = "Cent Size"
         '
         'CentRateToolStripMenuItem
@@ -1459,7 +1461,7 @@ Partial Class Main
         Me.CentRateToolStripMenuItem.Name = "CentRateToolStripMenuItem"
         Me.CentRateToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-20-6"
         Me.CentRateToolStripMenuItem.ShowShortcutKeys = False
-        Me.CentRateToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
+        Me.CentRateToolStripMenuItem.Size = New System.Drawing.Size(207, 26)
         Me.CentRateToolStripMenuItem.Text = "Cent Rate"
         '
         'StoneSettingTypeToolStripMenuItem
@@ -1469,7 +1471,7 @@ Partial Class Main
         Me.StoneSettingTypeToolStripMenuItem.Name = "StoneSettingTypeToolStripMenuItem"
         Me.StoneSettingTypeToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-20-7"
         Me.StoneSettingTypeToolStripMenuItem.ShowShortcutKeys = False
-        Me.StoneSettingTypeToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
+        Me.StoneSettingTypeToolStripMenuItem.Size = New System.Drawing.Size(207, 26)
         Me.StoneSettingTypeToolStripMenuItem.Text = "Stone Setting Type"
         '
         'DiaStyleToolStripMenuItem
@@ -1479,7 +1481,7 @@ Partial Class Main
         Me.DiaStyleToolStripMenuItem.Name = "DiaStyleToolStripMenuItem"
         Me.DiaStyleToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-20-8"
         Me.DiaStyleToolStripMenuItem.ShowShortcutKeys = False
-        Me.DiaStyleToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
+        Me.DiaStyleToolStripMenuItem.Size = New System.Drawing.Size(207, 26)
         Me.DiaStyleToolStripMenuItem.Text = "Dia Style"
         '
         'RapaportToolStripMenuItem
@@ -1489,7 +1491,7 @@ Partial Class Main
         Me.RapaportToolStripMenuItem.Name = "RapaportToolStripMenuItem"
         Me.RapaportToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-20-9"
         Me.RapaportToolStripMenuItem.ShowShortcutKeys = False
-        Me.RapaportToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
+        Me.RapaportToolStripMenuItem.Size = New System.Drawing.Size(207, 26)
         Me.RapaportToolStripMenuItem.Text = "Rapaport"
         '
         'CGroupToolStripMenuItem
@@ -1499,7 +1501,7 @@ Partial Class Main
         Me.CGroupToolStripMenuItem.Name = "CGroupToolStripMenuItem"
         Me.CGroupToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-20-10"
         Me.CGroupToolStripMenuItem.ShowShortcutKeys = False
-        Me.CGroupToolStripMenuItem.Size = New System.Drawing.Size(164, 22)
+        Me.CGroupToolStripMenuItem.Size = New System.Drawing.Size(207, 26)
         Me.CGroupToolStripMenuItem.Text = "Stone Group"
         '
         'MarginToolStripMenuItem
@@ -1508,7 +1510,7 @@ Partial Class Main
         Me.MarginToolStripMenuItem.Name = "MarginToolStripMenuItem"
         Me.MarginToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-21"
         Me.MarginToolStripMenuItem.ShowShortcutKeys = False
-        Me.MarginToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
+        Me.MarginToolStripMenuItem.Size = New System.Drawing.Size(280, 26)
         Me.MarginToolStripMenuItem.Text = "Margin"
         '
         'ItemWiseMarginLockToolStripMenuItem
@@ -1518,7 +1520,7 @@ Partial Class Main
         Me.ItemWiseMarginLockToolStripMenuItem.Name = "ItemWiseMarginLockToolStripMenuItem"
         Me.ItemWiseMarginLockToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-21-1"
         Me.ItemWiseMarginLockToolStripMenuItem.ShowShortcutKeys = False
-        Me.ItemWiseMarginLockToolStripMenuItem.Size = New System.Drawing.Size(250, 22)
+        Me.ItemWiseMarginLockToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.ItemWiseMarginLockToolStripMenuItem.Text = "Item/Table Wise Margin/Disc. Lock"
         '
         'VaMarginToolStripMenuItem1
@@ -1528,7 +1530,7 @@ Partial Class Main
         Me.VaMarginToolStripMenuItem1.Name = "VaMarginToolStripMenuItem1"
         Me.VaMarginToolStripMenuItem1.ShortcutKeyDisplayString = "AGM-2-21-2"
         Me.VaMarginToolStripMenuItem1.ShowShortcutKeys = False
-        Me.VaMarginToolStripMenuItem1.Size = New System.Drawing.Size(250, 22)
+        Me.VaMarginToolStripMenuItem1.Size = New System.Drawing.Size(312, 26)
         Me.VaMarginToolStripMenuItem1.Text = "Va Margin"
         '
         'ToolStripMenuItem15
@@ -1537,7 +1539,7 @@ Partial Class Main
         Me.ToolStripMenuItem15.Name = "ToolStripMenuItem15"
         Me.ToolStripMenuItem15.ShortcutKeyDisplayString = "AGM-2-21-3"
         Me.ToolStripMenuItem15.ShowShortcutKeys = False
-        Me.ToolStripMenuItem15.Size = New System.Drawing.Size(250, 22)
+        Me.ToolStripMenuItem15.Size = New System.Drawing.Size(312, 26)
         Me.ToolStripMenuItem15.Text = "Item Wise Margin Link"
         '
         'RoleWiseMarginLinkToolStripMenuItem
@@ -1546,7 +1548,7 @@ Partial Class Main
         Me.RoleWiseMarginLinkToolStripMenuItem.Name = "RoleWiseMarginLinkToolStripMenuItem"
         Me.RoleWiseMarginLinkToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-21-4"
         Me.RoleWiseMarginLinkToolStripMenuItem.ShowShortcutKeys = False
-        Me.RoleWiseMarginLinkToolStripMenuItem.Size = New System.Drawing.Size(250, 22)
+        Me.RoleWiseMarginLinkToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.RoleWiseMarginLinkToolStripMenuItem.Text = "Role Wise Margin Link"
         '
         'CategoryWisePurchaseDiscountToolStripMenuItem
@@ -1556,7 +1558,7 @@ Partial Class Main
         Me.CategoryWisePurchaseDiscountToolStripMenuItem.Name = "CategoryWisePurchaseDiscountToolStripMenuItem"
         Me.CategoryWisePurchaseDiscountToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-21-5"
         Me.CategoryWisePurchaseDiscountToolStripMenuItem.ShowShortcutKeys = False
-        Me.CategoryWisePurchaseDiscountToolStripMenuItem.Size = New System.Drawing.Size(250, 22)
+        Me.CategoryWisePurchaseDiscountToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.CategoryWisePurchaseDiscountToolStripMenuItem.Text = "CategoryWise PurchaseDiscount"
         '
         'OrderStatusToolStripMenuItem
@@ -1566,7 +1568,7 @@ Partial Class Main
         Me.OrderStatusToolStripMenuItem.Name = "OrderStatusToolStripMenuItem"
         Me.OrderStatusToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-22"
         Me.OrderStatusToolStripMenuItem.ShowShortcutKeys = False
-        Me.OrderStatusToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
+        Me.OrderStatusToolStripMenuItem.Size = New System.Drawing.Size(280, 26)
         Me.OrderStatusToolStripMenuItem.Text = "Process Type"
         '
         'SalesCommisionToolStripMenuItem
@@ -1576,7 +1578,7 @@ Partial Class Main
         Me.SalesCommisionToolStripMenuItem.Name = "SalesCommisionToolStripMenuItem"
         Me.SalesCommisionToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-23"
         Me.SalesCommisionToolStripMenuItem.ShowShortcutKeys = False
-        Me.SalesCommisionToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
+        Me.SalesCommisionToolStripMenuItem.Size = New System.Drawing.Size(280, 26)
         Me.SalesCommisionToolStripMenuItem.Text = "Sales Commision"
         '
         'DealerWastageAddedToolStripMenuItem
@@ -1586,7 +1588,7 @@ Partial Class Main
         Me.DealerWastageAddedToolStripMenuItem.Name = "DealerWastageAddedToolStripMenuItem"
         Me.DealerWastageAddedToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-24"
         Me.DealerWastageAddedToolStripMenuItem.ShowShortcutKeys = False
-        Me.DealerWastageAddedToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
+        Me.DealerWastageAddedToolStripMenuItem.Size = New System.Drawing.Size(280, 26)
         Me.DealerWastageAddedToolStripMenuItem.Text = "Dealer Wastage Added"
         '
         'DealerVAToolStripMenuItem
@@ -1596,7 +1598,7 @@ Partial Class Main
         Me.DealerVAToolStripMenuItem.Name = "DealerVAToolStripMenuItem"
         Me.DealerVAToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-25"
         Me.DealerVAToolStripMenuItem.ShowShortcutKeys = False
-        Me.DealerVAToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
+        Me.DealerVAToolStripMenuItem.Size = New System.Drawing.Size(280, 26)
         Me.DealerVAToolStripMenuItem.Text = "Dealer VA"
         '
         'TargetCounterToolStripMenuItem
@@ -1606,7 +1608,7 @@ Partial Class Main
         Me.TargetCounterToolStripMenuItem.Name = "TargetCounterToolStripMenuItem"
         Me.TargetCounterToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-26"
         Me.TargetCounterToolStripMenuItem.ShowShortcutKeys = False
-        Me.TargetCounterToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
+        Me.TargetCounterToolStripMenuItem.Size = New System.Drawing.Size(280, 26)
         Me.TargetCounterToolStripMenuItem.Text = "Target Counter"
         '
         'RangeMasterToolStripMenuItem
@@ -1616,7 +1618,7 @@ Partial Class Main
         Me.RangeMasterToolStripMenuItem.Name = "RangeMasterToolStripMenuItem"
         Me.RangeMasterToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-27"
         Me.RangeMasterToolStripMenuItem.ShowShortcutKeys = False
-        Me.RangeMasterToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
+        Me.RangeMasterToolStripMenuItem.Size = New System.Drawing.Size(280, 26)
         Me.RangeMasterToolStripMenuItem.Text = "Range Master"
         '
         'RangeMasterToolStripMenuItem1
@@ -1626,7 +1628,7 @@ Partial Class Main
         Me.RangeMasterToolStripMenuItem1.Name = "RangeMasterToolStripMenuItem1"
         Me.RangeMasterToolStripMenuItem1.ShortcutKeyDisplayString = "AGM-2-27-1"
         Me.RangeMasterToolStripMenuItem1.ShowShortcutKeys = False
-        Me.RangeMasterToolStripMenuItem1.Size = New System.Drawing.Size(186, 22)
+        Me.RangeMasterToolStripMenuItem1.Size = New System.Drawing.Size(234, 26)
         Me.RangeMasterToolStripMenuItem1.Text = "Range Master"
         '
         'AgewiseRangeMasterToolStripMenuItem
@@ -1636,7 +1638,7 @@ Partial Class Main
         Me.AgewiseRangeMasterToolStripMenuItem.Name = "AgewiseRangeMasterToolStripMenuItem"
         Me.AgewiseRangeMasterToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-27-2"
         Me.AgewiseRangeMasterToolStripMenuItem.ShowShortcutKeys = False
-        Me.AgewiseRangeMasterToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+        Me.AgewiseRangeMasterToolStripMenuItem.Size = New System.Drawing.Size(234, 26)
         Me.AgewiseRangeMasterToolStripMenuItem.Text = "Agewise Range Master"
         '
         'SubItemWiseSmithLinkToolStripMenuItem
@@ -1646,7 +1648,7 @@ Partial Class Main
         Me.SubItemWiseSmithLinkToolStripMenuItem.Name = "SubItemWiseSmithLinkToolStripMenuItem"
         Me.SubItemWiseSmithLinkToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-28"
         Me.SubItemWiseSmithLinkToolStripMenuItem.ShowShortcutKeys = False
-        Me.SubItemWiseSmithLinkToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
+        Me.SubItemWiseSmithLinkToolStripMenuItem.Size = New System.Drawing.Size(280, 26)
         Me.SubItemWiseSmithLinkToolStripMenuItem.Text = "SubItem Wise Smith Link"
         '
         'ToolStripMenuItem20
@@ -1655,7 +1657,7 @@ Partial Class Main
         Me.ToolStripMenuItem20.Name = "ToolStripMenuItem20"
         Me.ToolStripMenuItem20.ShortcutKeyDisplayString = "AGM-2-29"
         Me.ToolStripMenuItem20.ShowShortcutKeys = False
-        Me.ToolStripMenuItem20.Size = New System.Drawing.Size(221, 22)
+        Me.ToolStripMenuItem20.Size = New System.Drawing.Size(280, 26)
         Me.ToolStripMenuItem20.Text = "Designer Wise Studded Stone"
         '
         'IncentiveToolStripMenuItem
@@ -1664,7 +1666,7 @@ Partial Class Main
         Me.IncentiveToolStripMenuItem.Name = "IncentiveToolStripMenuItem"
         Me.IncentiveToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-30"
         Me.IncentiveToolStripMenuItem.ShowShortcutKeys = False
-        Me.IncentiveToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
+        Me.IncentiveToolStripMenuItem.Size = New System.Drawing.Size(280, 26)
         Me.IncentiveToolStripMenuItem.Text = "Incentive"
         '
         'BackendIncentiveToolStripMenuItem
@@ -1673,7 +1675,7 @@ Partial Class Main
         Me.BackendIncentiveToolStripMenuItem.Name = "BackendIncentiveToolStripMenuItem"
         Me.BackendIncentiveToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-30-1"
         Me.BackendIncentiveToolStripMenuItem.ShowShortcutKeys = False
-        Me.BackendIncentiveToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
+        Me.BackendIncentiveToolStripMenuItem.Size = New System.Drawing.Size(218, 26)
         Me.BackendIncentiveToolStripMenuItem.Text = "Backend Incentive"
         '
         'MonthwiseIncentiveToolStripMenuItem
@@ -1682,7 +1684,7 @@ Partial Class Main
         Me.MonthwiseIncentiveToolStripMenuItem.Name = "MonthwiseIncentiveToolStripMenuItem"
         Me.MonthwiseIncentiveToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-30-2"
         Me.MonthwiseIncentiveToolStripMenuItem.ShowShortcutKeys = False
-        Me.MonthwiseIncentiveToolStripMenuItem.Size = New System.Drawing.Size(177, 22)
+        Me.MonthwiseIncentiveToolStripMenuItem.Size = New System.Drawing.Size(218, 26)
         Me.MonthwiseIncentiveToolStripMenuItem.Text = "Monthwise Incentive"
         '
         'ItemtagAdditionalMasterToolStripMenuItem
@@ -1691,7 +1693,7 @@ Partial Class Main
         Me.ItemtagAdditionalMasterToolStripMenuItem.Name = "ItemtagAdditionalMasterToolStripMenuItem"
         Me.ItemtagAdditionalMasterToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-31"
         Me.ItemtagAdditionalMasterToolStripMenuItem.ShowShortcutKeys = False
-        Me.ItemtagAdditionalMasterToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
+        Me.ItemtagAdditionalMasterToolStripMenuItem.Size = New System.Drawing.Size(280, 26)
         Me.ItemtagAdditionalMasterToolStripMenuItem.Text = "Itemtag Additional Master"
         '
         'OtherMasterEntryToolStripMenuItem
@@ -1701,7 +1703,7 @@ Partial Class Main
         Me.OtherMasterEntryToolStripMenuItem.Name = "OtherMasterEntryToolStripMenuItem"
         Me.OtherMasterEntryToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-31-1"
         Me.OtherMasterEntryToolStripMenuItem.ShowShortcutKeys = False
-        Me.OtherMasterEntryToolStripMenuItem.Size = New System.Drawing.Size(197, 22)
+        Me.OtherMasterEntryToolStripMenuItem.Size = New System.Drawing.Size(247, 26)
         Me.OtherMasterEntryToolStripMenuItem.Text = "Additional Master Group"
         '
         'tStripOtherMaster
@@ -1709,7 +1711,7 @@ Partial Class Main
         Me.tStripOtherMaster.Name = "tStripOtherMaster"
         Me.tStripOtherMaster.ShortcutKeyDisplayString = "AGM-2-31-2"
         Me.tStripOtherMaster.ShowShortcutKeys = False
-        Me.tStripOtherMaster.Size = New System.Drawing.Size(197, 22)
+        Me.tStripOtherMaster.Size = New System.Drawing.Size(247, 26)
         Me.tStripOtherMaster.Text = "Additional Master Detail"
         '
         'ItemPostToolStripMenuItem
@@ -1719,7 +1721,7 @@ Partial Class Main
         Me.ItemPostToolStripMenuItem.Name = "ItemPostToolStripMenuItem"
         Me.ItemPostToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-32"
         Me.ItemPostToolStripMenuItem.ShowShortcutKeys = False
-        Me.ItemPostToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
+        Me.ItemPostToolStripMenuItem.Size = New System.Drawing.Size(280, 26)
         Me.ItemPostToolStripMenuItem.Text = "Item Master Export"
         '
         'DesignerVAToolStripMenuItem
@@ -1728,7 +1730,7 @@ Partial Class Main
         Me.DesignerVAToolStripMenuItem.Name = "DesignerVAToolStripMenuItem"
         Me.DesignerVAToolStripMenuItem.ShortcutKeyDisplayString = "AGM-2-33"
         Me.DesignerVAToolStripMenuItem.ShowShortcutKeys = False
-        Me.DesignerVAToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
+        Me.DesignerVAToolStripMenuItem.Size = New System.Drawing.Size(280, 26)
         Me.DesignerVAToolStripMenuItem.Text = "Designer VA"
         '
         'ItemCounterGrp
@@ -1738,7 +1740,7 @@ Partial Class Main
         Me.ItemCounterGrp.Name = "ItemCounterGrp"
         Me.ItemCounterGrp.ShortcutKeyDisplayString = "AGM-2-34"
         Me.ItemCounterGrp.ShowShortcutKeys = False
-        Me.ItemCounterGrp.Size = New System.Drawing.Size(221, 22)
+        Me.ItemCounterGrp.Size = New System.Drawing.Size(280, 26)
         Me.ItemCounterGrp.Text = "ItemCounter Group"
         '
         'tStripBranchVa
@@ -1748,7 +1750,7 @@ Partial Class Main
         Me.tStripBranchVa.Name = "tStripBranchVa"
         Me.tStripBranchVa.ShortcutKeyDisplayString = "AGM-2-35"
         Me.tStripBranchVa.ShowShortcutKeys = False
-        Me.tStripBranchVa.Size = New System.Drawing.Size(221, 22)
+        Me.tStripBranchVa.Size = New System.Drawing.Size(280, 26)
         Me.tStripBranchVa.Text = "Franchisee VA"
         '
         'tStripOrderAdditionMaster
@@ -1758,7 +1760,7 @@ Partial Class Main
         Me.tStripOrderAdditionMaster.Name = "tStripOrderAdditionMaster"
         Me.tStripOrderAdditionMaster.ShortcutKeyDisplayString = "AGM-2-36"
         Me.tStripOrderAdditionMaster.ShowShortcutKeys = False
-        Me.tStripOrderAdditionMaster.Size = New System.Drawing.Size(221, 22)
+        Me.tStripOrderAdditionMaster.Size = New System.Drawing.Size(280, 26)
         Me.tStripOrderAdditionMaster.Text = "Order Addtional Detail"
         '
         'ToolStripMenuItem24
@@ -1768,7 +1770,7 @@ Partial Class Main
         Me.ToolStripMenuItem24.Name = "ToolStripMenuItem24"
         Me.ToolStripMenuItem24.ShortcutKeyDisplayString = "AGM-2-37"
         Me.ToolStripMenuItem24.ShowShortcutKeys = False
-        Me.ToolStripMenuItem24.Size = New System.Drawing.Size(221, 22)
+        Me.ToolStripMenuItem24.Size = New System.Drawing.Size(280, 26)
         Me.ToolStripMenuItem24.Text = "Order Additional Value Detail"
         '
         'DealerStuddedDetail
@@ -1776,14 +1778,14 @@ Partial Class Main
         Me.DealerStuddedDetail.AccessibleDescription = "frmDealerstudded"
         Me.DealerStuddedDetail.AccessibleName = "M"
         Me.DealerStuddedDetail.Name = "DealerStuddedDetail"
-        Me.DealerStuddedDetail.Size = New System.Drawing.Size(221, 22)
+        Me.DealerStuddedDetail.Size = New System.Drawing.Size(280, 26)
         Me.DealerStuddedDetail.Text = "Dealer Studded "
         '
         'tStripUsers
         '
         Me.tStripUsers.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripCashCounter, Me.tStripSoftControl, Me.tStripDesignation, Me.tStripEmployeeMaster, Me.tStripDiscAuthorize, Me.UserDiscCrAuthorizeTStripMenuItem, Me.UserCashCounterLinkToolStripMenuItem, Me.BillAdjustmentAuthorizeToolStripMenuItem, Me.DiscountAuthenticationToolStripMenuItem})
         Me.tStripUsers.Name = "tStripUsers"
-        Me.tStripUsers.Size = New System.Drawing.Size(173, 22)
+        Me.tStripUsers.Size = New System.Drawing.Size(216, 26)
         Me.tStripUsers.Text = "Users"
         '
         'tStripCashCounter
@@ -1793,7 +1795,7 @@ Partial Class Main
         Me.tStripCashCounter.Name = "tStripCashCounter"
         Me.tStripCashCounter.ShortcutKeyDisplayString = "AGM-3-1"
         Me.tStripCashCounter.ShowShortcutKeys = False
-        Me.tStripCashCounter.Size = New System.Drawing.Size(202, 22)
+        Me.tStripCashCounter.Size = New System.Drawing.Size(252, 26)
         Me.tStripCashCounter.Text = "Cash Counter"
         '
         'tStripSoftControl
@@ -1803,7 +1805,7 @@ Partial Class Main
         Me.tStripSoftControl.Name = "tStripSoftControl"
         Me.tStripSoftControl.ShortcutKeyDisplayString = "AGM-3-2"
         Me.tStripSoftControl.ShowShortcutKeys = False
-        Me.tStripSoftControl.Size = New System.Drawing.Size(202, 22)
+        Me.tStripSoftControl.Size = New System.Drawing.Size(252, 26)
         Me.tStripSoftControl.Text = "Soft Control"
         '
         'tStripDesignation
@@ -1813,7 +1815,7 @@ Partial Class Main
         Me.tStripDesignation.Name = "tStripDesignation"
         Me.tStripDesignation.ShortcutKeyDisplayString = "AGM-3-3"
         Me.tStripDesignation.ShowShortcutKeys = False
-        Me.tStripDesignation.Size = New System.Drawing.Size(202, 22)
+        Me.tStripDesignation.Size = New System.Drawing.Size(252, 26)
         Me.tStripDesignation.Text = "Designation"
         '
         'tStripEmployeeMaster
@@ -1823,7 +1825,7 @@ Partial Class Main
         Me.tStripEmployeeMaster.Name = "tStripEmployeeMaster"
         Me.tStripEmployeeMaster.ShortcutKeyDisplayString = "AGM-3-4"
         Me.tStripEmployeeMaster.ShowShortcutKeys = False
-        Me.tStripEmployeeMaster.Size = New System.Drawing.Size(202, 22)
+        Me.tStripEmployeeMaster.Size = New System.Drawing.Size(252, 26)
         Me.tStripEmployeeMaster.Text = "Employee Master"
         '
         'tStripDiscAuthorize
@@ -1833,7 +1835,7 @@ Partial Class Main
         Me.tStripDiscAuthorize.Name = "tStripDiscAuthorize"
         Me.tStripDiscAuthorize.ShortcutKeyDisplayString = "AGM-3-5"
         Me.tStripDiscAuthorize.ShowShortcutKeys = False
-        Me.tStripDiscAuthorize.Size = New System.Drawing.Size(202, 22)
+        Me.tStripDiscAuthorize.Size = New System.Drawing.Size(252, 26)
         Me.tStripDiscAuthorize.Text = "Emp Disc/Due Authorize"
         '
         'UserDiscCrAuthorizeTStripMenuItem
@@ -1841,7 +1843,7 @@ Partial Class Main
         Me.UserDiscCrAuthorizeTStripMenuItem.AccessibleDescription = "frmUserAuthorize"
         Me.UserDiscCrAuthorizeTStripMenuItem.AccessibleName = "M"
         Me.UserDiscCrAuthorizeTStripMenuItem.Name = "UserDiscCrAuthorizeTStripMenuItem"
-        Me.UserDiscCrAuthorizeTStripMenuItem.Size = New System.Drawing.Size(202, 22)
+        Me.UserDiscCrAuthorizeTStripMenuItem.Size = New System.Drawing.Size(252, 26)
         Me.UserDiscCrAuthorizeTStripMenuItem.Text = "Userwise Authorization"
         '
         'UserCashCounterLinkToolStripMenuItem
@@ -1851,7 +1853,7 @@ Partial Class Main
         Me.UserCashCounterLinkToolStripMenuItem.Name = "UserCashCounterLinkToolStripMenuItem"
         Me.UserCashCounterLinkToolStripMenuItem.ShortcutKeyDisplayString = "AGM-3-6"
         Me.UserCashCounterLinkToolStripMenuItem.ShowShortcutKeys = False
-        Me.UserCashCounterLinkToolStripMenuItem.Size = New System.Drawing.Size(202, 22)
+        Me.UserCashCounterLinkToolStripMenuItem.Size = New System.Drawing.Size(252, 26)
         Me.UserCashCounterLinkToolStripMenuItem.Text = "User CashCounter Link"
         '
         'BillAdjustmentAuthorizeToolStripMenuItem
@@ -1861,7 +1863,7 @@ Partial Class Main
         Me.BillAdjustmentAuthorizeToolStripMenuItem.Name = "BillAdjustmentAuthorizeToolStripMenuItem"
         Me.BillAdjustmentAuthorizeToolStripMenuItem.ShortcutKeyDisplayString = "AGM-3-7"
         Me.BillAdjustmentAuthorizeToolStripMenuItem.ShowShortcutKeys = False
-        Me.BillAdjustmentAuthorizeToolStripMenuItem.Size = New System.Drawing.Size(202, 22)
+        Me.BillAdjustmentAuthorizeToolStripMenuItem.Size = New System.Drawing.Size(252, 26)
         Me.BillAdjustmentAuthorizeToolStripMenuItem.Text = "Bill Adjustment Authorize"
         '
         'DiscountAuthenticationToolStripMenuItem
@@ -1871,14 +1873,14 @@ Partial Class Main
         Me.DiscountAuthenticationToolStripMenuItem.Name = "DiscountAuthenticationToolStripMenuItem"
         Me.DiscountAuthenticationToolStripMenuItem.ShortcutKeyDisplayString = "AGM-3-8"
         Me.DiscountAuthenticationToolStripMenuItem.ShowShortcutKeys = False
-        Me.DiscountAuthenticationToolStripMenuItem.Size = New System.Drawing.Size(202, 22)
+        Me.DiscountAuthenticationToolStripMenuItem.Size = New System.Drawing.Size(252, 26)
         Me.DiscountAuthenticationToolStripMenuItem.Text = "Discount Authentication"
         '
         'RollToolStripMenuItem
         '
         Me.RollToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripMenuMaster, Me.tStripUserMaster, Me.tStripRoleMaster, Me.tStripRoleTran, Me.tStripUserRole, Me.PasswordOptionToolStripMenuItem, Me.PasswordMasterToolStripMenuItem, Me.ReportsRoleToolStripMenuItem})
         Me.RollToolStripMenuItem.Name = "RollToolStripMenuItem"
-        Me.RollToolStripMenuItem.Size = New System.Drawing.Size(173, 22)
+        Me.RollToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.RollToolStripMenuItem.Text = "Role"
         '
         'tStripMenuMaster
@@ -1887,7 +1889,7 @@ Partial Class Main
         Me.tStripMenuMaster.Name = "tStripMenuMaster"
         Me.tStripMenuMaster.ShortcutKeyDisplayString = "AGM-4-1"
         Me.tStripMenuMaster.ShowShortcutKeys = False
-        Me.tStripMenuMaster.Size = New System.Drawing.Size(160, 22)
+        Me.tStripMenuMaster.Size = New System.Drawing.Size(198, 26)
         Me.tStripMenuMaster.Text = "Menu Master"
         '
         'tStripUserMaster
@@ -1897,7 +1899,7 @@ Partial Class Main
         Me.tStripUserMaster.Name = "tStripUserMaster"
         Me.tStripUserMaster.ShortcutKeyDisplayString = "AGM-4-2"
         Me.tStripUserMaster.ShowShortcutKeys = False
-        Me.tStripUserMaster.Size = New System.Drawing.Size(160, 22)
+        Me.tStripUserMaster.Size = New System.Drawing.Size(198, 26)
         Me.tStripUserMaster.Text = "User Master"
         '
         'tStripRoleMaster
@@ -1907,7 +1909,7 @@ Partial Class Main
         Me.tStripRoleMaster.Name = "tStripRoleMaster"
         Me.tStripRoleMaster.ShortcutKeyDisplayString = "AGM-4-3"
         Me.tStripRoleMaster.ShowShortcutKeys = False
-        Me.tStripRoleMaster.Size = New System.Drawing.Size(160, 22)
+        Me.tStripRoleMaster.Size = New System.Drawing.Size(198, 26)
         Me.tStripRoleMaster.Text = "Role Master"
         '
         'tStripRoleTran
@@ -1916,7 +1918,7 @@ Partial Class Main
         Me.tStripRoleTran.Name = "tStripRoleTran"
         Me.tStripRoleTran.ShortcutKeyDisplayString = "AGM-4-4"
         Me.tStripRoleTran.ShowShortcutKeys = False
-        Me.tStripRoleTran.Size = New System.Drawing.Size(160, 22)
+        Me.tStripRoleTran.Size = New System.Drawing.Size(198, 26)
         Me.tStripRoleTran.Text = "Role Tran"
         '
         'tStripUserRole
@@ -1926,7 +1928,7 @@ Partial Class Main
         Me.tStripUserRole.Name = "tStripUserRole"
         Me.tStripUserRole.ShortcutKeyDisplayString = "AGM-4-5"
         Me.tStripUserRole.ShowShortcutKeys = False
-        Me.tStripUserRole.Size = New System.Drawing.Size(160, 22)
+        Me.tStripUserRole.Size = New System.Drawing.Size(198, 26)
         Me.tStripUserRole.Text = "User Role"
         '
         'PasswordOptionToolStripMenuItem
@@ -1936,7 +1938,7 @@ Partial Class Main
         Me.PasswordOptionToolStripMenuItem.Name = "PasswordOptionToolStripMenuItem"
         Me.PasswordOptionToolStripMenuItem.ShortcutKeyDisplayString = "AGM-4-6"
         Me.PasswordOptionToolStripMenuItem.ShowShortcutKeys = False
-        Me.PasswordOptionToolStripMenuItem.Size = New System.Drawing.Size(160, 22)
+        Me.PasswordOptionToolStripMenuItem.Size = New System.Drawing.Size(198, 26)
         Me.PasswordOptionToolStripMenuItem.Text = "Password Option "
         '
         'PasswordMasterToolStripMenuItem
@@ -1946,7 +1948,7 @@ Partial Class Main
         Me.PasswordMasterToolStripMenuItem.Name = "PasswordMasterToolStripMenuItem"
         Me.PasswordMasterToolStripMenuItem.ShortcutKeyDisplayString = "AGM-4-7"
         Me.PasswordMasterToolStripMenuItem.ShowShortcutKeys = False
-        Me.PasswordMasterToolStripMenuItem.Size = New System.Drawing.Size(160, 22)
+        Me.PasswordMasterToolStripMenuItem.Size = New System.Drawing.Size(198, 26)
         Me.PasswordMasterToolStripMenuItem.Text = "Password Master"
         '
         'ReportsRoleToolStripMenuItem
@@ -1956,14 +1958,14 @@ Partial Class Main
         Me.ReportsRoleToolStripMenuItem.Name = "ReportsRoleToolStripMenuItem"
         Me.ReportsRoleToolStripMenuItem.ShortcutKeyDisplayString = "AGM-4-8"
         Me.ReportsRoleToolStripMenuItem.ShowShortcutKeys = False
-        Me.ReportsRoleToolStripMenuItem.Size = New System.Drawing.Size(160, 22)
+        Me.ReportsRoleToolStripMenuItem.Size = New System.Drawing.Size(198, 26)
         Me.ReportsRoleToolStripMenuItem.Text = "Reports Role"
         '
         'ToolStripMenuItem12
         '
         Me.ToolStripMenuItem12.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AlertGroupToolStripMenuItem, Me.AlertTransactionToolStripMenuItem, Me.TriggerCreationToolStripMenuItem, Me.AlertTimerToolStripMenuItem})
         Me.ToolStripMenuItem12.Name = "ToolStripMenuItem12"
-        Me.ToolStripMenuItem12.Size = New System.Drawing.Size(173, 22)
+        Me.ToolStripMenuItem12.Size = New System.Drawing.Size(216, 26)
         Me.ToolStripMenuItem12.Text = "Alert Management"
         '
         'AlertGroupToolStripMenuItem
@@ -1973,7 +1975,7 @@ Partial Class Main
         Me.AlertGroupToolStripMenuItem.Name = "AlertGroupToolStripMenuItem"
         Me.AlertGroupToolStripMenuItem.ShortcutKeyDisplayString = "AGM-5-1"
         Me.AlertGroupToolStripMenuItem.ShowShortcutKeys = False
-        Me.AlertGroupToolStripMenuItem.Size = New System.Drawing.Size(179, 22)
+        Me.AlertGroupToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
         Me.AlertGroupToolStripMenuItem.Text = "Alert Group"
         '
         'AlertTransactionToolStripMenuItem
@@ -1982,7 +1984,7 @@ Partial Class Main
         Me.AlertTransactionToolStripMenuItem.Name = "AlertTransactionToolStripMenuItem"
         Me.AlertTransactionToolStripMenuItem.ShortcutKeyDisplayString = "AGM-5-2"
         Me.AlertTransactionToolStripMenuItem.ShowShortcutKeys = False
-        Me.AlertTransactionToolStripMenuItem.Size = New System.Drawing.Size(179, 22)
+        Me.AlertTransactionToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
         Me.AlertTransactionToolStripMenuItem.Text = "Alert Transaction"
         '
         'TriggerCreationToolStripMenuItem
@@ -1992,7 +1994,7 @@ Partial Class Main
         Me.TriggerCreationToolStripMenuItem.Name = "TriggerCreationToolStripMenuItem"
         Me.TriggerCreationToolStripMenuItem.ShortcutKeyDisplayString = "AGM-5-3"
         Me.TriggerCreationToolStripMenuItem.ShowShortcutKeys = False
-        Me.TriggerCreationToolStripMenuItem.Size = New System.Drawing.Size(179, 22)
+        Me.TriggerCreationToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
         Me.TriggerCreationToolStripMenuItem.Text = "Alert Trigger Creation"
         '
         'AlertTimerToolStripMenuItem
@@ -2002,14 +2004,14 @@ Partial Class Main
         Me.AlertTimerToolStripMenuItem.Name = "AlertTimerToolStripMenuItem"
         Me.AlertTimerToolStripMenuItem.ShortcutKeyDisplayString = "AGM-5-4"
         Me.AlertTimerToolStripMenuItem.ShowShortcutKeys = False
-        Me.AlertTimerToolStripMenuItem.Size = New System.Drawing.Size(179, 22)
+        Me.AlertTimerToolStripMenuItem.Size = New System.Drawing.Size(226, 26)
         Me.AlertTimerToolStripMenuItem.Text = "Alert Timer"
         '
         'PackingComplementryToolStripMenuItem
         '
         Me.PackingComplementryToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripPMGroup, Me.tstripPMItem, Me.tstripPMSubItem, Me.tstripPMRangeControl})
         Me.PackingComplementryToolStripMenuItem.Name = "PackingComplementryToolStripMenuItem"
-        Me.PackingComplementryToolStripMenuItem.Size = New System.Drawing.Size(173, 22)
+        Me.PackingComplementryToolStripMenuItem.Size = New System.Drawing.Size(216, 26)
         Me.PackingComplementryToolStripMenuItem.Text = "Compliments"
         '
         'tStripPMGroup
@@ -2019,7 +2021,7 @@ Partial Class Main
         Me.tStripPMGroup.Name = "tStripPMGroup"
         Me.tStripPMGroup.ShortcutKeyDisplayString = "AGM6-1"
         Me.tStripPMGroup.ShowShortcutKeys = False
-        Me.tStripPMGroup.Size = New System.Drawing.Size(143, 22)
+        Me.tStripPMGroup.Size = New System.Drawing.Size(178, 26)
         Me.tStripPMGroup.Text = "Group"
         '
         'tstripPMItem
@@ -2029,7 +2031,7 @@ Partial Class Main
         Me.tstripPMItem.Name = "tstripPMItem"
         Me.tstripPMItem.ShortcutKeyDisplayString = "AGM6-2"
         Me.tstripPMItem.ShowShortcutKeys = False
-        Me.tstripPMItem.Size = New System.Drawing.Size(143, 22)
+        Me.tstripPMItem.Size = New System.Drawing.Size(178, 26)
         Me.tstripPMItem.Text = "Item"
         '
         'tstripPMSubItem
@@ -2039,7 +2041,7 @@ Partial Class Main
         Me.tstripPMSubItem.Name = "tstripPMSubItem"
         Me.tstripPMSubItem.ShortcutKeyDisplayString = "AGM6-3"
         Me.tstripPMSubItem.ShowShortcutKeys = False
-        Me.tstripPMSubItem.Size = New System.Drawing.Size(143, 22)
+        Me.tstripPMSubItem.Size = New System.Drawing.Size(178, 26)
         Me.tstripPMSubItem.Text = "Sub Item"
         '
         'tstripPMRangeControl
@@ -2049,14 +2051,14 @@ Partial Class Main
         Me.tstripPMRangeControl.Name = "tstripPMRangeControl"
         Me.tstripPMRangeControl.ShortcutKeyDisplayString = "AGM6-4"
         Me.tstripPMRangeControl.ShowShortcutKeys = False
-        Me.tstripPMRangeControl.Size = New System.Drawing.Size(143, 22)
+        Me.tstripPMRangeControl.Size = New System.Drawing.Size(178, 26)
         Me.tstripPMRangeControl.Text = "Range Control"
         '
         'tStripRateEntry
         '
         Me.tStripRateEntry.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripRateMaster})
         Me.tStripRateEntry.Name = "tStripRateEntry"
-        Me.tStripRateEntry.Size = New System.Drawing.Size(72, 20)
+        Me.tStripRateEntry.Size = New System.Drawing.Size(90, 24)
         Me.tStripRateEntry.Text = "Rate &Entry"
         '
         'tStripRateMaster
@@ -2065,14 +2067,14 @@ Partial Class Main
         Me.tStripRateMaster.Name = "tStripRateMaster"
         Me.tStripRateMaster.ShortcutKeyDisplayString = "AGP-1"
         Me.tStripRateMaster.ShowShortcutKeys = False
-        Me.tStripRateMaster.Size = New System.Drawing.Size(131, 22)
+        Me.tStripRateMaster.Size = New System.Drawing.Size(166, 26)
         Me.tStripRateMaster.Text = "Rate Update"
         '
         'tStripAccounts
         '
         Me.tStripAccounts.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MaterialIssueToolStripMenuItem, Me.MaterialReceiptToolStripMenuItem, Me.QualityCheckToolStripMenuItem, Me.tStripPendingTransfer, Me.tStripMelting, Me.LotIssueToolStripMenuItem, Me.ApprovalToolStripMenuItem, Me.tStripOpening, Me.tStripAccountsEnt, Me.SingleJournalEntryToolStripMenuItem, Me.tStripChequeBookEnty, Me.tStripBankReconciliation, Me.ChequePrintFormatToolStripMenuItem, Me.tStripPurTaxPost, Me.JEInTransitToolStripMenuItem, Me.PurchaseOrderToolStripMenuItem, Me.ManufacturingIssueToolStripMenuItem, Me.ManufacturingReceiptToolStripMenuItem, Me.MaterialIssueReceiptToolStripMenuItem, Me.AccountsEntryImportToolStripMenuItem, Me.WholeSalesToolStripMenuItem})
         Me.tStripAccounts.Name = "tStripAccounts"
-        Me.tStripAccounts.Size = New System.Drawing.Size(69, 20)
+        Me.tStripAccounts.Size = New System.Drawing.Size(83, 24)
         Me.tStripAccounts.Tag = "E"
         Me.tStripAccounts.Text = "Accounts"
         '
@@ -2082,7 +2084,7 @@ Partial Class Main
         Me.MaterialIssueToolStripMenuItem.Name = "MaterialIssueToolStripMenuItem"
         Me.MaterialIssueToolStripMenuItem.ShortcutKeyDisplayString = "AGA-1"
         Me.MaterialIssueToolStripMenuItem.ShowShortcutKeys = False
-        Me.MaterialIssueToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
+        Me.MaterialIssueToolStripMenuItem.Size = New System.Drawing.Size(272, 26)
         Me.MaterialIssueToolStripMenuItem.Text = "Material Issue"
         '
         'MaterialReceiptToolStripMenuItem
@@ -2091,7 +2093,7 @@ Partial Class Main
         Me.MaterialReceiptToolStripMenuItem.Name = "MaterialReceiptToolStripMenuItem"
         Me.MaterialReceiptToolStripMenuItem.ShortcutKeyDisplayString = "AGA-2"
         Me.MaterialReceiptToolStripMenuItem.ShowShortcutKeys = False
-        Me.MaterialReceiptToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
+        Me.MaterialReceiptToolStripMenuItem.Size = New System.Drawing.Size(272, 26)
         Me.MaterialReceiptToolStripMenuItem.Text = "Material Receipt"
         '
         'QualityCheckToolStripMenuItem
@@ -2101,19 +2103,19 @@ Partial Class Main
         Me.QualityCheckToolStripMenuItem.Name = "QualityCheckToolStripMenuItem"
         Me.QualityCheckToolStripMenuItem.ShortcutKeyDisplayString = "AGA-3"
         Me.QualityCheckToolStripMenuItem.ShowShortcutKeys = False
-        Me.QualityCheckToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
+        Me.QualityCheckToolStripMenuItem.Size = New System.Drawing.Size(272, 26)
         Me.QualityCheckToolStripMenuItem.Text = "Quality Check / Hall Marking"
         '
         'EntryToolStripMenuItem
         '
         Me.EntryToolStripMenuItem.Name = "EntryToolStripMenuItem"
-        Me.EntryToolStripMenuItem.Size = New System.Drawing.Size(114, 22)
+        Me.EntryToolStripMenuItem.Size = New System.Drawing.Size(143, 26)
         Me.EntryToolStripMenuItem.Text = "Entry"
         '
         'ReportsToolStripMenuItem1
         '
         Me.ReportsToolStripMenuItem1.Name = "ReportsToolStripMenuItem1"
-        Me.ReportsToolStripMenuItem1.Size = New System.Drawing.Size(114, 22)
+        Me.ReportsToolStripMenuItem1.Size = New System.Drawing.Size(143, 26)
         Me.ReportsToolStripMenuItem1.Text = "Reports"
         '
         'tStripPendingTransfer
@@ -2122,7 +2124,7 @@ Partial Class Main
         Me.tStripPendingTransfer.Name = "tStripPendingTransfer"
         Me.tStripPendingTransfer.ShortcutKeyDisplayString = "AGA-4"
         Me.tStripPendingTransfer.ShowShortcutKeys = False
-        Me.tStripPendingTransfer.Size = New System.Drawing.Size(220, 22)
+        Me.tStripPendingTransfer.Size = New System.Drawing.Size(272, 26)
         Me.tStripPendingTransfer.Text = "Pending Transfer"
         '
         'tStripMelting
@@ -2131,7 +2133,7 @@ Partial Class Main
         Me.tStripMelting.Name = "tStripMelting"
         Me.tStripMelting.ShortcutKeyDisplayString = "AGA-5"
         Me.tStripMelting.ShowShortcutKeys = False
-        Me.tStripMelting.Size = New System.Drawing.Size(220, 22)
+        Me.tStripMelting.Size = New System.Drawing.Size(272, 26)
         Me.tStripMelting.Text = "Melting"
         '
         'tStripBagnoGeneration
@@ -2140,7 +2142,7 @@ Partial Class Main
         Me.tStripBagnoGeneration.Name = "tStripBagnoGeneration"
         Me.tStripBagnoGeneration.ShortcutKeyDisplayString = "AGA-5-1"
         Me.tStripBagnoGeneration.ShowShortcutKeys = False
-        Me.tStripBagnoGeneration.Size = New System.Drawing.Size(188, 22)
+        Me.tStripBagnoGeneration.Size = New System.Drawing.Size(235, 26)
         Me.tStripBagnoGeneration.Text = "Bagno Generation"
         '
         'tStripBagnoWiseSummary
@@ -2149,7 +2151,7 @@ Partial Class Main
         Me.tStripBagnoWiseSummary.Name = "tStripBagnoWiseSummary"
         Me.tStripBagnoWiseSummary.ShortcutKeyDisplayString = "AGA-5-2"
         Me.tStripBagnoWiseSummary.ShowShortcutKeys = False
-        Me.tStripBagnoWiseSummary.Size = New System.Drawing.Size(188, 22)
+        Me.tStripBagnoWiseSummary.Size = New System.Drawing.Size(235, 26)
         Me.tStripBagnoWiseSummary.Text = "Bagno Wise Summary"
         '
         'tStripMeltingIssue
@@ -2158,7 +2160,7 @@ Partial Class Main
         Me.tStripMeltingIssue.Name = "tStripMeltingIssue"
         Me.tStripMeltingIssue.ShortcutKeyDisplayString = "AGA-5-3"
         Me.tStripMeltingIssue.ShowShortcutKeys = False
-        Me.tStripMeltingIssue.Size = New System.Drawing.Size(188, 22)
+        Me.tStripMeltingIssue.Size = New System.Drawing.Size(235, 26)
         Me.tStripMeltingIssue.Text = "Melting Issue"
         '
         'tStripMeltingReceipt
@@ -2167,7 +2169,7 @@ Partial Class Main
         Me.tStripMeltingReceipt.Name = "tStripMeltingReceipt"
         Me.tStripMeltingReceipt.ShortcutKeyDisplayString = "AGA-5-4"
         Me.tStripMeltingReceipt.ShowShortcutKeys = False
-        Me.tStripMeltingReceipt.Size = New System.Drawing.Size(188, 22)
+        Me.tStripMeltingReceipt.Size = New System.Drawing.Size(235, 26)
         Me.tStripMeltingReceipt.Text = "Melting Receipt"
         '
         'TStripMenuItemPurifyIssue
@@ -2176,7 +2178,7 @@ Partial Class Main
         Me.TStripMenuItemPurifyIssue.Name = "TStripMenuItemPurifyIssue"
         Me.TStripMenuItemPurifyIssue.ShortcutKeyDisplayString = "AGA-5-5"
         Me.TStripMenuItemPurifyIssue.ShowShortcutKeys = False
-        Me.TStripMenuItemPurifyIssue.Size = New System.Drawing.Size(188, 22)
+        Me.TStripMenuItemPurifyIssue.Size = New System.Drawing.Size(235, 26)
         Me.TStripMenuItemPurifyIssue.Text = "Purification Issue"
         '
         'TStripMenuItemPurifyRec
@@ -2185,7 +2187,7 @@ Partial Class Main
         Me.TStripMenuItemPurifyRec.Name = "TStripMenuItemPurifyRec"
         Me.TStripMenuItemPurifyRec.ShortcutKeyDisplayString = "AGA-5-6"
         Me.TStripMenuItemPurifyRec.ShowShortcutKeys = False
-        Me.TStripMenuItemPurifyRec.Size = New System.Drawing.Size(188, 22)
+        Me.TStripMenuItemPurifyRec.Size = New System.Drawing.Size(235, 26)
         Me.TStripMenuItemPurifyRec.Text = "Purification Receipt"
         '
         'tStripBagnoWiseProfitLoss
@@ -2194,7 +2196,7 @@ Partial Class Main
         Me.tStripBagnoWiseProfitLoss.Name = "tStripBagnoWiseProfitLoss"
         Me.tStripBagnoWiseProfitLoss.ShortcutKeyDisplayString = "AGA-5-7"
         Me.tStripBagnoWiseProfitLoss.ShowShortcutKeys = False
-        Me.tStripBagnoWiseProfitLoss.Size = New System.Drawing.Size(188, 22)
+        Me.tStripBagnoWiseProfitLoss.Size = New System.Drawing.Size(235, 26)
         Me.tStripBagnoWiseProfitLoss.Text = "Bagno wise Profit & Loss"
         '
         'MeltingDetailReportToolStripMenuItem
@@ -2203,14 +2205,14 @@ Partial Class Main
         Me.MeltingDetailReportToolStripMenuItem.Name = "MeltingDetailReportToolStripMenuItem"
         Me.MeltingDetailReportToolStripMenuItem.ShortcutKeyDisplayString = "AGA-5-8"
         Me.MeltingDetailReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.MeltingDetailReportToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
+        Me.MeltingDetailReportToolStripMenuItem.Size = New System.Drawing.Size(235, 26)
         Me.MeltingDetailReportToolStripMenuItem.Text = "Melting Detail Report"
         '
         'BagNoWiseReportToolStripMenuItem
         '
         Me.BagNoWiseReportToolStripMenuItem.AccessibleDescription = "frmBagNoWiseReport~RPT"
         Me.BagNoWiseReportToolStripMenuItem.Name = "BagNoWiseReportToolStripMenuItem"
-        Me.BagNoWiseReportToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
+        Me.BagNoWiseReportToolStripMenuItem.Size = New System.Drawing.Size(235, 26)
         Me.BagNoWiseReportToolStripMenuItem.Text = "BagNo Wise Report"
         '
         'LotIssueToolStripMenuItem
@@ -2219,7 +2221,7 @@ Partial Class Main
         Me.LotIssueToolStripMenuItem.Name = "LotIssueToolStripMenuItem"
         Me.LotIssueToolStripMenuItem.ShortcutKeyDisplayString = "AGA-6"
         Me.LotIssueToolStripMenuItem.ShowShortcutKeys = False
-        Me.LotIssueToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
+        Me.LotIssueToolStripMenuItem.Size = New System.Drawing.Size(272, 26)
         Me.LotIssueToolStripMenuItem.Text = "Lot Issue"
         '
         'BulkIssueToolStripMenuItem
@@ -2228,7 +2230,7 @@ Partial Class Main
         Me.BulkIssueToolStripMenuItem.Name = "BulkIssueToolStripMenuItem"
         Me.BulkIssueToolStripMenuItem.ShortcutKeyDisplayString = "AGA-6-1"
         Me.BulkIssueToolStripMenuItem.ShowShortcutKeys = False
-        Me.BulkIssueToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
+        Me.BulkIssueToolStripMenuItem.Size = New System.Drawing.Size(235, 26)
         Me.BulkIssueToolStripMenuItem.Text = "Bulk Issue"
         '
         'ManualIssueToolStripMenuItem
@@ -2237,7 +2239,7 @@ Partial Class Main
         Me.ManualIssueToolStripMenuItem.Name = "ManualIssueToolStripMenuItem"
         Me.ManualIssueToolStripMenuItem.ShortcutKeyDisplayString = "AGA-6-2"
         Me.ManualIssueToolStripMenuItem.ShowShortcutKeys = False
-        Me.ManualIssueToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
+        Me.ManualIssueToolStripMenuItem.Size = New System.Drawing.Size(235, 26)
         Me.ManualIssueToolStripMenuItem.Text = "Manual Issue"
         '
         'HalmarkIssueReceiptToolStripMenuItem
@@ -2246,7 +2248,7 @@ Partial Class Main
         Me.HalmarkIssueReceiptToolStripMenuItem.Name = "HalmarkIssueReceiptToolStripMenuItem"
         Me.HalmarkIssueReceiptToolStripMenuItem.ShortcutKeyDisplayString = "AGA-6-3"
         Me.HalmarkIssueReceiptToolStripMenuItem.ShowShortcutKeys = False
-        Me.HalmarkIssueReceiptToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
+        Me.HalmarkIssueReceiptToolStripMenuItem.Size = New System.Drawing.Size(235, 26)
         Me.HalmarkIssueReceiptToolStripMenuItem.Text = "Hallmark Issue/Receipt"
         '
         'ApprovalToolStripMenuItem
@@ -2254,7 +2256,7 @@ Partial Class Main
         Me.ApprovalToolStripMenuItem.Name = "ApprovalToolStripMenuItem"
         Me.ApprovalToolStripMenuItem.ShortcutKeyDisplayString = "AGA-7"
         Me.ApprovalToolStripMenuItem.ShowShortcutKeys = False
-        Me.ApprovalToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
+        Me.ApprovalToolStripMenuItem.Size = New System.Drawing.Size(272, 26)
         Me.ApprovalToolStripMenuItem.Text = "Approval"
         '
         'tStripOpening
@@ -2263,7 +2265,7 @@ Partial Class Main
         Me.tStripOpening.Name = "tStripOpening"
         Me.tStripOpening.ShortcutKeyDisplayString = "AGA-8"
         Me.tStripOpening.ShowShortcutKeys = False
-        Me.tStripOpening.Size = New System.Drawing.Size(220, 22)
+        Me.tStripOpening.Size = New System.Drawing.Size(272, 26)
         Me.tStripOpening.Text = "Opening"
         '
         'tStripTrailBalOpening
@@ -2272,7 +2274,7 @@ Partial Class Main
         Me.tStripTrailBalOpening.Name = "tStripTrailBalOpening"
         Me.tStripTrailBalOpening.ShortcutKeyDisplayString = "AGA-8-1"
         Me.tStripTrailBalOpening.ShowShortcutKeys = False
-        Me.tStripTrailBalOpening.Size = New System.Drawing.Size(147, 22)
+        Me.tStripTrailBalOpening.Size = New System.Drawing.Size(184, 26)
         Me.tStripTrailBalOpening.Text = "Trail Balance"
         '
         'tStripWeightEntOpening
@@ -2281,7 +2283,7 @@ Partial Class Main
         Me.tStripWeightEntOpening.Name = "tStripWeightEntOpening"
         Me.tStripWeightEntOpening.ShortcutKeyDisplayString = "AGA-8-2"
         Me.tStripWeightEntOpening.ShowShortcutKeys = False
-        Me.tStripWeightEntOpening.Size = New System.Drawing.Size(147, 22)
+        Me.tStripWeightEntOpening.Size = New System.Drawing.Size(184, 26)
         Me.tStripWeightEntOpening.Text = "Weight Entry"
         '
         'DebToolStripMenuItem
@@ -2290,7 +2292,7 @@ Partial Class Main
         Me.DebToolStripMenuItem.Name = "DebToolStripMenuItem"
         Me.DebToolStripMenuItem.ShortcutKeyDisplayString = "AGA-8-3"
         Me.DebToolStripMenuItem.ShowShortcutKeys = False
-        Me.DebToolStripMenuItem.Size = New System.Drawing.Size(147, 22)
+        Me.DebToolStripMenuItem.Size = New System.Drawing.Size(184, 26)
         Me.DebToolStripMenuItem.Text = "Debitors"
         '
         'BrsOpeningToolStripMenuItem
@@ -2298,7 +2300,7 @@ Partial Class Main
         Me.BrsOpeningToolStripMenuItem.Name = "BrsOpeningToolStripMenuItem"
         Me.BrsOpeningToolStripMenuItem.ShortcutKeyDisplayString = "AGA-8-4"
         Me.BrsOpeningToolStripMenuItem.ShowShortcutKeys = False
-        Me.BrsOpeningToolStripMenuItem.Size = New System.Drawing.Size(147, 22)
+        Me.BrsOpeningToolStripMenuItem.Size = New System.Drawing.Size(184, 26)
         Me.BrsOpeningToolStripMenuItem.Text = "Brs Opening"
         '
         'OpenPrevilegeToolStripMenuItem
@@ -2307,7 +2309,7 @@ Partial Class Main
         Me.OpenPrevilegeToolStripMenuItem.Name = "OpenPrevilegeToolStripMenuItem"
         Me.OpenPrevilegeToolStripMenuItem.ShortcutKeyDisplayString = "AGA-8-5"
         Me.OpenPrevilegeToolStripMenuItem.ShowShortcutKeys = False
-        Me.OpenPrevilegeToolStripMenuItem.Size = New System.Drawing.Size(147, 22)
+        Me.OpenPrevilegeToolStripMenuItem.Size = New System.Drawing.Size(184, 26)
         Me.OpenPrevilegeToolStripMenuItem.Text = "Open Previlege"
         '
         'tStripAccountsEnt
@@ -2315,14 +2317,14 @@ Partial Class Main
         Me.tStripAccountsEnt.Name = "tStripAccountsEnt"
         Me.tStripAccountsEnt.ShortcutKeyDisplayString = "AGA-9"
         Me.tStripAccountsEnt.ShowShortcutKeys = False
-        Me.tStripAccountsEnt.Size = New System.Drawing.Size(220, 22)
+        Me.tStripAccountsEnt.Size = New System.Drawing.Size(272, 26)
         Me.tStripAccountsEnt.Text = "Accounts Entry"
         '
         'SingleJournalEntryToolStripMenuItem
         '
         Me.SingleJournalEntryToolStripMenuItem.AccessibleDescription = "frmSingleAccountsEnttry"
         Me.SingleJournalEntryToolStripMenuItem.Name = "SingleJournalEntryToolStripMenuItem"
-        Me.SingleJournalEntryToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
+        Me.SingleJournalEntryToolStripMenuItem.Size = New System.Drawing.Size(272, 26)
         Me.SingleJournalEntryToolStripMenuItem.Text = "Single Journal Entry"
         '
         'tStripChequeBookEnty
@@ -2331,7 +2333,7 @@ Partial Class Main
         Me.tStripChequeBookEnty.Name = "tStripChequeBookEnty"
         Me.tStripChequeBookEnty.ShortcutKeyDisplayString = "AGA-10"
         Me.tStripChequeBookEnty.ShowShortcutKeys = False
-        Me.tStripChequeBookEnty.Size = New System.Drawing.Size(220, 22)
+        Me.tStripChequeBookEnty.Size = New System.Drawing.Size(272, 26)
         Me.tStripChequeBookEnty.Text = "Cheque Book Entry"
         '
         'tStripBankReconciliation
@@ -2341,7 +2343,7 @@ Partial Class Main
         Me.tStripBankReconciliation.Name = "tStripBankReconciliation"
         Me.tStripBankReconciliation.ShortcutKeyDisplayString = "AGA-11"
         Me.tStripBankReconciliation.ShowShortcutKeys = False
-        Me.tStripBankReconciliation.Size = New System.Drawing.Size(220, 22)
+        Me.tStripBankReconciliation.Size = New System.Drawing.Size(272, 26)
         Me.tStripBankReconciliation.Text = "Bank Entry"
         '
         'tStripBankconciliation
@@ -2350,7 +2352,7 @@ Partial Class Main
         Me.tStripBankconciliation.Name = "tStripBankconciliation"
         Me.tStripBankconciliation.ShortcutKeyDisplayString = "AGA-11-1"
         Me.tStripBankconciliation.ShowShortcutKeys = False
-        Me.tStripBankconciliation.Size = New System.Drawing.Size(187, 22)
+        Me.tStripBankconciliation.Size = New System.Drawing.Size(234, 26)
         Me.tStripBankconciliation.Text = "Bank Reconciliation"
         '
         'BrsExcelDownloadToolStripMenuItem
@@ -2359,7 +2361,7 @@ Partial Class Main
         Me.BrsExcelDownloadToolStripMenuItem.Name = "BrsExcelDownloadToolStripMenuItem"
         Me.BrsExcelDownloadToolStripMenuItem.ShortcutKeyDisplayString = "AGA-11-2"
         Me.BrsExcelDownloadToolStripMenuItem.ShowShortcutKeys = False
-        Me.BrsExcelDownloadToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
+        Me.BrsExcelDownloadToolStripMenuItem.Size = New System.Drawing.Size(234, 26)
         Me.BrsExcelDownloadToolStripMenuItem.Text = "Brs ExcelDownload"
         '
         'ChequeReturnToolStripMenuItem
@@ -2368,7 +2370,7 @@ Partial Class Main
         Me.ChequeReturnToolStripMenuItem.Name = "ChequeReturnToolStripMenuItem"
         Me.ChequeReturnToolStripMenuItem.ShortcutKeyDisplayString = "AGA-11-3"
         Me.ChequeReturnToolStripMenuItem.ShowShortcutKeys = False
-        Me.ChequeReturnToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
+        Me.ChequeReturnToolStripMenuItem.Size = New System.Drawing.Size(234, 26)
         Me.ChequeReturnToolStripMenuItem.Text = "Cheque Return"
         '
         'CreditCardSettlementToolStripMenuItem
@@ -2377,7 +2379,7 @@ Partial Class Main
         Me.CreditCardSettlementToolStripMenuItem.Name = "CreditCardSettlementToolStripMenuItem"
         Me.CreditCardSettlementToolStripMenuItem.ShortcutKeyDisplayString = "AGA-11-4"
         Me.CreditCardSettlementToolStripMenuItem.ShowShortcutKeys = False
-        Me.CreditCardSettlementToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
+        Me.CreditCardSettlementToolStripMenuItem.Size = New System.Drawing.Size(234, 26)
         Me.CreditCardSettlementToolStripMenuItem.Text = "Credit Card Settlement"
         '
         'EChellanToolStripMenuItem
@@ -2386,7 +2388,7 @@ Partial Class Main
         Me.EChellanToolStripMenuItem.Name = "EChellanToolStripMenuItem"
         Me.EChellanToolStripMenuItem.ShortcutKeyDisplayString = "AGA-11-5"
         Me.EChellanToolStripMenuItem.ShowShortcutKeys = False
-        Me.EChellanToolStripMenuItem.Size = New System.Drawing.Size(187, 22)
+        Me.EChellanToolStripMenuItem.Size = New System.Drawing.Size(234, 26)
         Me.EChellanToolStripMenuItem.Text = "E-Chellan"
         '
         'ChequePrintFormatToolStripMenuItem
@@ -2394,7 +2396,7 @@ Partial Class Main
         Me.ChequePrintFormatToolStripMenuItem.Name = "ChequePrintFormatToolStripMenuItem"
         Me.ChequePrintFormatToolStripMenuItem.ShortcutKeyDisplayString = "AGA-12"
         Me.ChequePrintFormatToolStripMenuItem.ShowShortcutKeys = False
-        Me.ChequePrintFormatToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
+        Me.ChequePrintFormatToolStripMenuItem.Size = New System.Drawing.Size(272, 26)
         Me.ChequePrintFormatToolStripMenuItem.Text = "Cheque Print format"
         '
         'tStripPurTaxPost
@@ -2402,7 +2404,7 @@ Partial Class Main
         Me.tStripPurTaxPost.Name = "tStripPurTaxPost"
         Me.tStripPurTaxPost.ShortcutKeyDisplayString = "AGA-13"
         Me.tStripPurTaxPost.ShowShortcutKeys = False
-        Me.tStripPurTaxPost.Size = New System.Drawing.Size(220, 22)
+        Me.tStripPurTaxPost.Size = New System.Drawing.Size(272, 26)
         Me.tStripPurTaxPost.Text = "Purchase tax Post"
         '
         'JEInTransitToolStripMenuItem
@@ -2410,7 +2412,7 @@ Partial Class Main
         Me.JEInTransitToolStripMenuItem.Name = "JEInTransitToolStripMenuItem"
         Me.JEInTransitToolStripMenuItem.ShortcutKeyDisplayString = "AGA-14"
         Me.JEInTransitToolStripMenuItem.ShowShortcutKeys = False
-        Me.JEInTransitToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
+        Me.JEInTransitToolStripMenuItem.Size = New System.Drawing.Size(272, 26)
         Me.JEInTransitToolStripMenuItem.Text = "JE InTransit"
         '
         'PurchaseOrderToolStripMenuItem
@@ -2419,60 +2421,60 @@ Partial Class Main
         Me.PurchaseOrderToolStripMenuItem.Name = "PurchaseOrderToolStripMenuItem"
         Me.PurchaseOrderToolStripMenuItem.ShortcutKeyDisplayString = "AGA-15"
         Me.PurchaseOrderToolStripMenuItem.ShowShortcutKeys = False
-        Me.PurchaseOrderToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
+        Me.PurchaseOrderToolStripMenuItem.Size = New System.Drawing.Size(272, 26)
         Me.PurchaseOrderToolStripMenuItem.Text = "Purchase Order"
         '
         'ManufacturingIssueToolStripMenuItem
         '
         Me.ManufacturingIssueToolStripMenuItem.AccessibleDescription = "ISSManufacturingIssRecTran_OWN"
         Me.ManufacturingIssueToolStripMenuItem.Name = "ManufacturingIssueToolStripMenuItem"
-        Me.ManufacturingIssueToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
+        Me.ManufacturingIssueToolStripMenuItem.Size = New System.Drawing.Size(272, 26)
         Me.ManufacturingIssueToolStripMenuItem.Text = "Manufacturing Issue"
         '
         'ManufacturingReceiptToolStripMenuItem
         '
         Me.ManufacturingReceiptToolStripMenuItem.AccessibleDescription = "RECManufacturingIssRecTran_OWN"
         Me.ManufacturingReceiptToolStripMenuItem.Name = "ManufacturingReceiptToolStripMenuItem"
-        Me.ManufacturingReceiptToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
+        Me.ManufacturingReceiptToolStripMenuItem.Size = New System.Drawing.Size(272, 26)
         Me.ManufacturingReceiptToolStripMenuItem.Text = "Manufacturing Receipt"
         '
         'MaterialIssueReceiptToolStripMenuItem
         '
         Me.MaterialIssueReceiptToolStripMenuItem.AccessibleDescription = "frmMIMR"
         Me.MaterialIssueReceiptToolStripMenuItem.Name = "MaterialIssueReceiptToolStripMenuItem"
-        Me.MaterialIssueReceiptToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
+        Me.MaterialIssueReceiptToolStripMenuItem.Size = New System.Drawing.Size(272, 26)
         Me.MaterialIssueReceiptToolStripMenuItem.Text = "Material Issue/Receipt"
         '
         'AccountsEntryImportToolStripMenuItem
         '
         Me.AccountsEntryImportToolStripMenuItem.Name = "AccountsEntryImportToolStripMenuItem"
-        Me.AccountsEntryImportToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
+        Me.AccountsEntryImportToolStripMenuItem.Size = New System.Drawing.Size(272, 26)
         Me.AccountsEntryImportToolStripMenuItem.Text = "Accounts Entry Import"
         '
         'WholeSalesToolStripMenuItem
         '
         Me.WholeSalesToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.BillingToolStripMenuItem, Me.ReportToolStripMenuItem1})
         Me.WholeSalesToolStripMenuItem.Name = "WholeSalesToolStripMenuItem"
-        Me.WholeSalesToolStripMenuItem.Size = New System.Drawing.Size(220, 22)
+        Me.WholeSalesToolStripMenuItem.Size = New System.Drawing.Size(272, 26)
         Me.WholeSalesToolStripMenuItem.Text = "Whole Sales"
         '
         'BillingToolStripMenuItem
         '
         Me.BillingToolStripMenuItem.Name = "BillingToolStripMenuItem"
-        Me.BillingToolStripMenuItem.Size = New System.Drawing.Size(109, 22)
+        Me.BillingToolStripMenuItem.Size = New System.Drawing.Size(137, 26)
         Me.BillingToolStripMenuItem.Text = "Billing"
         '
         'ReportToolStripMenuItem1
         '
         Me.ReportToolStripMenuItem1.Name = "ReportToolStripMenuItem1"
-        Me.ReportToolStripMenuItem1.Size = New System.Drawing.Size(109, 22)
+        Me.ReportToolStripMenuItem1.Size = New System.Drawing.Size(137, 26)
         Me.ReportToolStripMenuItem1.Text = "Report"
         '
         'tStripStockMenu
         '
         Me.tStripStockMenu.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripLot, Me.DesignerLotToolStripMenuItem, Me.LotRegenerateToolStripMenuItem, Me.tStripItemTag, Me.tStripItemNonTag, Me.StickerPrintToolStripMenuItem, Me.tStripItemBulkTag, Me.tStripTagCatalog, Me.tStripTagEdit, Me.tStripLotView, Me.TagCheckTStrip, Me.TagCatalogToolStripMenuItem, Me.TagPurchaseToolStripMenuItem, Me.WebTagToolStripMenuItem})
         Me.tStripStockMenu.Name = "tStripStockMenu"
-        Me.tStripStockMenu.Size = New System.Drawing.Size(48, 20)
+        Me.tStripStockMenu.Size = New System.Drawing.Size(59, 24)
         Me.tStripStockMenu.Tag = "A"
         Me.tStripStockMenu.Text = "Stock"
         '
@@ -2482,13 +2484,13 @@ Partial Class Main
         Me.tStripLot.Name = "tStripLot"
         Me.tStripLot.ShortcutKeyDisplayString = "AGS-1"
         Me.tStripLot.ShowShortcutKeys = False
-        Me.tStripLot.Size = New System.Drawing.Size(157, 22)
+        Me.tStripLot.Size = New System.Drawing.Size(197, 26)
         Me.tStripLot.Text = "Lot"
         '
         'DesignerLotToolStripMenuItem
         '
         Me.DesignerLotToolStripMenuItem.Name = "DesignerLotToolStripMenuItem"
-        Me.DesignerLotToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.DesignerLotToolStripMenuItem.Size = New System.Drawing.Size(197, 26)
         Me.DesignerLotToolStripMenuItem.Text = "Designer Lot"
         '
         'LotRegenerateToolStripMenuItem
@@ -2496,7 +2498,7 @@ Partial Class Main
         Me.LotRegenerateToolStripMenuItem.Name = "LotRegenerateToolStripMenuItem"
         Me.LotRegenerateToolStripMenuItem.ShortcutKeyDisplayString = "AGS-2"
         Me.LotRegenerateToolStripMenuItem.ShowShortcutKeys = False
-        Me.LotRegenerateToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.LotRegenerateToolStripMenuItem.Size = New System.Drawing.Size(197, 26)
         Me.LotRegenerateToolStripMenuItem.Text = "Lot Merge"
         '
         'tStripItemTag
@@ -2505,7 +2507,7 @@ Partial Class Main
         Me.tStripItemTag.Name = "tStripItemTag"
         Me.tStripItemTag.ShortcutKeyDisplayString = "AGS-3"
         Me.tStripItemTag.ShowShortcutKeys = False
-        Me.tStripItemTag.Size = New System.Drawing.Size(157, 22)
+        Me.tStripItemTag.Size = New System.Drawing.Size(197, 26)
         Me.tStripItemTag.Text = "Item Tag"
         '
         'tStripItemNonTag
@@ -2514,7 +2516,7 @@ Partial Class Main
         Me.tStripItemNonTag.Name = "tStripItemNonTag"
         Me.tStripItemNonTag.ShortcutKeyDisplayString = "AGS-4"
         Me.tStripItemNonTag.ShowShortcutKeys = False
-        Me.tStripItemNonTag.Size = New System.Drawing.Size(157, 22)
+        Me.tStripItemNonTag.Size = New System.Drawing.Size(197, 26)
         Me.tStripItemNonTag.Text = "Item Non Tag"
         '
         'tStripReceipt
@@ -2523,7 +2525,7 @@ Partial Class Main
         Me.tStripReceipt.Name = "tStripReceipt"
         Me.tStripReceipt.ShortcutKeyDisplayString = "AGS-4-1"
         Me.tStripReceipt.ShowShortcutKeys = False
-        Me.tStripReceipt.Size = New System.Drawing.Size(165, 22)
+        Me.tStripReceipt.Size = New System.Drawing.Size(207, 26)
         Me.tStripReceipt.Text = "Receipt"
         '
         'tStripIssue
@@ -2532,7 +2534,7 @@ Partial Class Main
         Me.tStripIssue.Name = "tStripIssue"
         Me.tStripIssue.ShortcutKeyDisplayString = "AGS-4-2"
         Me.tStripIssue.ShowShortcutKeys = False
-        Me.tStripIssue.Size = New System.Drawing.Size(165, 22)
+        Me.tStripIssue.Size = New System.Drawing.Size(207, 26)
         Me.tStripIssue.Text = "Issue"
         '
         'tStripViewIssueReceipt
@@ -2541,7 +2543,7 @@ Partial Class Main
         Me.tStripViewIssueReceipt.Name = "tStripViewIssueReceipt"
         Me.tStripViewIssueReceipt.ShortcutKeyDisplayString = "AGS-4-3"
         Me.tStripViewIssueReceipt.ShowShortcutKeys = False
-        Me.tStripViewIssueReceipt.Size = New System.Drawing.Size(165, 22)
+        Me.tStripViewIssueReceipt.Size = New System.Drawing.Size(207, 26)
         Me.tStripViewIssueReceipt.Text = "View Issue/Receipt"
         '
         'NonTagTransferToolStripMenuItem
@@ -2550,13 +2552,13 @@ Partial Class Main
         Me.NonTagTransferToolStripMenuItem.Name = "NonTagTransferToolStripMenuItem"
         Me.NonTagTransferToolStripMenuItem.ShortcutKeyDisplayString = "AGS-4-4"
         Me.NonTagTransferToolStripMenuItem.ShowShortcutKeys = False
-        Me.NonTagTransferToolStripMenuItem.Size = New System.Drawing.Size(165, 22)
+        Me.NonTagTransferToolStripMenuItem.Size = New System.Drawing.Size(207, 26)
         Me.NonTagTransferToolStripMenuItem.Text = "NonTag Transfer"
         '
         'StickerPrintToolStripMenuItem
         '
         Me.StickerPrintToolStripMenuItem.Name = "StickerPrintToolStripMenuItem"
-        Me.StickerPrintToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.StickerPrintToolStripMenuItem.Size = New System.Drawing.Size(197, 26)
         Me.StickerPrintToolStripMenuItem.Text = "Sticker Print"
         '
         'tStripItemBulkTag
@@ -2565,7 +2567,7 @@ Partial Class Main
         Me.tStripItemBulkTag.Name = "tStripItemBulkTag"
         Me.tStripItemBulkTag.ShortcutKeyDisplayString = "AGS-5"
         Me.tStripItemBulkTag.ShowShortcutKeys = False
-        Me.tStripItemBulkTag.Size = New System.Drawing.Size(157, 22)
+        Me.tStripItemBulkTag.Size = New System.Drawing.Size(197, 26)
         Me.tStripItemBulkTag.Text = "Item Bulk Tag"
         '
         'tStripTagCatalog
@@ -2574,7 +2576,7 @@ Partial Class Main
         Me.tStripTagCatalog.Name = "tStripTagCatalog"
         Me.tStripTagCatalog.ShortcutKeyDisplayString = "AGS-6"
         Me.tStripTagCatalog.ShowShortcutKeys = False
-        Me.tStripTagCatalog.Size = New System.Drawing.Size(157, 22)
+        Me.tStripTagCatalog.Size = New System.Drawing.Size(197, 26)
         Me.tStripTagCatalog.Text = "Tag Image View"
         '
         'tStripTagEdit
@@ -2584,7 +2586,7 @@ Partial Class Main
         Me.tStripTagEdit.Name = "tStripTagEdit"
         Me.tStripTagEdit.ShortcutKeyDisplayString = "AGS-7"
         Me.tStripTagEdit.ShowShortcutKeys = False
-        Me.tStripTagEdit.Size = New System.Drawing.Size(157, 22)
+        Me.tStripTagEdit.Size = New System.Drawing.Size(197, 26)
         Me.tStripTagEdit.Text = "Tag/Non Tag Edit"
         '
         'TagDetailToolStripMenuItem
@@ -2593,7 +2595,7 @@ Partial Class Main
         Me.TagDetailToolStripMenuItem.Name = "TagDetailToolStripMenuItem"
         Me.TagDetailToolStripMenuItem.ShortcutKeyDisplayString = "AGS-7-1"
         Me.TagDetailToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagDetailToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.TagDetailToolStripMenuItem.Size = New System.Drawing.Size(268, 26)
         Me.TagDetailToolStripMenuItem.Text = "Tag Detail"
         '
         'tStripTagBulkDetailUpdate
@@ -2602,7 +2604,7 @@ Partial Class Main
         Me.tStripTagBulkDetailUpdate.Name = "tStripTagBulkDetailUpdate"
         Me.tStripTagBulkDetailUpdate.ShortcutKeyDisplayString = "AGS-7-2"
         Me.tStripTagBulkDetailUpdate.ShowShortcutKeys = False
-        Me.tStripTagBulkDetailUpdate.Size = New System.Drawing.Size(213, 22)
+        Me.tStripTagBulkDetailUpdate.Size = New System.Drawing.Size(268, 26)
         Me.tStripTagBulkDetailUpdate.Text = "Tag Detail Bulk Update"
         '
         'TagImageUpdatorToolStripMenuItem
@@ -2611,7 +2613,7 @@ Partial Class Main
         Me.TagImageUpdatorToolStripMenuItem.Name = "TagImageUpdatorToolStripMenuItem"
         Me.TagImageUpdatorToolStripMenuItem.ShortcutKeyDisplayString = "AGS-7-3"
         Me.TagImageUpdatorToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagImageUpdatorToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.TagImageUpdatorToolStripMenuItem.Size = New System.Drawing.Size(268, 26)
         Me.TagImageUpdatorToolStripMenuItem.Text = "Tag Image Updator"
         '
         'tStripTagCounterChange
@@ -2620,7 +2622,7 @@ Partial Class Main
         Me.tStripTagCounterChange.Name = "tStripTagCounterChange"
         Me.tStripTagCounterChange.ShortcutKeyDisplayString = "AGS-7-4"
         Me.tStripTagCounterChange.ShowShortcutKeys = False
-        Me.tStripTagCounterChange.Size = New System.Drawing.Size(213, 22)
+        Me.tStripTagCounterChange.Size = New System.Drawing.Size(268, 26)
         Me.tStripTagCounterChange.Text = "Tag Counter Change"
         '
         'tStripNonTagCounterChange
@@ -2629,7 +2631,7 @@ Partial Class Main
         Me.tStripNonTagCounterChange.Name = "tStripNonTagCounterChange"
         Me.tStripNonTagCounterChange.ShortcutKeyDisplayString = "AGS-7-5"
         Me.tStripNonTagCounterChange.ShowShortcutKeys = False
-        Me.tStripNonTagCounterChange.Size = New System.Drawing.Size(213, 22)
+        Me.tStripNonTagCounterChange.Size = New System.Drawing.Size(268, 26)
         Me.tStripNonTagCounterChange.Text = "Non Tag Counter Change"
         '
         'DuplicateTagTStrip
@@ -2638,7 +2640,7 @@ Partial Class Main
         Me.DuplicateTagTStrip.Name = "DuplicateTagTStrip"
         Me.DuplicateTagTStrip.ShortcutKeyDisplayString = "AGS-7-6"
         Me.DuplicateTagTStrip.ShowShortcutKeys = False
-        Me.DuplicateTagTStrip.Size = New System.Drawing.Size(213, 22)
+        Me.DuplicateTagTStrip.Size = New System.Drawing.Size(268, 26)
         Me.DuplicateTagTStrip.Text = "Duplicate Tag"
         '
         'TagToNontagItemsToolStripMenuItem
@@ -2646,7 +2648,7 @@ Partial Class Main
         Me.TagToNontagItemsToolStripMenuItem.Name = "TagToNontagItemsToolStripMenuItem"
         Me.TagToNontagItemsToolStripMenuItem.ShortcutKeyDisplayString = "AGS-7-7"
         Me.TagToNontagItemsToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagToNontagItemsToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.TagToNontagItemsToolStripMenuItem.Size = New System.Drawing.Size(268, 26)
         Me.TagToNontagItemsToolStripMenuItem.Text = "Tag to Nontag items"
         '
         'OrderTagToRegularTagToolStripMenuItem
@@ -2655,13 +2657,13 @@ Partial Class Main
         Me.OrderTagToRegularTagToolStripMenuItem.Name = "OrderTagToRegularTagToolStripMenuItem"
         Me.OrderTagToRegularTagToolStripMenuItem.ShortcutKeyDisplayString = "AGS-7-8"
         Me.OrderTagToRegularTagToolStripMenuItem.ShowShortcutKeys = False
-        Me.OrderTagToRegularTagToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.OrderTagToRegularTagToolStripMenuItem.Size = New System.Drawing.Size(268, 26)
         Me.OrderTagToRegularTagToolStripMenuItem.Text = "Order Tag to Regular Tag"
         '
         'ToolStripMenuItem22
         '
         Me.ToolStripMenuItem22.Name = "ToolStripMenuItem22"
-        Me.ToolStripMenuItem22.Size = New System.Drawing.Size(213, 22)
+        Me.ToolStripMenuItem22.Size = New System.Drawing.Size(268, 26)
         Me.ToolStripMenuItem22.Text = "Regular Tag to Order Tag"
         '
         'TagStockChangeToolStripMenuItem
@@ -2670,7 +2672,7 @@ Partial Class Main
         Me.TagStockChangeToolStripMenuItem.Name = "TagStockChangeToolStripMenuItem"
         Me.TagStockChangeToolStripMenuItem.ShortcutKeyDisplayString = "AGS-7-9"
         Me.TagStockChangeToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagStockChangeToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.TagStockChangeToolStripMenuItem.Size = New System.Drawing.Size(268, 26)
         Me.TagStockChangeToolStripMenuItem.Text = "Stock Company Change"
         '
         'TagCertificateNoUpdationToolStripMenuItem
@@ -2679,7 +2681,7 @@ Partial Class Main
         Me.TagCertificateNoUpdationToolStripMenuItem.Name = "TagCertificateNoUpdationToolStripMenuItem"
         Me.TagCertificateNoUpdationToolStripMenuItem.ShortcutKeyDisplayString = "AGS-7-10"
         Me.TagCertificateNoUpdationToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagCertificateNoUpdationToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.TagCertificateNoUpdationToolStripMenuItem.Size = New System.Drawing.Size(268, 26)
         Me.TagCertificateNoUpdationToolStripMenuItem.Text = "Tag Certificate No Updation"
         '
         'CounterTransferAuthorizeToolStripMenuItem
@@ -2688,7 +2690,7 @@ Partial Class Main
         Me.CounterTransferAuthorizeToolStripMenuItem.Name = "CounterTransferAuthorizeToolStripMenuItem"
         Me.CounterTransferAuthorizeToolStripMenuItem.ShortcutKeyDisplayString = "AGS-7-11"
         Me.CounterTransferAuthorizeToolStripMenuItem.ShowShortcutKeys = False
-        Me.CounterTransferAuthorizeToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.CounterTransferAuthorizeToolStripMenuItem.Size = New System.Drawing.Size(268, 26)
         Me.CounterTransferAuthorizeToolStripMenuItem.Text = "Authorize Counter Transfer"
         '
         'TagHallmarkInfoUpdationToolStripMenuItem
@@ -2697,7 +2699,7 @@ Partial Class Main
         Me.TagHallmarkInfoUpdationToolStripMenuItem.Name = "TagHallmarkInfoUpdationToolStripMenuItem"
         Me.TagHallmarkInfoUpdationToolStripMenuItem.ShortcutKeyDisplayString = "AGS-7-12"
         Me.TagHallmarkInfoUpdationToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagHallmarkInfoUpdationToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.TagHallmarkInfoUpdationToolStripMenuItem.Size = New System.Drawing.Size(268, 26)
         Me.TagHallmarkInfoUpdationToolStripMenuItem.Text = "Tag Hallmark Info Updation"
         '
         'BookedItemToolStripMenuItem
@@ -2706,7 +2708,7 @@ Partial Class Main
         Me.BookedItemToolStripMenuItem.Name = "BookedItemToolStripMenuItem"
         Me.BookedItemToolStripMenuItem.ShortcutKeyDisplayString = "AGS-7-13"
         Me.BookedItemToolStripMenuItem.ShowShortcutKeys = False
-        Me.BookedItemToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.BookedItemToolStripMenuItem.Size = New System.Drawing.Size(268, 26)
         Me.BookedItemToolStripMenuItem.Text = "Booked Item"
         '
         'BookerItemMarkToolStripMenuItem
@@ -2715,7 +2717,7 @@ Partial Class Main
         Me.BookerItemMarkToolStripMenuItem.Name = "BookerItemMarkToolStripMenuItem"
         Me.BookerItemMarkToolStripMenuItem.ShortcutKeyDisplayString = "AGS-7-13-1"
         Me.BookerItemMarkToolStripMenuItem.ShowShortcutKeys = False
-        Me.BookerItemMarkToolStripMenuItem.Size = New System.Drawing.Size(109, 22)
+        Me.BookerItemMarkToolStripMenuItem.Size = New System.Drawing.Size(134, 26)
         Me.BookerItemMarkToolStripMenuItem.Text = "Mark"
         '
         'BookerItemUnMarkToolStripMenuItem
@@ -2724,7 +2726,7 @@ Partial Class Main
         Me.BookerItemUnMarkToolStripMenuItem.Name = "BookerItemUnMarkToolStripMenuItem"
         Me.BookerItemUnMarkToolStripMenuItem.ShortcutKeyDisplayString = "AGS-7-13-2"
         Me.BookerItemUnMarkToolStripMenuItem.ShowShortcutKeys = False
-        Me.BookerItemUnMarkToolStripMenuItem.Size = New System.Drawing.Size(109, 22)
+        Me.BookerItemUnMarkToolStripMenuItem.Size = New System.Drawing.Size(134, 26)
         Me.BookerItemUnMarkToolStripMenuItem.Text = "UnMark"
         '
         'USRateUpdateToolStripMenuItem
@@ -2732,7 +2734,7 @@ Partial Class Main
         Me.USRateUpdateToolStripMenuItem.Name = "USRateUpdateToolStripMenuItem"
         Me.USRateUpdateToolStripMenuItem.ShortcutKeyDisplayString = "AGS-7-14"
         Me.USRateUpdateToolStripMenuItem.ShowShortcutKeys = False
-        Me.USRateUpdateToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.USRateUpdateToolStripMenuItem.Size = New System.Drawing.Size(268, 26)
         Me.USRateUpdateToolStripMenuItem.Text = "US Rate Bulk Update"
         '
         'TagItemUpdateToolStripMenuItem
@@ -2742,7 +2744,7 @@ Partial Class Main
         Me.TagItemUpdateToolStripMenuItem.Name = "TagItemUpdateToolStripMenuItem"
         Me.TagItemUpdateToolStripMenuItem.ShortcutKeyDisplayString = "AGS-7-15"
         Me.TagItemUpdateToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagItemUpdateToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.TagItemUpdateToolStripMenuItem.Size = New System.Drawing.Size(268, 26)
         Me.TagItemUpdateToolStripMenuItem.Text = "Tag Item Change"
         '
         'TagSubItemChangeToolStripMenuItem
@@ -2751,7 +2753,7 @@ Partial Class Main
         Me.TagSubItemChangeToolStripMenuItem.Name = "TagSubItemChangeToolStripMenuItem"
         Me.TagSubItemChangeToolStripMenuItem.ShortcutKeyDisplayString = "AGS-7-16"
         Me.TagSubItemChangeToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagSubItemChangeToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.TagSubItemChangeToolStripMenuItem.Size = New System.Drawing.Size(268, 26)
         Me.TagSubItemChangeToolStripMenuItem.Text = "Tag SubItem Change"
         '
         'ToolStripMenuItem18
@@ -2760,7 +2762,7 @@ Partial Class Main
         Me.ToolStripMenuItem18.Name = "ToolStripMenuItem18"
         Me.ToolStripMenuItem18.ShortcutKeyDisplayString = "AGS-7-17"
         Me.ToolStripMenuItem18.ShowShortcutKeys = False
-        Me.ToolStripMenuItem18.Size = New System.Drawing.Size(213, 22)
+        Me.ToolStripMenuItem18.Size = New System.Drawing.Size(268, 26)
         Me.ToolStripMenuItem18.Text = "Tag Merge/Split"
         '
         'TagSplitToolStripMenuItem
@@ -2768,7 +2770,7 @@ Partial Class Main
         Me.TagSplitToolStripMenuItem.Name = "TagSplitToolStripMenuItem"
         Me.TagSplitToolStripMenuItem.ShortcutKeyDisplayString = "AGS-7-17-1"
         Me.TagSplitToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagSplitToolStripMenuItem.Size = New System.Drawing.Size(190, 22)
+        Me.TagSplitToolStripMenuItem.Size = New System.Drawing.Size(237, 26)
         Me.TagSplitToolStripMenuItem.Text = "Tag Split"
         '
         'TagSplitCancelToolStripMenuItem
@@ -2777,7 +2779,7 @@ Partial Class Main
         Me.TagSplitCancelToolStripMenuItem.Name = "TagSplitCancelToolStripMenuItem"
         Me.TagSplitCancelToolStripMenuItem.ShortcutKeyDisplayString = "AGS-7-17-3"
         Me.TagSplitCancelToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagSplitCancelToolStripMenuItem.Size = New System.Drawing.Size(190, 22)
+        Me.TagSplitCancelToolStripMenuItem.Size = New System.Drawing.Size(237, 26)
         Me.TagSplitCancelToolStripMenuItem.Text = "Tag Split Cancel"
         '
         'TagMergeInterchangeToolStripMenuItem
@@ -2785,7 +2787,7 @@ Partial Class Main
         Me.TagMergeInterchangeToolStripMenuItem.Name = "TagMergeInterchangeToolStripMenuItem"
         Me.TagMergeInterchangeToolStripMenuItem.ShortcutKeyDisplayString = "AGS-7-17-2"
         Me.TagMergeInterchangeToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagMergeInterchangeToolStripMenuItem.Size = New System.Drawing.Size(190, 22)
+        Me.TagMergeInterchangeToolStripMenuItem.Size = New System.Drawing.Size(237, 26)
         Me.TagMergeInterchangeToolStripMenuItem.Text = "Tag Merge/Interchange"
         '
         'TagSplitViewToolStripMenuItem
@@ -2793,7 +2795,7 @@ Partial Class Main
         Me.TagSplitViewToolStripMenuItem.AccessibleDescription = "frmTagSplitView~RPT"
         Me.TagSplitViewToolStripMenuItem.AccessibleName = "R"
         Me.TagSplitViewToolStripMenuItem.Name = "TagSplitViewToolStripMenuItem"
-        Me.TagSplitViewToolStripMenuItem.Size = New System.Drawing.Size(190, 22)
+        Me.TagSplitViewToolStripMenuItem.Size = New System.Drawing.Size(237, 26)
         Me.TagSplitViewToolStripMenuItem.Text = "Tag Split View"
         '
         'ValueAddedUpdateToolStripMenuItem
@@ -2802,7 +2804,7 @@ Partial Class Main
         Me.ValueAddedUpdateToolStripMenuItem.Name = "ValueAddedUpdateToolStripMenuItem"
         Me.ValueAddedUpdateToolStripMenuItem.ShortcutKeyDisplayString = "AGS-7-18"
         Me.ValueAddedUpdateToolStripMenuItem.ShowShortcutKeys = False
-        Me.ValueAddedUpdateToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.ValueAddedUpdateToolStripMenuItem.Size = New System.Drawing.Size(268, 26)
         Me.ValueAddedUpdateToolStripMenuItem.Text = "Value AddedUpdate"
         '
         'ToolStripMenuItem19
@@ -2811,7 +2813,7 @@ Partial Class Main
         Me.ToolStripMenuItem19.Name = "ToolStripMenuItem19"
         Me.ToolStripMenuItem19.ShortcutKeyDisplayString = "AGS-7-19"
         Me.ToolStripMenuItem19.ShowShortcutKeys = False
-        Me.ToolStripMenuItem19.Size = New System.Drawing.Size(213, 22)
+        Me.ToolStripMenuItem19.Size = New System.Drawing.Size(268, 26)
         Me.ToolStripMenuItem19.Text = "Misc Charge Update"
         '
         'ReceiptTagPostingToolStripMenuItem
@@ -2819,7 +2821,7 @@ Partial Class Main
         Me.ReceiptTagPostingToolStripMenuItem.Name = "ReceiptTagPostingToolStripMenuItem"
         Me.ReceiptTagPostingToolStripMenuItem.ShortcutKeyDisplayString = "AGS-7-20"
         Me.ReceiptTagPostingToolStripMenuItem.ShowShortcutKeys = False
-        Me.ReceiptTagPostingToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.ReceiptTagPostingToolStripMenuItem.Size = New System.Drawing.Size(268, 26)
         Me.ReceiptTagPostingToolStripMenuItem.Text = "Receipt Tag Posting"
         '
         'TagSaleModeUpdateToolStripMenuItem
@@ -2827,7 +2829,7 @@ Partial Class Main
         Me.TagSaleModeUpdateToolStripMenuItem.Name = "TagSaleModeUpdateToolStripMenuItem"
         Me.TagSaleModeUpdateToolStripMenuItem.ShortcutKeyDisplayString = "AGS-7-21"
         Me.TagSaleModeUpdateToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagSaleModeUpdateToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.TagSaleModeUpdateToolStripMenuItem.Size = New System.Drawing.Size(268, 26)
         Me.TagSaleModeUpdateToolStripMenuItem.Text = "Tag SaleMode Update"
         '
         'TagPacketNoGenerationToolStripMenuItem
@@ -2836,7 +2838,7 @@ Partial Class Main
         Me.TagPacketNoGenerationToolStripMenuItem.Name = "TagPacketNoGenerationToolStripMenuItem"
         Me.TagPacketNoGenerationToolStripMenuItem.ShortcutKeyDisplayString = "AGS-7-22"
         Me.TagPacketNoGenerationToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagPacketNoGenerationToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.TagPacketNoGenerationToolStripMenuItem.Size = New System.Drawing.Size(268, 26)
         Me.TagPacketNoGenerationToolStripMenuItem.Text = "Tag PacketNo Generation"
         '
         'TagNoChangeToolStripMenuItem
@@ -2845,7 +2847,7 @@ Partial Class Main
         Me.TagNoChangeToolStripMenuItem.Name = "TagNoChangeToolStripMenuItem"
         Me.TagNoChangeToolStripMenuItem.ShortcutKeyDisplayString = "AGS-7-23"
         Me.TagNoChangeToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagNoChangeToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.TagNoChangeToolStripMenuItem.Size = New System.Drawing.Size(268, 26)
         Me.TagNoChangeToolStripMenuItem.Text = "TagNo Change"
         '
         'LotDesignerChangeToolStripMenuItem
@@ -2853,20 +2855,20 @@ Partial Class Main
         Me.LotDesignerChangeToolStripMenuItem.AccessibleDescription = "frmLotnoUpdation"
         Me.LotDesignerChangeToolStripMenuItem.AccessibleName = "M"
         Me.LotDesignerChangeToolStripMenuItem.Name = "LotDesignerChangeToolStripMenuItem"
-        Me.LotDesignerChangeToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.LotDesignerChangeToolStripMenuItem.Size = New System.Drawing.Size(268, 26)
         Me.LotDesignerChangeToolStripMenuItem.Text = "Lot Designer Change"
         '
         'TagPurchaseDetailToolStripMenuItem
         '
         Me.TagPurchaseDetailToolStripMenuItem.Name = "TagPurchaseDetailToolStripMenuItem"
-        Me.TagPurchaseDetailToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.TagPurchaseDetailToolStripMenuItem.Size = New System.Drawing.Size(268, 26)
         Me.TagPurchaseDetailToolStripMenuItem.Text = "Tag Purchase Detail"
         '
         'TagTypeChangeToolStripMenuItem
         '
         Me.TagTypeChangeToolStripMenuItem.AccessibleDescription = "frmTagTypeChange"
         Me.TagTypeChangeToolStripMenuItem.Name = "TagTypeChangeToolStripMenuItem"
-        Me.TagTypeChangeToolStripMenuItem.Size = New System.Drawing.Size(213, 22)
+        Me.TagTypeChangeToolStripMenuItem.Size = New System.Drawing.Size(268, 26)
         Me.TagTypeChangeToolStripMenuItem.Text = "TagNo Type Change"
         '
         'tStripLotView
@@ -2875,7 +2877,7 @@ Partial Class Main
         Me.tStripLotView.Name = "tStripLotView"
         Me.tStripLotView.ShortcutKeyDisplayString = "AGS-8"
         Me.tStripLotView.ShowShortcutKeys = False
-        Me.tStripLotView.Size = New System.Drawing.Size(157, 22)
+        Me.tStripLotView.Size = New System.Drawing.Size(197, 26)
         Me.tStripLotView.Text = "Lot View"
         '
         'tStripLotDetailedView
@@ -2884,7 +2886,7 @@ Partial Class Main
         Me.tStripLotDetailedView.Name = "tStripLotDetailedView"
         Me.tStripLotDetailedView.ShortcutKeyDisplayString = "AGS-8-1"
         Me.tStripLotDetailedView.ShowShortcutKeys = False
-        Me.tStripLotDetailedView.Size = New System.Drawing.Size(159, 22)
+        Me.tStripLotDetailedView.Size = New System.Drawing.Size(201, 26)
         Me.tStripLotDetailedView.Text = "Lot Detailed View"
         '
         'PendingLotViewToolStripMenuItem
@@ -2893,7 +2895,7 @@ Partial Class Main
         Me.PendingLotViewToolStripMenuItem.Name = "PendingLotViewToolStripMenuItem"
         Me.PendingLotViewToolStripMenuItem.ShortcutKeyDisplayString = "AGS-8-2"
         Me.PendingLotViewToolStripMenuItem.ShowShortcutKeys = False
-        Me.PendingLotViewToolStripMenuItem.Size = New System.Drawing.Size(159, 22)
+        Me.PendingLotViewToolStripMenuItem.Size = New System.Drawing.Size(201, 26)
         Me.PendingLotViewToolStripMenuItem.Text = "Pending Lot View"
         '
         'TagCheckTStrip
@@ -2902,7 +2904,7 @@ Partial Class Main
         Me.TagCheckTStrip.Name = "TagCheckTStrip"
         Me.TagCheckTStrip.ShortcutKeyDisplayString = "AGS-9"
         Me.TagCheckTStrip.ShowShortcutKeys = False
-        Me.TagCheckTStrip.Size = New System.Drawing.Size(157, 22)
+        Me.TagCheckTStrip.Size = New System.Drawing.Size(197, 26)
         Me.TagCheckTStrip.Text = "Tag Check"
         '
         'TagCatalogToolStripMenuItem
@@ -2912,7 +2914,7 @@ Partial Class Main
         Me.TagCatalogToolStripMenuItem.Name = "TagCatalogToolStripMenuItem"
         Me.TagCatalogToolStripMenuItem.ShortcutKeyDisplayString = "AGS-10"
         Me.TagCatalogToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagCatalogToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.TagCatalogToolStripMenuItem.Size = New System.Drawing.Size(197, 26)
         Me.TagCatalogToolStripMenuItem.Text = "Tag Catalog"
         '
         'CatalogEntryToolStripMenuItem
@@ -2921,7 +2923,7 @@ Partial Class Main
         Me.CatalogEntryToolStripMenuItem.Name = "CatalogEntryToolStripMenuItem"
         Me.CatalogEntryToolStripMenuItem.ShortcutKeyDisplayString = "AGS-10-1"
         Me.CatalogEntryToolStripMenuItem.ShowShortcutKeys = False
-        Me.CatalogEntryToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
+        Me.CatalogEntryToolStripMenuItem.Size = New System.Drawing.Size(172, 26)
         Me.CatalogEntryToolStripMenuItem.Text = "Catalog Entry"
         '
         'CatalogViewToolStripMenuItem
@@ -2930,7 +2932,7 @@ Partial Class Main
         Me.CatalogViewToolStripMenuItem.Name = "CatalogViewToolStripMenuItem"
         Me.CatalogViewToolStripMenuItem.ShortcutKeyDisplayString = "AGS-10-2"
         Me.CatalogViewToolStripMenuItem.ShowShortcutKeys = False
-        Me.CatalogViewToolStripMenuItem.Size = New System.Drawing.Size(138, 22)
+        Me.CatalogViewToolStripMenuItem.Size = New System.Drawing.Size(172, 26)
         Me.CatalogViewToolStripMenuItem.Text = "Catalog View"
         '
         'TagPurchaseToolStripMenuItem
@@ -2938,7 +2940,7 @@ Partial Class Main
         Me.TagPurchaseToolStripMenuItem.Name = "TagPurchaseToolStripMenuItem"
         Me.TagPurchaseToolStripMenuItem.ShortcutKeyDisplayString = "AGS-11"
         Me.TagPurchaseToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagPurchaseToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.TagPurchaseToolStripMenuItem.Size = New System.Drawing.Size(197, 26)
         Me.TagPurchaseToolStripMenuItem.Text = "Tag Purchase"
         '
         'WebTagToolStripMenuItem
@@ -2946,34 +2948,34 @@ Partial Class Main
         Me.WebTagToolStripMenuItem.AccessibleDescription = ""
         Me.WebTagToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripTagEntry, Me.tStripTagView, Me.TagDetailBulkUpdateToolStripMenuItem})
         Me.WebTagToolStripMenuItem.Name = "WebTagToolStripMenuItem"
-        Me.WebTagToolStripMenuItem.Size = New System.Drawing.Size(157, 22)
+        Me.WebTagToolStripMenuItem.Size = New System.Drawing.Size(197, 26)
         Me.WebTagToolStripMenuItem.Text = "Web Tag"
         '
         'tStripTagEntry
         '
         Me.tStripTagEntry.AccessibleDescription = "frmWebTag"
         Me.tStripTagEntry.Name = "tStripTagEntry"
-        Me.tStripTagEntry.Size = New System.Drawing.Size(192, 22)
+        Me.tStripTagEntry.Size = New System.Drawing.Size(244, 26)
         Me.tStripTagEntry.Text = "Tag Entry"
         '
         'tStripTagView
         '
         Me.tStripTagView.AccessibleDescription = "WTagedView~RPT"
         Me.tStripTagView.Name = "tStripTagView"
-        Me.tStripTagView.Size = New System.Drawing.Size(192, 22)
+        Me.tStripTagView.Size = New System.Drawing.Size(244, 26)
         Me.tStripTagView.Text = "Tag View"
         '
         'TagDetailBulkUpdateToolStripMenuItem
         '
         Me.TagDetailBulkUpdateToolStripMenuItem.Name = "TagDetailBulkUpdateToolStripMenuItem"
-        Me.TagDetailBulkUpdateToolStripMenuItem.Size = New System.Drawing.Size(192, 22)
+        Me.TagDetailBulkUpdateToolStripMenuItem.Size = New System.Drawing.Size(244, 26)
         Me.TagDetailBulkUpdateToolStripMenuItem.Text = "Tag Detail Bulk Update"
         '
         'tStripEstimation
         '
         Me.tStripEstimation.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripEstimationEntry, Me.EstimatePostTrip, Me.tStripEstimationRevise, Me.tStripOrderEstimate, Me.WholesaleEstimateToolStripMenuItem, Me.EstimateWeightToolStripMenuItem})
         Me.tStripEstimation.Name = "tStripEstimation"
-        Me.tStripEstimation.Size = New System.Drawing.Size(75, 20)
+        Me.tStripEstimation.Size = New System.Drawing.Size(93, 24)
         Me.tStripEstimation.Tag = "C"
         Me.tStripEstimation.Text = "Estimation"
         '
@@ -2983,7 +2985,7 @@ Partial Class Main
         Me.tStripEstimationEntry.Name = "tStripEstimationEntry"
         Me.tStripEstimationEntry.ShortcutKeyDisplayString = "AGE-1"
         Me.tStripEstimationEntry.ShowShortcutKeys = False
-        Me.tStripEstimationEntry.Size = New System.Drawing.Size(169, 22)
+        Me.tStripEstimationEntry.Size = New System.Drawing.Size(213, 26)
         Me.tStripEstimationEntry.Text = "Estimation Entry"
         '
         'EstimatePostTrip
@@ -2991,7 +2993,7 @@ Partial Class Main
         Me.EstimatePostTrip.Name = "EstimatePostTrip"
         Me.EstimatePostTrip.ShortcutKeyDisplayString = "AGE-2"
         Me.EstimatePostTrip.ShowShortcutKeys = False
-        Me.EstimatePostTrip.Size = New System.Drawing.Size(169, 22)
+        Me.EstimatePostTrip.Size = New System.Drawing.Size(213, 26)
         Me.EstimatePostTrip.Text = "Estimate Post"
         '
         'tStripEstimationRevise
@@ -3000,7 +3002,7 @@ Partial Class Main
         Me.tStripEstimationRevise.Name = "tStripEstimationRevise"
         Me.tStripEstimationRevise.ShortcutKeyDisplayString = "AGE-3"
         Me.tStripEstimationRevise.ShowShortcutKeys = False
-        Me.tStripEstimationRevise.Size = New System.Drawing.Size(169, 22)
+        Me.tStripEstimationRevise.Size = New System.Drawing.Size(213, 26)
         Me.tStripEstimationRevise.Text = "Final Estimation"
         '
         'tStripOrderEstimate
@@ -3009,7 +3011,7 @@ Partial Class Main
         Me.tStripOrderEstimate.Name = "tStripOrderEstimate"
         Me.tStripOrderEstimate.ShortcutKeyDisplayString = "AGE-4"
         Me.tStripOrderEstimate.ShowShortcutKeys = False
-        Me.tStripOrderEstimate.Size = New System.Drawing.Size(169, 22)
+        Me.tStripOrderEstimate.Size = New System.Drawing.Size(213, 26)
         Me.tStripOrderEstimate.Text = "Order Estimate"
         '
         'WholesaleEstimateToolStripMenuItem
@@ -3018,20 +3020,20 @@ Partial Class Main
         Me.WholesaleEstimateToolStripMenuItem.Name = "WholesaleEstimateToolStripMenuItem"
         Me.WholesaleEstimateToolStripMenuItem.ShortcutKeyDisplayString = "AGE-5"
         Me.WholesaleEstimateToolStripMenuItem.ShowShortcutKeys = False
-        Me.WholesaleEstimateToolStripMenuItem.Size = New System.Drawing.Size(169, 22)
+        Me.WholesaleEstimateToolStripMenuItem.Size = New System.Drawing.Size(213, 26)
         Me.WholesaleEstimateToolStripMenuItem.Text = "Wholesale Estimate"
         '
         'EstimateWeightToolStripMenuItem
         '
         Me.EstimateWeightToolStripMenuItem.Name = "EstimateWeightToolStripMenuItem"
-        Me.EstimateWeightToolStripMenuItem.Size = New System.Drawing.Size(169, 22)
+        Me.EstimateWeightToolStripMenuItem.Size = New System.Drawing.Size(213, 26)
         Me.EstimateWeightToolStripMenuItem.Text = "Estimate Weight"
         '
         'tStripBilling
         '
         Me.tStripBilling.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripBill, Me.tStripBillWiseCollectionDet, Me.tStripBillView, Me.tStripDuplicateBillPrint, Me.CashPointToolStripMenuItem, Me.tStripBillToJnt, Me.GiftVoucherGenerationToolStripMenuItem, Me.tStripCompliments, Me.GSTRegisterToolStripMenuItem})
         Me.tStripBilling.Name = "tStripBilling"
-        Me.tStripBilling.Size = New System.Drawing.Size(52, 20)
+        Me.tStripBilling.Size = New System.Drawing.Size(65, 24)
         Me.tStripBilling.Tag = "B"
         Me.tStripBilling.Text = "Billing"
         '
@@ -3042,7 +3044,7 @@ Partial Class Main
         Me.tStripBill.Name = "tStripBill"
         Me.tStripBill.ShortcutKeyDisplayString = "AGB-1"
         Me.tStripBill.ShowShortcutKeys = False
-        Me.tStripBill.Size = New System.Drawing.Size(206, 22)
+        Me.tStripBill.Size = New System.Drawing.Size(261, 26)
         Me.tStripBill.Text = "Bill"
         '
         'RetailToolStripMenuItem
@@ -3051,7 +3053,7 @@ Partial Class Main
         Me.RetailToolStripMenuItem.Name = "RetailToolStripMenuItem"
         Me.RetailToolStripMenuItem.ShortcutKeyDisplayString = "AGB-1-1"
         Me.RetailToolStripMenuItem.ShowShortcutKeys = False
-        Me.RetailToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
+        Me.RetailToolStripMenuItem.Size = New System.Drawing.Size(240, 26)
         Me.RetailToolStripMenuItem.Text = "Retail"
         '
         'WholeSaleToolStripMenuItem
@@ -3060,7 +3062,7 @@ Partial Class Main
         Me.WholeSaleToolStripMenuItem.Name = "WholeSaleToolStripMenuItem"
         Me.WholeSaleToolStripMenuItem.ShortcutKeyDisplayString = "AGB-1-2"
         Me.WholeSaleToolStripMenuItem.ShowShortcutKeys = False
-        Me.WholeSaleToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
+        Me.WholeSaleToolStripMenuItem.Size = New System.Drawing.Size(240, 26)
         Me.WholeSaleToolStripMenuItem.Text = "WholeSale"
         '
         'RateCutToolStripMenuItem
@@ -3068,7 +3070,7 @@ Partial Class Main
         Me.RateCutToolStripMenuItem.Name = "RateCutToolStripMenuItem"
         Me.RateCutToolStripMenuItem.ShortcutKeyDisplayString = "AGB-1-3"
         Me.RateCutToolStripMenuItem.ShowShortcutKeys = False
-        Me.RateCutToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
+        Me.RateCutToolStripMenuItem.Size = New System.Drawing.Size(240, 26)
         Me.RateCutToolStripMenuItem.Text = "RateCut"
         '
         'WholeSaleSmithIssRecToolStripMenuItem
@@ -3076,7 +3078,7 @@ Partial Class Main
         Me.WholeSaleSmithIssRecToolStripMenuItem.Name = "WholeSaleSmithIssRecToolStripMenuItem"
         Me.WholeSaleSmithIssRecToolStripMenuItem.ShortcutKeyDisplayString = "AGB-1-4"
         Me.WholeSaleSmithIssRecToolStripMenuItem.ShowShortcutKeys = False
-        Me.WholeSaleSmithIssRecToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
+        Me.WholeSaleSmithIssRecToolStripMenuItem.Size = New System.Drawing.Size(240, 26)
         Me.WholeSaleSmithIssRecToolStripMenuItem.Text = "WholeSale Smith IssRec"
         '
         'tStripBillWiseCollectionDet
@@ -3085,7 +3087,7 @@ Partial Class Main
         Me.tStripBillWiseCollectionDet.Name = "tStripBillWiseCollectionDet"
         Me.tStripBillWiseCollectionDet.ShortcutKeyDisplayString = "AGB-2"
         Me.tStripBillWiseCollectionDet.ShowShortcutKeys = False
-        Me.tStripBillWiseCollectionDet.Size = New System.Drawing.Size(206, 22)
+        Me.tStripBillWiseCollectionDet.Size = New System.Drawing.Size(261, 26)
         Me.tStripBillWiseCollectionDet.Text = "Bill Wise Collection Details"
         '
         'tStripBillView
@@ -3094,7 +3096,7 @@ Partial Class Main
         Me.tStripBillView.Name = "tStripBillView"
         Me.tStripBillView.ShortcutKeyDisplayString = "AGB-3"
         Me.tStripBillView.ShowShortcutKeys = False
-        Me.tStripBillView.Size = New System.Drawing.Size(206, 22)
+        Me.tStripBillView.Size = New System.Drawing.Size(261, 26)
         Me.tStripBillView.Text = "BillView"
         '
         'tStripDuplicateBillPrint
@@ -3103,7 +3105,7 @@ Partial Class Main
         Me.tStripDuplicateBillPrint.Name = "tStripDuplicateBillPrint"
         Me.tStripDuplicateBillPrint.ShortcutKeyDisplayString = "AGB-4"
         Me.tStripDuplicateBillPrint.ShowShortcutKeys = False
-        Me.tStripDuplicateBillPrint.Size = New System.Drawing.Size(206, 22)
+        Me.tStripDuplicateBillPrint.Size = New System.Drawing.Size(261, 26)
         Me.tStripDuplicateBillPrint.Text = "Duplicate Bill Print"
         '
         'CashPointToolStripMenuItem
@@ -3112,7 +3114,7 @@ Partial Class Main
         Me.CashPointToolStripMenuItem.Name = "CashPointToolStripMenuItem"
         Me.CashPointToolStripMenuItem.ShortcutKeyDisplayString = "AGB-5"
         Me.CashPointToolStripMenuItem.ShowShortcutKeys = False
-        Me.CashPointToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
+        Me.CashPointToolStripMenuItem.Size = New System.Drawing.Size(261, 26)
         Me.CashPointToolStripMenuItem.Text = "Cash Point"
         '
         'tStripBillToJnt
@@ -3121,7 +3123,7 @@ Partial Class Main
         Me.tStripBillToJnt.Name = "tStripBillToJnt"
         Me.tStripBillToJnt.ShortcutKeyDisplayString = "AGB-6"
         Me.tStripBillToJnt.ShowShortcutKeys = False
-        Me.tStripBillToJnt.Size = New System.Drawing.Size(206, 22)
+        Me.tStripBillToJnt.Size = New System.Drawing.Size(261, 26)
         Me.tStripBillToJnt.Text = "Jewel Not Delivery Mark"
         '
         'GiftVoucherGenerationToolStripMenuItem
@@ -3130,7 +3132,7 @@ Partial Class Main
         Me.GiftVoucherGenerationToolStripMenuItem.Name = "GiftVoucherGenerationToolStripMenuItem"
         Me.GiftVoucherGenerationToolStripMenuItem.ShortcutKeyDisplayString = "AGB-7"
         Me.GiftVoucherGenerationToolStripMenuItem.ShowShortcutKeys = False
-        Me.GiftVoucherGenerationToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
+        Me.GiftVoucherGenerationToolStripMenuItem.Size = New System.Drawing.Size(261, 26)
         Me.GiftVoucherGenerationToolStripMenuItem.Text = "Gift Voucher"
         '
         'GiftVoucherAgainstSalesToolStripMenuItem
@@ -3138,7 +3140,7 @@ Partial Class Main
         Me.GiftVoucherAgainstSalesToolStripMenuItem.Name = "GiftVoucherAgainstSalesToolStripMenuItem"
         Me.GiftVoucherAgainstSalesToolStripMenuItem.ShortcutKeyDisplayString = "AGB-7-1"
         Me.GiftVoucherAgainstSalesToolStripMenuItem.ShowShortcutKeys = False
-        Me.GiftVoucherAgainstSalesToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+        Me.GiftVoucherAgainstSalesToolStripMenuItem.Size = New System.Drawing.Size(252, 26)
         Me.GiftVoucherAgainstSalesToolStripMenuItem.Text = "GiftVoucher Against Sales"
         '
         'VouGenToolStripMenuItem
@@ -3146,7 +3148,7 @@ Partial Class Main
         Me.VouGenToolStripMenuItem.Name = "VouGenToolStripMenuItem"
         Me.VouGenToolStripMenuItem.ShortcutKeyDisplayString = "AGB-7-2"
         Me.VouGenToolStripMenuItem.ShowShortcutKeys = False
-        Me.VouGenToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+        Me.VouGenToolStripMenuItem.Size = New System.Drawing.Size(252, 26)
         Me.VouGenToolStripMenuItem.Text = "Voucher Generation"
         '
         'GiftTransferToolStripMenuItem
@@ -3154,7 +3156,7 @@ Partial Class Main
         Me.GiftTransferToolStripMenuItem.Name = "GiftTransferToolStripMenuItem"
         Me.GiftTransferToolStripMenuItem.ShortcutKeyDisplayString = "AGB-7-3"
         Me.GiftTransferToolStripMenuItem.ShowShortcutKeys = False
-        Me.GiftTransferToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+        Me.GiftTransferToolStripMenuItem.Size = New System.Drawing.Size(252, 26)
         Me.GiftTransferToolStripMenuItem.Text = "Gift Transfer"
         '
         'VouDistrToolStripMenuItem
@@ -3162,7 +3164,7 @@ Partial Class Main
         Me.VouDistrToolStripMenuItem.Name = "VouDistrToolStripMenuItem"
         Me.VouDistrToolStripMenuItem.ShortcutKeyDisplayString = "AGB-7-4"
         Me.VouDistrToolStripMenuItem.ShowShortcutKeys = False
-        Me.VouDistrToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+        Me.VouDistrToolStripMenuItem.Size = New System.Drawing.Size(252, 26)
         Me.VouDistrToolStripMenuItem.Text = "Voucher Distribution"
         '
         'GiftVoucherDetailToolStripMenuItem
@@ -3171,32 +3173,32 @@ Partial Class Main
         Me.GiftVoucherDetailToolStripMenuItem.Name = "GiftVoucherDetailToolStripMenuItem"
         Me.GiftVoucherDetailToolStripMenuItem.ShortcutKeyDisplayString = "AGB-7-5"
         Me.GiftVoucherDetailToolStripMenuItem.ShowShortcutKeys = False
-        Me.GiftVoucherDetailToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+        Me.GiftVoucherDetailToolStripMenuItem.Size = New System.Drawing.Size(252, 26)
         Me.GiftVoucherDetailToolStripMenuItem.Text = "Gift Voucher Detail"
         '
         'GiftVoucherIssueToolStripMenuItem
         '
         Me.GiftVoucherIssueToolStripMenuItem.Name = "GiftVoucherIssueToolStripMenuItem"
-        Me.GiftVoucherIssueToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+        Me.GiftVoucherIssueToolStripMenuItem.Size = New System.Drawing.Size(252, 26)
         Me.GiftVoucherIssueToolStripMenuItem.Text = "Gift Voucher Issue"
         '
         'GiftVoucherReportToolStripMenuItem
         '
         Me.GiftVoucherReportToolStripMenuItem.Name = "GiftVoucherReportToolStripMenuItem"
-        Me.GiftVoucherReportToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+        Me.GiftVoucherReportToolStripMenuItem.Size = New System.Drawing.Size(252, 26)
         Me.GiftVoucherReportToolStripMenuItem.Text = "Gift Voucher Report"
         '
         'GiftVoucherCheckingToolStripMenuItem
         '
         Me.GiftVoucherCheckingToolStripMenuItem.AccessibleDescription = "frmGiftChecking~RPT"
         Me.GiftVoucherCheckingToolStripMenuItem.Name = "GiftVoucherCheckingToolStripMenuItem"
-        Me.GiftVoucherCheckingToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+        Me.GiftVoucherCheckingToolStripMenuItem.Size = New System.Drawing.Size(252, 26)
         Me.GiftVoucherCheckingToolStripMenuItem.Text = "Gift Voucher Checking"
         '
         'GiftVoucherSchemeToolStripMenuItem
         '
         Me.GiftVoucherSchemeToolStripMenuItem.Name = "GiftVoucherSchemeToolStripMenuItem"
-        Me.GiftVoucherSchemeToolStripMenuItem.Size = New System.Drawing.Size(201, 22)
+        Me.GiftVoucherSchemeToolStripMenuItem.Size = New System.Drawing.Size(252, 26)
         Me.GiftVoucherSchemeToolStripMenuItem.Text = "Gift Voucher (Scheme)"
         '
         'tStripCompliments
@@ -3205,7 +3207,7 @@ Partial Class Main
         Me.tStripCompliments.Name = "tStripCompliments"
         Me.tStripCompliments.ShortcutKeyDisplayString = "AGB-8"
         Me.tStripCompliments.ShowShortcutKeys = False
-        Me.tStripCompliments.Size = New System.Drawing.Size(206, 22)
+        Me.tStripCompliments.Size = New System.Drawing.Size(261, 26)
         Me.tStripCompliments.Text = "Compliments"
         '
         'GSTRegisterToolStripMenuItem
@@ -3214,14 +3216,14 @@ Partial Class Main
         Me.GSTRegisterToolStripMenuItem.Name = "GSTRegisterToolStripMenuItem"
         Me.GSTRegisterToolStripMenuItem.ShortcutKeyDisplayString = "AGB-9"
         Me.GSTRegisterToolStripMenuItem.ShowShortcutKeys = False
-        Me.GSTRegisterToolStripMenuItem.Size = New System.Drawing.Size(206, 22)
+        Me.GSTRegisterToolStripMenuItem.Size = New System.Drawing.Size(261, 26)
         Me.GSTRegisterToolStripMenuItem.Text = "GST (General Entry)"
         '
         'tStripOrder
         '
         Me.tStripOrder.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripOrderEnty, Me.tStripRepairEntry, Me.tStripTranfer2IssRec, Me.OrderEditToolStripMenuItem, Me.OrderMergeToolStripMenuItem, Me.OrderAdvPurityConversionToolStripMenuItem})
         Me.tStripOrder.Name = "tStripOrder"
-        Me.tStripOrder.Size = New System.Drawing.Size(49, 20)
+        Me.tStripOrder.Size = New System.Drawing.Size(61, 24)
         Me.tStripOrder.Tag = "D"
         Me.tStripOrder.Text = "Order"
         '
@@ -3231,7 +3233,7 @@ Partial Class Main
         Me.tStripOrderEnty.Name = "tStripOrderEnty"
         Me.tStripOrderEnty.ShortcutKeyDisplayString = "AGO-1"
         Me.tStripOrderEnty.ShowShortcutKeys = False
-        Me.tStripOrderEnty.Size = New System.Drawing.Size(221, 22)
+        Me.tStripOrderEnty.Size = New System.Drawing.Size(272, 26)
         Me.tStripOrderEnty.Text = "Order Entry"
         '
         'tStripRepairEntry
@@ -3240,7 +3242,7 @@ Partial Class Main
         Me.tStripRepairEntry.Name = "tStripRepairEntry"
         Me.tStripRepairEntry.ShortcutKeyDisplayString = "AGO-2"
         Me.tStripRepairEntry.ShowShortcutKeys = False
-        Me.tStripRepairEntry.Size = New System.Drawing.Size(221, 22)
+        Me.tStripRepairEntry.Size = New System.Drawing.Size(272, 26)
         Me.tStripRepairEntry.Text = "Repair Entry"
         '
         'tStripTranfer2IssRec
@@ -3249,7 +3251,7 @@ Partial Class Main
         Me.tStripTranfer2IssRec.Name = "tStripTranfer2IssRec"
         Me.tStripTranfer2IssRec.ShortcutKeyDisplayString = "AGO-3"
         Me.tStripTranfer2IssRec.ShowShortcutKeys = False
-        Me.tStripTranfer2IssRec.Size = New System.Drawing.Size(221, 22)
+        Me.tStripTranfer2IssRec.Size = New System.Drawing.Size(272, 26)
         Me.tStripTranfer2IssRec.Text = "Transfer to Issue Receipt"
         '
         'OrderEditToolStripMenuItem
@@ -3258,7 +3260,7 @@ Partial Class Main
         Me.OrderEditToolStripMenuItem.Name = "OrderEditToolStripMenuItem"
         Me.OrderEditToolStripMenuItem.ShortcutKeyDisplayString = "AGO-4"
         Me.OrderEditToolStripMenuItem.ShowShortcutKeys = False
-        Me.OrderEditToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
+        Me.OrderEditToolStripMenuItem.Size = New System.Drawing.Size(272, 26)
         Me.OrderEditToolStripMenuItem.Text = "Order Edit"
         '
         'OrderMergeToolStripMenuItem
@@ -3267,7 +3269,7 @@ Partial Class Main
         Me.OrderMergeToolStripMenuItem.Name = "OrderMergeToolStripMenuItem"
         Me.OrderMergeToolStripMenuItem.ShortcutKeyDisplayString = "AGO-5"
         Me.OrderMergeToolStripMenuItem.ShowShortcutKeys = False
-        Me.OrderMergeToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
+        Me.OrderMergeToolStripMenuItem.Size = New System.Drawing.Size(272, 26)
         Me.OrderMergeToolStripMenuItem.Text = "Order Merge"
         '
         'OrderAdvPurityConversionToolStripMenuItem
@@ -3275,23 +3277,23 @@ Partial Class Main
         Me.OrderAdvPurityConversionToolStripMenuItem.Name = "OrderAdvPurityConversionToolStripMenuItem"
         Me.OrderAdvPurityConversionToolStripMenuItem.ShortcutKeyDisplayString = "AGO-6"
         Me.OrderAdvPurityConversionToolStripMenuItem.ShowShortcutKeys = False
-        Me.OrderAdvPurityConversionToolStripMenuItem.Size = New System.Drawing.Size(221, 22)
+        Me.OrderAdvPurityConversionToolStripMenuItem.Size = New System.Drawing.Size(272, 26)
         Me.OrderAdvPurityConversionToolStripMenuItem.Text = "Order Adv. Purity Conversion"
         '
         'tStripReports
         '
         Me.tStripReports.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripAccReports, Me.tStripDailyReports, Me.tStripStockReports, Me.tStripOrderReports, Me.tStripApproval, Me.tStripEstimationRpt, Me.MISReportTStrip, Me.DailyTallyReportTStrip, Me.XmlGenerationToolStripMenuItem, Me.OtherReportsToolStripMenuItem, Me.AuditReportToolStripMenuItem, Me.ComplementsToolStripMenuItem, Me.GSTReportsToolStripMenuItem})
         Me.tStripReports.Name = "tStripReports"
-        Me.tStripReports.Size = New System.Drawing.Size(59, 20)
+        Me.tStripReports.Size = New System.Drawing.Size(74, 24)
         Me.tStripReports.Text = "Reports"
         '
         'tStripAccReports
         '
-        Me.tStripAccReports.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripTrailBalance, Me.tStripBillwiseRecPay, Me.tStripSalesAbstract, Me.tStripPurchaseAbstract, Me.tStripSalesReturnAbstract, Me.SalesAbstractGSTToolStripMenuItem, Me.SalesReturnAbstractGSTToolStripMenuItem, Me.tStripPurchaseAbsGST, Me.tStripLedgerView, Me.tStripLedgerWithWeight, Me.SmithBalanceSummaryTStrip, Me.SmithIssueReciptViewTStrip, Me.SmithBalanceDetailedTStrip, Me.ToolStripMenuItem16, Me.ToolStripMenuItem14, Me.SubsidryLedgerTStrip, Me.DayBookTStrip, Me.WeightDayBookToolStripMenuItem, Me.AccountRunningBalanceToolStripMenuItem, Me.GroupLedgerToolStripMenuItem, Me.ExpenseAnalysisToolStripMenuItem, Me.InterestAnalysisToolStripMenuItem, Me.BudgetAnalysisToolStripMenuItem, Me.AccountsConfirmationLetterToolStripMenuItem, Me.TrandingProfitAndLossToolStripMenuItem, Me.BalanceSheetToolStripMenuItem, Me.SalesRegistoryToolStripMenuItem, Me.SalesPurchaseAbstractToolStripMenuItem, Me.JobNowiTStrip, Me.SmithStatusReportToolStripMenuItem, Me.SalesAbstractDetailedToolStripMenuItem, Me.TDSReportToolStripMenuItem, Me.VATFormIToolStripMenuItem, Me.TradingToolStripMenuItem, Me.ITEMWISESMITHREPORTToolStripMenuItem, Me.MetalWiseTradingProfitLossToolStripMenuItem, Me.tstripTransactionReport, Me.SmithBalanceReportToolStripMenuItem, Me.tStripSalesPurchaseAbs, Me.JobNoWiseReporToolStripMenuItem, Me.tstripClosingStockMenuItem})
+        Me.tStripAccReports.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripTrailBalance, Me.tStripBillwiseRecPay, Me.tStripSalesAbstract, Me.tStripPurchaseAbstract, Me.tStripSalesReturnAbstract, Me.SalesAbstractGSTToolStripMenuItem, Me.SalesReturnAbstractGSTToolStripMenuItem, Me.tStripPurchaseAbsGST, Me.tStripLedgerView, Me.tStripLedgerWithWeight, Me.SmithBalanceSummaryTStrip, Me.SmithIssueReciptViewTStrip, Me.ToolStripMenuItem25, Me.SmithBalanceDetailedTStrip, Me.ToolStripMenuItem16, Me.ToolStripMenuItem14, Me.SubsidryLedgerTStrip, Me.DayBookTStrip, Me.WeightDayBookToolStripMenuItem, Me.AccountRunningBalanceToolStripMenuItem, Me.GroupLedgerToolStripMenuItem, Me.ExpenseAnalysisToolStripMenuItem, Me.InterestAnalysisToolStripMenuItem, Me.BudgetAnalysisToolStripMenuItem, Me.AccountsConfirmationLetterToolStripMenuItem, Me.TrandingProfitAndLossToolStripMenuItem, Me.BalanceSheetToolStripMenuItem, Me.SalesRegistoryToolStripMenuItem, Me.SalesPurchaseAbstractToolStripMenuItem, Me.JobNowiTStrip, Me.SmithStatusReportToolStripMenuItem, Me.SalesAbstractDetailedToolStripMenuItem, Me.TDSReportToolStripMenuItem, Me.VATFormIToolStripMenuItem, Me.TradingToolStripMenuItem, Me.ITEMWISESMITHREPORTToolStripMenuItem, Me.MetalWiseTradingProfitLossToolStripMenuItem, Me.tstripTransactionReport, Me.SmithBalanceReportToolStripMenuItem, Me.tStripSalesPurchaseAbs, Me.JobNoWiseReporToolStripMenuItem, Me.tstripClosingStockMenuItem})
         Me.tStripAccReports.Name = "tStripAccReports"
         Me.tStripAccReports.ShortcutKeyDisplayString = "AGR-1"
         Me.tStripAccReports.ShowShortcutKeys = False
-        Me.tStripAccReports.Size = New System.Drawing.Size(180, 22)
+        Me.tStripAccReports.Size = New System.Drawing.Size(225, 26)
         Me.tStripAccReports.Text = "A/C Report"
         '
         'tStripTrailBalance
@@ -3300,7 +3302,7 @@ Partial Class Main
         Me.tStripTrailBalance.Name = "tStripTrailBalance"
         Me.tStripTrailBalance.ShortcutKeyDisplayString = "AGR-1-1"
         Me.tStripTrailBalance.ShowShortcutKeys = False
-        Me.tStripTrailBalance.Size = New System.Drawing.Size(267, 22)
+        Me.tStripTrailBalance.Size = New System.Drawing.Size(338, 26)
         Me.tStripTrailBalance.Tag = "E"
         Me.tStripTrailBalance.Text = "Trial Balance"
         '
@@ -3311,7 +3313,7 @@ Partial Class Main
         Me.tStripBillwiseRecPay.Name = "tStripBillwiseRecPay"
         Me.tStripBillwiseRecPay.ShortcutKeyDisplayString = "AGR-1-2"
         Me.tStripBillwiseRecPay.ShowShortcutKeys = False
-        Me.tStripBillwiseRecPay.Size = New System.Drawing.Size(267, 22)
+        Me.tStripBillwiseRecPay.Size = New System.Drawing.Size(338, 26)
         Me.tStripBillwiseRecPay.Tag = "B"
         Me.tStripBillwiseRecPay.Text = "Bill Wise Receipt Payments"
         '
@@ -3322,7 +3324,7 @@ Partial Class Main
         Me.tStripSalesAbstract.Name = "tStripSalesAbstract"
         Me.tStripSalesAbstract.ShortcutKeyDisplayString = "AGR-1-3"
         Me.tStripSalesAbstract.ShowShortcutKeys = False
-        Me.tStripSalesAbstract.Size = New System.Drawing.Size(267, 22)
+        Me.tStripSalesAbstract.Size = New System.Drawing.Size(338, 26)
         Me.tStripSalesAbstract.Tag = "B"
         Me.tStripSalesAbstract.Text = "Sales Abstract"
         '
@@ -3333,7 +3335,7 @@ Partial Class Main
         Me.tStripPurchaseAbstract.Name = "tStripPurchaseAbstract"
         Me.tStripPurchaseAbstract.ShortcutKeyDisplayString = "AGR-1-4"
         Me.tStripPurchaseAbstract.ShowShortcutKeys = False
-        Me.tStripPurchaseAbstract.Size = New System.Drawing.Size(267, 22)
+        Me.tStripPurchaseAbstract.Size = New System.Drawing.Size(338, 26)
         Me.tStripPurchaseAbstract.Tag = "B"
         Me.tStripPurchaseAbstract.Text = "Purchase Abstract"
         '
@@ -3344,7 +3346,7 @@ Partial Class Main
         Me.tStripSalesReturnAbstract.Name = "tStripSalesReturnAbstract"
         Me.tStripSalesReturnAbstract.ShortcutKeyDisplayString = "AGR-1-5"
         Me.tStripSalesReturnAbstract.ShowShortcutKeys = False
-        Me.tStripSalesReturnAbstract.Size = New System.Drawing.Size(267, 22)
+        Me.tStripSalesReturnAbstract.Size = New System.Drawing.Size(338, 26)
         Me.tStripSalesReturnAbstract.Tag = "B"
         Me.tStripSalesReturnAbstract.Text = "Sales Return Abstract"
         '
@@ -3355,7 +3357,7 @@ Partial Class Main
         Me.SalesAbstractGSTToolStripMenuItem.Name = "SalesAbstractGSTToolStripMenuItem"
         Me.SalesAbstractGSTToolStripMenuItem.ShortcutKeyDisplayString = "AGR-1-37"
         Me.SalesAbstractGSTToolStripMenuItem.ShowShortcutKeys = False
-        Me.SalesAbstractGSTToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.SalesAbstractGSTToolStripMenuItem.Size = New System.Drawing.Size(338, 26)
         Me.SalesAbstractGSTToolStripMenuItem.Text = "Sales Abstract (GST)"
         '
         'SalesReturnAbstractGSTToolStripMenuItem
@@ -3365,7 +3367,7 @@ Partial Class Main
         Me.SalesReturnAbstractGSTToolStripMenuItem.Name = "SalesReturnAbstractGSTToolStripMenuItem"
         Me.SalesReturnAbstractGSTToolStripMenuItem.ShortcutKeyDisplayString = "AGR-1-38"
         Me.SalesReturnAbstractGSTToolStripMenuItem.ShowShortcutKeys = False
-        Me.SalesReturnAbstractGSTToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.SalesReturnAbstractGSTToolStripMenuItem.Size = New System.Drawing.Size(338, 26)
         Me.SalesReturnAbstractGSTToolStripMenuItem.Text = "Sales Return Abstract (GST)"
         '
         'tStripPurchaseAbsGST
@@ -3375,7 +3377,7 @@ Partial Class Main
         Me.tStripPurchaseAbsGST.Name = "tStripPurchaseAbsGST"
         Me.tStripPurchaseAbsGST.ShortcutKeyDisplayString = "AGR-1-39"
         Me.tStripPurchaseAbsGST.ShowShortcutKeys = False
-        Me.tStripPurchaseAbsGST.Size = New System.Drawing.Size(267, 22)
+        Me.tStripPurchaseAbsGST.Size = New System.Drawing.Size(338, 26)
         Me.tStripPurchaseAbsGST.Text = "Purchase Abstract (GST)"
         '
         'tStripLedgerView
@@ -3384,7 +3386,7 @@ Partial Class Main
         Me.tStripLedgerView.Name = "tStripLedgerView"
         Me.tStripLedgerView.ShortcutKeyDisplayString = "AGR-1-6"
         Me.tStripLedgerView.ShowShortcutKeys = False
-        Me.tStripLedgerView.Size = New System.Drawing.Size(267, 22)
+        Me.tStripLedgerView.Size = New System.Drawing.Size(338, 26)
         Me.tStripLedgerView.Tag = "E"
         Me.tStripLedgerView.Text = "Ledger View"
         '
@@ -3394,7 +3396,7 @@ Partial Class Main
         Me.tStripLedgerWithWeight.Name = "tStripLedgerWithWeight"
         Me.tStripLedgerWithWeight.ShortcutKeyDisplayString = "AGR-1-7"
         Me.tStripLedgerWithWeight.ShowShortcutKeys = False
-        Me.tStripLedgerWithWeight.Size = New System.Drawing.Size(267, 22)
+        Me.tStripLedgerWithWeight.Size = New System.Drawing.Size(338, 26)
         Me.tStripLedgerWithWeight.Text = "Ledger with Weight"
         '
         'SmithBalanceSummaryTStrip
@@ -3404,7 +3406,7 @@ Partial Class Main
         Me.SmithBalanceSummaryTStrip.Name = "SmithBalanceSummaryTStrip"
         Me.SmithBalanceSummaryTStrip.ShortcutKeyDisplayString = "AGR-1-8"
         Me.SmithBalanceSummaryTStrip.ShowShortcutKeys = False
-        Me.SmithBalanceSummaryTStrip.Size = New System.Drawing.Size(267, 22)
+        Me.SmithBalanceSummaryTStrip.Size = New System.Drawing.Size(338, 26)
         Me.SmithBalanceSummaryTStrip.Tag = "E"
         Me.SmithBalanceSummaryTStrip.Text = "Smith Balance Summary"
         '
@@ -3414,7 +3416,7 @@ Partial Class Main
         Me.SmithIssueReciptViewTStrip.Name = "SmithIssueReciptViewTStrip"
         Me.SmithIssueReciptViewTStrip.ShortcutKeyDisplayString = "AGR-1-9"
         Me.SmithIssueReciptViewTStrip.ShowShortcutKeys = False
-        Me.SmithIssueReciptViewTStrip.Size = New System.Drawing.Size(267, 22)
+        Me.SmithIssueReciptViewTStrip.Size = New System.Drawing.Size(338, 26)
         Me.SmithIssueReciptViewTStrip.Tag = "E"
         Me.SmithIssueReciptViewTStrip.Text = "Smith Issue Recipt View"
         '
@@ -3425,7 +3427,7 @@ Partial Class Main
         Me.SmithBalanceDetailedTStrip.Name = "SmithBalanceDetailedTStrip"
         Me.SmithBalanceDetailedTStrip.ShortcutKeyDisplayString = "AGR-1-10"
         Me.SmithBalanceDetailedTStrip.ShowShortcutKeys = False
-        Me.SmithBalanceDetailedTStrip.Size = New System.Drawing.Size(267, 22)
+        Me.SmithBalanceDetailedTStrip.Size = New System.Drawing.Size(338, 26)
         Me.SmithBalanceDetailedTStrip.Tag = "E"
         Me.SmithBalanceDetailedTStrip.Text = "Smith Balance Detailed"
         '
@@ -3436,7 +3438,7 @@ Partial Class Main
         Me.ToolStripMenuItem16.Name = "ToolStripMenuItem16"
         Me.ToolStripMenuItem16.ShortcutKeyDisplayString = "AGR-1-11"
         Me.ToolStripMenuItem16.ShowShortcutKeys = False
-        Me.ToolStripMenuItem16.Size = New System.Drawing.Size(267, 22)
+        Me.ToolStripMenuItem16.Size = New System.Drawing.Size(338, 26)
         Me.ToolStripMenuItem16.Text = "Smith Balance Detailed Category Wise"
         '
         'ToolStripMenuItem14
@@ -3446,7 +3448,7 @@ Partial Class Main
         Me.ToolStripMenuItem14.Name = "ToolStripMenuItem14"
         Me.ToolStripMenuItem14.ShortcutKeyDisplayString = "AGR-1-12"
         Me.ToolStripMenuItem14.ShowShortcutKeys = False
-        Me.ToolStripMenuItem14.Size = New System.Drawing.Size(267, 22)
+        Me.ToolStripMenuItem14.Size = New System.Drawing.Size(338, 26)
         Me.ToolStripMenuItem14.Text = "Dealer/Smith Ledger Report"
         '
         'SubsidryLedgerTStrip
@@ -3456,7 +3458,7 @@ Partial Class Main
         Me.SubsidryLedgerTStrip.Name = "SubsidryLedgerTStrip"
         Me.SubsidryLedgerTStrip.ShortcutKeyDisplayString = "AGR-1-13"
         Me.SubsidryLedgerTStrip.ShowShortcutKeys = False
-        Me.SubsidryLedgerTStrip.Size = New System.Drawing.Size(267, 22)
+        Me.SubsidryLedgerTStrip.Size = New System.Drawing.Size(338, 26)
         Me.SubsidryLedgerTStrip.Text = "Account Book"
         '
         'DayBookTStrip
@@ -3466,7 +3468,7 @@ Partial Class Main
         Me.DayBookTStrip.Name = "DayBookTStrip"
         Me.DayBookTStrip.ShortcutKeyDisplayString = "AGR-1-14"
         Me.DayBookTStrip.ShowShortcutKeys = False
-        Me.DayBookTStrip.Size = New System.Drawing.Size(267, 22)
+        Me.DayBookTStrip.Size = New System.Drawing.Size(338, 26)
         Me.DayBookTStrip.Tag = "E"
         Me.DayBookTStrip.Text = "Day Book"
         '
@@ -3477,7 +3479,7 @@ Partial Class Main
         Me.DayBookToolStripMenuItem.Name = "DayBookToolStripMenuItem"
         Me.DayBookToolStripMenuItem.ShortcutKeyDisplayString = "AGR-1-14-1"
         Me.DayBookToolStripMenuItem.ShowShortcutKeys = False
-        Me.DayBookToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+        Me.DayBookToolStripMenuItem.Size = New System.Drawing.Size(233, 26)
         Me.DayBookToolStripMenuItem.Text = "Day Book"
         '
         'DayBookWithJournalToolStripMenuItem
@@ -3487,7 +3489,7 @@ Partial Class Main
         Me.DayBookWithJournalToolStripMenuItem.Name = "DayBookWithJournalToolStripMenuItem"
         Me.DayBookWithJournalToolStripMenuItem.ShortcutKeyDisplayString = "AGR-1-14-2"
         Me.DayBookWithJournalToolStripMenuItem.ShowShortcutKeys = False
-        Me.DayBookWithJournalToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+        Me.DayBookWithJournalToolStripMenuItem.Size = New System.Drawing.Size(233, 26)
         Me.DayBookWithJournalToolStripMenuItem.Text = "Day Book With Journal"
         '
         'CashBookToolStripMenuItem
@@ -3495,7 +3497,7 @@ Partial Class Main
         Me.CashBookToolStripMenuItem.AccessibleDescription = "frmCashBook~RPT"
         Me.CashBookToolStripMenuItem.AccessibleName = "R"
         Me.CashBookToolStripMenuItem.Name = "CashBookToolStripMenuItem"
-        Me.CashBookToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+        Me.CashBookToolStripMenuItem.Size = New System.Drawing.Size(233, 26)
         Me.CashBookToolStripMenuItem.Text = "Cash Book"
         '
         'WeightDayBookToolStripMenuItem
@@ -3505,7 +3507,7 @@ Partial Class Main
         Me.WeightDayBookToolStripMenuItem.Name = "WeightDayBookToolStripMenuItem"
         Me.WeightDayBookToolStripMenuItem.ShortcutKeyDisplayString = "AGR-1-15"
         Me.WeightDayBookToolStripMenuItem.ShowShortcutKeys = False
-        Me.WeightDayBookToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.WeightDayBookToolStripMenuItem.Size = New System.Drawing.Size(338, 26)
         Me.WeightDayBookToolStripMenuItem.Text = "Weight Day Book"
         '
         'AccountRunningBalanceToolStripMenuItem
@@ -3515,7 +3517,7 @@ Partial Class Main
         Me.AccountRunningBalanceToolStripMenuItem.Name = "AccountRunningBalanceToolStripMenuItem"
         Me.AccountRunningBalanceToolStripMenuItem.ShortcutKeyDisplayString = "AGR-1-16"
         Me.AccountRunningBalanceToolStripMenuItem.ShowShortcutKeys = False
-        Me.AccountRunningBalanceToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.AccountRunningBalanceToolStripMenuItem.Size = New System.Drawing.Size(338, 26)
         Me.AccountRunningBalanceToolStripMenuItem.Tag = "E"
         Me.AccountRunningBalanceToolStripMenuItem.Text = "Account Running Balance"
         '
@@ -3525,7 +3527,7 @@ Partial Class Main
         Me.GroupLedgerToolStripMenuItem.Name = "GroupLedgerToolStripMenuItem"
         Me.GroupLedgerToolStripMenuItem.ShortcutKeyDisplayString = "AGR-1-17"
         Me.GroupLedgerToolStripMenuItem.ShowShortcutKeys = False
-        Me.GroupLedgerToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.GroupLedgerToolStripMenuItem.Size = New System.Drawing.Size(338, 26)
         Me.GroupLedgerToolStripMenuItem.Text = "Group Ledger"
         '
         'ExpenseAnalysisToolStripMenuItem
@@ -3535,7 +3537,7 @@ Partial Class Main
         Me.ExpenseAnalysisToolStripMenuItem.Name = "ExpenseAnalysisToolStripMenuItem"
         Me.ExpenseAnalysisToolStripMenuItem.ShortcutKeyDisplayString = "AGR-1-18"
         Me.ExpenseAnalysisToolStripMenuItem.ShowShortcutKeys = False
-        Me.ExpenseAnalysisToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.ExpenseAnalysisToolStripMenuItem.Size = New System.Drawing.Size(338, 26)
         Me.ExpenseAnalysisToolStripMenuItem.Text = "Expense Analysis"
         '
         'InterestAnalysisToolStripMenuItem
@@ -3545,7 +3547,7 @@ Partial Class Main
         Me.InterestAnalysisToolStripMenuItem.Name = "InterestAnalysisToolStripMenuItem"
         Me.InterestAnalysisToolStripMenuItem.ShortcutKeyDisplayString = "AGR-1-19"
         Me.InterestAnalysisToolStripMenuItem.ShowShortcutKeys = False
-        Me.InterestAnalysisToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.InterestAnalysisToolStripMenuItem.Size = New System.Drawing.Size(338, 26)
         Me.InterestAnalysisToolStripMenuItem.Text = "Interest Analysis"
         '
         'BudgetAnalysisToolStripMenuItem
@@ -3555,7 +3557,7 @@ Partial Class Main
         Me.BudgetAnalysisToolStripMenuItem.Name = "BudgetAnalysisToolStripMenuItem"
         Me.BudgetAnalysisToolStripMenuItem.ShortcutKeyDisplayString = "AGR-1-20"
         Me.BudgetAnalysisToolStripMenuItem.ShowShortcutKeys = False
-        Me.BudgetAnalysisToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.BudgetAnalysisToolStripMenuItem.Size = New System.Drawing.Size(338, 26)
         Me.BudgetAnalysisToolStripMenuItem.Text = "Budget Analysis"
         '
         'AccountsConfirmationLetterToolStripMenuItem
@@ -3564,7 +3566,7 @@ Partial Class Main
         Me.AccountsConfirmationLetterToolStripMenuItem.Name = "AccountsConfirmationLetterToolStripMenuItem"
         Me.AccountsConfirmationLetterToolStripMenuItem.ShortcutKeyDisplayString = "AGR-1-21"
         Me.AccountsConfirmationLetterToolStripMenuItem.ShowShortcutKeys = False
-        Me.AccountsConfirmationLetterToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.AccountsConfirmationLetterToolStripMenuItem.Size = New System.Drawing.Size(338, 26)
         Me.AccountsConfirmationLetterToolStripMenuItem.Text = "Accounts Confirmation Letter"
         '
         'TrandingProfitAndLossToolStripMenuItem
@@ -3573,7 +3575,7 @@ Partial Class Main
         Me.TrandingProfitAndLossToolStripMenuItem.Name = "TrandingProfitAndLossToolStripMenuItem"
         Me.TrandingProfitAndLossToolStripMenuItem.ShortcutKeyDisplayString = "AGR-1-22"
         Me.TrandingProfitAndLossToolStripMenuItem.ShowShortcutKeys = False
-        Me.TrandingProfitAndLossToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.TrandingProfitAndLossToolStripMenuItem.Size = New System.Drawing.Size(338, 26)
         Me.TrandingProfitAndLossToolStripMenuItem.Text = "Trading and Profit && Loss"
         '
         'BalanceSheetToolStripMenuItem
@@ -3583,7 +3585,7 @@ Partial Class Main
         Me.BalanceSheetToolStripMenuItem.Name = "BalanceSheetToolStripMenuItem"
         Me.BalanceSheetToolStripMenuItem.ShortcutKeyDisplayString = "AGR-1-23"
         Me.BalanceSheetToolStripMenuItem.ShowShortcutKeys = False
-        Me.BalanceSheetToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.BalanceSheetToolStripMenuItem.Size = New System.Drawing.Size(338, 26)
         Me.BalanceSheetToolStripMenuItem.Text = "Balance Sheet"
         '
         'SalesRegistoryToolStripMenuItem
@@ -3593,7 +3595,7 @@ Partial Class Main
         Me.SalesRegistoryToolStripMenuItem.Name = "SalesRegistoryToolStripMenuItem"
         Me.SalesRegistoryToolStripMenuItem.ShortcutKeyDisplayString = "AGR-1-24"
         Me.SalesRegistoryToolStripMenuItem.ShowShortcutKeys = False
-        Me.SalesRegistoryToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.SalesRegistoryToolStripMenuItem.Size = New System.Drawing.Size(338, 26)
         Me.SalesRegistoryToolStripMenuItem.Text = "Sales Register"
         '
         'SalesPurchaseAbstractToolStripMenuItem
@@ -3603,7 +3605,7 @@ Partial Class Main
         Me.SalesPurchaseAbstractToolStripMenuItem.Name = "SalesPurchaseAbstractToolStripMenuItem"
         Me.SalesPurchaseAbstractToolStripMenuItem.ShortcutKeyDisplayString = "AGR-1-25"
         Me.SalesPurchaseAbstractToolStripMenuItem.ShowShortcutKeys = False
-        Me.SalesPurchaseAbstractToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.SalesPurchaseAbstractToolStripMenuItem.Size = New System.Drawing.Size(338, 26)
         Me.SalesPurchaseAbstractToolStripMenuItem.Text = "Sales/Purchase Export(Tally)"
         '
         'JobNowiTStrip
@@ -3613,7 +3615,7 @@ Partial Class Main
         Me.JobNowiTStrip.Name = "JobNowiTStrip"
         Me.JobNowiTStrip.ShortcutKeyDisplayString = "AGR-1-26"
         Me.JobNowiTStrip.ShowShortcutKeys = False
-        Me.JobNowiTStrip.Size = New System.Drawing.Size(267, 22)
+        Me.JobNowiTStrip.Size = New System.Drawing.Size(338, 26)
         Me.JobNowiTStrip.Text = "JobNowise Report"
         '
         'SmithStatusReportToolStripMenuItem
@@ -3623,7 +3625,7 @@ Partial Class Main
         Me.SmithStatusReportToolStripMenuItem.Name = "SmithStatusReportToolStripMenuItem"
         Me.SmithStatusReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-1-27"
         Me.SmithStatusReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.SmithStatusReportToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.SmithStatusReportToolStripMenuItem.Size = New System.Drawing.Size(338, 26)
         Me.SmithStatusReportToolStripMenuItem.Text = "Reasonwise Misc Issue"
         '
         'SalesAbstractDetailedToolStripMenuItem
@@ -3633,7 +3635,7 @@ Partial Class Main
         Me.SalesAbstractDetailedToolStripMenuItem.Name = "SalesAbstractDetailedToolStripMenuItem"
         Me.SalesAbstractDetailedToolStripMenuItem.ShortcutKeyDisplayString = "AGR-1-28"
         Me.SalesAbstractDetailedToolStripMenuItem.ShowShortcutKeys = False
-        Me.SalesAbstractDetailedToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.SalesAbstractDetailedToolStripMenuItem.Size = New System.Drawing.Size(338, 26)
         Me.SalesAbstractDetailedToolStripMenuItem.Text = "Sales Abstract Detailed"
         '
         'TDSReportToolStripMenuItem
@@ -3643,7 +3645,7 @@ Partial Class Main
         Me.TDSReportToolStripMenuItem.Name = "TDSReportToolStripMenuItem"
         Me.TDSReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-1-29"
         Me.TDSReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.TDSReportToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.TDSReportToolStripMenuItem.Size = New System.Drawing.Size(338, 26)
         Me.TDSReportToolStripMenuItem.Text = "TDS Report"
         '
         'VATFormIToolStripMenuItem
@@ -3653,7 +3655,7 @@ Partial Class Main
         Me.VATFormIToolStripMenuItem.Name = "VATFormIToolStripMenuItem"
         Me.VATFormIToolStripMenuItem.ShortcutKeyDisplayString = "AGR-1-30"
         Me.VATFormIToolStripMenuItem.ShowShortcutKeys = False
-        Me.VATFormIToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.VATFormIToolStripMenuItem.Size = New System.Drawing.Size(338, 26)
         Me.VATFormIToolStripMenuItem.Text = "VAT Form I"
         '
         'TradingToolStripMenuItem
@@ -3663,7 +3665,7 @@ Partial Class Main
         Me.TradingToolStripMenuItem.Name = "TradingToolStripMenuItem"
         Me.TradingToolStripMenuItem.ShortcutKeyDisplayString = "AGR-1-31"
         Me.TradingToolStripMenuItem.ShowShortcutKeys = False
-        Me.TradingToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.TradingToolStripMenuItem.Size = New System.Drawing.Size(338, 26)
         Me.TradingToolStripMenuItem.Text = "Category Wise Trading Account"
         '
         'ITEMWISESMITHREPORTToolStripMenuItem
@@ -3673,7 +3675,7 @@ Partial Class Main
         Me.ITEMWISESMITHREPORTToolStripMenuItem.Name = "ITEMWISESMITHREPORTToolStripMenuItem"
         Me.ITEMWISESMITHREPORTToolStripMenuItem.ShortcutKeyDisplayString = "AGR-1-32"
         Me.ITEMWISESMITHREPORTToolStripMenuItem.ShowShortcutKeys = False
-        Me.ITEMWISESMITHREPORTToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.ITEMWISESMITHREPORTToolStripMenuItem.Size = New System.Drawing.Size(338, 26)
         Me.ITEMWISESMITHREPORTToolStripMenuItem.Text = "Item Wise Smith Report"
         '
         'MetalWiseTradingProfitLossToolStripMenuItem
@@ -3683,7 +3685,7 @@ Partial Class Main
         Me.MetalWiseTradingProfitLossToolStripMenuItem.Name = "MetalWiseTradingProfitLossToolStripMenuItem"
         Me.MetalWiseTradingProfitLossToolStripMenuItem.ShortcutKeyDisplayString = "AGR-1-33"
         Me.MetalWiseTradingProfitLossToolStripMenuItem.ShowShortcutKeys = False
-        Me.MetalWiseTradingProfitLossToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.MetalWiseTradingProfitLossToolStripMenuItem.Size = New System.Drawing.Size(338, 26)
         Me.MetalWiseTradingProfitLossToolStripMenuItem.Text = "Metal Wise Trading Profit && Loss"
         '
         'tstripTransactionReport
@@ -3693,7 +3695,7 @@ Partial Class Main
         Me.tstripTransactionReport.Name = "tstripTransactionReport"
         Me.tstripTransactionReport.ShortcutKeyDisplayString = "AGR-1-34"
         Me.tstripTransactionReport.ShowShortcutKeys = False
-        Me.tstripTransactionReport.Size = New System.Drawing.Size(267, 22)
+        Me.tstripTransactionReport.Size = New System.Drawing.Size(338, 26)
         Me.tstripTransactionReport.Text = "Transaction Report"
         '
         'SmithBalanceReportToolStripMenuItem
@@ -3701,7 +3703,7 @@ Partial Class Main
         Me.SmithBalanceReportToolStripMenuItem.Name = "SmithBalanceReportToolStripMenuItem"
         Me.SmithBalanceReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-1-35"
         Me.SmithBalanceReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.SmithBalanceReportToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.SmithBalanceReportToolStripMenuItem.Size = New System.Drawing.Size(338, 26)
         Me.SmithBalanceReportToolStripMenuItem.Text = "Smith Balance Report"
         '
         'tStripSalesPurchaseAbs
@@ -3711,7 +3713,7 @@ Partial Class Main
         Me.tStripSalesPurchaseAbs.Name = "tStripSalesPurchaseAbs"
         Me.tStripSalesPurchaseAbs.ShortcutKeyDisplayString = "AGR-1-36"
         Me.tStripSalesPurchaseAbs.ShowShortcutKeys = False
-        Me.tStripSalesPurchaseAbs.Size = New System.Drawing.Size(267, 22)
+        Me.tStripSalesPurchaseAbs.Size = New System.Drawing.Size(338, 26)
         Me.tStripSalesPurchaseAbs.Text = "Sales And Purchase Report"
         '
         'JobNoWiseReporToolStripMenuItem
@@ -3721,7 +3723,7 @@ Partial Class Main
         Me.JobNoWiseReporToolStripMenuItem.Name = "JobNoWiseReporToolStripMenuItem"
         Me.JobNoWiseReporToolStripMenuItem.ShortcutKeyDisplayString = "AGR-1-37"
         Me.JobNoWiseReporToolStripMenuItem.ShowShortcutKeys = False
-        Me.JobNoWiseReporToolStripMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.JobNoWiseReporToolStripMenuItem.Size = New System.Drawing.Size(338, 26)
         Me.JobNoWiseReporToolStripMenuItem.Text = "JobNo Wise Report(New)"
         '
         'tstripClosingStockMenuItem
@@ -3729,7 +3731,7 @@ Partial Class Main
         Me.tstripClosingStockMenuItem.AccessibleDescription = "frmClosingStockReport~RPT"
         Me.tstripClosingStockMenuItem.AccessibleName = "R"
         Me.tstripClosingStockMenuItem.Name = "tstripClosingStockMenuItem"
-        Me.tstripClosingStockMenuItem.Size = New System.Drawing.Size(267, 22)
+        Me.tstripClosingStockMenuItem.Size = New System.Drawing.Size(338, 26)
         Me.tstripClosingStockMenuItem.Text = "Closing Stock"
         '
         'tStripDailyReports
@@ -3739,7 +3741,7 @@ Partial Class Main
         Me.tStripDailyReports.Name = "tStripDailyReports"
         Me.tStripDailyReports.ShortcutKeyDisplayString = "AGR-2"
         Me.tStripDailyReports.ShowShortcutKeys = False
-        Me.tStripDailyReports.Size = New System.Drawing.Size(180, 22)
+        Me.tStripDailyReports.Size = New System.Drawing.Size(225, 26)
         Me.tStripDailyReports.Tag = "B"
         Me.tStripDailyReports.Text = "Daily Reports"
         '
@@ -3749,7 +3751,7 @@ Partial Class Main
         Me.tStripItemWiseDialyRpt.Name = "tStripItemWiseDialyRpt"
         Me.tStripItemWiseDialyRpt.ShortcutKeyDisplayString = "AGR-2-1"
         Me.tStripItemWiseDialyRpt.ShowShortcutKeys = False
-        Me.tStripItemWiseDialyRpt.Size = New System.Drawing.Size(248, 22)
+        Me.tStripItemWiseDialyRpt.Size = New System.Drawing.Size(312, 26)
         Me.tStripItemWiseDialyRpt.Text = "Item Wise "
         '
         'tStripTranSummary
@@ -3759,7 +3761,7 @@ Partial Class Main
         Me.tStripTranSummary.Name = "tStripTranSummary"
         Me.tStripTranSummary.ShortcutKeyDisplayString = "AGR-2-2"
         Me.tStripTranSummary.ShowShortcutKeys = False
-        Me.tStripTranSummary.Size = New System.Drawing.Size(248, 22)
+        Me.tStripTranSummary.Size = New System.Drawing.Size(312, 26)
         Me.tStripTranSummary.Text = "Transaction Summary"
         '
         'tStripTranDetailed
@@ -3769,7 +3771,7 @@ Partial Class Main
         Me.tStripTranDetailed.Name = "tStripTranDetailed"
         Me.tStripTranDetailed.ShortcutKeyDisplayString = "AGR-2-3"
         Me.tStripTranDetailed.ShowShortcutKeys = False
-        Me.tStripTranDetailed.Size = New System.Drawing.Size(248, 22)
+        Me.tStripTranDetailed.Size = New System.Drawing.Size(312, 26)
         Me.tStripTranDetailed.Text = "Transaction Detailed"
         '
         'tStripDailyAbstract
@@ -3779,7 +3781,7 @@ Partial Class Main
         Me.tStripDailyAbstract.Name = "tStripDailyAbstract"
         Me.tStripDailyAbstract.ShortcutKeyDisplayString = "AGR-2-4"
         Me.tStripDailyAbstract.ShowShortcutKeys = False
-        Me.tStripDailyAbstract.Size = New System.Drawing.Size(248, 22)
+        Me.tStripDailyAbstract.Size = New System.Drawing.Size(312, 26)
         Me.tStripDailyAbstract.Text = "Daily Abstract"
         '
         'CashAbstractToolStripMenuItem
@@ -3789,7 +3791,7 @@ Partial Class Main
         Me.CashAbstractToolStripMenuItem.Name = "CashAbstractToolStripMenuItem"
         Me.CashAbstractToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-5"
         Me.CashAbstractToolStripMenuItem.ShowShortcutKeys = False
-        Me.CashAbstractToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.CashAbstractToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.CashAbstractToolStripMenuItem.Text = "Cash Abstract"
         '
         'DenominationToolStripMenuItem
@@ -3799,7 +3801,7 @@ Partial Class Main
         Me.DenominationToolStripMenuItem.Name = "DenominationToolStripMenuItem"
         Me.DenominationToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-6"
         Me.DenominationToolStripMenuItem.ShowShortcutKeys = False
-        Me.DenominationToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.DenominationToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.DenominationToolStripMenuItem.Text = "Denomination"
         '
         'ItemWiseSalesReviewToolStripMenuItem
@@ -3808,7 +3810,7 @@ Partial Class Main
         Me.ItemWiseSalesReviewToolStripMenuItem.Name = "ItemWiseSalesReviewToolStripMenuItem"
         Me.ItemWiseSalesReviewToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-7"
         Me.ItemWiseSalesReviewToolStripMenuItem.ShowShortcutKeys = False
-        Me.ItemWiseSalesReviewToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.ItemWiseSalesReviewToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.ItemWiseSalesReviewToolStripMenuItem.Text = "Item Wise Sales Review"
         '
         'BillnoWiseTransactionToolStripMenuItem
@@ -3818,7 +3820,7 @@ Partial Class Main
         Me.BillnoWiseTransactionToolStripMenuItem.Name = "BillnoWiseTransactionToolStripMenuItem"
         Me.BillnoWiseTransactionToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-8"
         Me.BillnoWiseTransactionToolStripMenuItem.ShowShortcutKeys = False
-        Me.BillnoWiseTransactionToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.BillnoWiseTransactionToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.BillnoWiseTransactionToolStripMenuItem.Text = "Billno wise Transaction"
         '
         'ClosingDenominationToolStripMenuItem
@@ -3828,7 +3830,7 @@ Partial Class Main
         Me.ClosingDenominationToolStripMenuItem.Name = "ClosingDenominationToolStripMenuItem"
         Me.ClosingDenominationToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-9"
         Me.ClosingDenominationToolStripMenuItem.ShowShortcutKeys = False
-        Me.ClosingDenominationToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.ClosingDenominationToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.ClosingDenominationToolStripMenuItem.Text = "Closing Denomination"
         '
         'CashPointReportToolStripMenuItem
@@ -3837,7 +3839,7 @@ Partial Class Main
         Me.CashPointReportToolStripMenuItem.Name = "CashPointReportToolStripMenuItem"
         Me.CashPointReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-10"
         Me.CashPointReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.CashPointReportToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.CashPointReportToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.CashPointReportToolStripMenuItem.Text = "Cash Point Report"
         '
         'DiscountReportToolStripMenuItem
@@ -3847,7 +3849,7 @@ Partial Class Main
         Me.DiscountReportToolStripMenuItem.Name = "DiscountReportToolStripMenuItem"
         Me.DiscountReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-11"
         Me.DiscountReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.DiscountReportToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.DiscountReportToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.DiscountReportToolStripMenuItem.Text = "Discount Report"
         '
         'DailyActivityReportToolStripMenuItem
@@ -3857,7 +3859,7 @@ Partial Class Main
         Me.DailyActivityReportToolStripMenuItem.Name = "DailyActivityReportToolStripMenuItem"
         Me.DailyActivityReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-12"
         Me.DailyActivityReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.DailyActivityReportToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.DailyActivityReportToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.DailyActivityReportToolStripMenuItem.Text = "Daily Activity Report"
         '
         'BillnoWiseTransactioSummaryToolStripMenuItem
@@ -3867,7 +3869,7 @@ Partial Class Main
         Me.BillnoWiseTransactioSummaryToolStripMenuItem.Name = "BillnoWiseTransactioSummaryToolStripMenuItem"
         Me.BillnoWiseTransactioSummaryToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-13"
         Me.BillnoWiseTransactioSummaryToolStripMenuItem.ShowShortcutKeys = False
-        Me.BillnoWiseTransactioSummaryToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.BillnoWiseTransactioSummaryToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.BillnoWiseTransactioSummaryToolStripMenuItem.Text = "Billno wise Transaction Summary"
         '
         'ToolStripMenuItem21
@@ -3875,7 +3877,7 @@ Partial Class Main
         Me.ToolStripMenuItem21.Name = "ToolStripMenuItem21"
         Me.ToolStripMenuItem21.ShortcutKeyDisplayString = "AGR-2-15"
         Me.ToolStripMenuItem21.ShowShortcutKeys = False
-        Me.ToolStripMenuItem21.Size = New System.Drawing.Size(248, 22)
+        Me.ToolStripMenuItem21.Size = New System.Drawing.Size(312, 26)
         Me.ToolStripMenuItem21.Text = "Daily Audit Report"
         '
         'ExemptionReportToolStripMenuItem
@@ -3885,7 +3887,7 @@ Partial Class Main
         Me.ExemptionReportToolStripMenuItem.Name = "ExemptionReportToolStripMenuItem"
         Me.ExemptionReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-16"
         Me.ExemptionReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.ExemptionReportToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.ExemptionReportToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.ExemptionReportToolStripMenuItem.Text = "Exemption Report"
         '
         'AmountWiseSalesToolStripMenuItem
@@ -3895,7 +3897,7 @@ Partial Class Main
         Me.AmountWiseSalesToolStripMenuItem.Name = "AmountWiseSalesToolStripMenuItem"
         Me.AmountWiseSalesToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-17"
         Me.AmountWiseSalesToolStripMenuItem.ShowShortcutKeys = False
-        Me.AmountWiseSalesToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.AmountWiseSalesToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.AmountWiseSalesToolStripMenuItem.Text = "Amount wise Sales"
         '
         'SalesSummaryToolStripMenuItem
@@ -3905,7 +3907,7 @@ Partial Class Main
         Me.SalesSummaryToolStripMenuItem.Name = "SalesSummaryToolStripMenuItem"
         Me.SalesSummaryToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-18"
         Me.SalesSummaryToolStripMenuItem.ShowShortcutKeys = False
-        Me.SalesSummaryToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.SalesSummaryToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.SalesSummaryToolStripMenuItem.Text = "Sales Summary"
         '
         'CounterWiseSalesSummaryToolStripMenuItem
@@ -3915,7 +3917,7 @@ Partial Class Main
         Me.CounterWiseSalesSummaryToolStripMenuItem.Name = "CounterWiseSalesSummaryToolStripMenuItem"
         Me.CounterWiseSalesSummaryToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-19"
         Me.CounterWiseSalesSummaryToolStripMenuItem.ShowShortcutKeys = False
-        Me.CounterWiseSalesSummaryToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.CounterWiseSalesSummaryToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.CounterWiseSalesSummaryToolStripMenuItem.Text = "Counter Wise Sales Summary"
         '
         'AnnexurePartAToolStripMenuItem
@@ -3925,7 +3927,7 @@ Partial Class Main
         Me.AnnexurePartAToolStripMenuItem.Name = "AnnexurePartAToolStripMenuItem"
         Me.AnnexurePartAToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-20"
         Me.AnnexurePartAToolStripMenuItem.ShowShortcutKeys = False
-        Me.AnnexurePartAToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.AnnexurePartAToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.AnnexurePartAToolStripMenuItem.Text = "Annexure(Part A)"
         '
         'AnnexurePartBToolStripMenuItem
@@ -3935,7 +3937,7 @@ Partial Class Main
         Me.AnnexurePartBToolStripMenuItem.Name = "AnnexurePartBToolStripMenuItem"
         Me.AnnexurePartBToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-21"
         Me.AnnexurePartBToolStripMenuItem.ShowShortcutKeys = False
-        Me.AnnexurePartBToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.AnnexurePartBToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.AnnexurePartBToolStripMenuItem.Text = "Annexure(Part B)"
         '
         'DiamondSalesReportToolStripMenuItem
@@ -3945,7 +3947,7 @@ Partial Class Main
         Me.DiamondSalesReportToolStripMenuItem.Name = "DiamondSalesReportToolStripMenuItem"
         Me.DiamondSalesReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-22"
         Me.DiamondSalesReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.DiamondSalesReportToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.DiamondSalesReportToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.DiamondSalesReportToolStripMenuItem.Text = "Diamond Sales Report"
         '
         'CReportToolStripMenuItem
@@ -3955,7 +3957,7 @@ Partial Class Main
         Me.CReportToolStripMenuItem.Name = "CReportToolStripMenuItem"
         Me.CReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-23"
         Me.CReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.CReportToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.CReportToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.CReportToolStripMenuItem.Text = "4CReport"
         '
         'BillnoWiseTransactionDetailedToolStripMenuItem
@@ -3963,7 +3965,7 @@ Partial Class Main
         Me.BillnoWiseTransactionDetailedToolStripMenuItem.Name = "BillnoWiseTransactionDetailedToolStripMenuItem"
         Me.BillnoWiseTransactionDetailedToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-24"
         Me.BillnoWiseTransactionDetailedToolStripMenuItem.ShowShortcutKeys = False
-        Me.BillnoWiseTransactionDetailedToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.BillnoWiseTransactionDetailedToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.BillnoWiseTransactionDetailedToolStripMenuItem.Text = "Billno wise Transaction Detailed"
         '
         'SalesBillDetailsToolStripMenuItem
@@ -3973,7 +3975,7 @@ Partial Class Main
         Me.SalesBillDetailsToolStripMenuItem.Name = "SalesBillDetailsToolStripMenuItem"
         Me.SalesBillDetailsToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-25"
         Me.SalesBillDetailsToolStripMenuItem.ShowShortcutKeys = False
-        Me.SalesBillDetailsToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.SalesBillDetailsToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.SalesBillDetailsToolStripMenuItem.Text = "Sales Bill Details"
         '
         'SalesPurchaseDetailedReportToolStripMenuItem
@@ -3983,7 +3985,7 @@ Partial Class Main
         Me.SalesPurchaseDetailedReportToolStripMenuItem.Name = "SalesPurchaseDetailedReportToolStripMenuItem"
         Me.SalesPurchaseDetailedReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-26"
         Me.SalesPurchaseDetailedReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.SalesPurchaseDetailedReportToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.SalesPurchaseDetailedReportToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.SalesPurchaseDetailedReportToolStripMenuItem.Text = "Sales Purchase Detailed Report"
         '
         'SalesWiseSummaryToolStripMenuItem
@@ -3993,7 +3995,7 @@ Partial Class Main
         Me.SalesWiseSummaryToolStripMenuItem.Name = "SalesWiseSummaryToolStripMenuItem"
         Me.SalesWiseSummaryToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-27"
         Me.SalesWiseSummaryToolStripMenuItem.ShowShortcutKeys = False
-        Me.SalesWiseSummaryToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.SalesWiseSummaryToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.SalesWiseSummaryToolStripMenuItem.Text = "Sales Wise Summary"
         '
         'SalesWiseDetailToolStripMenuItem
@@ -4003,7 +4005,7 @@ Partial Class Main
         Me.SalesWiseDetailToolStripMenuItem.Name = "SalesWiseDetailToolStripMenuItem"
         Me.SalesWiseDetailToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-28"
         Me.SalesWiseDetailToolStripMenuItem.ShowShortcutKeys = False
-        Me.SalesWiseDetailToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.SalesWiseDetailToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.SalesWiseDetailToolStripMenuItem.Text = "Sales Wise Detail"
         '
         'SalesReturnReportToolStripMenuItem
@@ -4013,7 +4015,7 @@ Partial Class Main
         Me.SalesReturnReportToolStripMenuItem.Name = "SalesReturnReportToolStripMenuItem"
         Me.SalesReturnReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-29"
         Me.SalesReturnReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.SalesReturnReportToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.SalesReturnReportToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.SalesReturnReportToolStripMenuItem.Text = "Sales Return Report"
         '
         'tStripTranSumNew
@@ -4023,7 +4025,7 @@ Partial Class Main
         Me.tStripTranSumNew.Name = "tStripTranSumNew"
         Me.tStripTranSumNew.ShortcutKeyDisplayString = "AGR-2-30"
         Me.tStripTranSumNew.ShowShortcutKeys = False
-        Me.tStripTranSumNew.Size = New System.Drawing.Size(248, 22)
+        Me.tStripTranSumNew.Size = New System.Drawing.Size(312, 26)
         Me.tStripTranSumNew.Text = "Transaction Summary(New)"
         '
         'tStripItemWiseNew
@@ -4032,7 +4034,7 @@ Partial Class Main
         Me.tStripItemWiseNew.Name = "tStripItemWiseNew"
         Me.tStripItemWiseNew.ShortcutKeyDisplayString = "AGR-2-31"
         Me.tStripItemWiseNew.ShowShortcutKeys = False
-        Me.tStripItemWiseNew.Size = New System.Drawing.Size(248, 22)
+        Me.tStripItemWiseNew.Size = New System.Drawing.Size(312, 26)
         Me.tStripItemWiseNew.Text = "ItemWise(New)"
         '
         'BillWiseTransactionDetailedToolStripMenuItem
@@ -4040,7 +4042,7 @@ Partial Class Main
         Me.BillWiseTransactionDetailedToolStripMenuItem.Name = "BillWiseTransactionDetailedToolStripMenuItem"
         Me.BillWiseTransactionDetailedToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-32"
         Me.BillWiseTransactionDetailedToolStripMenuItem.ShowShortcutKeys = False
-        Me.BillWiseTransactionDetailedToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.BillWiseTransactionDetailedToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.BillWiseTransactionDetailedToolStripMenuItem.Text = "Bill wise Transaction Detailed"
         '
         'ItemWiseEDReportToolStripMenuItem
@@ -4050,7 +4052,7 @@ Partial Class Main
         Me.ItemWiseEDReportToolStripMenuItem.Name = "ItemWiseEDReportToolStripMenuItem"
         Me.ItemWiseEDReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-2-33"
         Me.ItemWiseEDReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.ItemWiseEDReportToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.ItemWiseEDReportToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.ItemWiseEDReportToolStripMenuItem.Text = "ItemWise ED Report"
         '
         'tStripOtpDiscountReport
@@ -4060,28 +4062,28 @@ Partial Class Main
         Me.tStripOtpDiscountReport.Name = "tStripOtpDiscountReport"
         Me.tStripOtpDiscountReport.ShortcutKeyDisplayString = "AGR-2-34"
         Me.tStripOtpDiscountReport.ShowShortcutKeys = False
-        Me.tStripOtpDiscountReport.Size = New System.Drawing.Size(248, 22)
+        Me.tStripOtpDiscountReport.Size = New System.Drawing.Size(312, 26)
         Me.tStripOtpDiscountReport.Text = "OTP Discount Report"
         '
         'SalesBillWiseRegisterToolStripMenuItem
         '
         Me.SalesBillWiseRegisterToolStripMenuItem.AccessibleDescription = "frmSalesRegisterBillWise~RPT"
         Me.SalesBillWiseRegisterToolStripMenuItem.Name = "SalesBillWiseRegisterToolStripMenuItem"
-        Me.SalesBillWiseRegisterToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.SalesBillWiseRegisterToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.SalesBillWiseRegisterToolStripMenuItem.Text = "Sales Bill Wise Register"
         '
         'DailyAbstractOnlyPaymentToolStripMenuItem
         '
         Me.DailyAbstractOnlyPaymentToolStripMenuItem.AccessibleDescription = "frmDailyAbstractOnlyPayment~RPT"
         Me.DailyAbstractOnlyPaymentToolStripMenuItem.Name = "DailyAbstractOnlyPaymentToolStripMenuItem"
-        Me.DailyAbstractOnlyPaymentToolStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.DailyAbstractOnlyPaymentToolStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.DailyAbstractOnlyPaymentToolStripMenuItem.Text = "DailyAbstractOnlyPayment"
         '
         'CategoryWiseTransactionTStripMenuItem
         '
         Me.CategoryWiseTransactionTStripMenuItem.AccessibleDescription = "frmCategoryWiseTransaction~RPT"
         Me.CategoryWiseTransactionTStripMenuItem.Name = "CategoryWiseTransactionTStripMenuItem"
-        Me.CategoryWiseTransactionTStripMenuItem.Size = New System.Drawing.Size(248, 22)
+        Me.CategoryWiseTransactionTStripMenuItem.Size = New System.Drawing.Size(312, 26)
         Me.CategoryWiseTransactionTStripMenuItem.Text = "CategoryWise Transaction Report"
         '
         'tStripStockReports
@@ -4090,7 +4092,7 @@ Partial Class Main
         Me.tStripStockReports.Name = "tStripStockReports"
         Me.tStripStockReports.ShortcutKeyDisplayString = "AGR-3"
         Me.tStripStockReports.ShowShortcutKeys = False
-        Me.tStripStockReports.Size = New System.Drawing.Size(180, 22)
+        Me.tStripStockReports.Size = New System.Drawing.Size(225, 26)
         Me.tStripStockReports.Tag = "A"
         Me.tStripStockReports.Text = "Stock Reports"
         '
@@ -4101,7 +4103,7 @@ Partial Class Main
         Me.tStripCatStock.Name = "tStripCatStock"
         Me.tStripCatStock.ShortcutKeyDisplayString = "AGR-3-1"
         Me.tStripCatStock.ShowShortcutKeys = False
-        Me.tStripCatStock.Size = New System.Drawing.Size(276, 22)
+        Me.tStripCatStock.Size = New System.Drawing.Size(343, 26)
         Me.tStripCatStock.Text = "Category Stock"
         '
         'tStripItemWise
@@ -4111,7 +4113,7 @@ Partial Class Main
         Me.tStripItemWise.Name = "tStripItemWise"
         Me.tStripItemWise.ShortcutKeyDisplayString = "AGR-3-2"
         Me.tStripItemWise.ShowShortcutKeys = False
-        Me.tStripItemWise.Size = New System.Drawing.Size(276, 22)
+        Me.tStripItemWise.Size = New System.Drawing.Size(343, 26)
         Me.tStripItemWise.Text = "Item Wise Stock"
         '
         'ItemWiseStockWithApprovalToolStripMenuItem
@@ -4121,7 +4123,7 @@ Partial Class Main
         Me.ItemWiseStockWithApprovalToolStripMenuItem.Name = "ItemWiseStockWithApprovalToolStripMenuItem"
         Me.ItemWiseStockWithApprovalToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-3"
         Me.ItemWiseStockWithApprovalToolStripMenuItem.ShowShortcutKeys = False
-        Me.ItemWiseStockWithApprovalToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.ItemWiseStockWithApprovalToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.ItemWiseStockWithApprovalToolStripMenuItem.Text = "Item Wise Stock With Approval"
         '
         'tStripItemWiseStockSummaryView
@@ -4131,7 +4133,7 @@ Partial Class Main
         Me.tStripItemWiseStockSummaryView.Name = "tStripItemWiseStockSummaryView"
         Me.tStripItemWiseStockSummaryView.ShortcutKeyDisplayString = "AGR-3-4"
         Me.tStripItemWiseStockSummaryView.ShowShortcutKeys = False
-        Me.tStripItemWiseStockSummaryView.Size = New System.Drawing.Size(276, 22)
+        Me.tStripItemWiseStockSummaryView.Size = New System.Drawing.Size(343, 26)
         Me.tStripItemWiseStockSummaryView.Text = "Item Wise Stock Summary View"
         '
         'CounterWiseStockToolStripMenuItem
@@ -4141,7 +4143,7 @@ Partial Class Main
         Me.CounterWiseStockToolStripMenuItem.Name = "CounterWiseStockToolStripMenuItem"
         Me.CounterWiseStockToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-5"
         Me.CounterWiseStockToolStripMenuItem.ShowShortcutKeys = False
-        Me.CounterWiseStockToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.CounterWiseStockToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.CounterWiseStockToolStripMenuItem.Text = "Counter Wise Stock"
         '
         'CounterwiseStockDetailedToolStripMenuItem
@@ -4151,7 +4153,7 @@ Partial Class Main
         Me.CounterwiseStockDetailedToolStripMenuItem.Name = "CounterwiseStockDetailedToolStripMenuItem"
         Me.CounterwiseStockDetailedToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-6"
         Me.CounterwiseStockDetailedToolStripMenuItem.ShowShortcutKeys = False
-        Me.CounterwiseStockDetailedToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.CounterwiseStockDetailedToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.CounterwiseStockDetailedToolStripMenuItem.Text = "Counterwise Stock Detail"
         '
         'CounterStockCheckToolStripMenuItem
@@ -4161,7 +4163,7 @@ Partial Class Main
         Me.CounterStockCheckToolStripMenuItem.Name = "CounterStockCheckToolStripMenuItem"
         Me.CounterStockCheckToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-7"
         Me.CounterStockCheckToolStripMenuItem.ShowShortcutKeys = False
-        Me.CounterStockCheckToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.CounterStockCheckToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.CounterStockCheckToolStripMenuItem.Text = "Counter Stock Check"
         '
         'CounterTransferInfoToolStripMenuItem
@@ -4171,14 +4173,14 @@ Partial Class Main
         Me.CounterTransferInfoToolStripMenuItem.Name = "CounterTransferInfoToolStripMenuItem"
         Me.CounterTransferInfoToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-8"
         Me.CounterTransferInfoToolStripMenuItem.ShowShortcutKeys = False
-        Me.CounterTransferInfoToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.CounterTransferInfoToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.CounterTransferInfoToolStripMenuItem.Text = "Counter Transfer Info"
         '
         'CategoryWiseStockDetailToolStripMenuItem
         '
         Me.CategoryWiseStockDetailToolStripMenuItem.AccessibleDescription = "frmCategoryStock_NewFormat~RPT"
         Me.CategoryWiseStockDetailToolStripMenuItem.Name = "CategoryWiseStockDetailToolStripMenuItem"
-        Me.CategoryWiseStockDetailToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.CategoryWiseStockDetailToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.CategoryWiseStockDetailToolStripMenuItem.Text = "Category wise Stock Detail"
         '
         'tStripStockChecking
@@ -4187,7 +4189,7 @@ Partial Class Main
         Me.tStripStockChecking.Name = "tStripStockChecking"
         Me.tStripStockChecking.ShortcutKeyDisplayString = "AGR-3-9"
         Me.tStripStockChecking.ShowShortcutKeys = False
-        Me.tStripStockChecking.Size = New System.Drawing.Size(276, 22)
+        Me.tStripStockChecking.Size = New System.Drawing.Size(343, 26)
         Me.tStripStockChecking.Text = "Stock Checking"
         '
         'tStripManualStockCheck
@@ -4196,7 +4198,7 @@ Partial Class Main
         Me.tStripManualStockCheck.Name = "tStripManualStockCheck"
         Me.tStripManualStockCheck.ShortcutKeyDisplayString = "AGR-3-9-1"
         Me.tStripManualStockCheck.ShowShortcutKeys = False
-        Me.tStripManualStockCheck.Size = New System.Drawing.Size(214, 22)
+        Me.tStripManualStockCheck.Size = New System.Drawing.Size(267, 26)
         Me.tStripManualStockCheck.Text = "Manual"
         '
         'tStripAutomaticStockCheck
@@ -4206,7 +4208,7 @@ Partial Class Main
         Me.tStripAutomaticStockCheck.Name = "tStripAutomaticStockCheck"
         Me.tStripAutomaticStockCheck.ShortcutKeyDisplayString = "AGR-3-9-2"
         Me.tStripAutomaticStockCheck.ShowShortcutKeys = False
-        Me.tStripAutomaticStockCheck.Size = New System.Drawing.Size(214, 22)
+        Me.tStripAutomaticStockCheck.Size = New System.Drawing.Size(267, 26)
         Me.tStripAutomaticStockCheck.Text = "Automatic"
         '
         'TrayWiseStockCheckReportToolStripMenuItem
@@ -4216,7 +4218,7 @@ Partial Class Main
         Me.TrayWiseStockCheckReportToolStripMenuItem.Name = "TrayWiseStockCheckReportToolStripMenuItem"
         Me.TrayWiseStockCheckReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-9-3"
         Me.TrayWiseStockCheckReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.TrayWiseStockCheckReportToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.TrayWiseStockCheckReportToolStripMenuItem.Size = New System.Drawing.Size(267, 26)
         Me.TrayWiseStockCheckReportToolStripMenuItem.Text = "Tray wise stock check report"
         '
         'StockCheckingReportToolStripMenuItem
@@ -4226,7 +4228,7 @@ Partial Class Main
         Me.StockCheckingReportToolStripMenuItem.Name = "StockCheckingReportToolStripMenuItem"
         Me.StockCheckingReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-9-4"
         Me.StockCheckingReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.StockCheckingReportToolStripMenuItem.Size = New System.Drawing.Size(214, 22)
+        Me.StockCheckingReportToolStripMenuItem.Size = New System.Drawing.Size(267, 26)
         Me.StockCheckingReportToolStripMenuItem.Text = "Stock Checking Report"
         '
         'DesignerWiseStockToolStripMenuItem
@@ -4236,7 +4238,7 @@ Partial Class Main
         Me.DesignerWiseStockToolStripMenuItem.Name = "DesignerWiseStockToolStripMenuItem"
         Me.DesignerWiseStockToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-10"
         Me.DesignerWiseStockToolStripMenuItem.ShowShortcutKeys = False
-        Me.DesignerWiseStockToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.DesignerWiseStockToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.DesignerWiseStockToolStripMenuItem.Text = "Designer Wise Stock"
         '
         'tStripReorderStock
@@ -4246,7 +4248,7 @@ Partial Class Main
         Me.tStripReorderStock.Name = "tStripReorderStock"
         Me.tStripReorderStock.ShortcutKeyDisplayString = "AGR-3-11"
         Me.tStripReorderStock.ShowShortcutKeys = False
-        Me.tStripReorderStock.Size = New System.Drawing.Size(276, 22)
+        Me.tStripReorderStock.Size = New System.Drawing.Size(343, 26)
         Me.tStripReorderStock.Text = "Reorder Stock"
         '
         'ReorderStockReportToolStripMenuItem
@@ -4256,7 +4258,7 @@ Partial Class Main
         Me.ReorderStockReportToolStripMenuItem.Name = "ReorderStockReportToolStripMenuItem"
         Me.ReorderStockReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-11-1"
         Me.ReorderStockReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.ReorderStockReportToolStripMenuItem.Size = New System.Drawing.Size(279, 22)
+        Me.ReorderStockReportToolStripMenuItem.Size = New System.Drawing.Size(351, 26)
         Me.ReorderStockReportToolStripMenuItem.Text = "Reorder Stock Report"
         '
         'StockReorderToolStripMenuItem
@@ -4266,7 +4268,7 @@ Partial Class Main
         Me.StockReorderToolStripMenuItem.Name = "StockReorderToolStripMenuItem"
         Me.StockReorderToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-11-2"
         Me.StockReorderToolStripMenuItem.ShowShortcutKeys = False
-        Me.StockReorderToolStripMenuItem.Size = New System.Drawing.Size(279, 22)
+        Me.StockReorderToolStripMenuItem.Size = New System.Drawing.Size(351, 26)
         Me.StockReorderToolStripMenuItem.Text = "Reorder Stock Plan"
         '
         'ReorderStockCounterWiseToolStripMenuItem1
@@ -4276,7 +4278,7 @@ Partial Class Main
         Me.ReorderStockCounterWiseToolStripMenuItem1.Name = "ReorderStockCounterWiseToolStripMenuItem1"
         Me.ReorderStockCounterWiseToolStripMenuItem1.ShortcutKeyDisplayString = "AGR-3-11-3"
         Me.ReorderStockCounterWiseToolStripMenuItem1.ShowShortcutKeys = False
-        Me.ReorderStockCounterWiseToolStripMenuItem1.Size = New System.Drawing.Size(279, 22)
+        Me.ReorderStockCounterWiseToolStripMenuItem1.Size = New System.Drawing.Size(351, 26)
         Me.ReorderStockCounterWiseToolStripMenuItem1.Text = "Reorder Stock Counter Wise"
         '
         'ReorderStockRangeWiseToolStripMenuItem
@@ -4286,7 +4288,7 @@ Partial Class Main
         Me.ReorderStockRangeWiseToolStripMenuItem.Name = "ReorderStockRangeWiseToolStripMenuItem"
         Me.ReorderStockRangeWiseToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-11-4"
         Me.ReorderStockRangeWiseToolStripMenuItem.ShowShortcutKeys = False
-        Me.ReorderStockRangeWiseToolStripMenuItem.Size = New System.Drawing.Size(279, 22)
+        Me.ReorderStockRangeWiseToolStripMenuItem.Size = New System.Drawing.Size(351, 26)
         Me.ReorderStockRangeWiseToolStripMenuItem.Text = "Reorder Stock Range Wise"
         '
         'ReorderStockPieceWiseToolStripMenuItem
@@ -4295,7 +4297,7 @@ Partial Class Main
         Me.ReorderStockPieceWiseToolStripMenuItem.Name = "ReorderStockPieceWiseToolStripMenuItem"
         Me.ReorderStockPieceWiseToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-11-5"
         Me.ReorderStockPieceWiseToolStripMenuItem.ShowShortcutKeys = False
-        Me.ReorderStockPieceWiseToolStripMenuItem.Size = New System.Drawing.Size(279, 22)
+        Me.ReorderStockPieceWiseToolStripMenuItem.Size = New System.Drawing.Size(351, 26)
         Me.ReorderStockPieceWiseToolStripMenuItem.Text = "Reorder Stock Piece Wise"
         '
         'ReorderStockPlanNewToolStripMenuItem
@@ -4305,7 +4307,7 @@ Partial Class Main
         Me.ReorderStockPlanNewToolStripMenuItem.Name = "ReorderStockPlanNewToolStripMenuItem"
         Me.ReorderStockPlanNewToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-11-6"
         Me.ReorderStockPlanNewToolStripMenuItem.ShowShortcutKeys = False
-        Me.ReorderStockPlanNewToolStripMenuItem.Size = New System.Drawing.Size(279, 22)
+        Me.ReorderStockPlanNewToolStripMenuItem.Size = New System.Drawing.Size(351, 26)
         Me.ReorderStockPlanNewToolStripMenuItem.Text = "Reorder Stock Plan New"
         '
         'ReorderStockReportNewToolStripMenuItem
@@ -4315,7 +4317,7 @@ Partial Class Main
         Me.ReorderStockReportNewToolStripMenuItem.Name = "ReorderStockReportNewToolStripMenuItem"
         Me.ReorderStockReportNewToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-11-7"
         Me.ReorderStockReportNewToolStripMenuItem.ShowShortcutKeys = False
-        Me.ReorderStockReportNewToolStripMenuItem.Size = New System.Drawing.Size(279, 22)
+        Me.ReorderStockReportNewToolStripMenuItem.Size = New System.Drawing.Size(351, 26)
         Me.ReorderStockReportNewToolStripMenuItem.Text = "Reorder Stock Report New"
         '
         'ReorderStockSizeWiseReportToolStripMenuItem
@@ -4323,7 +4325,7 @@ Partial Class Main
         Me.ReorderStockSizeWiseReportToolStripMenuItem.Name = "ReorderStockSizeWiseReportToolStripMenuItem"
         Me.ReorderStockSizeWiseReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-11-8"
         Me.ReorderStockSizeWiseReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.ReorderStockSizeWiseReportToolStripMenuItem.Size = New System.Drawing.Size(279, 22)
+        Me.ReorderStockSizeWiseReportToolStripMenuItem.Size = New System.Drawing.Size(351, 26)
         Me.ReorderStockSizeWiseReportToolStripMenuItem.Text = "Reorder Stock Size Wise Report"
         '
         'ReorderStockMinAndMaxWiseReportToolStripMenuItem
@@ -4333,13 +4335,13 @@ Partial Class Main
         Me.ReorderStockMinAndMaxWiseReportToolStripMenuItem.Name = "ReorderStockMinAndMaxWiseReportToolStripMenuItem"
         Me.ReorderStockMinAndMaxWiseReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-11-9"
         Me.ReorderStockMinAndMaxWiseReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.ReorderStockMinAndMaxWiseReportToolStripMenuItem.Size = New System.Drawing.Size(279, 22)
+        Me.ReorderStockMinAndMaxWiseReportToolStripMenuItem.Size = New System.Drawing.Size(351, 26)
         Me.ReorderStockMinAndMaxWiseReportToolStripMenuItem.Text = "Reorder Stock Min and Max Wise Report"
         '
         'ReorderStockWeightBasedToolStripMenuItem
         '
         Me.ReorderStockWeightBasedToolStripMenuItem.Name = "ReorderStockWeightBasedToolStripMenuItem"
-        Me.ReorderStockWeightBasedToolStripMenuItem.Size = New System.Drawing.Size(279, 22)
+        Me.ReorderStockWeightBasedToolStripMenuItem.Size = New System.Drawing.Size(351, 26)
         Me.ReorderStockWeightBasedToolStripMenuItem.Text = "Reorder Stock Weight Based"
         '
         'tStripAgeWiseAnalysis
@@ -4349,7 +4351,7 @@ Partial Class Main
         Me.tStripAgeWiseAnalysis.Name = "tStripAgeWiseAnalysis"
         Me.tStripAgeWiseAnalysis.ShortcutKeyDisplayString = "AGR-3-12"
         Me.tStripAgeWiseAnalysis.ShowShortcutKeys = False
-        Me.tStripAgeWiseAnalysis.Size = New System.Drawing.Size(276, 22)
+        Me.tStripAgeWiseAnalysis.Size = New System.Drawing.Size(343, 26)
         Me.tStripAgeWiseAnalysis.Text = "Age Wise Analysis"
         '
         'tStripTageItems
@@ -4358,7 +4360,7 @@ Partial Class Main
         Me.tStripTageItems.Name = "tStripTageItems"
         Me.tStripTageItems.ShortcutKeyDisplayString = "AGR-3-13"
         Me.tStripTageItems.ShowShortcutKeys = False
-        Me.tStripTageItems.Size = New System.Drawing.Size(276, 22)
+        Me.tStripTageItems.Size = New System.Drawing.Size(343, 26)
         Me.tStripTageItems.Text = "Taged Items"
         '
         'tStripStockView
@@ -4367,7 +4369,7 @@ Partial Class Main
         Me.tStripStockView.Name = "tStripStockView"
         Me.tStripStockView.ShortcutKeyDisplayString = "AGR-3-13-1"
         Me.tStripStockView.ShowShortcutKeys = False
-        Me.tStripStockView.Size = New System.Drawing.Size(263, 22)
+        Me.tStripStockView.Size = New System.Drawing.Size(331, 26)
         Me.tStripStockView.Text = "Stock View"
         '
         'tStripReceiptView
@@ -4376,7 +4378,7 @@ Partial Class Main
         Me.tStripReceiptView.Name = "tStripReceiptView"
         Me.tStripReceiptView.ShortcutKeyDisplayString = "AGR-3-13-2"
         Me.tStripReceiptView.ShowShortcutKeys = False
-        Me.tStripReceiptView.Size = New System.Drawing.Size(263, 22)
+        Me.tStripReceiptView.Size = New System.Drawing.Size(331, 26)
         Me.tStripReceiptView.Text = "Receipt View"
         '
         'tStripView
@@ -4385,7 +4387,7 @@ Partial Class Main
         Me.tStripView.Name = "tStripView"
         Me.tStripView.ShortcutKeyDisplayString = "AGR-3-13-3"
         Me.tStripView.ShowShortcutKeys = False
-        Me.tStripView.Size = New System.Drawing.Size(263, 22)
+        Me.tStripView.Size = New System.Drawing.Size(331, 26)
         Me.tStripView.Text = "Issue View"
         '
         'StockViewDetailedToolStripMenuItem
@@ -4395,7 +4397,7 @@ Partial Class Main
         Me.StockViewDetailedToolStripMenuItem.Name = "StockViewDetailedToolStripMenuItem"
         Me.StockViewDetailedToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-13-4"
         Me.StockViewDetailedToolStripMenuItem.ShowShortcutKeys = False
-        Me.StockViewDetailedToolStripMenuItem.Size = New System.Drawing.Size(263, 22)
+        Me.StockViewDetailedToolStripMenuItem.Size = New System.Drawing.Size(331, 26)
         Me.StockViewDetailedToolStripMenuItem.Text = "Stock View [Detailed]"
         '
         'EditViewToolStripMenuItem
@@ -4404,7 +4406,7 @@ Partial Class Main
         Me.EditViewToolStripMenuItem.Name = "EditViewToolStripMenuItem"
         Me.EditViewToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-13-5"
         Me.EditViewToolStripMenuItem.ShowShortcutKeys = False
-        Me.EditViewToolStripMenuItem.Size = New System.Drawing.Size(263, 22)
+        Me.EditViewToolStripMenuItem.Size = New System.Drawing.Size(331, 26)
         Me.EditViewToolStripMenuItem.Text = "Edit View"
         '
         'SetItemsToolStripMenuItem
@@ -4413,7 +4415,7 @@ Partial Class Main
         Me.SetItemsToolStripMenuItem.Name = "SetItemsToolStripMenuItem"
         Me.SetItemsToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-13-6"
         Me.SetItemsToolStripMenuItem.ShowShortcutKeys = False
-        Me.SetItemsToolStripMenuItem.Size = New System.Drawing.Size(263, 22)
+        Me.SetItemsToolStripMenuItem.Size = New System.Drawing.Size(331, 26)
         Me.SetItemsToolStripMenuItem.Text = "Set Items"
         '
         'CostCenterWiseToolStripMenuItem
@@ -4422,7 +4424,7 @@ Partial Class Main
         Me.CostCenterWiseToolStripMenuItem.Name = "CostCenterWiseToolStripMenuItem"
         Me.CostCenterWiseToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-13-7"
         Me.CostCenterWiseToolStripMenuItem.ShowShortcutKeys = False
-        Me.CostCenterWiseToolStripMenuItem.Size = New System.Drawing.Size(263, 22)
+        Me.CostCenterWiseToolStripMenuItem.Size = New System.Drawing.Size(331, 26)
         Me.CostCenterWiseToolStripMenuItem.Text = "Cost Center Wise"
         '
         'OnlineToolStripMenuItem
@@ -4431,7 +4433,7 @@ Partial Class Main
         Me.OnlineToolStripMenuItem.Name = "OnlineToolStripMenuItem"
         Me.OnlineToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-13-8"
         Me.OnlineToolStripMenuItem.ShowShortcutKeys = False
-        Me.OnlineToolStripMenuItem.Size = New System.Drawing.Size(263, 22)
+        Me.OnlineToolStripMenuItem.Size = New System.Drawing.Size(331, 26)
         Me.OnlineToolStripMenuItem.Text = "Online"
         '
         'tStripOnlProduct
@@ -4441,7 +4443,7 @@ Partial Class Main
         Me.tStripOnlProduct.Name = "tStripOnlProduct"
         Me.tStripOnlProduct.ShortcutKeyDisplayString = "AGR-3-13-8-1"
         Me.tStripOnlProduct.ShowShortcutKeys = False
-        Me.tStripOnlProduct.Size = New System.Drawing.Size(179, 22)
+        Me.tStripOnlProduct.Size = New System.Drawing.Size(221, 26)
         Me.tStripOnlProduct.Text = "Online Product Stock"
         '
         'tStripOnlStone
@@ -4451,7 +4453,7 @@ Partial Class Main
         Me.tStripOnlStone.Name = "tStripOnlStone"
         Me.tStripOnlStone.ShortcutKeyDisplayString = "AGR-3-13-8-1"
         Me.tStripOnlStone.ShowShortcutKeys = False
-        Me.tStripOnlStone.Size = New System.Drawing.Size(179, 22)
+        Me.tStripOnlStone.Size = New System.Drawing.Size(221, 26)
         Me.tStripOnlStone.Text = "Online Stone Stock"
         '
         'tStripTagedItemsReceiptView
@@ -4461,14 +4463,14 @@ Partial Class Main
         Me.tStripTagedItemsReceiptView.Name = "tStripTagedItemsReceiptView"
         Me.tStripTagedItemsReceiptView.ShortcutKeyDisplayString = "AGR-3-13-9"
         Me.tStripTagedItemsReceiptView.ShowShortcutKeys = False
-        Me.tStripTagedItemsReceiptView.Size = New System.Drawing.Size(263, 22)
+        Me.tStripTagedItemsReceiptView.Size = New System.Drawing.Size(331, 26)
         Me.tStripTagedItemsReceiptView.Text = "Taged Items Receipt View(Specific)"
         '
         'TagedItemsStockViewWithStoneToolStripMenuItem
         '
         Me.TagedItemsStockViewWithStoneToolStripMenuItem.AccessibleDescription = "frmTagStockView~RPT"
         Me.TagedItemsStockViewWithStoneToolStripMenuItem.Name = "TagedItemsStockViewWithStoneToolStripMenuItem"
-        Me.TagedItemsStockViewWithStoneToolStripMenuItem.Size = New System.Drawing.Size(263, 22)
+        Me.TagedItemsStockViewWithStoneToolStripMenuItem.Size = New System.Drawing.Size(331, 26)
         Me.TagedItemsStockViewWithStoneToolStripMenuItem.Text = "Taged Items Stock View(With Stone)"
         '
         'MetalOrnamentStockViewTStrip
@@ -4478,7 +4480,7 @@ Partial Class Main
         Me.MetalOrnamentStockViewTStrip.Name = "MetalOrnamentStockViewTStrip"
         Me.MetalOrnamentStockViewTStrip.ShortcutKeyDisplayString = "AGR-3-14"
         Me.MetalOrnamentStockViewTStrip.ShowShortcutKeys = False
-        Me.MetalOrnamentStockViewTStrip.Size = New System.Drawing.Size(276, 22)
+        Me.MetalOrnamentStockViewTStrip.Size = New System.Drawing.Size(343, 26)
         Me.MetalOrnamentStockViewTStrip.Text = "Metal Ornament Stock View (Summary)"
         '
         'MetalOrnamentStockDetailedTStrip
@@ -4488,7 +4490,7 @@ Partial Class Main
         Me.MetalOrnamentStockDetailedTStrip.Name = "MetalOrnamentStockDetailedTStrip"
         Me.MetalOrnamentStockDetailedTStrip.ShortcutKeyDisplayString = "AGR-3-15"
         Me.MetalOrnamentStockDetailedTStrip.ShowShortcutKeys = False
-        Me.MetalOrnamentStockDetailedTStrip.Size = New System.Drawing.Size(276, 22)
+        Me.MetalOrnamentStockDetailedTStrip.Size = New System.Drawing.Size(343, 26)
         Me.MetalOrnamentStockDetailedTStrip.Text = "Metal Ornament Stock (Detailed)"
         '
         'TagedItemsPurchaseReportTStrip
@@ -4498,7 +4500,7 @@ Partial Class Main
         Me.TagedItemsPurchaseReportTStrip.Name = "TagedItemsPurchaseReportTStrip"
         Me.TagedItemsPurchaseReportTStrip.ShortcutKeyDisplayString = "AGR-3-16"
         Me.TagedItemsPurchaseReportTStrip.ShowShortcutKeys = False
-        Me.TagedItemsPurchaseReportTStrip.Size = New System.Drawing.Size(276, 22)
+        Me.TagedItemsPurchaseReportTStrip.Size = New System.Drawing.Size(343, 26)
         Me.TagedItemsPurchaseReportTStrip.Text = "Taged Items Purchase Report"
         '
         'ReportToolStripMenuItem
@@ -4508,7 +4510,7 @@ Partial Class Main
         Me.ReportToolStripMenuItem.Name = "ReportToolStripMenuItem"
         Me.ReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-16-1"
         Me.ReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.ReportToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
+        Me.ReportToolStripMenuItem.Size = New System.Drawing.Size(181, 26)
         Me.ReportToolStripMenuItem.Text = "Report"
         '
         'DetailedToolStripMenuItem1
@@ -4517,7 +4519,7 @@ Partial Class Main
         Me.DetailedToolStripMenuItem1.Name = "DetailedToolStripMenuItem1"
         Me.DetailedToolStripMenuItem1.ShortcutKeyDisplayString = "AGR-3-16-2"
         Me.DetailedToolStripMenuItem1.ShowShortcutKeys = False
-        Me.DetailedToolStripMenuItem1.Size = New System.Drawing.Size(142, 22)
+        Me.DetailedToolStripMenuItem1.Size = New System.Drawing.Size(181, 26)
         Me.DetailedToolStripMenuItem1.Text = "Detailed"
         '
         'MetalWiseToolStripMenuItem
@@ -4526,7 +4528,7 @@ Partial Class Main
         Me.MetalWiseToolStripMenuItem.Name = "MetalWiseToolStripMenuItem"
         Me.MetalWiseToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-16-3"
         Me.MetalWiseToolStripMenuItem.ShowShortcutKeys = False
-        Me.MetalWiseToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
+        Me.MetalWiseToolStripMenuItem.Size = New System.Drawing.Size(181, 26)
         Me.MetalWiseToolStripMenuItem.Text = "Metal Wise"
         '
         'DetailRegisterToolStripMenuItem
@@ -4535,7 +4537,7 @@ Partial Class Main
         Me.DetailRegisterToolStripMenuItem.Name = "DetailRegisterToolStripMenuItem"
         Me.DetailRegisterToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-16-4"
         Me.DetailRegisterToolStripMenuItem.ShowShortcutKeys = False
-        Me.DetailRegisterToolStripMenuItem.Size = New System.Drawing.Size(142, 22)
+        Me.DetailRegisterToolStripMenuItem.Size = New System.Drawing.Size(181, 26)
         Me.DetailRegisterToolStripMenuItem.Text = "Detail Register"
         '
         'TagedItemsSalesReportToolStripMenuItem
@@ -4545,7 +4547,7 @@ Partial Class Main
         Me.TagedItemsSalesReportToolStripMenuItem.Name = "TagedItemsSalesReportToolStripMenuItem"
         Me.TagedItemsSalesReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-17"
         Me.TagedItemsSalesReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagedItemsSalesReportToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.TagedItemsSalesReportToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.TagedItemsSalesReportToolStripMenuItem.Text = "Taged Items Sales Report"
         '
         'PacketWiseStockToolStripMenuItem
@@ -4555,7 +4557,7 @@ Partial Class Main
         Me.PacketWiseStockToolStripMenuItem.Name = "PacketWiseStockToolStripMenuItem"
         Me.PacketWiseStockToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-18"
         Me.PacketWiseStockToolStripMenuItem.ShowShortcutKeys = False
-        Me.PacketWiseStockToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.PacketWiseStockToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.PacketWiseStockToolStripMenuItem.Text = "Packet Wise Stock"
         '
         'SyncToolStripMenuItem
@@ -4564,7 +4566,7 @@ Partial Class Main
         Me.SyncToolStripMenuItem.Name = "SyncToolStripMenuItem"
         Me.SyncToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-19"
         Me.SyncToolStripMenuItem.ShowShortcutKeys = False
-        Me.SyncToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.SyncToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.SyncToolStripMenuItem.Text = "Sync"
         '
         'TagWiseTransferIssReceiptToolStripMenuItem
@@ -4574,7 +4576,7 @@ Partial Class Main
         Me.TagWiseTransferIssReceiptToolStripMenuItem.Name = "TagWiseTransferIssReceiptToolStripMenuItem"
         Me.TagWiseTransferIssReceiptToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-19-1"
         Me.TagWiseTransferIssReceiptToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagWiseTransferIssReceiptToolStripMenuItem.Size = New System.Drawing.Size(254, 22)
+        Me.TagWiseTransferIssReceiptToolStripMenuItem.Size = New System.Drawing.Size(316, 26)
         Me.TagWiseTransferIssReceiptToolStripMenuItem.Text = "Tag wise Transfer Iss/Receipt"
         '
         'InternalTransferReportToolStripMenuItem
@@ -4582,14 +4584,14 @@ Partial Class Main
         Me.InternalTransferReportToolStripMenuItem.AccessibleDescription = "frmInternalTransferRpt~RPT"
         Me.InternalTransferReportToolStripMenuItem.AccessibleName = "R"
         Me.InternalTransferReportToolStripMenuItem.Name = "InternalTransferReportToolStripMenuItem"
-        Me.InternalTransferReportToolStripMenuItem.Size = New System.Drawing.Size(254, 22)
+        Me.InternalTransferReportToolStripMenuItem.Size = New System.Drawing.Size(316, 26)
         Me.InternalTransferReportToolStripMenuItem.Text = "Internal Transfer Report"
         '
         'TagTransferStockReportToolStripMenuItem
         '
         Me.TagTransferStockReportToolStripMenuItem.AccessibleName = "R"
         Me.TagTransferStockReportToolStripMenuItem.Name = "TagTransferStockReportToolStripMenuItem"
-        Me.TagTransferStockReportToolStripMenuItem.Size = New System.Drawing.Size(254, 22)
+        Me.TagTransferStockReportToolStripMenuItem.Size = New System.Drawing.Size(316, 26)
         Me.TagTransferStockReportToolStripMenuItem.Text = "Tag Transfer Stock Report"
         '
         'PendingStockViewToolStripMenuItem
@@ -4597,7 +4599,7 @@ Partial Class Main
         Me.PendingStockViewToolStripMenuItem.AccessibleDescription = "frmTagedItemsPendingStockView~RPT"
         Me.PendingStockViewToolStripMenuItem.AccessibleName = "R"
         Me.PendingStockViewToolStripMenuItem.Name = "PendingStockViewToolStripMenuItem"
-        Me.PendingStockViewToolStripMenuItem.Size = New System.Drawing.Size(254, 22)
+        Me.PendingStockViewToolStripMenuItem.Size = New System.Drawing.Size(316, 26)
         Me.PendingStockViewToolStripMenuItem.Text = "Pending Stock View"
         '
         'NonTagTransferIssueReceiptToolStripMenuItem
@@ -4605,7 +4607,7 @@ Partial Class Main
         Me.NonTagTransferIssueReceiptToolStripMenuItem.AccessibleDescription = "NonTagIssRecSyncRpt~RPT"
         Me.NonTagTransferIssueReceiptToolStripMenuItem.AccessibleName = "R"
         Me.NonTagTransferIssueReceiptToolStripMenuItem.Name = "NonTagTransferIssueReceiptToolStripMenuItem"
-        Me.NonTagTransferIssueReceiptToolStripMenuItem.Size = New System.Drawing.Size(254, 22)
+        Me.NonTagTransferIssueReceiptToolStripMenuItem.Size = New System.Drawing.Size(316, 26)
         Me.NonTagTransferIssueReceiptToolStripMenuItem.Text = "NonTag Transfer Issue/Receipt"
         '
         'CostcentreWiseTransferSummaryToolStripMenuItem
@@ -4613,7 +4615,7 @@ Partial Class Main
         Me.CostcentreWiseTransferSummaryToolStripMenuItem.AccessibleDescription = "frmTransferSumCostCentreWise~RPT"
         Me.CostcentreWiseTransferSummaryToolStripMenuItem.AccessibleName = "R"
         Me.CostcentreWiseTransferSummaryToolStripMenuItem.Name = "CostcentreWiseTransferSummaryToolStripMenuItem"
-        Me.CostcentreWiseTransferSummaryToolStripMenuItem.Size = New System.Drawing.Size(254, 22)
+        Me.CostcentreWiseTransferSummaryToolStripMenuItem.Size = New System.Drawing.Size(316, 26)
         Me.CostcentreWiseTransferSummaryToolStripMenuItem.Text = "CostcentreWise Transfer Summary"
         '
         'ItemWiseStockFlowToolStripMenuItem
@@ -4623,7 +4625,7 @@ Partial Class Main
         Me.ItemWiseStockFlowToolStripMenuItem.Name = "ItemWiseStockFlowToolStripMenuItem"
         Me.ItemWiseStockFlowToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-20"
         Me.ItemWiseStockFlowToolStripMenuItem.ShowShortcutKeys = False
-        Me.ItemWiseStockFlowToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.ItemWiseStockFlowToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.ItemWiseStockFlowToolStripMenuItem.Text = "Item Wise Stock Flow"
         '
         'AlloyToolStripMenuItem
@@ -4633,7 +4635,7 @@ Partial Class Main
         Me.AlloyToolStripMenuItem.Name = "AlloyToolStripMenuItem"
         Me.AlloyToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-21"
         Me.AlloyToolStripMenuItem.ShowShortcutKeys = False
-        Me.AlloyToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.AlloyToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.AlloyToolStripMenuItem.Text = "Alloy"
         '
         'WastageToolStripMenuItem
@@ -4643,7 +4645,7 @@ Partial Class Main
         Me.WastageToolStripMenuItem.Name = "WastageToolStripMenuItem"
         Me.WastageToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-22"
         Me.WastageToolStripMenuItem.ShowShortcutKeys = False
-        Me.WastageToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.WastageToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.WastageToolStripMenuItem.Text = "Wastage"
         '
         'DateWiseStockToolStripMenuItem
@@ -4653,7 +4655,7 @@ Partial Class Main
         Me.DateWiseStockToolStripMenuItem.Name = "DateWiseStockToolStripMenuItem"
         Me.DateWiseStockToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-23"
         Me.DateWiseStockToolStripMenuItem.ShowShortcutKeys = False
-        Me.DateWiseStockToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.DateWiseStockToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.DateWiseStockToolStripMenuItem.Text = "Date Wise stock"
         '
         'ItemNonTagStockCheckToolStripMenuItem
@@ -4663,7 +4665,7 @@ Partial Class Main
         Me.ItemNonTagStockCheckToolStripMenuItem.Name = "ItemNonTagStockCheckToolStripMenuItem"
         Me.ItemNonTagStockCheckToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-24"
         Me.ItemNonTagStockCheckToolStripMenuItem.ShowShortcutKeys = False
-        Me.ItemNonTagStockCheckToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.ItemNonTagStockCheckToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.ItemNonTagStockCheckToolStripMenuItem.Text = "Item Non Tag Stock Check"
         '
         'ClosingStockCashReportToolStripMenuItem
@@ -4672,7 +4674,7 @@ Partial Class Main
         Me.ClosingStockCashReportToolStripMenuItem.Name = "ClosingStockCashReportToolStripMenuItem"
         Me.ClosingStockCashReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-25"
         Me.ClosingStockCashReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.ClosingStockCashReportToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.ClosingStockCashReportToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.ClosingStockCashReportToolStripMenuItem.Text = "Closing Stock Cash Report"
         '
         'SizeWiseStockReportToolStripMenuItem
@@ -4682,7 +4684,7 @@ Partial Class Main
         Me.SizeWiseStockReportToolStripMenuItem.Name = "SizeWiseStockReportToolStripMenuItem"
         Me.SizeWiseStockReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-26"
         Me.SizeWiseStockReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.SizeWiseStockReportToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.SizeWiseStockReportToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.SizeWiseStockReportToolStripMenuItem.Text = "Size wise Stock Report"
         '
         'TableBasedWastageToolStripMenuItem
@@ -4692,7 +4694,7 @@ Partial Class Main
         Me.TableBasedWastageToolStripMenuItem.Name = "TableBasedWastageToolStripMenuItem"
         Me.TableBasedWastageToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-27"
         Me.TableBasedWastageToolStripMenuItem.ShowShortcutKeys = False
-        Me.TableBasedWastageToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.TableBasedWastageToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.TableBasedWastageToolStripMenuItem.Text = "Table Based Wastage"
         '
         'TagTypeReportTStrip
@@ -4702,7 +4704,7 @@ Partial Class Main
         Me.TagTypeReportTStrip.Name = "TagTypeReportTStrip"
         Me.TagTypeReportTStrip.ShortcutKeyDisplayString = "AGR-3-28"
         Me.TagTypeReportTStrip.ShowShortcutKeys = False
-        Me.TagTypeReportTStrip.Size = New System.Drawing.Size(276, 22)
+        Me.TagTypeReportTStrip.Size = New System.Drawing.Size(343, 26)
         Me.TagTypeReportTStrip.Text = "Tag Entry Typewise Breakup"
         '
         'ClosingStockToolStripMenuItem
@@ -4712,7 +4714,7 @@ Partial Class Main
         Me.ClosingStockToolStripMenuItem.Name = "ClosingStockToolStripMenuItem"
         Me.ClosingStockToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-29"
         Me.ClosingStockToolStripMenuItem.ShowShortcutKeys = False
-        Me.ClosingStockToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.ClosingStockToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.ClosingStockToolStripMenuItem.Text = "Closing Stock"
         '
         'CounterStockDiaryToolStripMenuItem
@@ -4722,7 +4724,7 @@ Partial Class Main
         Me.CounterStockDiaryToolStripMenuItem.Name = "CounterStockDiaryToolStripMenuItem"
         Me.CounterStockDiaryToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-30"
         Me.CounterStockDiaryToolStripMenuItem.ShowShortcutKeys = False
-        Me.CounterStockDiaryToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.CounterStockDiaryToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.CounterStockDiaryToolStripMenuItem.Text = "Counter Stock Diary"
         '
         'StockRegisterToolStripMenuItem
@@ -4732,7 +4734,7 @@ Partial Class Main
         Me.StockRegisterToolStripMenuItem.Name = "StockRegisterToolStripMenuItem"
         Me.StockRegisterToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-31"
         Me.StockRegisterToolStripMenuItem.ShowShortcutKeys = False
-        Me.StockRegisterToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.StockRegisterToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.StockRegisterToolStripMenuItem.Text = "Stock Register"
         '
         'MaterialReceiptVsStockToolStripMenuItem
@@ -4742,7 +4744,7 @@ Partial Class Main
         Me.MaterialReceiptVsStockToolStripMenuItem.Name = "MaterialReceiptVsStockToolStripMenuItem"
         Me.MaterialReceiptVsStockToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-32"
         Me.MaterialReceiptVsStockToolStripMenuItem.ShowShortcutKeys = False
-        Me.MaterialReceiptVsStockToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.MaterialReceiptVsStockToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.MaterialReceiptVsStockToolStripMenuItem.Text = "MaterialReceipt Vs Stock"
         '
         'LOTVSTAGToolStripMenuItem
@@ -4752,7 +4754,7 @@ Partial Class Main
         Me.LOTVSTAGToolStripMenuItem.Name = "LOTVSTAGToolStripMenuItem"
         Me.LOTVSTAGToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-33"
         Me.LOTVSTAGToolStripMenuItem.ShowShortcutKeys = False
-        Me.LOTVSTAGToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.LOTVSTAGToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.LOTVSTAGToolStripMenuItem.Text = "Lot Vs Tag Summary"
         '
         'RangeWiseStockToolStripMenuItem
@@ -4761,7 +4763,7 @@ Partial Class Main
         Me.RangeWiseStockToolStripMenuItem.Name = "RangeWiseStockToolStripMenuItem"
         Me.RangeWiseStockToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-34"
         Me.RangeWiseStockToolStripMenuItem.ShowShortcutKeys = False
-        Me.RangeWiseStockToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.RangeWiseStockToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.RangeWiseStockToolStripMenuItem.Text = "RangeWise Stock"
         '
         'RangeWiseStockToolStripMenuItem1
@@ -4769,7 +4771,7 @@ Partial Class Main
         Me.RangeWiseStockToolStripMenuItem1.AccessibleDescription = "frmrangewisestock~RPT"
         Me.RangeWiseStockToolStripMenuItem1.AccessibleName = "R"
         Me.RangeWiseStockToolStripMenuItem1.Name = "RangeWiseStockToolStripMenuItem1"
-        Me.RangeWiseStockToolStripMenuItem1.Size = New System.Drawing.Size(237, 22)
+        Me.RangeWiseStockToolStripMenuItem1.Size = New System.Drawing.Size(296, 26)
         Me.RangeWiseStockToolStripMenuItem1.Text = "RangeWise Stock"
         '
         'RangeWiseStockItemToolStripMenuItem
@@ -4777,27 +4779,33 @@ Partial Class Main
         Me.RangeWiseStockItemToolStripMenuItem.AccessibleDescription = "frmItemRangeWiseStock~RPT"
         Me.RangeWiseStockItemToolStripMenuItem.AccessibleName = "R"
         Me.RangeWiseStockItemToolStripMenuItem.Name = "RangeWiseStockItemToolStripMenuItem"
-        Me.RangeWiseStockItemToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.RangeWiseStockItemToolStripMenuItem.Size = New System.Drawing.Size(296, 26)
         Me.RangeWiseStockItemToolStripMenuItem.Text = "RangeWise Stock (Item)"
         '
         'RangeWiseStockIssueToolStripMenuItem
         '
         Me.RangeWiseStockIssueToolStripMenuItem.AccessibleDescription = "frmItemRangeWiseStockIssue~RPT"
         Me.RangeWiseStockIssueToolStripMenuItem.Name = "RangeWiseStockIssueToolStripMenuItem"
-        Me.RangeWiseStockIssueToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.RangeWiseStockIssueToolStripMenuItem.Size = New System.Drawing.Size(296, 26)
         Me.RangeWiseStockIssueToolStripMenuItem.Text = "RangeWise Stock (Issue)"
         '
         'RangeWiseStockToolStripMenuItemCostCentre
         '
         Me.RangeWiseStockToolStripMenuItemCostCentre.Name = "RangeWiseStockToolStripMenuItemCostCentre"
-        Me.RangeWiseStockToolStripMenuItemCostCentre.Size = New System.Drawing.Size(237, 22)
+        Me.RangeWiseStockToolStripMenuItemCostCentre.Size = New System.Drawing.Size(296, 26)
         Me.RangeWiseStockToolStripMenuItemCostCentre.Text = "RangeWise Stock (Cost Centre)"
         '
         'PurchaseOrderToolStripMenuItem1
         '
         Me.PurchaseOrderToolStripMenuItem1.Name = "PurchaseOrderToolStripMenuItem1"
-        Me.PurchaseOrderToolStripMenuItem1.Size = New System.Drawing.Size(237, 22)
+        Me.PurchaseOrderToolStripMenuItem1.Size = New System.Drawing.Size(296, 26)
         Me.PurchaseOrderToolStripMenuItem1.Text = "Purchase Order"
+        '
+        'PurchaseOrderTrackingToolStripMenuItem
+        '
+        Me.PurchaseOrderTrackingToolStripMenuItem.Name = "PurchaseOrderTrackingToolStripMenuItem"
+        Me.PurchaseOrderTrackingToolStripMenuItem.Size = New System.Drawing.Size(296, 26)
+        Me.PurchaseOrderTrackingToolStripMenuItem.Text = "Purchase Order Tracking"
         '
         'ItemwiseStockMRMIToolStripMenuItem
         '
@@ -4806,7 +4814,7 @@ Partial Class Main
         Me.ItemwiseStockMRMIToolStripMenuItem.Name = "ItemwiseStockMRMIToolStripMenuItem"
         Me.ItemwiseStockMRMIToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-35"
         Me.ItemwiseStockMRMIToolStripMenuItem.ShowShortcutKeys = False
-        Me.ItemwiseStockMRMIToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.ItemwiseStockMRMIToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.ItemwiseStockMRMIToolStripMenuItem.Text = "Itemwise Stock(MR/MI)"
         '
         'BookVsCounterToolStripMenuItem
@@ -4816,7 +4824,7 @@ Partial Class Main
         Me.BookVsCounterToolStripMenuItem.Name = "BookVsCounterToolStripMenuItem"
         Me.BookVsCounterToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-36"
         Me.BookVsCounterToolStripMenuItem.ShowShortcutKeys = False
-        Me.BookVsCounterToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.BookVsCounterToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.BookVsCounterToolStripMenuItem.Text = "BookVsCounter Stock"
         '
         'VaultReportToolStripMenuItem
@@ -4826,7 +4834,7 @@ Partial Class Main
         Me.VaultReportToolStripMenuItem.Name = "VaultReportToolStripMenuItem"
         Me.VaultReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-37"
         Me.VaultReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.VaultReportToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.VaultReportToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.VaultReportToolStripMenuItem.Text = "Vault Report"
         '
         'CategoryStockEDToolStripMenuItem
@@ -4836,14 +4844,14 @@ Partial Class Main
         Me.CategoryStockEDToolStripMenuItem.Name = "CategoryStockEDToolStripMenuItem"
         Me.CategoryStockEDToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-38"
         Me.CategoryStockEDToolStripMenuItem.ShowShortcutKeys = False
-        Me.CategoryStockEDToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.CategoryStockEDToolStripMenuItem.Size = New System.Drawing.Size(343, 26)
         Me.CategoryStockEDToolStripMenuItem.Text = "Category Stock ED"
         '
         'tStripItemWiseStockFormat1MenuItem25
         '
         Me.tStripItemWiseStockFormat1MenuItem25.AccessibleDescription = "FRMITEMWISESTOCK_FORMAT1~RPT~AUT"
         Me.tStripItemWiseStockFormat1MenuItem25.Name = "tStripItemWiseStockFormat1MenuItem25"
-        Me.tStripItemWiseStockFormat1MenuItem25.Size = New System.Drawing.Size(276, 22)
+        Me.tStripItemWiseStockFormat1MenuItem25.Size = New System.Drawing.Size(343, 26)
         Me.tStripItemWiseStockFormat1MenuItem25.Text = "Item Wise Stock With Sep Transfer"
         '
         'MetalvsCostcentre
@@ -4853,7 +4861,7 @@ Partial Class Main
         Me.MetalvsCostcentre.Name = "MetalvsCostcentre"
         Me.MetalvsCostcentre.ShortcutKeyDisplayString = "AGR-3-39"
         Me.MetalvsCostcentre.ShowShortcutKeys = False
-        Me.MetalvsCostcentre.Size = New System.Drawing.Size(276, 22)
+        Me.MetalvsCostcentre.Size = New System.Drawing.Size(343, 26)
         Me.MetalvsCostcentre.Text = "MetalvsCostCentre Stock"
         '
         'TradingStockPurchase
@@ -4863,21 +4871,21 @@ Partial Class Main
         Me.TradingStockPurchase.Name = "TradingStockPurchase"
         Me.TradingStockPurchase.ShortcutKeyDisplayString = "AGR-3-40"
         Me.TradingStockPurchase.ShowShortcutKeys = False
-        Me.TradingStockPurchase.Size = New System.Drawing.Size(276, 22)
+        Me.TradingStockPurchase.Size = New System.Drawing.Size(343, 26)
         Me.TradingStockPurchase.Text = "Trading Stock Purchase"
         '
         'ToolStripMenuItemStoneGroupWiseStock
         '
         Me.ToolStripMenuItemStoneGroupWiseStock.AccessibleDescription = "frmStoneGroupReport~RPT"
         Me.ToolStripMenuItemStoneGroupWiseStock.Name = "ToolStripMenuItemStoneGroupWiseStock"
-        Me.ToolStripMenuItemStoneGroupWiseStock.Size = New System.Drawing.Size(276, 22)
+        Me.ToolStripMenuItemStoneGroupWiseStock.Size = New System.Drawing.Size(343, 26)
         Me.ToolStripMenuItemStoneGroupWiseStock.Text = "Stone Group Wise Stock"
         '
         'CatStockItemWise
         '
         Me.CatStockItemWise.AccessibleDescription = "frmItemWiseStocknew~RPT"
         Me.CatStockItemWise.Name = "CatStockItemWise"
-        Me.CatStockItemWise.Size = New System.Drawing.Size(276, 22)
+        Me.CatStockItemWise.Size = New System.Drawing.Size(343, 26)
         Me.CatStockItemWise.Text = "Category Stock Item Wise"
         '
         'tstripItemVsMetal
@@ -4885,7 +4893,7 @@ Partial Class Main
         Me.tstripItemVsMetal.AccessibleDescription = "frmItemVsMetalStockSummary~RPT"
         Me.tstripItemVsMetal.AccessibleName = "R"
         Me.tstripItemVsMetal.Name = "tstripItemVsMetal"
-        Me.tstripItemVsMetal.Size = New System.Drawing.Size(276, 22)
+        Me.tstripItemVsMetal.Size = New System.Drawing.Size(343, 26)
         Me.tstripItemVsMetal.Text = "ItemVsMetal Summary"
         '
         'tStripOrderReports
@@ -4894,7 +4902,7 @@ Partial Class Main
         Me.tStripOrderReports.Name = "tStripOrderReports"
         Me.tStripOrderReports.ShortcutKeyDisplayString = "AGR-4"
         Me.tStripOrderReports.ShowShortcutKeys = False
-        Me.tStripOrderReports.Size = New System.Drawing.Size(180, 22)
+        Me.tStripOrderReports.Size = New System.Drawing.Size(225, 26)
         Me.tStripOrderReports.Tag = "D"
         Me.tStripOrderReports.Text = "Order/Repair Reports"
         '
@@ -4905,7 +4913,7 @@ Partial Class Main
         Me.tStripOrderReceipt.Name = "tStripOrderReceipt"
         Me.tStripOrderReceipt.ShortcutKeyDisplayString = "AGR-4-1"
         Me.tStripOrderReceipt.ShowShortcutKeys = False
-        Me.tStripOrderReceipt.Size = New System.Drawing.Size(237, 22)
+        Me.tStripOrderReceipt.Size = New System.Drawing.Size(300, 26)
         Me.tStripOrderReceipt.Text = "Order/Repair Receipt"
         '
         'OrderStatusTStrip
@@ -4915,7 +4923,7 @@ Partial Class Main
         Me.OrderStatusTStrip.Name = "OrderStatusTStrip"
         Me.OrderStatusTStrip.ShortcutKeyDisplayString = "AGR-4-2"
         Me.OrderStatusTStrip.ShowShortcutKeys = False
-        Me.OrderStatusTStrip.Size = New System.Drawing.Size(237, 22)
+        Me.OrderStatusTStrip.Size = New System.Drawing.Size(300, 26)
         Me.OrderStatusTStrip.Text = "Order/Repair Status"
         '
         'OrderStatusToolStripMenuItem1
@@ -4925,7 +4933,7 @@ Partial Class Main
         Me.OrderStatusToolStripMenuItem1.Name = "OrderStatusToolStripMenuItem1"
         Me.OrderStatusToolStripMenuItem1.ShortcutKeyDisplayString = "AGR-4-3"
         Me.OrderStatusToolStripMenuItem1.ShowShortcutKeys = False
-        Me.OrderStatusToolStripMenuItem1.Size = New System.Drawing.Size(237, 22)
+        Me.OrderStatusToolStripMenuItem1.Size = New System.Drawing.Size(300, 26)
         Me.OrderStatusToolStripMenuItem1.Text = "Individual Order/Repair Status"
         '
         'OrderAdvanceToolStripMenuItem
@@ -4935,7 +4943,7 @@ Partial Class Main
         Me.OrderAdvanceToolStripMenuItem.Name = "OrderAdvanceToolStripMenuItem"
         Me.OrderAdvanceToolStripMenuItem.ShortcutKeyDisplayString = "AGR-4-4"
         Me.OrderAdvanceToolStripMenuItem.ShowShortcutKeys = False
-        Me.OrderAdvanceToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.OrderAdvanceToolStripMenuItem.Size = New System.Drawing.Size(300, 26)
         Me.OrderAdvanceToolStripMenuItem.Text = "Order/Repair Advance"
         '
         'OrderDeliveryReportToolStripMenuItem
@@ -4945,35 +4953,35 @@ Partial Class Main
         Me.OrderDeliveryReportToolStripMenuItem.Name = "OrderDeliveryReportToolStripMenuItem"
         Me.OrderDeliveryReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-4-5"
         Me.OrderDeliveryReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.OrderDeliveryReportToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.OrderDeliveryReportToolStripMenuItem.Size = New System.Drawing.Size(300, 26)
         Me.OrderDeliveryReportToolStripMenuItem.Text = "Order/Repair Delivery Report"
         '
         'OrderDetailedReportToolStripMenuItem
         '
         Me.OrderDetailedReportToolStripMenuItem.AccessibleName = "R"
         Me.OrderDetailedReportToolStripMenuItem.Name = "OrderDetailedReportToolStripMenuItem"
-        Me.OrderDetailedReportToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.OrderDetailedReportToolStripMenuItem.Size = New System.Drawing.Size(300, 26)
         Me.OrderDetailedReportToolStripMenuItem.Text = "Order/Repair Detailed Report"
         '
         'OrderRepairCollectionDetailsToolStripMenuItem
         '
         Me.OrderRepairCollectionDetailsToolStripMenuItem.AccessibleDescription = "frmOrderCollectionDetails~RPT"
         Me.OrderRepairCollectionDetailsToolStripMenuItem.Name = "OrderRepairCollectionDetailsToolStripMenuItem"
-        Me.OrderRepairCollectionDetailsToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.OrderRepairCollectionDetailsToolStripMenuItem.Size = New System.Drawing.Size(300, 26)
         Me.OrderRepairCollectionDetailsToolStripMenuItem.Text = "Order/Repair Collection Details"
         '
         'ProcessToolStripMenuItem
         '
         Me.ProcessToolStripMenuItem.AccessibleDescription = "frmProcessWiseReport~RPT"
         Me.ProcessToolStripMenuItem.Name = "ProcessToolStripMenuItem"
-        Me.ProcessToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.ProcessToolStripMenuItem.Size = New System.Drawing.Size(300, 26)
         Me.ProcessToolStripMenuItem.Text = "ProcessWise Report"
         '
         'ProcessWiseReportNewToolStripMenuItem
         '
         Me.ProcessWiseReportNewToolStripMenuItem.AccessibleDescription = "frmProcessWiseReportNew~RPT"
         Me.ProcessWiseReportNewToolStripMenuItem.Name = "ProcessWiseReportNewToolStripMenuItem"
-        Me.ProcessWiseReportNewToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.ProcessWiseReportNewToolStripMenuItem.Size = New System.Drawing.Size(300, 26)
         Me.ProcessWiseReportNewToolStripMenuItem.Text = "ProcessWise Report New"
         '
         'tStripApproval
@@ -4982,7 +4990,7 @@ Partial Class Main
         Me.tStripApproval.Name = "tStripApproval"
         Me.tStripApproval.ShortcutKeyDisplayString = "AGR-5"
         Me.tStripApproval.ShowShortcutKeys = False
-        Me.tStripApproval.Size = New System.Drawing.Size(180, 22)
+        Me.tStripApproval.Size = New System.Drawing.Size(225, 26)
         Me.tStripApproval.Tag = "B"
         Me.tStripApproval.Text = "Approval"
         '
@@ -4993,7 +5001,7 @@ Partial Class Main
         Me.tStripApprovalIssRec.Name = "tStripApprovalIssRec"
         Me.tStripApprovalIssRec.ShortcutKeyDisplayString = "AGR-5-1"
         Me.tStripApprovalIssRec.ShowShortcutKeys = False
-        Me.tStripApprovalIssRec.Size = New System.Drawing.Size(137, 22)
+        Me.tStripApprovalIssRec.Size = New System.Drawing.Size(171, 26)
         Me.tStripApprovalIssRec.Text = "Issue/Receipt"
         '
         'ApprovalSummaryTStrip
@@ -5003,7 +5011,7 @@ Partial Class Main
         Me.ApprovalSummaryTStrip.Name = "ApprovalSummaryTStrip"
         Me.ApprovalSummaryTStrip.ShortcutKeyDisplayString = "AGR-5-2"
         Me.ApprovalSummaryTStrip.ShowShortcutKeys = False
-        Me.ApprovalSummaryTStrip.Size = New System.Drawing.Size(137, 22)
+        Me.ApprovalSummaryTStrip.Size = New System.Drawing.Size(171, 26)
         Me.ApprovalSummaryTStrip.Text = "Summary"
         '
         'tStripEstimationRpt
@@ -5012,7 +5020,7 @@ Partial Class Main
         Me.tStripEstimationRpt.Name = "tStripEstimationRpt"
         Me.tStripEstimationRpt.ShortcutKeyDisplayString = "AGR-6"
         Me.tStripEstimationRpt.ShowShortcutKeys = False
-        Me.tStripEstimationRpt.Size = New System.Drawing.Size(180, 22)
+        Me.tStripEstimationRpt.Size = New System.Drawing.Size(225, 26)
         Me.tStripEstimationRpt.Tag = "C"
         Me.tStripEstimationRpt.Text = "Estimation"
         '
@@ -5022,7 +5030,7 @@ Partial Class Main
         Me.tStripSalesEstimationRpt.Name = "tStripSalesEstimationRpt"
         Me.tStripSalesEstimationRpt.ShortcutKeyDisplayString = "AGR-6-1"
         Me.tStripSalesEstimationRpt.ShowShortcutKeys = False
-        Me.tStripSalesEstimationRpt.Size = New System.Drawing.Size(222, 22)
+        Me.tStripSalesEstimationRpt.Size = New System.Drawing.Size(275, 26)
         Me.tStripSalesEstimationRpt.Text = "Sales Estimation"
         '
         'tStripPurchaseEstimationRpt
@@ -5031,7 +5039,7 @@ Partial Class Main
         Me.tStripPurchaseEstimationRpt.Name = "tStripPurchaseEstimationRpt"
         Me.tStripPurchaseEstimationRpt.ShortcutKeyDisplayString = "AGR-6-2"
         Me.tStripPurchaseEstimationRpt.ShowShortcutKeys = False
-        Me.tStripPurchaseEstimationRpt.Size = New System.Drawing.Size(222, 22)
+        Me.tStripPurchaseEstimationRpt.Size = New System.Drawing.Size(275, 26)
         Me.tStripPurchaseEstimationRpt.Text = "Purchase Estimation"
         '
         'SalesPurchaseEstimationToolStripMenuItem
@@ -5041,7 +5049,7 @@ Partial Class Main
         Me.SalesPurchaseEstimationToolStripMenuItem.Name = "SalesPurchaseEstimationToolStripMenuItem"
         Me.SalesPurchaseEstimationToolStripMenuItem.ShortcutKeyDisplayString = "AGR-6-3"
         Me.SalesPurchaseEstimationToolStripMenuItem.ShowShortcutKeys = False
-        Me.SalesPurchaseEstimationToolStripMenuItem.Size = New System.Drawing.Size(222, 22)
+        Me.SalesPurchaseEstimationToolStripMenuItem.Size = New System.Drawing.Size(275, 26)
         Me.SalesPurchaseEstimationToolStripMenuItem.Text = "Sales && Purchase Estimation"
         '
         'PurchaseEstimationWeightToolStripMenuItem
@@ -5049,7 +5057,7 @@ Partial Class Main
         Me.PurchaseEstimationWeightToolStripMenuItem.AccessibleDescription = "frmEstPurWeight~RPT"
         Me.PurchaseEstimationWeightToolStripMenuItem.AccessibleName = "R"
         Me.PurchaseEstimationWeightToolStripMenuItem.Name = "PurchaseEstimationWeightToolStripMenuItem"
-        Me.PurchaseEstimationWeightToolStripMenuItem.Size = New System.Drawing.Size(222, 22)
+        Me.PurchaseEstimationWeightToolStripMenuItem.Size = New System.Drawing.Size(275, 26)
         Me.PurchaseEstimationWeightToolStripMenuItem.Text = "Purchase Estimation Weight"
         '
         'FinalEstimationToolStripMenuItem
@@ -5057,7 +5065,7 @@ Partial Class Main
         Me.FinalEstimationToolStripMenuItem.AccessibleDescription = "frmFinalEstSalesPurRetRpt~RPT"
         Me.FinalEstimationToolStripMenuItem.AccessibleName = "R"
         Me.FinalEstimationToolStripMenuItem.Name = "FinalEstimationToolStripMenuItem"
-        Me.FinalEstimationToolStripMenuItem.Size = New System.Drawing.Size(222, 22)
+        Me.FinalEstimationToolStripMenuItem.Size = New System.Drawing.Size(275, 26)
         Me.FinalEstimationToolStripMenuItem.Text = "Final Estimation"
         '
         'MISReportTStrip
@@ -5066,7 +5074,7 @@ Partial Class Main
         Me.MISReportTStrip.Name = "MISReportTStrip"
         Me.MISReportTStrip.ShortcutKeyDisplayString = "AGR-7"
         Me.MISReportTStrip.ShowShortcutKeys = False
-        Me.MISReportTStrip.Size = New System.Drawing.Size(180, 22)
+        Me.MISReportTStrip.Size = New System.Drawing.Size(225, 26)
         Me.MISReportTStrip.Tag = "B"
         Me.MISReportTStrip.Text = "MIS Report"
         '
@@ -5075,7 +5083,7 @@ Partial Class Main
         Me.ToolStripMenuItem23.AccessibleDescription = "frmSalesPersonPerformanceNew~RPT"
         Me.ToolStripMenuItem23.AccessibleName = "R"
         Me.ToolStripMenuItem23.Name = "ToolStripMenuItem23"
-        Me.ToolStripMenuItem23.Size = New System.Drawing.Size(237, 22)
+        Me.ToolStripMenuItem23.Size = New System.Drawing.Size(294, 26)
         Me.ToolStripMenuItem23.Text = "Sales Person Performance New"
         '
         'tStripSalesPerPerformance
@@ -5085,7 +5093,7 @@ Partial Class Main
         Me.tStripSalesPerPerformance.Name = "tStripSalesPerPerformance"
         Me.tStripSalesPerPerformance.ShortcutKeyDisplayString = "AGR-7-1"
         Me.tStripSalesPerPerformance.ShowShortcutKeys = False
-        Me.tStripSalesPerPerformance.Size = New System.Drawing.Size(237, 22)
+        Me.tStripSalesPerPerformance.Size = New System.Drawing.Size(294, 26)
         Me.tStripSalesPerPerformance.Text = "Sales Person Performance"
         '
         'ItemWiseProfitToolStripMenuItem
@@ -5095,7 +5103,7 @@ Partial Class Main
         Me.ItemWiseProfitToolStripMenuItem.Name = "ItemWiseProfitToolStripMenuItem"
         Me.ItemWiseProfitToolStripMenuItem.ShortcutKeyDisplayString = "AGR-7-2"
         Me.ItemWiseProfitToolStripMenuItem.ShowShortcutKeys = False
-        Me.ItemWiseProfitToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.ItemWiseProfitToolStripMenuItem.Size = New System.Drawing.Size(294, 26)
         Me.ItemWiseProfitToolStripMenuItem.Text = "Item Wise Profit"
         '
         'TagWiseProfitAnalysisToolStripMenuItem
@@ -5105,7 +5113,7 @@ Partial Class Main
         Me.TagWiseProfitAnalysisToolStripMenuItem.Name = "TagWiseProfitAnalysisToolStripMenuItem"
         Me.TagWiseProfitAnalysisToolStripMenuItem.ShortcutKeyDisplayString = "AGR-7-3"
         Me.TagWiseProfitAnalysisToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagWiseProfitAnalysisToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.TagWiseProfitAnalysisToolStripMenuItem.Size = New System.Drawing.Size(294, 26)
         Me.TagWiseProfitAnalysisToolStripMenuItem.Text = "Tag Wise Profit Analysis"
         '
         'SalesVatToolStripMenuItem
@@ -5115,7 +5123,7 @@ Partial Class Main
         Me.SalesVatToolStripMenuItem.Name = "SalesVatToolStripMenuItem"
         Me.SalesVatToolStripMenuItem.ShortcutKeyDisplayString = "AGR-7-4"
         Me.SalesVatToolStripMenuItem.ShowShortcutKeys = False
-        Me.SalesVatToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.SalesVatToolStripMenuItem.Size = New System.Drawing.Size(294, 26)
         Me.SalesVatToolStripMenuItem.Text = "Sales && Purchase Vat"
         '
         'TcsCollectToolStripMenuItem1
@@ -5125,7 +5133,7 @@ Partial Class Main
         Me.TcsCollectToolStripMenuItem1.Name = "TcsCollectToolStripMenuItem1"
         Me.TcsCollectToolStripMenuItem1.ShortcutKeyDisplayString = "AGR-7-5"
         Me.TcsCollectToolStripMenuItem1.ShowShortcutKeys = False
-        Me.TcsCollectToolStripMenuItem1.Size = New System.Drawing.Size(237, 22)
+        Me.TcsCollectToolStripMenuItem1.Size = New System.Drawing.Size(294, 26)
         Me.TcsCollectToolStripMenuItem1.Text = "Tcs Collect"
         '
         'AgeWiseOutStandingToolStripMenuItem
@@ -5135,7 +5143,7 @@ Partial Class Main
         Me.AgeWiseOutStandingToolStripMenuItem.Name = "AgeWiseOutStandingToolStripMenuItem"
         Me.AgeWiseOutStandingToolStripMenuItem.ShortcutKeyDisplayString = "AGR-7-6"
         Me.AgeWiseOutStandingToolStripMenuItem.ShowShortcutKeys = False
-        Me.AgeWiseOutStandingToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.AgeWiseOutStandingToolStripMenuItem.Size = New System.Drawing.Size(294, 26)
         Me.AgeWiseOutStandingToolStripMenuItem.Text = "Age Wise OutStanding"
         '
         'BillWiseAgeOutstandingToolStripMenuItem
@@ -5145,7 +5153,7 @@ Partial Class Main
         Me.BillWiseAgeOutstandingToolStripMenuItem.Name = "BillWiseAgeOutstandingToolStripMenuItem"
         Me.BillWiseAgeOutstandingToolStripMenuItem.ShortcutKeyDisplayString = "AGR-7-7"
         Me.BillWiseAgeOutstandingToolStripMenuItem.ShowShortcutKeys = False
-        Me.BillWiseAgeOutstandingToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.BillWiseAgeOutstandingToolStripMenuItem.Size = New System.Drawing.Size(294, 26)
         Me.BillWiseAgeOutstandingToolStripMenuItem.Text = "Bill Wise Age Outstanding"
         '
         'DueDateWiseOutstandingToolStripMenuItem
@@ -5155,7 +5163,7 @@ Partial Class Main
         Me.DueDateWiseOutstandingToolStripMenuItem.Name = "DueDateWiseOutstandingToolStripMenuItem"
         Me.DueDateWiseOutstandingToolStripMenuItem.ShortcutKeyDisplayString = "AGR-7-8"
         Me.DueDateWiseOutstandingToolStripMenuItem.ShowShortcutKeys = False
-        Me.DueDateWiseOutstandingToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.DueDateWiseOutstandingToolStripMenuItem.Size = New System.Drawing.Size(294, 26)
         Me.DueDateWiseOutstandingToolStripMenuItem.Text = "Due Date Wise Outstanding"
         '
         'AdvanceClosedAgingToolStripMenuItem
@@ -5164,7 +5172,7 @@ Partial Class Main
         Me.AdvanceClosedAgingToolStripMenuItem.Name = "AdvanceClosedAgingToolStripMenuItem"
         Me.AdvanceClosedAgingToolStripMenuItem.ShortcutKeyDisplayString = "AGR-7-9"
         Me.AdvanceClosedAgingToolStripMenuItem.ShowShortcutKeys = False
-        Me.AdvanceClosedAgingToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.AdvanceClosedAgingToolStripMenuItem.Size = New System.Drawing.Size(294, 26)
         Me.AdvanceClosedAgingToolStripMenuItem.Text = "Advance Closed Aging"
         '
         'tStripSalesPersonCommision
@@ -5175,7 +5183,7 @@ Partial Class Main
         Me.tStripSalesPersonCommision.Name = "tStripSalesPersonCommision"
         Me.tStripSalesPersonCommision.ShortcutKeyDisplayString = "AGR-7-10"
         Me.tStripSalesPersonCommision.ShowShortcutKeys = False
-        Me.tStripSalesPersonCommision.Size = New System.Drawing.Size(237, 22)
+        Me.tStripSalesPersonCommision.Size = New System.Drawing.Size(294, 26)
         Me.tStripSalesPersonCommision.Text = "Sales Person Commision (Item)"
         '
         'SalesPersonCommisionComToolStripMenuItem
@@ -5185,7 +5193,7 @@ Partial Class Main
         Me.SalesPersonCommisionComToolStripMenuItem.Name = "SalesPersonCommisionComToolStripMenuItem"
         Me.SalesPersonCommisionComToolStripMenuItem.ShortcutKeyDisplayString = "AGR-7-11"
         Me.SalesPersonCommisionComToolStripMenuItem.ShowShortcutKeys = False
-        Me.SalesPersonCommisionComToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.SalesPersonCommisionComToolStripMenuItem.Size = New System.Drawing.Size(294, 26)
         Me.SalesPersonCommisionComToolStripMenuItem.Text = "Sales Person Commision (Com)"
         '
         'SalesRegisterToolStripMenuItem
@@ -5195,7 +5203,7 @@ Partial Class Main
         Me.SalesRegisterToolStripMenuItem.Name = "SalesRegisterToolStripMenuItem"
         Me.SalesRegisterToolStripMenuItem.ShortcutKeyDisplayString = "AGR-7-12"
         Me.SalesRegisterToolStripMenuItem.ShowShortcutKeys = False
-        Me.SalesRegisterToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.SalesRegisterToolStripMenuItem.Size = New System.Drawing.Size(294, 26)
         Me.SalesRegisterToolStripMenuItem.Text = "Sales Register"
         '
         'SalesWithDifferenceToolStripMenuItem
@@ -5205,7 +5213,7 @@ Partial Class Main
         Me.SalesWithDifferenceToolStripMenuItem.Name = "SalesWithDifferenceToolStripMenuItem"
         Me.SalesWithDifferenceToolStripMenuItem.ShortcutKeyDisplayString = "AGR-7-13"
         Me.SalesWithDifferenceToolStripMenuItem.ShowShortcutKeys = False
-        Me.SalesWithDifferenceToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.SalesWithDifferenceToolStripMenuItem.Size = New System.Drawing.Size(294, 26)
         Me.SalesWithDifferenceToolStripMenuItem.Text = "Sales With Difference"
         '
         'ItemWisePersormanceToolStripMenuItem
@@ -5215,7 +5223,7 @@ Partial Class Main
         Me.ItemWisePersormanceToolStripMenuItem.Name = "ItemWisePersormanceToolStripMenuItem"
         Me.ItemWisePersormanceToolStripMenuItem.ShortcutKeyDisplayString = "AGR-7-14"
         Me.ItemWisePersormanceToolStripMenuItem.ShowShortcutKeys = False
-        Me.ItemWisePersormanceToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.ItemWisePersormanceToolStripMenuItem.Size = New System.Drawing.Size(294, 26)
         Me.ItemWisePersormanceToolStripMenuItem.Text = "Item wise Sales Performance"
         '
         'PriviledgeReportToolStripMenuItem
@@ -5225,7 +5233,7 @@ Partial Class Main
         Me.PriviledgeReportToolStripMenuItem.Name = "PriviledgeReportToolStripMenuItem"
         Me.PriviledgeReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-7-15"
         Me.PriviledgeReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.PriviledgeReportToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.PriviledgeReportToolStripMenuItem.Size = New System.Drawing.Size(294, 26)
         Me.PriviledgeReportToolStripMenuItem.Text = "Priviledge Report"
         '
         'ToolStripMenuItem11
@@ -5235,7 +5243,7 @@ Partial Class Main
         Me.ToolStripMenuItem11.Name = "ToolStripMenuItem11"
         Me.ToolStripMenuItem11.ShortcutKeyDisplayString = "AGR-7-16"
         Me.ToolStripMenuItem11.ShowShortcutKeys = False
-        Me.ToolStripMenuItem11.Size = New System.Drawing.Size(237, 22)
+        Me.ToolStripMenuItem11.Size = New System.Drawing.Size(294, 26)
         Me.ToolStripMenuItem11.Text = "Priviledge Summary"
         '
         'WastageWiseSalesToolStripMenuItem
@@ -5245,7 +5253,7 @@ Partial Class Main
         Me.WastageWiseSalesToolStripMenuItem.Name = "WastageWiseSalesToolStripMenuItem"
         Me.WastageWiseSalesToolStripMenuItem.ShortcutKeyDisplayString = "AGR-7-17"
         Me.WastageWiseSalesToolStripMenuItem.ShowShortcutKeys = False
-        Me.WastageWiseSalesToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.WastageWiseSalesToolStripMenuItem.Size = New System.Drawing.Size(294, 26)
         Me.WastageWiseSalesToolStripMenuItem.Text = "Wastage wise Sales"
         '
         'ToolStripMenuItem13
@@ -5254,7 +5262,7 @@ Partial Class Main
         Me.ToolStripMenuItem13.Name = "ToolStripMenuItem13"
         Me.ToolStripMenuItem13.ShortcutKeyDisplayString = "AGR-7-18"
         Me.ToolStripMenuItem13.ShowShortcutKeys = False
-        Me.ToolStripMenuItem13.Size = New System.Drawing.Size(237, 22)
+        Me.ToolStripMenuItem13.Size = New System.Drawing.Size(294, 26)
         Me.ToolStripMenuItem13.Text = "Target Counter Wise Sales"
         '
         'CToolStripMenuItem
@@ -5263,7 +5271,7 @@ Partial Class Main
         Me.CToolStripMenuItem.Name = "CToolStripMenuItem"
         Me.CToolStripMenuItem.ShortcutKeyDisplayString = "AGR-7-19"
         Me.CToolStripMenuItem.ShowShortcutKeys = False
-        Me.CToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.CToolStripMenuItem.Size = New System.Drawing.Size(294, 26)
         Me.CToolStripMenuItem.Text = "Credit/Outstanding Summary"
         '
         'ReceiptLotTagToolStripMenuItem
@@ -5273,7 +5281,7 @@ Partial Class Main
         Me.ReceiptLotTagToolStripMenuItem.Name = "ReceiptLotTagToolStripMenuItem"
         Me.ReceiptLotTagToolStripMenuItem.ShortcutKeyDisplayString = "AGR-7-20"
         Me.ReceiptLotTagToolStripMenuItem.ShowShortcutKeys = False
-        Me.ReceiptLotTagToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.ReceiptLotTagToolStripMenuItem.Size = New System.Drawing.Size(294, 26)
         Me.ReceiptLotTagToolStripMenuItem.Text = "Material Receipt Status"
         '
         'CustomerBillSummaryToolStripMenuItem
@@ -5283,7 +5291,7 @@ Partial Class Main
         Me.CustomerBillSummaryToolStripMenuItem.Name = "CustomerBillSummaryToolStripMenuItem"
         Me.CustomerBillSummaryToolStripMenuItem.ShortcutKeyDisplayString = "AGR-7-21"
         Me.CustomerBillSummaryToolStripMenuItem.ShowShortcutKeys = False
-        Me.CustomerBillSummaryToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.CustomerBillSummaryToolStripMenuItem.Size = New System.Drawing.Size(294, 26)
         Me.CustomerBillSummaryToolStripMenuItem.Text = "Customer Bill Summary"
         '
         'SalesCommisionToolStripMenuItem1
@@ -5292,7 +5300,7 @@ Partial Class Main
         Me.SalesCommisionToolStripMenuItem1.Name = "SalesCommisionToolStripMenuItem1"
         Me.SalesCommisionToolStripMenuItem1.ShortcutKeyDisplayString = "AGR-7-22"
         Me.SalesCommisionToolStripMenuItem1.ShowShortcutKeys = False
-        Me.SalesCommisionToolStripMenuItem1.Size = New System.Drawing.Size(237, 22)
+        Me.SalesCommisionToolStripMenuItem1.Size = New System.Drawing.Size(294, 26)
         Me.SalesCommisionToolStripMenuItem1.Text = "Sales Commision"
         '
         'AgeWiseSalesToolStripMenuItem
@@ -5302,7 +5310,7 @@ Partial Class Main
         Me.AgeWiseSalesToolStripMenuItem.Name = "AgeWiseSalesToolStripMenuItem"
         Me.AgeWiseSalesToolStripMenuItem.ShortcutKeyDisplayString = "AGR-7-23"
         Me.AgeWiseSalesToolStripMenuItem.ShowShortcutKeys = False
-        Me.AgeWiseSalesToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.AgeWiseSalesToolStripMenuItem.Size = New System.Drawing.Size(294, 26)
         Me.AgeWiseSalesToolStripMenuItem.Text = "Age Wise Sales"
         '
         'OrderVAAnalysisToolStripMenuItem
@@ -5312,7 +5320,7 @@ Partial Class Main
         Me.OrderVAAnalysisToolStripMenuItem.Name = "OrderVAAnalysisToolStripMenuItem"
         Me.OrderVAAnalysisToolStripMenuItem.ShortcutKeyDisplayString = "AGR-7-24"
         Me.OrderVAAnalysisToolStripMenuItem.ShowShortcutKeys = False
-        Me.OrderVAAnalysisToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.OrderVAAnalysisToolStripMenuItem.Size = New System.Drawing.Size(294, 26)
         Me.OrderVAAnalysisToolStripMenuItem.Text = "Order VA Analysis"
         '
         'ValueAddedAnalysisEmpToolStripMenuItem
@@ -5322,7 +5330,7 @@ Partial Class Main
         Me.ValueAddedAnalysisEmpToolStripMenuItem.Name = "ValueAddedAnalysisEmpToolStripMenuItem"
         Me.ValueAddedAnalysisEmpToolStripMenuItem.ShortcutKeyDisplayString = "AGR-7-25"
         Me.ValueAddedAnalysisEmpToolStripMenuItem.ShowShortcutKeys = False
-        Me.ValueAddedAnalysisEmpToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.ValueAddedAnalysisEmpToolStripMenuItem.Size = New System.Drawing.Size(294, 26)
         Me.ValueAddedAnalysisEmpToolStripMenuItem.Text = "Value Added Analysis (Emp)"
         '
         'CostcentreWiseSalesToolStripMenuItem
@@ -5332,7 +5340,7 @@ Partial Class Main
         Me.CostcentreWiseSalesToolStripMenuItem.Name = "CostcentreWiseSalesToolStripMenuItem"
         Me.CostcentreWiseSalesToolStripMenuItem.ShortcutKeyDisplayString = "AGR-7-26"
         Me.CostcentreWiseSalesToolStripMenuItem.ShowShortcutKeys = False
-        Me.CostcentreWiseSalesToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.CostcentreWiseSalesToolStripMenuItem.Size = New System.Drawing.Size(294, 26)
         Me.CostcentreWiseSalesToolStripMenuItem.Text = "Costcentre wise Sales"
         '
         'TrackingCustomerToolStripMenuItem
@@ -5342,7 +5350,7 @@ Partial Class Main
         Me.TrackingCustomerToolStripMenuItem.Name = "TrackingCustomerToolStripMenuItem"
         Me.TrackingCustomerToolStripMenuItem.ShortcutKeyDisplayString = "AGR-7-27"
         Me.TrackingCustomerToolStripMenuItem.ShowShortcutKeys = False
-        Me.TrackingCustomerToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.TrackingCustomerToolStripMenuItem.Size = New System.Drawing.Size(294, 26)
         Me.TrackingCustomerToolStripMenuItem.Text = "Tracking Customer"
         '
         'DailyTallyReportTStrip
@@ -5351,7 +5359,7 @@ Partial Class Main
         Me.DailyTallyReportTStrip.Name = "DailyTallyReportTStrip"
         Me.DailyTallyReportTStrip.ShortcutKeyDisplayString = "AGR-8"
         Me.DailyTallyReportTStrip.ShowShortcutKeys = False
-        Me.DailyTallyReportTStrip.Size = New System.Drawing.Size(180, 22)
+        Me.DailyTallyReportTStrip.Size = New System.Drawing.Size(225, 26)
         Me.DailyTallyReportTStrip.Tag = "B"
         Me.DailyTallyReportTStrip.Text = "Daily Tally Reports"
         '
@@ -5362,7 +5370,7 @@ Partial Class Main
         Me.tStripPartlySales.Name = "tStripPartlySales"
         Me.tStripPartlySales.ShortcutKeyDisplayString = "AGR-8-1"
         Me.tStripPartlySales.ShowShortcutKeys = False
-        Me.tStripPartlySales.Size = New System.Drawing.Size(226, 22)
+        Me.tStripPartlySales.Size = New System.Drawing.Size(283, 26)
         Me.tStripPartlySales.Text = "Partly Sales"
         '
         'tStripMiscellaneous
@@ -5372,7 +5380,7 @@ Partial Class Main
         Me.tStripMiscellaneous.Name = "tStripMiscellaneous"
         Me.tStripMiscellaneous.ShortcutKeyDisplayString = "AGR-8-2"
         Me.tStripMiscellaneous.ShowShortcutKeys = False
-        Me.tStripMiscellaneous.Size = New System.Drawing.Size(226, 22)
+        Me.tStripMiscellaneous.Size = New System.Drawing.Size(283, 26)
         Me.tStripMiscellaneous.Text = "Miscellaneous"
         '
         'tStripBillwiseTransaction
@@ -5382,7 +5390,7 @@ Partial Class Main
         Me.tStripBillwiseTransaction.Name = "tStripBillwiseTransaction"
         Me.tStripBillwiseTransaction.ShortcutKeyDisplayString = "AGR-8-3"
         Me.tStripBillwiseTransaction.ShowShortcutKeys = False
-        Me.tStripBillwiseTransaction.Size = New System.Drawing.Size(226, 22)
+        Me.tStripBillwiseTransaction.Size = New System.Drawing.Size(283, 26)
         Me.tStripBillwiseTransaction.Text = "Billwise Transaction"
         '
         'tStripCardCollection
@@ -5392,7 +5400,7 @@ Partial Class Main
         Me.tStripCardCollection.Name = "tStripCardCollection"
         Me.tStripCardCollection.ShortcutKeyDisplayString = "AGR-8-4"
         Me.tStripCardCollection.ShowShortcutKeys = False
-        Me.tStripCardCollection.Size = New System.Drawing.Size(226, 22)
+        Me.tStripCardCollection.Size = New System.Drawing.Size(283, 26)
         Me.tStripCardCollection.Text = "Card Collection"
         '
         'CardCollectionDetailedToolStripMenuItem
@@ -5402,7 +5410,7 @@ Partial Class Main
         Me.CardCollectionDetailedToolStripMenuItem.Name = "CardCollectionDetailedToolStripMenuItem"
         Me.CardCollectionDetailedToolStripMenuItem.ShortcutKeyDisplayString = "AGR-8-5"
         Me.CardCollectionDetailedToolStripMenuItem.ShowShortcutKeys = False
-        Me.CardCollectionDetailedToolStripMenuItem.Size = New System.Drawing.Size(226, 22)
+        Me.CardCollectionDetailedToolStripMenuItem.Size = New System.Drawing.Size(283, 26)
         Me.CardCollectionDetailedToolStripMenuItem.Text = "Card Collection Detailed"
         '
         'tStripCancel
@@ -5412,7 +5420,7 @@ Partial Class Main
         Me.tStripCancel.Name = "tStripCancel"
         Me.tStripCancel.ShortcutKeyDisplayString = "AGR-8-6"
         Me.tStripCancel.ShowShortcutKeys = False
-        Me.tStripCancel.Size = New System.Drawing.Size(226, 22)
+        Me.tStripCancel.Size = New System.Drawing.Size(283, 26)
         Me.tStripCancel.Text = "Cancel"
         '
         'tStripCashTransactionRpt
@@ -5422,7 +5430,7 @@ Partial Class Main
         Me.tStripCashTransactionRpt.Name = "tStripCashTransactionRpt"
         Me.tStripCashTransactionRpt.ShortcutKeyDisplayString = "AGR-8-7"
         Me.tStripCashTransactionRpt.ShowShortcutKeys = False
-        Me.tStripCashTransactionRpt.Size = New System.Drawing.Size(226, 22)
+        Me.tStripCashTransactionRpt.Size = New System.Drawing.Size(283, 26)
         Me.tStripCashTransactionRpt.Text = "Cash Transaction"
         '
         'tStripCustomerOutstanding
@@ -5432,7 +5440,7 @@ Partial Class Main
         Me.tStripCustomerOutstanding.Name = "tStripCustomerOutstanding"
         Me.tStripCustomerOutstanding.ShortcutKeyDisplayString = "AGR-8-8"
         Me.tStripCustomerOutstanding.ShowShortcutKeys = False
-        Me.tStripCustomerOutstanding.Size = New System.Drawing.Size(226, 22)
+        Me.tStripCustomerOutstanding.Size = New System.Drawing.Size(283, 26)
         Me.tStripCustomerOutstanding.Text = "Customer Outstanding"
         '
         'SummaryToolStripMenuItem
@@ -5442,7 +5450,7 @@ Partial Class Main
         Me.SummaryToolStripMenuItem.Name = "SummaryToolStripMenuItem"
         Me.SummaryToolStripMenuItem.ShortcutKeyDisplayString = "AGR-8-8-1"
         Me.SummaryToolStripMenuItem.ShowShortcutKeys = False
-        Me.SummaryToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.SummaryToolStripMenuItem.Size = New System.Drawing.Size(217, 26)
         Me.SummaryToolStripMenuItem.Text = "Summary"
         '
         'DetailedToolStripMenuItem
@@ -5451,7 +5459,7 @@ Partial Class Main
         Me.DetailedToolStripMenuItem.Name = "DetailedToolStripMenuItem"
         Me.DetailedToolStripMenuItem.ShortcutKeyDisplayString = "AGR-8-8-2"
         Me.DetailedToolStripMenuItem.ShowShortcutKeys = False
-        Me.DetailedToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.DetailedToolStripMenuItem.Size = New System.Drawing.Size(217, 26)
         Me.DetailedToolStripMenuItem.Text = "Detailed"
         '
         'AcCodewiseToolStripMenuItem
@@ -5461,7 +5469,7 @@ Partial Class Main
         Me.AcCodewiseToolStripMenuItem.Name = "AcCodewiseToolStripMenuItem"
         Me.AcCodewiseToolStripMenuItem.ShortcutKeyDisplayString = "AGR-8-8-3"
         Me.AcCodewiseToolStripMenuItem.ShowShortcutKeys = False
-        Me.AcCodewiseToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.AcCodewiseToolStripMenuItem.Size = New System.Drawing.Size(217, 26)
         Me.AcCodewiseToolStripMenuItem.Text = "A/c Codewise "
         '
         'AdvanceRateFixingToolStripMenuItem
@@ -5471,14 +5479,14 @@ Partial Class Main
         Me.AdvanceRateFixingToolStripMenuItem.Name = "AdvanceRateFixingToolStripMenuItem"
         Me.AdvanceRateFixingToolStripMenuItem.ShortcutKeyDisplayString = "AGR-8-8-4"
         Me.AdvanceRateFixingToolStripMenuItem.ShowShortcutKeys = False
-        Me.AdvanceRateFixingToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.AdvanceRateFixingToolStripMenuItem.Size = New System.Drawing.Size(217, 26)
         Me.AdvanceRateFixingToolStripMenuItem.Text = "Advance Rate Fixing"
         '
         'MonthWiseToolStripMenuItem
         '
         Me.MonthWiseToolStripMenuItem.AccessibleName = "R"
         Me.MonthWiseToolStripMenuItem.Name = "MonthWiseToolStripMenuItem"
-        Me.MonthWiseToolStripMenuItem.Size = New System.Drawing.Size(174, 22)
+        Me.MonthWiseToolStripMenuItem.Size = New System.Drawing.Size(217, 26)
         Me.MonthWiseToolStripMenuItem.Text = "Month Wise"
         '
         'tStripPurchase
@@ -5488,7 +5496,7 @@ Partial Class Main
         Me.tStripPurchase.Name = "tStripPurchase"
         Me.tStripPurchase.ShortcutKeyDisplayString = "AGR-8-9"
         Me.tStripPurchase.ShowShortcutKeys = False
-        Me.tStripPurchase.Size = New System.Drawing.Size(226, 22)
+        Me.tStripPurchase.Size = New System.Drawing.Size(283, 26)
         Me.tStripPurchase.Text = "Purchase/Sales Return"
         '
         'PurchaseVATToolStripMenuItem
@@ -5498,7 +5506,7 @@ Partial Class Main
         Me.PurchaseVATToolStripMenuItem.Name = "PurchaseVATToolStripMenuItem"
         Me.PurchaseVATToolStripMenuItem.ShortcutKeyDisplayString = "AGR-8-10"
         Me.PurchaseVATToolStripMenuItem.ShowShortcutKeys = False
-        Me.PurchaseVATToolStripMenuItem.Size = New System.Drawing.Size(226, 22)
+        Me.PurchaseVATToolStripMenuItem.Size = New System.Drawing.Size(283, 26)
         Me.PurchaseVATToolStripMenuItem.Text = "Purchase VAT"
         '
         'tStripPurchaseVatRpt
@@ -5507,7 +5515,7 @@ Partial Class Main
         Me.tStripPurchaseVatRpt.Name = "tStripPurchaseVatRpt"
         Me.tStripPurchaseVatRpt.ShortcutKeyDisplayString = "AGR-8-10-1"
         Me.tStripPurchaseVatRpt.ShowShortcutKeys = False
-        Me.tStripPurchaseVatRpt.Size = New System.Drawing.Size(194, 22)
+        Me.tStripPurchaseVatRpt.Size = New System.Drawing.Size(240, 26)
         Me.tStripPurchaseVatRpt.Text = "Purchase VAT Report"
         '
         'PurchaseVatAnnexureIToolStripMenuItem
@@ -5516,7 +5524,7 @@ Partial Class Main
         Me.PurchaseVatAnnexureIToolStripMenuItem.Name = "PurchaseVatAnnexureIToolStripMenuItem"
         Me.PurchaseVatAnnexureIToolStripMenuItem.ShortcutKeyDisplayString = "AGR-8-10-2"
         Me.PurchaseVatAnnexureIToolStripMenuItem.ShowShortcutKeys = False
-        Me.PurchaseVatAnnexureIToolStripMenuItem.Size = New System.Drawing.Size(194, 22)
+        Me.PurchaseVatAnnexureIToolStripMenuItem.Size = New System.Drawing.Size(240, 26)
         Me.PurchaseVatAnnexureIToolStripMenuItem.Text = "Purchase Vat Annexure I"
         '
         'tStripfrmPurchaseMakeWise
@@ -5526,7 +5534,7 @@ Partial Class Main
         Me.tStripfrmPurchaseMakeWise.Name = "tStripfrmPurchaseMakeWise"
         Me.tStripfrmPurchaseMakeWise.ShortcutKeyDisplayString = "AGR-8-11"
         Me.tStripfrmPurchaseMakeWise.ShowShortcutKeys = False
-        Me.tStripfrmPurchaseMakeWise.Size = New System.Drawing.Size(226, 22)
+        Me.tStripfrmPurchaseMakeWise.Size = New System.Drawing.Size(283, 26)
         Me.tStripfrmPurchaseMakeWise.Text = "Purchase makewise"
         '
         'CategorywisePurchaseTStrip
@@ -5536,7 +5544,7 @@ Partial Class Main
         Me.CategorywisePurchaseTStrip.Name = "CategorywisePurchaseTStrip"
         Me.CategorywisePurchaseTStrip.ShortcutKeyDisplayString = "AGR-8-12"
         Me.CategorywisePurchaseTStrip.ShowShortcutKeys = False
-        Me.CategorywisePurchaseTStrip.Size = New System.Drawing.Size(226, 22)
+        Me.CategorywisePurchaseTStrip.Size = New System.Drawing.Size(283, 26)
         Me.CategorywisePurchaseTStrip.Text = "Categorywise Purchase"
         '
         'StockSaleValueCheckToolStripMenuItem
@@ -5546,7 +5554,7 @@ Partial Class Main
         Me.StockSaleValueCheckToolStripMenuItem.Name = "StockSaleValueCheckToolStripMenuItem"
         Me.StockSaleValueCheckToolStripMenuItem.ShortcutKeyDisplayString = "AGR-8-13"
         Me.StockSaleValueCheckToolStripMenuItem.ShowShortcutKeys = False
-        Me.StockSaleValueCheckToolStripMenuItem.Size = New System.Drawing.Size(226, 22)
+        Me.StockSaleValueCheckToolStripMenuItem.Size = New System.Drawing.Size(283, 26)
         Me.StockSaleValueCheckToolStripMenuItem.Text = "Stock Sale Value Check"
         '
         'JewelNotDeliveredToolStripMenuItem
@@ -5556,7 +5564,7 @@ Partial Class Main
         Me.JewelNotDeliveredToolStripMenuItem.Name = "JewelNotDeliveredToolStripMenuItem"
         Me.JewelNotDeliveredToolStripMenuItem.ShortcutKeyDisplayString = "AGR-8-14"
         Me.JewelNotDeliveredToolStripMenuItem.ShowShortcutKeys = False
-        Me.JewelNotDeliveredToolStripMenuItem.Size = New System.Drawing.Size(226, 22)
+        Me.JewelNotDeliveredToolStripMenuItem.Size = New System.Drawing.Size(283, 26)
         Me.JewelNotDeliveredToolStripMenuItem.Text = "Jewel Not Delivered"
         '
         'tStripRateView
@@ -5566,7 +5574,7 @@ Partial Class Main
         Me.tStripRateView.Name = "tStripRateView"
         Me.tStripRateView.ShortcutKeyDisplayString = "AGR-8-15"
         Me.tStripRateView.ShowShortcutKeys = False
-        Me.tStripRateView.Size = New System.Drawing.Size(226, 22)
+        Me.tStripRateView.Size = New System.Drawing.Size(283, 26)
         Me.tStripRateView.Text = "Rate View"
         '
         'tStripHomeSales
@@ -5575,7 +5583,7 @@ Partial Class Main
         Me.tStripHomeSales.Name = "tStripHomeSales"
         Me.tStripHomeSales.ShortcutKeyDisplayString = "AGR-8-16"
         Me.tStripHomeSales.ShowShortcutKeys = False
-        Me.tStripHomeSales.Size = New System.Drawing.Size(226, 22)
+        Me.tStripHomeSales.Size = New System.Drawing.Size(283, 26)
         Me.tStripHomeSales.Text = "Home Sales"
         '
         'tStripCounterWiseSales
@@ -5585,7 +5593,7 @@ Partial Class Main
         Me.tStripCounterWiseSales.Name = "tStripCounterWiseSales"
         Me.tStripCounterWiseSales.ShortcutKeyDisplayString = "AGR-8-17"
         Me.tStripCounterWiseSales.ShowShortcutKeys = False
-        Me.tStripCounterWiseSales.Size = New System.Drawing.Size(226, 22)
+        Me.tStripCounterWiseSales.Size = New System.Drawing.Size(283, 26)
         Me.tStripCounterWiseSales.Text = "Counter Wise Sales"
         '
         'SaleItemWastageMcAnalysisTStrip
@@ -5595,7 +5603,7 @@ Partial Class Main
         Me.SaleItemWastageMcAnalysisTStrip.Name = "SaleItemWastageMcAnalysisTStrip"
         Me.SaleItemWastageMcAnalysisTStrip.ShortcutKeyDisplayString = "AGR-8-18"
         Me.SaleItemWastageMcAnalysisTStrip.ShowShortcutKeys = False
-        Me.SaleItemWastageMcAnalysisTStrip.Size = New System.Drawing.Size(226, 22)
+        Me.SaleItemWastageMcAnalysisTStrip.Size = New System.Drawing.Size(283, 26)
         Me.SaleItemWastageMcAnalysisTStrip.Text = "Sale item Wastage&Mc Analysis"
         '
         'ReceiptAndPaymentToolStripMenuItem
@@ -5605,7 +5613,7 @@ Partial Class Main
         Me.ReceiptAndPaymentToolStripMenuItem.Name = "ReceiptAndPaymentToolStripMenuItem"
         Me.ReceiptAndPaymentToolStripMenuItem.ShortcutKeyDisplayString = "AGR-8-19"
         Me.ReceiptAndPaymentToolStripMenuItem.ShowShortcutKeys = False
-        Me.ReceiptAndPaymentToolStripMenuItem.Size = New System.Drawing.Size(226, 22)
+        Me.ReceiptAndPaymentToolStripMenuItem.Size = New System.Drawing.Size(283, 26)
         Me.ReceiptAndPaymentToolStripMenuItem.Text = "Receipt and Payment"
         '
         'TagWiseProfitLossToolStripMenuItem
@@ -5615,7 +5623,7 @@ Partial Class Main
         Me.TagWiseProfitLossToolStripMenuItem.Name = "TagWiseProfitLossToolStripMenuItem"
         Me.TagWiseProfitLossToolStripMenuItem.ShortcutKeyDisplayString = "AGR-8-20"
         Me.TagWiseProfitLossToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagWiseProfitLossToolStripMenuItem.Size = New System.Drawing.Size(226, 22)
+        Me.TagWiseProfitLossToolStripMenuItem.Size = New System.Drawing.Size(283, 26)
         Me.TagWiseProfitLossToolStripMenuItem.Text = "Tag wise Profit && Loss"
         '
         'CustomerBalanceToolStripMenuItem
@@ -5625,7 +5633,7 @@ Partial Class Main
         Me.CustomerBalanceToolStripMenuItem.Name = "CustomerBalanceToolStripMenuItem"
         Me.CustomerBalanceToolStripMenuItem.ShortcutKeyDisplayString = "AGR-8-21"
         Me.CustomerBalanceToolStripMenuItem.ShowShortcutKeys = False
-        Me.CustomerBalanceToolStripMenuItem.Size = New System.Drawing.Size(226, 22)
+        Me.CustomerBalanceToolStripMenuItem.Size = New System.Drawing.Size(283, 26)
         Me.CustomerBalanceToolStripMenuItem.Text = "Customer Balance"
         '
         'TagReservedToolStripMenuItem
@@ -5635,7 +5643,7 @@ Partial Class Main
         Me.TagReservedToolStripMenuItem.Name = "TagReservedToolStripMenuItem"
         Me.TagReservedToolStripMenuItem.ShortcutKeyDisplayString = "AGR-8-22"
         Me.TagReservedToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagReservedToolStripMenuItem.Size = New System.Drawing.Size(226, 22)
+        Me.TagReservedToolStripMenuItem.Size = New System.Drawing.Size(283, 26)
         Me.TagReservedToolStripMenuItem.Text = "Tag Reserved"
         '
         'CashCounterReportToolStripMenuItem
@@ -5644,7 +5652,7 @@ Partial Class Main
         Me.CashCounterReportToolStripMenuItem.Name = "CashCounterReportToolStripMenuItem"
         Me.CashCounterReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-8-23"
         Me.CashCounterReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.CashCounterReportToolStripMenuItem.Size = New System.Drawing.Size(226, 22)
+        Me.CashCounterReportToolStripMenuItem.Size = New System.Drawing.Size(283, 26)
         Me.CashCounterReportToolStripMenuItem.Text = "Cash Counter Report"
         '
         'CashCounterCollectionSummaryToolStripMenuItem
@@ -5654,7 +5662,7 @@ Partial Class Main
         Me.CashCounterCollectionSummaryToolStripMenuItem.Name = "CashCounterCollectionSummaryToolStripMenuItem"
         Me.CashCounterCollectionSummaryToolStripMenuItem.ShortcutKeyDisplayString = "AGR-8-23-1"
         Me.CashCounterCollectionSummaryToolStripMenuItem.ShowShortcutKeys = False
-        Me.CashCounterCollectionSummaryToolStripMenuItem.Size = New System.Drawing.Size(273, 22)
+        Me.CashCounterCollectionSummaryToolStripMenuItem.Size = New System.Drawing.Size(337, 26)
         Me.CashCounterCollectionSummaryToolStripMenuItem.Text = "Cash Counter Collection Summary"
         '
         'CashCounterStockSummaryToolStripMenuItem
@@ -5664,13 +5672,13 @@ Partial Class Main
         Me.CashCounterStockSummaryToolStripMenuItem.Name = "CashCounterStockSummaryToolStripMenuItem"
         Me.CashCounterStockSummaryToolStripMenuItem.ShortcutKeyDisplayString = "AGR-8-23-2"
         Me.CashCounterStockSummaryToolStripMenuItem.ShowShortcutKeys = False
-        Me.CashCounterStockSummaryToolStripMenuItem.Size = New System.Drawing.Size(273, 22)
+        Me.CashCounterStockSummaryToolStripMenuItem.Size = New System.Drawing.Size(337, 26)
         Me.CashCounterStockSummaryToolStripMenuItem.Text = "Cash Counter Stock Summary"
         '
         'CashCounterConsolidatedSummaryToolStripMenuItem
         '
         Me.CashCounterConsolidatedSummaryToolStripMenuItem.Name = "CashCounterConsolidatedSummaryToolStripMenuItem"
-        Me.CashCounterConsolidatedSummaryToolStripMenuItem.Size = New System.Drawing.Size(273, 22)
+        Me.CashCounterConsolidatedSummaryToolStripMenuItem.Size = New System.Drawing.Size(337, 26)
         Me.CashCounterConsolidatedSummaryToolStripMenuItem.Tag = "AGR-8-23-3"
         Me.CashCounterConsolidatedSummaryToolStripMenuItem.Text = "Cash Counter Consolidated Summary"
         '
@@ -5681,7 +5689,7 @@ Partial Class Main
         Me.SalesPerformanceAnalysisTStrip.Name = "SalesPerformanceAnalysisTStrip"
         Me.SalesPerformanceAnalysisTStrip.ShortcutKeyDisplayString = "AGR-8-24"
         Me.SalesPerformanceAnalysisTStrip.ShowShortcutKeys = False
-        Me.SalesPerformanceAnalysisTStrip.Size = New System.Drawing.Size(226, 22)
+        Me.SalesPerformanceAnalysisTStrip.Size = New System.Drawing.Size(283, 26)
         Me.SalesPerformanceAnalysisTStrip.Text = "Sales Performance Analysis "
         '
         'BillnowiseSalesToolStripMenuItem
@@ -5691,7 +5699,7 @@ Partial Class Main
         Me.BillnowiseSalesToolStripMenuItem.Name = "BillnowiseSalesToolStripMenuItem"
         Me.BillnowiseSalesToolStripMenuItem.ShortcutKeyDisplayString = "AGR-8-25"
         Me.BillnowiseSalesToolStripMenuItem.ShowShortcutKeys = False
-        Me.BillnowiseSalesToolStripMenuItem.Size = New System.Drawing.Size(226, 22)
+        Me.BillnowiseSalesToolStripMenuItem.Size = New System.Drawing.Size(283, 26)
         Me.BillnowiseSalesToolStripMenuItem.Text = "Customerwise Sales"
         '
         'OtherBranchAdvSchemeToolStripMenuItem
@@ -5701,7 +5709,7 @@ Partial Class Main
         Me.OtherBranchAdvSchemeToolStripMenuItem.Name = "OtherBranchAdvSchemeToolStripMenuItem"
         Me.OtherBranchAdvSchemeToolStripMenuItem.ShortcutKeyDisplayString = "AGR-8-26"
         Me.OtherBranchAdvSchemeToolStripMenuItem.ShowShortcutKeys = False
-        Me.OtherBranchAdvSchemeToolStripMenuItem.Size = New System.Drawing.Size(226, 22)
+        Me.OtherBranchAdvSchemeToolStripMenuItem.Size = New System.Drawing.Size(283, 26)
         Me.OtherBranchAdvSchemeToolStripMenuItem.Text = "Other Branch Adv/Scheme"
         '
         'OldGoldReportToolStripMenuItem
@@ -5711,7 +5719,7 @@ Partial Class Main
         Me.OldGoldReportToolStripMenuItem.Name = "OldGoldReportToolStripMenuItem"
         Me.OldGoldReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-8-27"
         Me.OldGoldReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.OldGoldReportToolStripMenuItem.Size = New System.Drawing.Size(226, 22)
+        Me.OldGoldReportToolStripMenuItem.Size = New System.Drawing.Size(283, 26)
         Me.OldGoldReportToolStripMenuItem.Text = "Old Gold Report"
         '
         'CardComissionReportToolStripMenuItem
@@ -5721,7 +5729,7 @@ Partial Class Main
         Me.CardComissionReportToolStripMenuItem.Name = "CardComissionReportToolStripMenuItem"
         Me.CardComissionReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-8-29"
         Me.CardComissionReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.CardComissionReportToolStripMenuItem.Size = New System.Drawing.Size(226, 22)
+        Me.CardComissionReportToolStripMenuItem.Size = New System.Drawing.Size(283, 26)
         Me.CardComissionReportToolStripMenuItem.Text = "Card Comission Report"
         '
         'tstripDailyCollectionReport
@@ -5729,7 +5737,7 @@ Partial Class Main
         Me.tstripDailyCollectionReport.AccessibleDescription = "frmDailyTransactionCollection~RPT"
         Me.tstripDailyCollectionReport.AccessibleName = "R"
         Me.tstripDailyCollectionReport.Name = "tstripDailyCollectionReport"
-        Me.tstripDailyCollectionReport.Size = New System.Drawing.Size(226, 22)
+        Me.tstripDailyCollectionReport.Size = New System.Drawing.Size(283, 26)
         Me.tstripDailyCollectionReport.Text = "Daily Collection Report"
         '
         'XmlGenerationToolStripMenuItem
@@ -5738,7 +5746,7 @@ Partial Class Main
         Me.XmlGenerationToolStripMenuItem.Name = "XmlGenerationToolStripMenuItem"
         Me.XmlGenerationToolStripMenuItem.ShortcutKeyDisplayString = "AGR-9"
         Me.XmlGenerationToolStripMenuItem.ShowShortcutKeys = False
-        Me.XmlGenerationToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.XmlGenerationToolStripMenuItem.Size = New System.Drawing.Size(225, 26)
         Me.XmlGenerationToolStripMenuItem.Text = "Xml Generation"
         '
         'TallyExportXmlVoucherToolStripMenuItem
@@ -5748,7 +5756,7 @@ Partial Class Main
         Me.TallyExportXmlVoucherToolStripMenuItem.Name = "TallyExportXmlVoucherToolStripMenuItem"
         Me.TallyExportXmlVoucherToolStripMenuItem.ShortcutKeyDisplayString = "AGR-9-1"
         Me.TallyExportXmlVoucherToolStripMenuItem.ShowShortcutKeys = False
-        Me.TallyExportXmlVoucherToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
+        Me.TallyExportXmlVoucherToolStripMenuItem.Size = New System.Drawing.Size(254, 26)
         Me.TallyExportXmlVoucherToolStripMenuItem.Text = "Tally ExportXml Voucher"
         '
         'TallyExportXmlVoucher2ToolStripMenuItem
@@ -5758,7 +5766,7 @@ Partial Class Main
         Me.TallyExportXmlVoucher2ToolStripMenuItem.Name = "TallyExportXmlVoucher2ToolStripMenuItem"
         Me.TallyExportXmlVoucher2ToolStripMenuItem.ShortcutKeyDisplayString = "AGR-9-2"
         Me.TallyExportXmlVoucher2ToolStripMenuItem.ShowShortcutKeys = False
-        Me.TallyExportXmlVoucher2ToolStripMenuItem.Size = New System.Drawing.Size(203, 22)
+        Me.TallyExportXmlVoucher2ToolStripMenuItem.Size = New System.Drawing.Size(254, 26)
         Me.TallyExportXmlVoucher2ToolStripMenuItem.Text = "Tally ExportXml Voucher 2"
         '
         'TallyExportXmlVoucherToolStripMenuItem1
@@ -5768,7 +5776,7 @@ Partial Class Main
         Me.TallyExportXmlVoucherToolStripMenuItem1.Name = "TallyExportXmlVoucherToolStripMenuItem1"
         Me.TallyExportXmlVoucherToolStripMenuItem1.ShortcutKeyDisplayString = "AGR-9-3"
         Me.TallyExportXmlVoucherToolStripMenuItem1.ShowShortcutKeys = False
-        Me.TallyExportXmlVoucherToolStripMenuItem1.Size = New System.Drawing.Size(203, 22)
+        Me.TallyExportXmlVoucherToolStripMenuItem1.Size = New System.Drawing.Size(254, 26)
         Me.TallyExportXmlVoucherToolStripMenuItem1.Text = "Tally ExportXml Voucher."
         '
         'OtherReportsToolStripMenuItem
@@ -5776,7 +5784,7 @@ Partial Class Main
         Me.OtherReportsToolStripMenuItem.Name = "OtherReportsToolStripMenuItem"
         Me.OtherReportsToolStripMenuItem.ShortcutKeyDisplayString = "AGR-10"
         Me.OtherReportsToolStripMenuItem.ShowShortcutKeys = False
-        Me.OtherReportsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.OtherReportsToolStripMenuItem.Size = New System.Drawing.Size(225, 26)
         Me.OtherReportsToolStripMenuItem.Text = "Other Reports"
         '
         'AuditReportToolStripMenuItem
@@ -5784,7 +5792,7 @@ Partial Class Main
         Me.AuditReportToolStripMenuItem.Name = "AuditReportToolStripMenuItem"
         Me.AuditReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-11"
         Me.AuditReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.AuditReportToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.AuditReportToolStripMenuItem.Size = New System.Drawing.Size(225, 26)
         Me.AuditReportToolStripMenuItem.Text = "Audit Report"
         '
         'ComplementsToolStripMenuItem
@@ -5793,7 +5801,7 @@ Partial Class Main
         Me.ComplementsToolStripMenuItem.Name = "ComplementsToolStripMenuItem"
         Me.ComplementsToolStripMenuItem.ShortcutKeyDisplayString = "AGR-12"
         Me.ComplementsToolStripMenuItem.ShowShortcutKeys = False
-        Me.ComplementsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ComplementsToolStripMenuItem.Size = New System.Drawing.Size(225, 26)
         Me.ComplementsToolStripMenuItem.Text = "Complements"
         '
         'ComplementsToolStripMenuItem1
@@ -5802,7 +5810,7 @@ Partial Class Main
         Me.ComplementsToolStripMenuItem1.Name = "ComplementsToolStripMenuItem1"
         Me.ComplementsToolStripMenuItem1.ShortcutKeyDisplayString = "AGR-12-1"
         Me.ComplementsToolStripMenuItem1.ShowShortcutKeys = False
-        Me.ComplementsToolStripMenuItem1.Size = New System.Drawing.Size(142, 22)
+        Me.ComplementsToolStripMenuItem1.Size = New System.Drawing.Size(175, 26)
         Me.ComplementsToolStripMenuItem1.Text = "Complements"
         '
         'GSTReportsToolStripMenuItem
@@ -5811,7 +5819,7 @@ Partial Class Main
         Me.GSTReportsToolStripMenuItem.Name = "GSTReportsToolStripMenuItem"
         Me.GSTReportsToolStripMenuItem.ShortcutKeyDisplayString = "AGR-13"
         Me.GSTReportsToolStripMenuItem.ShowShortcutKeys = False
-        Me.GSTReportsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.GSTReportsToolStripMenuItem.Size = New System.Drawing.Size(225, 26)
         Me.GSTReportsToolStripMenuItem.Text = "GST Reports"
         '
         'GSTPlusGSTR1ToolStripMenuItem
@@ -5821,7 +5829,7 @@ Partial Class Main
         Me.GSTPlusGSTR1ToolStripMenuItem.Name = "GSTPlusGSTR1ToolStripMenuItem"
         Me.GSTPlusGSTR1ToolStripMenuItem.ShortcutKeyDisplayString = "AGR-13-1"
         Me.GSTPlusGSTR1ToolStripMenuItem.ShowShortcutKeys = False
-        Me.GSTPlusGSTR1ToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+        Me.GSTPlusGSTR1ToolStripMenuItem.Size = New System.Drawing.Size(235, 26)
         Me.GSTPlusGSTR1ToolStripMenuItem.Text = "GSTR1 (Outward Sales)"
         '
         'GSTR2ToolStripMenuItem
@@ -5831,7 +5839,7 @@ Partial Class Main
         Me.GSTR2ToolStripMenuItem.Name = "GSTR2ToolStripMenuItem"
         Me.GSTR2ToolStripMenuItem.ShortcutKeyDisplayString = "AGR-13-2"
         Me.GSTR2ToolStripMenuItem.ShowShortcutKeys = False
-        Me.GSTR2ToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+        Me.GSTR2ToolStripMenuItem.Size = New System.Drawing.Size(235, 26)
         Me.GSTR2ToolStripMenuItem.Text = "GSTR2 (Purchases)"
         '
         'GSTR1SummaryToolStripMenuItem
@@ -5841,7 +5849,7 @@ Partial Class Main
         Me.GSTR1SummaryToolStripMenuItem.Name = "GSTR1SummaryToolStripMenuItem"
         Me.GSTR1SummaryToolStripMenuItem.ShortcutKeyDisplayString = "AGR-13-3"
         Me.GSTR1SummaryToolStripMenuItem.ShowShortcutKeys = False
-        Me.GSTR1SummaryToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+        Me.GSTR1SummaryToolStripMenuItem.Size = New System.Drawing.Size(235, 26)
         Me.GSTR1SummaryToolStripMenuItem.Text = "GSTR1 (Summary)"
         '
         'GSTReportToolStripMenuItem
@@ -5851,7 +5859,7 @@ Partial Class Main
         Me.GSTReportToolStripMenuItem.Name = "GSTReportToolStripMenuItem"
         Me.GSTReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-13-4"
         Me.GSTReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.GSTReportToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+        Me.GSTReportToolStripMenuItem.Size = New System.Drawing.Size(235, 26)
         Me.GSTReportToolStripMenuItem.Text = "GST Report"
         '
         'GSTR3BToolStripMenuItem
@@ -5861,7 +5869,7 @@ Partial Class Main
         Me.GSTR3BToolStripMenuItem.Name = "GSTR3BToolStripMenuItem"
         Me.GSTR3BToolStripMenuItem.ShortcutKeyDisplayString = "AGR-13-5"
         Me.GSTR3BToolStripMenuItem.ShowShortcutKeys = False
-        Me.GSTR3BToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+        Me.GSTR3BToolStripMenuItem.Size = New System.Drawing.Size(235, 26)
         Me.GSTR3BToolStripMenuItem.Text = "GSTR-3B"
         '
         'ReconcileMisMatchToolStripMenuItem
@@ -5871,7 +5879,7 @@ Partial Class Main
         Me.ReconcileMisMatchToolStripMenuItem.Name = "ReconcileMisMatchToolStripMenuItem"
         Me.ReconcileMisMatchToolStripMenuItem.ShortcutKeyDisplayString = "AGR-13-6"
         Me.ReconcileMisMatchToolStripMenuItem.ShowShortcutKeys = False
-        Me.ReconcileMisMatchToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+        Me.ReconcileMisMatchToolStripMenuItem.Size = New System.Drawing.Size(235, 26)
         Me.ReconcileMisMatchToolStripMenuItem.Text = "Reconcile MisMatch"
         '
         'GSTRITC04ToolStripMenuItem
@@ -5879,7 +5887,7 @@ Partial Class Main
         Me.GSTRITC04ToolStripMenuItem.AccessibleDescription = "frmGSTITC04~RPT"
         Me.GSTRITC04ToolStripMenuItem.AccessibleName = "R"
         Me.GSTRITC04ToolStripMenuItem.Name = "GSTRITC04ToolStripMenuItem"
-        Me.GSTRITC04ToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+        Me.GSTRITC04ToolStripMenuItem.Size = New System.Drawing.Size(235, 26)
         Me.GSTRITC04ToolStripMenuItem.Text = "GSTR-ITC-04"
         '
         'GSTReportNewToolStripMenuItem
@@ -5887,14 +5895,14 @@ Partial Class Main
         Me.GSTReportNewToolStripMenuItem.AccessibleDescription = "frmGSTR3BNEW~RPT"
         Me.GSTReportNewToolStripMenuItem.AccessibleName = "R"
         Me.GSTReportNewToolStripMenuItem.Name = "GSTReportNewToolStripMenuItem"
-        Me.GSTReportNewToolStripMenuItem.Size = New System.Drawing.Size(186, 22)
+        Me.GSTReportNewToolStripMenuItem.Size = New System.Drawing.Size(235, 26)
         Me.GSTReportNewToolStripMenuItem.Text = "GST Report New"
         '
         'WholeSaleToolStripMenuItem1
         '
         Me.WholeSaleToolStripMenuItem1.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReportsToolStripMenuItem})
         Me.WholeSaleToolStripMenuItem1.Name = "WholeSaleToolStripMenuItem1"
-        Me.WholeSaleToolStripMenuItem1.Size = New System.Drawing.Size(77, 20)
+        Me.WholeSaleToolStripMenuItem1.Size = New System.Drawing.Size(98, 24)
         Me.WholeSaleToolStripMenuItem1.Text = "Whole Sale"
         '
         'ReportsToolStripMenuItem
@@ -5903,7 +5911,7 @@ Partial Class Main
         Me.ReportsToolStripMenuItem.Name = "ReportsToolStripMenuItem"
         Me.ReportsToolStripMenuItem.ShortcutKeyDisplayString = "AGW-1"
         Me.ReportsToolStripMenuItem.ShowShortcutKeys = False
-        Me.ReportsToolStripMenuItem.Size = New System.Drawing.Size(107, 22)
+        Me.ReportsToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
         Me.ReportsToolStripMenuItem.Text = "Reports"
         '
         'RunningBalanceToolStripMenuItem
@@ -5912,7 +5920,7 @@ Partial Class Main
         Me.RunningBalanceToolStripMenuItem.Name = "RunningBalanceToolStripMenuItem"
         Me.RunningBalanceToolStripMenuItem.ShortcutKeyDisplayString = "AGW-1-1"
         Me.RunningBalanceToolStripMenuItem.ShowShortcutKeys = False
-        Me.RunningBalanceToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
+        Me.RunningBalanceToolStripMenuItem.Size = New System.Drawing.Size(266, 26)
         Me.RunningBalanceToolStripMenuItem.Text = "Running Balance"
         '
         'DailyTransactionToolStripMenuItem
@@ -5921,7 +5929,7 @@ Partial Class Main
         Me.DailyTransactionToolStripMenuItem.Name = "DailyTransactionToolStripMenuItem"
         Me.DailyTransactionToolStripMenuItem.ShortcutKeyDisplayString = "AGW-1-2"
         Me.DailyTransactionToolStripMenuItem.ShowShortcutKeys = False
-        Me.DailyTransactionToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
+        Me.DailyTransactionToolStripMenuItem.Size = New System.Drawing.Size(266, 26)
         Me.DailyTransactionToolStripMenuItem.Text = "Daily Transaction"
         '
         'AllLedgerToolStripMenuItem
@@ -5930,7 +5938,7 @@ Partial Class Main
         Me.AllLedgerToolStripMenuItem.Name = "AllLedgerToolStripMenuItem"
         Me.AllLedgerToolStripMenuItem.ShortcutKeyDisplayString = "AGW-1-3"
         Me.AllLedgerToolStripMenuItem.ShowShortcutKeys = False
-        Me.AllLedgerToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
+        Me.AllLedgerToolStripMenuItem.Size = New System.Drawing.Size(266, 26)
         Me.AllLedgerToolStripMenuItem.Text = "All Ledger"
         '
         'MetalStockToolStripMenuItem
@@ -5939,7 +5947,7 @@ Partial Class Main
         Me.MetalStockToolStripMenuItem.Name = "MetalStockToolStripMenuItem"
         Me.MetalStockToolStripMenuItem.ShortcutKeyDisplayString = "AGW-1-4"
         Me.MetalStockToolStripMenuItem.ShowShortcutKeys = False
-        Me.MetalStockToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
+        Me.MetalStockToolStripMenuItem.Size = New System.Drawing.Size(266, 26)
         Me.MetalStockToolStripMenuItem.Text = "Metal Stock"
         '
         'DailyAverageRateToolStripMenuItem
@@ -5948,7 +5956,7 @@ Partial Class Main
         Me.DailyAverageRateToolStripMenuItem.Name = "DailyAverageRateToolStripMenuItem"
         Me.DailyAverageRateToolStripMenuItem.ShortcutKeyDisplayString = "AGW-1-5"
         Me.DailyAverageRateToolStripMenuItem.ShowShortcutKeys = False
-        Me.DailyAverageRateToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
+        Me.DailyAverageRateToolStripMenuItem.Size = New System.Drawing.Size(266, 26)
         Me.DailyAverageRateToolStripMenuItem.Text = "Daily Average Rate"
         '
         'TrailSummaryToolStripMenuItem
@@ -5957,7 +5965,7 @@ Partial Class Main
         Me.TrailSummaryToolStripMenuItem.Name = "TrailSummaryToolStripMenuItem"
         Me.TrailSummaryToolStripMenuItem.ShortcutKeyDisplayString = "AGW-1-6"
         Me.TrailSummaryToolStripMenuItem.ShowShortcutKeys = False
-        Me.TrailSummaryToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
+        Me.TrailSummaryToolStripMenuItem.Size = New System.Drawing.Size(266, 26)
         Me.TrailSummaryToolStripMenuItem.Text = "Trail Summary"
         '
         'InterestCalculationToolStripMenuItem
@@ -5966,7 +5974,7 @@ Partial Class Main
         Me.InterestCalculationToolStripMenuItem.Name = "InterestCalculationToolStripMenuItem"
         Me.InterestCalculationToolStripMenuItem.ShortcutKeyDisplayString = "AGW-1-7"
         Me.InterestCalculationToolStripMenuItem.ShowShortcutKeys = False
-        Me.InterestCalculationToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
+        Me.InterestCalculationToolStripMenuItem.Size = New System.Drawing.Size(266, 26)
         Me.InterestCalculationToolStripMenuItem.Text = "Interest Calculation"
         '
         'TagNoWiseProfitLossToolStripMenuItem
@@ -5975,7 +5983,7 @@ Partial Class Main
         Me.TagNoWiseProfitLossToolStripMenuItem.Name = "TagNoWiseProfitLossToolStripMenuItem"
         Me.TagNoWiseProfitLossToolStripMenuItem.ShortcutKeyDisplayString = "AGW-1-8"
         Me.TagNoWiseProfitLossToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagNoWiseProfitLossToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
+        Me.TagNoWiseProfitLossToolStripMenuItem.Size = New System.Drawing.Size(266, 26)
         Me.TagNoWiseProfitLossToolStripMenuItem.Text = "TagNo Wise Profit && Loss"
         '
         'WS_DealerSmithLedgerToolStripMenuItem
@@ -5984,27 +5992,27 @@ Partial Class Main
         Me.WS_DealerSmithLedgerToolStripMenuItem.Name = "WS_DealerSmithLedgerToolStripMenuItem"
         Me.WS_DealerSmithLedgerToolStripMenuItem.ShortcutKeyDisplayString = "AGW-1-9"
         Me.WS_DealerSmithLedgerToolStripMenuItem.ShowShortcutKeys = False
-        Me.WS_DealerSmithLedgerToolStripMenuItem.Size = New System.Drawing.Size(210, 22)
+        Me.WS_DealerSmithLedgerToolStripMenuItem.Size = New System.Drawing.Size(266, 26)
         Me.WS_DealerSmithLedgerToolStripMenuItem.Text = "Dealer\Smith LedgerReport"
         '
         'tStripSavingsScheme
         '
         Me.tStripSavingsScheme.Name = "tStripSavingsScheme"
-        Me.tStripSavingsScheme.Size = New System.Drawing.Size(104, 20)
+        Me.tStripSavingsScheme.Size = New System.Drawing.Size(129, 24)
         Me.tStripSavingsScheme.Tag = "G"
         Me.tStripSavingsScheme.Text = "Savings Scheme"
         '
         'AddressBookToolStripMenuItem
         '
         Me.AddressBookToolStripMenuItem.Name = "AddressBookToolStripMenuItem"
-        Me.AddressBookToolStripMenuItem.Size = New System.Drawing.Size(91, 20)
+        Me.AddressBookToolStripMenuItem.Size = New System.Drawing.Size(114, 24)
         Me.AddressBookToolStripMenuItem.Text = "Address Book"
         '
         'tStripUtility
         '
         Me.tStripUtility.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripBackUp, Me.tStripBillControl, Me.tStripCardDetails, Me.tStripGuaranteeCardPrint, Me.tStripDataChecking, Me.tStripGlobalDateChange, Me.tStripTagTransfer2CTag, Me.tStripSync, Me.tStripTagTransfer, Me.NontagConstcentreTransferToolStripMenuItem, Me.AdvCrtTrferTStrip, Me.TStripMaterialIntransist, Me.tStripMRTransfertoIss, Me.tStripTagTransit, Me.YearEndProcessTStrip, Me.YearSelectionTStrip, Me.EditChequeAccountToolStripMenuItem, Me.ChitAccountPostToolStripMenuItem, Me.ChangePartyCodeOutstandingToolStripMenuItem, Me.tStripCatTransfer, Me.AccountsTransferToolStripMenuItem, Me.frmJJFormRptGen, Me.BillNoRegeneratorToolStripMenuItem, Me.TagRateUpdateToolStripMenuItem, Me.CentRateUpdateTStrip, Me.OfferDiscountUpdateToolStripMenuItem, Me.CustomerTransactionFlowToolStripMenuItem, Me.AddressInfoToolStripMenuItem, Me.AdvanceLockUnlockToolStripMenuItem, Me.ApprovalInterchangeToolStripMenuItem, Me.PurchaseUploadExcelToolStripMenuItem, Me.OutstandigEntryFromLedgerToolStripMenuItem, Me.MRMIAccountsRegenerateToolStripMenuItem, Me.RequestionSlipToolStripMenuItem, Me.DocumentMaintananceToolStripMenuItem, Me.RecallTransferedTagsToolStripMenuItem, Me.DrsMarkingToolStripMenuItem, Me.TagnoRegenerateToolStripMenuItem, Me.tStripSmsToolStripMenuItem, Me.BillAuthorizeToolStripMenuItem, Me.tStripStockUpload, Me.tStripGstUpdates, Me.CallURLToolStripMenuItem, Me.OnlineToolStripMenuItem24, Me.StudRateUpdate, Me.tCatLog, Me.tApprovalDet, Me.tEinvoiceExcelImport, Me.TStripcatWeightTransfer, Me.tstripHallmarknoImport, Me.TStripBounzProcess, Me.TStripBillprintDesign, Me.TstripDashBoard, Me.TStripTransferVoucherGeneration, Me.TStripMIVoucherGeneration})
         Me.tStripUtility.Name = "tStripUtility"
-        Me.tStripUtility.Size = New System.Drawing.Size(50, 20)
+        Me.tStripUtility.Size = New System.Drawing.Size(62, 24)
         Me.tStripUtility.Text = "Utility"
         '
         'tStripBackUp
@@ -6012,7 +6020,7 @@ Partial Class Main
         Me.tStripBackUp.Name = "tStripBackUp"
         Me.tStripBackUp.ShortcutKeyDisplayString = "AGU-1"
         Me.tStripBackUp.ShowShortcutKeys = False
-        Me.tStripBackUp.Size = New System.Drawing.Size(244, 22)
+        Me.tStripBackUp.Size = New System.Drawing.Size(305, 26)
         Me.tStripBackUp.Text = "Data Back Up"
         '
         'tStripBillControl
@@ -6021,7 +6029,7 @@ Partial Class Main
         Me.tStripBillControl.Name = "tStripBillControl"
         Me.tStripBillControl.ShortcutKeyDisplayString = "AGU-2"
         Me.tStripBillControl.ShowShortcutKeys = False
-        Me.tStripBillControl.Size = New System.Drawing.Size(244, 22)
+        Me.tStripBillControl.Size = New System.Drawing.Size(305, 26)
         Me.tStripBillControl.Text = "Bill No. Control"
         '
         'tStripCardDetails
@@ -6030,7 +6038,7 @@ Partial Class Main
         Me.tStripCardDetails.Name = "tStripCardDetails"
         Me.tStripCardDetails.ShortcutKeyDisplayString = "AGU-3"
         Me.tStripCardDetails.ShowShortcutKeys = False
-        Me.tStripCardDetails.Size = New System.Drawing.Size(244, 22)
+        Me.tStripCardDetails.Size = New System.Drawing.Size(305, 26)
         Me.tStripCardDetails.Text = "GCard Weight Vs Size"
         '
         'tStripGuaranteeCardPrint
@@ -6039,7 +6047,7 @@ Partial Class Main
         Me.tStripGuaranteeCardPrint.Name = "tStripGuaranteeCardPrint"
         Me.tStripGuaranteeCardPrint.ShortcutKeyDisplayString = "AGU-4"
         Me.tStripGuaranteeCardPrint.ShowShortcutKeys = False
-        Me.tStripGuaranteeCardPrint.Size = New System.Drawing.Size(244, 22)
+        Me.tStripGuaranteeCardPrint.Size = New System.Drawing.Size(305, 26)
         Me.tStripGuaranteeCardPrint.Text = "Guarantee Card Print"
         '
         'tStripDataChecking
@@ -6048,7 +6056,7 @@ Partial Class Main
         Me.tStripDataChecking.Name = "tStripDataChecking"
         Me.tStripDataChecking.ShortcutKeyDisplayString = "AGU-5"
         Me.tStripDataChecking.ShowShortcutKeys = False
-        Me.tStripDataChecking.Size = New System.Drawing.Size(244, 22)
+        Me.tStripDataChecking.Size = New System.Drawing.Size(305, 26)
         Me.tStripDataChecking.Text = "Data Integrity Checking"
         '
         'tStripIssueVsAccount
@@ -6057,7 +6065,7 @@ Partial Class Main
         Me.tStripIssueVsAccount.Name = "tStripIssueVsAccount"
         Me.tStripIssueVsAccount.ShortcutKeyDisplayString = "AGU-5-1"
         Me.tStripIssueVsAccount.ShowShortcutKeys = False
-        Me.tStripIssueVsAccount.Size = New System.Drawing.Size(276, 22)
+        Me.tStripIssueVsAccount.Size = New System.Drawing.Size(346, 26)
         Me.tStripIssueVsAccount.Text = "Issue Vs Transaction"
         '
         'tStripReceiptVsAccount
@@ -6066,7 +6074,7 @@ Partial Class Main
         Me.tStripReceiptVsAccount.Name = "tStripReceiptVsAccount"
         Me.tStripReceiptVsAccount.ShortcutKeyDisplayString = "AGU-5-2"
         Me.tStripReceiptVsAccount.ShowShortcutKeys = False
-        Me.tStripReceiptVsAccount.Size = New System.Drawing.Size(276, 22)
+        Me.tStripReceiptVsAccount.Size = New System.Drawing.Size(346, 26)
         Me.tStripReceiptVsAccount.Text = "Receipt Vs Transaction"
         '
         'CollectVsTransactionToolStripMenuItem
@@ -6075,7 +6083,7 @@ Partial Class Main
         Me.CollectVsTransactionToolStripMenuItem.Name = "CollectVsTransactionToolStripMenuItem"
         Me.CollectVsTransactionToolStripMenuItem.ShortcutKeyDisplayString = "AGU-5-3"
         Me.CollectVsTransactionToolStripMenuItem.ShowShortcutKeys = False
-        Me.CollectVsTransactionToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.CollectVsTransactionToolStripMenuItem.Size = New System.Drawing.Size(346, 26)
         Me.CollectVsTransactionToolStripMenuItem.Text = "Savings Vs Accounts Data Reconzilation"
         '
         'tStripDataCheckToolStripMenuItem
@@ -6083,7 +6091,7 @@ Partial Class Main
         Me.tStripDataCheckToolStripMenuItem.Name = "tStripDataCheckToolStripMenuItem"
         Me.tStripDataCheckToolStripMenuItem.ShortcutKeyDisplayString = "AGU-5-4"
         Me.tStripDataCheckToolStripMenuItem.ShowShortcutKeys = False
-        Me.tStripDataCheckToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.tStripDataCheckToolStripMenuItem.Size = New System.Drawing.Size(346, 26)
         Me.tStripDataCheckToolStripMenuItem.Text = "Data Consistent Check"
         '
         'tStripGlobalDateChange
@@ -6092,7 +6100,7 @@ Partial Class Main
         Me.tStripGlobalDateChange.Name = "tStripGlobalDateChange"
         Me.tStripGlobalDateChange.ShortcutKeyDisplayString = "AGU-6"
         Me.tStripGlobalDateChange.ShowShortcutKeys = False
-        Me.tStripGlobalDateChange.Size = New System.Drawing.Size(244, 22)
+        Me.tStripGlobalDateChange.Size = New System.Drawing.Size(305, 26)
         Me.tStripGlobalDateChange.Text = "Global Date Change"
         '
         'tStripTagTransfer2CTag
@@ -6101,7 +6109,7 @@ Partial Class Main
         Me.tStripTagTransfer2CTag.Name = "tStripTagTransfer2CTag"
         Me.tStripTagTransfer2CTag.ShortcutKeyDisplayString = "AGU-7"
         Me.tStripTagTransfer2CTag.ShowShortcutKeys = False
-        Me.tStripTagTransfer2CTag.Size = New System.Drawing.Size(244, 22)
+        Me.tStripTagTransfer2CTag.Size = New System.Drawing.Size(305, 26)
         Me.tStripTagTransfer2CTag.Text = "Tag Transfer (Issued)"
         Me.tStripTagTransfer2CTag.ToolTipText = "Transfers the completed or issued tag items"
         '
@@ -6111,7 +6119,7 @@ Partial Class Main
         Me.tStripSync.Name = "tStripSync"
         Me.tStripSync.ShortcutKeyDisplayString = "AGU-8"
         Me.tStripSync.ShowShortcutKeys = False
-        Me.tStripSync.Size = New System.Drawing.Size(244, 22)
+        Me.tStripSync.Size = New System.Drawing.Size(305, 26)
         Me.tStripSync.Text = "Syncronization"
         '
         'tSripSyncMaster
@@ -6121,7 +6129,7 @@ Partial Class Main
         Me.tSripSyncMaster.Name = "tSripSyncMaster"
         Me.tSripSyncMaster.ShortcutKeyDisplayString = "AGU-8-1"
         Me.tSripSyncMaster.ShowShortcutKeys = False
-        Me.tSripSyncMaster.Size = New System.Drawing.Size(207, 22)
+        Me.tSripSyncMaster.Size = New System.Drawing.Size(262, 26)
         Me.tSripSyncMaster.Text = "Sync Master"
         '
         'tStripSyncCostcentre
@@ -6131,7 +6139,7 @@ Partial Class Main
         Me.tStripSyncCostcentre.Name = "tStripSyncCostcentre"
         Me.tStripSyncCostcentre.ShortcutKeyDisplayString = "AGU-8-2"
         Me.tStripSyncCostcentre.ShowShortcutKeys = False
-        Me.tStripSyncCostcentre.Size = New System.Drawing.Size(207, 22)
+        Me.tStripSyncCostcentre.Size = New System.Drawing.Size(262, 26)
         Me.tStripSyncCostcentre.Text = "Sync Costcentre"
         '
         'tStripSendReceiveView
@@ -6141,7 +6149,7 @@ Partial Class Main
         Me.tStripSendReceiveView.Name = "tStripSendReceiveView"
         Me.tStripSendReceiveView.ShortcutKeyDisplayString = "AGU-8-3"
         Me.tStripSendReceiveView.ShowShortcutKeys = False
-        Me.tStripSendReceiveView.Size = New System.Drawing.Size(207, 22)
+        Me.tStripSendReceiveView.Size = New System.Drawing.Size(262, 26)
         Me.tStripSendReceiveView.Text = "Sent && Received data View"
         '
         'tStripSend
@@ -6149,7 +6157,7 @@ Partial Class Main
         Me.tStripSend.Name = "tStripSend"
         Me.tStripSend.ShortcutKeyDisplayString = "AGU-8-4"
         Me.tStripSend.ShowShortcutKeys = False
-        Me.tStripSend.Size = New System.Drawing.Size(207, 22)
+        Me.tStripSend.Size = New System.Drawing.Size(262, 26)
         Me.tStripSend.Text = "Auto Send "
         '
         'tStripReceive
@@ -6157,7 +6165,7 @@ Partial Class Main
         Me.tStripReceive.Name = "tStripReceive"
         Me.tStripReceive.ShortcutKeyDisplayString = "AGU-8-5"
         Me.tStripReceive.ShowShortcutKeys = False
-        Me.tStripReceive.Size = New System.Drawing.Size(207, 22)
+        Me.tStripReceive.Size = New System.Drawing.Size(262, 26)
         Me.tStripReceive.Text = "Auto Receive"
         '
         'ManualSendToolStripMenuItem
@@ -6166,7 +6174,7 @@ Partial Class Main
         Me.ManualSendToolStripMenuItem.Name = "ManualSendToolStripMenuItem"
         Me.ManualSendToolStripMenuItem.ShortcutKeyDisplayString = "AGU-8-6"
         Me.ManualSendToolStripMenuItem.ShowShortcutKeys = False
-        Me.ManualSendToolStripMenuItem.Size = New System.Drawing.Size(207, 22)
+        Me.ManualSendToolStripMenuItem.Size = New System.Drawing.Size(262, 26)
         Me.ManualSendToolStripMenuItem.Text = "Manual Send"
         Me.ManualSendToolStripMenuItem.ToolTipText = "Manually Copy the file"
         '
@@ -6176,7 +6184,7 @@ Partial Class Main
         Me.ManualReceiveToolStripMenuItem.Name = "ManualReceiveToolStripMenuItem"
         Me.ManualReceiveToolStripMenuItem.ShortcutKeyDisplayString = "AGU-8-7"
         Me.ManualReceiveToolStripMenuItem.ShowShortcutKeys = False
-        Me.ManualReceiveToolStripMenuItem.Size = New System.Drawing.Size(207, 22)
+        Me.ManualReceiveToolStripMenuItem.Size = New System.Drawing.Size(262, 26)
         Me.ManualReceiveToolStripMenuItem.Text = "Manual Receive"
         '
         'ReSendDataToolStripMenuItem
@@ -6185,7 +6193,7 @@ Partial Class Main
         Me.ReSendDataToolStripMenuItem.Name = "ReSendDataToolStripMenuItem"
         Me.ReSendDataToolStripMenuItem.ShortcutKeyDisplayString = "AGU-8-8"
         Me.ReSendDataToolStripMenuItem.ShowShortcutKeys = False
-        Me.ReSendDataToolStripMenuItem.Size = New System.Drawing.Size(207, 22)
+        Me.ReSendDataToolStripMenuItem.Size = New System.Drawing.Size(262, 26)
         Me.ReSendDataToolStripMenuItem.Text = "Re Send Data"
         '
         'ReSendDataAdvanceToolStripMenuItem
@@ -6194,7 +6202,7 @@ Partial Class Main
         Me.ReSendDataAdvanceToolStripMenuItem.Name = "ReSendDataAdvanceToolStripMenuItem"
         Me.ReSendDataAdvanceToolStripMenuItem.ShortcutKeyDisplayString = "AGU-8-9"
         Me.ReSendDataAdvanceToolStripMenuItem.ShowShortcutKeys = False
-        Me.ReSendDataAdvanceToolStripMenuItem.Size = New System.Drawing.Size(207, 22)
+        Me.ReSendDataAdvanceToolStripMenuItem.Size = New System.Drawing.Size(262, 26)
         Me.ReSendDataAdvanceToolStripMenuItem.Text = "Re Send Data-Advance"
         '
         'MaintenanceToolStripMenuItem
@@ -6203,7 +6211,7 @@ Partial Class Main
         Me.MaintenanceToolStripMenuItem.Name = "MaintenanceToolStripMenuItem"
         Me.MaintenanceToolStripMenuItem.ShortcutKeyDisplayString = "AGU-8-10"
         Me.MaintenanceToolStripMenuItem.ShowShortcutKeys = False
-        Me.MaintenanceToolStripMenuItem.Size = New System.Drawing.Size(207, 22)
+        Me.MaintenanceToolStripMenuItem.Size = New System.Drawing.Size(262, 26)
         Me.MaintenanceToolStripMenuItem.Text = "Maintenance"
         '
         'ReSendMasterToolStripMenuItem
@@ -6212,7 +6220,7 @@ Partial Class Main
         Me.ReSendMasterToolStripMenuItem.Name = "ReSendMasterToolStripMenuItem"
         Me.ReSendMasterToolStripMenuItem.ShortcutKeyDisplayString = "AGU-8-11"
         Me.ReSendMasterToolStripMenuItem.ShowShortcutKeys = False
-        Me.ReSendMasterToolStripMenuItem.Size = New System.Drawing.Size(207, 22)
+        Me.ReSendMasterToolStripMenuItem.Size = New System.Drawing.Size(262, 26)
         Me.ReSendMasterToolStripMenuItem.Text = "Re Send Master"
         '
         'SyncStatusCheckingToolStripMenuItem
@@ -6222,14 +6230,14 @@ Partial Class Main
         Me.SyncStatusCheckingToolStripMenuItem.Name = "SyncStatusCheckingToolStripMenuItem"
         Me.SyncStatusCheckingToolStripMenuItem.ShortcutKeyDisplayString = "AGU-8-12"
         Me.SyncStatusCheckingToolStripMenuItem.ShowShortcutKeys = False
-        Me.SyncStatusCheckingToolStripMenuItem.Size = New System.Drawing.Size(207, 22)
+        Me.SyncStatusCheckingToolStripMenuItem.Size = New System.Drawing.Size(262, 26)
         Me.SyncStatusCheckingToolStripMenuItem.Text = "Sync Status Checking"
         '
         'SyncReceivedStatusToolStripMenuItem
         '
         Me.SyncReceivedStatusToolStripMenuItem.AccessibleName = "R"
         Me.SyncReceivedStatusToolStripMenuItem.Name = "SyncReceivedStatusToolStripMenuItem"
-        Me.SyncReceivedStatusToolStripMenuItem.Size = New System.Drawing.Size(207, 22)
+        Me.SyncReceivedStatusToolStripMenuItem.Size = New System.Drawing.Size(262, 26)
         Me.SyncReceivedStatusToolStripMenuItem.Text = "Sync Received Status"
         '
         'tStripTagTransfer
@@ -6238,7 +6246,7 @@ Partial Class Main
         Me.tStripTagTransfer.Name = "tStripTagTransfer"
         Me.tStripTagTransfer.ShortcutKeyDisplayString = "AGU-9"
         Me.tStripTagTransfer.ShowShortcutKeys = False
-        Me.tStripTagTransfer.Size = New System.Drawing.Size(244, 22)
+        Me.tStripTagTransfer.Size = New System.Drawing.Size(305, 26)
         Me.tStripTagTransfer.Text = "Stock Transfer To Costcentre"
         Me.tStripTagTransfer.ToolTipText = "Transfers the tag items into specific locations"
         '
@@ -6247,7 +6255,7 @@ Partial Class Main
         Me.NontagConstcentreTransferToolStripMenuItem.Name = "NontagConstcentreTransferToolStripMenuItem"
         Me.NontagConstcentreTransferToolStripMenuItem.ShortcutKeyDisplayString = "AGU-10"
         Me.NontagConstcentreTransferToolStripMenuItem.ShowShortcutKeys = False
-        Me.NontagConstcentreTransferToolStripMenuItem.Size = New System.Drawing.Size(244, 22)
+        Me.NontagConstcentreTransferToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.NontagConstcentreTransferToolStripMenuItem.Text = "Nontag Constcentre Transfer"
         '
         'AdvCrtTrferTStrip
@@ -6255,7 +6263,7 @@ Partial Class Main
         Me.AdvCrtTrferTStrip.Name = "AdvCrtTrferTStrip"
         Me.AdvCrtTrferTStrip.ShortcutKeyDisplayString = "AGU-11"
         Me.AdvCrtTrferTStrip.ShowShortcutKeys = False
-        Me.AdvCrtTrferTStrip.Size = New System.Drawing.Size(244, 22)
+        Me.AdvCrtTrferTStrip.Size = New System.Drawing.Size(305, 26)
         Me.AdvCrtTrferTStrip.Text = "Adv/Credit Transfer To Costcentre"
         '
         'TStripMaterialIntransist
@@ -6264,7 +6272,7 @@ Partial Class Main
         Me.TStripMaterialIntransist.Name = "TStripMaterialIntransist"
         Me.TStripMaterialIntransist.ShortcutKeyDisplayString = "AGU-12"
         Me.TStripMaterialIntransist.ShowShortcutKeys = False
-        Me.TStripMaterialIntransist.Size = New System.Drawing.Size(244, 22)
+        Me.TStripMaterialIntransist.Size = New System.Drawing.Size(305, 26)
         Me.TStripMaterialIntransist.Text = "Material Receipt In-Transist"
         '
         'tStripMRTransfertoIss
@@ -6273,7 +6281,7 @@ Partial Class Main
         Me.tStripMRTransfertoIss.Name = "tStripMRTransfertoIss"
         Me.tStripMRTransfertoIss.ShortcutKeyDisplayString = "AGU-38"
         Me.tStripMRTransfertoIss.ShowShortcutKeys = False
-        Me.tStripMRTransfertoIss.Size = New System.Drawing.Size(244, 22)
+        Me.tStripMRTransfertoIss.Size = New System.Drawing.Size(305, 26)
         Me.tStripMRTransfertoIss.Text = "MR Transfer to Issue"
         '
         'tStripTagTransit
@@ -6282,7 +6290,7 @@ Partial Class Main
         Me.tStripTagTransit.Name = "tStripTagTransit"
         Me.tStripTagTransit.ShortcutKeyDisplayString = "AGU-13"
         Me.tStripTagTransit.ShowShortcutKeys = False
-        Me.tStripTagTransit.Size = New System.Drawing.Size(244, 22)
+        Me.tStripTagTransit.Size = New System.Drawing.Size(305, 26)
         Me.tStripTagTransit.Text = "Stock In-Transit"
         '
         'YearEndProcessTStrip
@@ -6291,7 +6299,7 @@ Partial Class Main
         Me.YearEndProcessTStrip.Name = "YearEndProcessTStrip"
         Me.YearEndProcessTStrip.ShortcutKeyDisplayString = "AGU-14"
         Me.YearEndProcessTStrip.ShowShortcutKeys = False
-        Me.YearEndProcessTStrip.Size = New System.Drawing.Size(244, 22)
+        Me.YearEndProcessTStrip.Size = New System.Drawing.Size(305, 26)
         Me.YearEndProcessTStrip.Text = "Year End Process"
         '
         'YearSelectionTStrip
@@ -6300,7 +6308,7 @@ Partial Class Main
         Me.YearSelectionTStrip.Name = "YearSelectionTStrip"
         Me.YearSelectionTStrip.ShortcutKeyDisplayString = "AGU-15"
         Me.YearSelectionTStrip.ShowShortcutKeys = False
-        Me.YearSelectionTStrip.Size = New System.Drawing.Size(244, 22)
+        Me.YearSelectionTStrip.Size = New System.Drawing.Size(305, 26)
         Me.YearSelectionTStrip.Text = "Year Selection"
         '
         'EditChequeAccountToolStripMenuItem
@@ -6309,7 +6317,7 @@ Partial Class Main
         Me.EditChequeAccountToolStripMenuItem.Name = "EditChequeAccountToolStripMenuItem"
         Me.EditChequeAccountToolStripMenuItem.ShortcutKeyDisplayString = "AGU-16"
         Me.EditChequeAccountToolStripMenuItem.ShowShortcutKeys = False
-        Me.EditChequeAccountToolStripMenuItem.Size = New System.Drawing.Size(244, 22)
+        Me.EditChequeAccountToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.EditChequeAccountToolStripMenuItem.Text = "Change Account (Cheque)"
         '
         'ChitAccountPostToolStripMenuItem
@@ -6318,7 +6326,7 @@ Partial Class Main
         Me.ChitAccountPostToolStripMenuItem.Name = "ChitAccountPostToolStripMenuItem"
         Me.ChitAccountPostToolStripMenuItem.ShortcutKeyDisplayString = "AGU-17"
         Me.ChitAccountPostToolStripMenuItem.ShowShortcutKeys = False
-        Me.ChitAccountPostToolStripMenuItem.Size = New System.Drawing.Size(244, 22)
+        Me.ChitAccountPostToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.ChitAccountPostToolStripMenuItem.Text = "Scheme Account Post"
         '
         'ChangePartyCodeOutstandingToolStripMenuItem
@@ -6327,7 +6335,7 @@ Partial Class Main
         Me.ChangePartyCodeOutstandingToolStripMenuItem.Name = "ChangePartyCodeOutstandingToolStripMenuItem"
         Me.ChangePartyCodeOutstandingToolStripMenuItem.ShortcutKeyDisplayString = "AGU-18"
         Me.ChangePartyCodeOutstandingToolStripMenuItem.ShowShortcutKeys = False
-        Me.ChangePartyCodeOutstandingToolStripMenuItem.Size = New System.Drawing.Size(244, 22)
+        Me.ChangePartyCodeOutstandingToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.ChangePartyCodeOutstandingToolStripMenuItem.Text = "Change Party Code (Adv/Due)"
         '
         'tStripCatTransfer
@@ -6336,7 +6344,7 @@ Partial Class Main
         Me.tStripCatTransfer.Name = "tStripCatTransfer"
         Me.tStripCatTransfer.ShortcutKeyDisplayString = "AGU-19"
         Me.tStripCatTransfer.ShowShortcutKeys = False
-        Me.tStripCatTransfer.Size = New System.Drawing.Size(244, 22)
+        Me.tStripCatTransfer.Size = New System.Drawing.Size(305, 26)
         Me.tStripCatTransfer.Text = "Category Transfer"
         '
         'AccountsTransferToolStripMenuItem
@@ -6345,13 +6353,13 @@ Partial Class Main
         Me.AccountsTransferToolStripMenuItem.Name = "AccountsTransferToolStripMenuItem"
         Me.AccountsTransferToolStripMenuItem.ShortcutKeyDisplayString = "AGU-20"
         Me.AccountsTransferToolStripMenuItem.ShowShortcutKeys = False
-        Me.AccountsTransferToolStripMenuItem.Size = New System.Drawing.Size(244, 22)
+        Me.AccountsTransferToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.AccountsTransferToolStripMenuItem.Text = "Accounts Transfer"
         '
         'frmJJFormRptGen
         '
         Me.frmJJFormRptGen.Name = "frmJJFormRptGen"
-        Me.frmJJFormRptGen.Size = New System.Drawing.Size(244, 22)
+        Me.frmJJFormRptGen.Size = New System.Drawing.Size(305, 26)
         Me.frmJJFormRptGen.Text = "JJ Form Report Gen"
         '
         'BillNoRegeneratorToolStripMenuItem
@@ -6359,7 +6367,7 @@ Partial Class Main
         Me.BillNoRegeneratorToolStripMenuItem.Name = "BillNoRegeneratorToolStripMenuItem"
         Me.BillNoRegeneratorToolStripMenuItem.ShortcutKeyDisplayString = "AGU-21"
         Me.BillNoRegeneratorToolStripMenuItem.ShowShortcutKeys = False
-        Me.BillNoRegeneratorToolStripMenuItem.Size = New System.Drawing.Size(244, 22)
+        Me.BillNoRegeneratorToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.BillNoRegeneratorToolStripMenuItem.Text = "Bill No Reset"
         '
         'TagRateUpdateToolStripMenuItem
@@ -6368,7 +6376,7 @@ Partial Class Main
         Me.TagRateUpdateToolStripMenuItem.Name = "TagRateUpdateToolStripMenuItem"
         Me.TagRateUpdateToolStripMenuItem.ShortcutKeyDisplayString = "AGU-22"
         Me.TagRateUpdateToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagRateUpdateToolStripMenuItem.Size = New System.Drawing.Size(244, 22)
+        Me.TagRateUpdateToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.TagRateUpdateToolStripMenuItem.Text = "Tag Rate Update"
         '
         'CentRateUpdateTStrip
@@ -6378,7 +6386,7 @@ Partial Class Main
         Me.CentRateUpdateTStrip.Name = "CentRateUpdateTStrip"
         Me.CentRateUpdateTStrip.ShortcutKeyDisplayString = "AGU-23"
         Me.CentRateUpdateTStrip.ShowShortcutKeys = False
-        Me.CentRateUpdateTStrip.Size = New System.Drawing.Size(244, 22)
+        Me.CentRateUpdateTStrip.Size = New System.Drawing.Size(305, 26)
         Me.CentRateUpdateTStrip.Text = "Cent Rate Update"
         '
         'OfferDiscountUpdateToolStripMenuItem
@@ -6386,7 +6394,7 @@ Partial Class Main
         Me.OfferDiscountUpdateToolStripMenuItem.Name = "OfferDiscountUpdateToolStripMenuItem"
         Me.OfferDiscountUpdateToolStripMenuItem.ShortcutKeyDisplayString = "AGU-24"
         Me.OfferDiscountUpdateToolStripMenuItem.ShowShortcutKeys = False
-        Me.OfferDiscountUpdateToolStripMenuItem.Size = New System.Drawing.Size(244, 22)
+        Me.OfferDiscountUpdateToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.OfferDiscountUpdateToolStripMenuItem.Text = "Offer Discount Update"
         '
         'CustomerTransactionFlowToolStripMenuItem
@@ -6396,7 +6404,7 @@ Partial Class Main
         Me.CustomerTransactionFlowToolStripMenuItem.Name = "CustomerTransactionFlowToolStripMenuItem"
         Me.CustomerTransactionFlowToolStripMenuItem.ShortcutKeyDisplayString = "AGU-25"
         Me.CustomerTransactionFlowToolStripMenuItem.ShowShortcutKeys = False
-        Me.CustomerTransactionFlowToolStripMenuItem.Size = New System.Drawing.Size(244, 22)
+        Me.CustomerTransactionFlowToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.CustomerTransactionFlowToolStripMenuItem.Text = "Customer Details"
         '
         'tStripCustomerQueryMenuItem
@@ -6405,7 +6413,7 @@ Partial Class Main
         Me.tStripCustomerQueryMenuItem.Name = "tStripCustomerQueryMenuItem"
         Me.tStripCustomerQueryMenuItem.ShortcutKeyDisplayString = "AGU-25-1"
         Me.tStripCustomerQueryMenuItem.ShowShortcutKeys = False
-        Me.tStripCustomerQueryMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.tStripCustomerQueryMenuItem.Size = New System.Drawing.Size(283, 26)
         Me.tStripCustomerQueryMenuItem.Text = "Customer Query/FeedBack"
         '
         'tStripCustomerTransactionMenuItem
@@ -6415,7 +6423,7 @@ Partial Class Main
         Me.tStripCustomerTransactionMenuItem.Name = "tStripCustomerTransactionMenuItem"
         Me.tStripCustomerTransactionMenuItem.ShortcutKeyDisplayString = "AGU-25-2"
         Me.tStripCustomerTransactionMenuItem.ShowShortcutKeys = False
-        Me.tStripCustomerTransactionMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.tStripCustomerTransactionMenuItem.Size = New System.Drawing.Size(283, 26)
         Me.tStripCustomerTransactionMenuItem.Text = "Customer Transaction Flow"
         '
         'CustomerTransactionReportToolStripMenuItem
@@ -6423,20 +6431,20 @@ Partial Class Main
         Me.CustomerTransactionReportToolStripMenuItem.AccessibleDescription = "frmCustomerTransactionDetail_New~RPT"
         Me.CustomerTransactionReportToolStripMenuItem.AccessibleName = "R"
         Me.CustomerTransactionReportToolStripMenuItem.Name = "CustomerTransactionReportToolStripMenuItem"
-        Me.CustomerTransactionReportToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.CustomerTransactionReportToolStripMenuItem.Size = New System.Drawing.Size(283, 26)
         Me.CustomerTransactionReportToolStripMenuItem.Text = "Customer Transaction Report"
         '
         'CustomerDateWiseReportToolStripMenuItem
         '
         Me.CustomerDateWiseReportToolStripMenuItem.AccessibleDescription = "frmCustomerDateWise~RPT"
         Me.CustomerDateWiseReportToolStripMenuItem.Name = "CustomerDateWiseReportToolStripMenuItem"
-        Me.CustomerDateWiseReportToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.CustomerDateWiseReportToolStripMenuItem.Size = New System.Drawing.Size(283, 26)
         Me.CustomerDateWiseReportToolStripMenuItem.Text = "Customer DateWise Report"
         '
         'CustomerDataUpLoadToolStripMenuItem
         '
         Me.CustomerDataUpLoadToolStripMenuItem.Name = "CustomerDataUpLoadToolStripMenuItem"
-        Me.CustomerDataUpLoadToolStripMenuItem.Size = New System.Drawing.Size(227, 22)
+        Me.CustomerDataUpLoadToolStripMenuItem.Size = New System.Drawing.Size(283, 26)
         Me.CustomerDataUpLoadToolStripMenuItem.Text = "Customer Data Upload"
         '
         'AddressInfoToolStripMenuItem
@@ -6445,7 +6453,7 @@ Partial Class Main
         Me.AddressInfoToolStripMenuItem.Name = "AddressInfoToolStripMenuItem"
         Me.AddressInfoToolStripMenuItem.ShortcutKeyDisplayString = "AGU-26"
         Me.AddressInfoToolStripMenuItem.ShowShortcutKeys = False
-        Me.AddressInfoToolStripMenuItem.Size = New System.Drawing.Size(244, 22)
+        Me.AddressInfoToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.AddressInfoToolStripMenuItem.Text = "Address Info"
         '
         'AdvanceLockUnlockToolStripMenuItem
@@ -6453,7 +6461,7 @@ Partial Class Main
         Me.AdvanceLockUnlockToolStripMenuItem.Name = "AdvanceLockUnlockToolStripMenuItem"
         Me.AdvanceLockUnlockToolStripMenuItem.ShortcutKeyDisplayString = "AGU-27"
         Me.AdvanceLockUnlockToolStripMenuItem.ShowShortcutKeys = False
-        Me.AdvanceLockUnlockToolStripMenuItem.Size = New System.Drawing.Size(244, 22)
+        Me.AdvanceLockUnlockToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.AdvanceLockUnlockToolStripMenuItem.Text = "Advance Lock/Unlock"
         '
         'ApprovalInterchangeToolStripMenuItem
@@ -6462,7 +6470,7 @@ Partial Class Main
         Me.ApprovalInterchangeToolStripMenuItem.Name = "ApprovalInterchangeToolStripMenuItem"
         Me.ApprovalInterchangeToolStripMenuItem.ShortcutKeyDisplayString = "AGU-28"
         Me.ApprovalInterchangeToolStripMenuItem.ShowShortcutKeys = False
-        Me.ApprovalInterchangeToolStripMenuItem.Size = New System.Drawing.Size(244, 22)
+        Me.ApprovalInterchangeToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.ApprovalInterchangeToolStripMenuItem.Text = "Approval Interchange"
         '
         'PurchaseUploadExcelToolStripMenuItem
@@ -6471,7 +6479,7 @@ Partial Class Main
         Me.PurchaseUploadExcelToolStripMenuItem.Name = "PurchaseUploadExcelToolStripMenuItem"
         Me.PurchaseUploadExcelToolStripMenuItem.ShortcutKeyDisplayString = "AGU-29"
         Me.PurchaseUploadExcelToolStripMenuItem.ShowShortcutKeys = False
-        Me.PurchaseUploadExcelToolStripMenuItem.Size = New System.Drawing.Size(244, 22)
+        Me.PurchaseUploadExcelToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.PurchaseUploadExcelToolStripMenuItem.Text = "Purchase Upload Excel"
         '
         'OutstandigEntryFromLedgerToolStripMenuItem
@@ -6479,7 +6487,7 @@ Partial Class Main
         Me.OutstandigEntryFromLedgerToolStripMenuItem.Name = "OutstandigEntryFromLedgerToolStripMenuItem"
         Me.OutstandigEntryFromLedgerToolStripMenuItem.ShortcutKeyDisplayString = "AGU-30"
         Me.OutstandigEntryFromLedgerToolStripMenuItem.ShowShortcutKeys = False
-        Me.OutstandigEntryFromLedgerToolStripMenuItem.Size = New System.Drawing.Size(244, 22)
+        Me.OutstandigEntryFromLedgerToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.OutstandigEntryFromLedgerToolStripMenuItem.Text = "Outstanding Entry From Ledger"
         '
         'MRMIAccountsRegenerateToolStripMenuItem
@@ -6488,7 +6496,7 @@ Partial Class Main
         Me.MRMIAccountsRegenerateToolStripMenuItem.Name = "MRMIAccountsRegenerateToolStripMenuItem"
         Me.MRMIAccountsRegenerateToolStripMenuItem.ShortcutKeyDisplayString = "AGU-31"
         Me.MRMIAccountsRegenerateToolStripMenuItem.ShowShortcutKeys = False
-        Me.MRMIAccountsRegenerateToolStripMenuItem.Size = New System.Drawing.Size(244, 22)
+        Me.MRMIAccountsRegenerateToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.MRMIAccountsRegenerateToolStripMenuItem.Text = "MR,MI,Accounts Regenerate"
         '
         'RequestionSlipToolStripMenuItem
@@ -6497,7 +6505,7 @@ Partial Class Main
         Me.RequestionSlipToolStripMenuItem.Name = "RequestionSlipToolStripMenuItem"
         Me.RequestionSlipToolStripMenuItem.ShortcutKeyDisplayString = "AGU-32"
         Me.RequestionSlipToolStripMenuItem.ShowShortcutKeys = False
-        Me.RequestionSlipToolStripMenuItem.Size = New System.Drawing.Size(244, 22)
+        Me.RequestionSlipToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.RequestionSlipToolStripMenuItem.Text = "Requestion Slip"
         '
         'DocumentMaintananceToolStripMenuItem
@@ -6506,7 +6514,7 @@ Partial Class Main
         Me.DocumentMaintananceToolStripMenuItem.Name = "DocumentMaintananceToolStripMenuItem"
         Me.DocumentMaintananceToolStripMenuItem.ShortcutKeyDisplayString = "AGU-33"
         Me.DocumentMaintananceToolStripMenuItem.ShowShortcutKeys = False
-        Me.DocumentMaintananceToolStripMenuItem.Size = New System.Drawing.Size(244, 22)
+        Me.DocumentMaintananceToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.DocumentMaintananceToolStripMenuItem.Text = "Document Maintanance"
         '
         'DocumentSendToolStripMenuItem
@@ -6514,7 +6522,7 @@ Partial Class Main
         Me.DocumentSendToolStripMenuItem.Name = "DocumentSendToolStripMenuItem"
         Me.DocumentSendToolStripMenuItem.ShortcutKeyDisplayString = "AGU-33-1"
         Me.DocumentSendToolStripMenuItem.ShowShortcutKeys = False
-        Me.DocumentSendToolStripMenuItem.Size = New System.Drawing.Size(166, 22)
+        Me.DocumentSendToolStripMenuItem.Size = New System.Drawing.Size(207, 26)
         Me.DocumentSendToolStripMenuItem.Text = "Document Send"
         '
         'DocumentReceiveToolStripMenuItem
@@ -6522,7 +6530,7 @@ Partial Class Main
         Me.DocumentReceiveToolStripMenuItem.Name = "DocumentReceiveToolStripMenuItem"
         Me.DocumentReceiveToolStripMenuItem.ShortcutKeyDisplayString = "AGU-33-2"
         Me.DocumentReceiveToolStripMenuItem.ShowShortcutKeys = False
-        Me.DocumentReceiveToolStripMenuItem.Size = New System.Drawing.Size(166, 22)
+        Me.DocumentReceiveToolStripMenuItem.Size = New System.Drawing.Size(207, 26)
         Me.DocumentReceiveToolStripMenuItem.Text = "Document Receive"
         '
         'RecallTransferedTagsToolStripMenuItem
@@ -6532,7 +6540,7 @@ Partial Class Main
         Me.RecallTransferedTagsToolStripMenuItem.Name = "RecallTransferedTagsToolStripMenuItem"
         Me.RecallTransferedTagsToolStripMenuItem.ShortcutKeyDisplayString = "AGU-34"
         Me.RecallTransferedTagsToolStripMenuItem.ShowShortcutKeys = False
-        Me.RecallTransferedTagsToolStripMenuItem.Size = New System.Drawing.Size(244, 22)
+        Me.RecallTransferedTagsToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.RecallTransferedTagsToolStripMenuItem.Text = "Recall Transfer Tags"
         '
         'DrsMarkingToolStripMenuItem
@@ -6540,7 +6548,7 @@ Partial Class Main
         Me.DrsMarkingToolStripMenuItem.Name = "DrsMarkingToolStripMenuItem"
         Me.DrsMarkingToolStripMenuItem.ShortcutKeyDisplayString = "AGU-35"
         Me.DrsMarkingToolStripMenuItem.ShowShortcutKeys = False
-        Me.DrsMarkingToolStripMenuItem.Size = New System.Drawing.Size(244, 22)
+        Me.DrsMarkingToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.DrsMarkingToolStripMenuItem.Text = "Drs Marking"
         '
         'TagnoRegenerateToolStripMenuItem
@@ -6549,7 +6557,7 @@ Partial Class Main
         Me.TagnoRegenerateToolStripMenuItem.Name = "TagnoRegenerateToolStripMenuItem"
         Me.TagnoRegenerateToolStripMenuItem.ShortcutKeyDisplayString = "AGU-36"
         Me.TagnoRegenerateToolStripMenuItem.ShowShortcutKeys = False
-        Me.TagnoRegenerateToolStripMenuItem.Size = New System.Drawing.Size(244, 22)
+        Me.TagnoRegenerateToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.TagnoRegenerateToolStripMenuItem.Text = "Tagno Regenerate"
         '
         'tStripSmsToolStripMenuItem
@@ -6558,7 +6566,7 @@ Partial Class Main
         Me.tStripSmsToolStripMenuItem.Name = "tStripSmsToolStripMenuItem"
         Me.tStripSmsToolStripMenuItem.ShortcutKeyDisplayString = "AGU-37"
         Me.tStripSmsToolStripMenuItem.ShowShortcutKeys = False
-        Me.tStripSmsToolStripMenuItem.Size = New System.Drawing.Size(244, 22)
+        Me.tStripSmsToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.tStripSmsToolStripMenuItem.Text = "Sms"
         '
         'tStripSendSmsToolStripMenuItem
@@ -6568,7 +6576,7 @@ Partial Class Main
         Me.tStripSendSmsToolStripMenuItem.Name = "tStripSendSmsToolStripMenuItem"
         Me.tStripSendSmsToolStripMenuItem.ShortcutKeyDisplayString = "AGU-37-1"
         Me.tStripSendSmsToolStripMenuItem.ShowShortcutKeys = False
-        Me.tStripSendSmsToolStripMenuItem.Size = New System.Drawing.Size(225, 22)
+        Me.tStripSendSmsToolStripMenuItem.Size = New System.Drawing.Size(283, 26)
         Me.tStripSendSmsToolStripMenuItem.Text = "Send Sms"
         '
         'SmsTemplateToolStripMenuItem
@@ -6577,7 +6585,7 @@ Partial Class Main
         Me.SmsTemplateToolStripMenuItem.Name = "SmsTemplateToolStripMenuItem"
         Me.SmsTemplateToolStripMenuItem.ShortcutKeyDisplayString = "AGU-37-2"
         Me.SmsTemplateToolStripMenuItem.ShowShortcutKeys = False
-        Me.SmsTemplateToolStripMenuItem.Size = New System.Drawing.Size(225, 22)
+        Me.SmsTemplateToolStripMenuItem.Size = New System.Drawing.Size(283, 26)
         Me.SmsTemplateToolStripMenuItem.Text = "Sms Template"
         '
         'tStripSmsWishes
@@ -6585,7 +6593,7 @@ Partial Class Main
         Me.tStripSmsWishes.AccessibleName = "R"
         Me.tStripSmsWishes.Name = "tStripSmsWishes"
         Me.tStripSmsWishes.ShortcutKeyDisplayString = "AGU-37-3"
-        Me.tStripSmsWishes.Size = New System.Drawing.Size(225, 22)
+        Me.tStripSmsWishes.Size = New System.Drawing.Size(283, 26)
         Me.tStripSmsWishes.Text = "Send Wishes SMS"
         '
         'BillAuthorizeToolStripMenuItem
@@ -6593,7 +6601,7 @@ Partial Class Main
         Me.BillAuthorizeToolStripMenuItem.Name = "BillAuthorizeToolStripMenuItem"
         Me.BillAuthorizeToolStripMenuItem.ShortcutKeyDisplayString = "AGU-39"
         Me.BillAuthorizeToolStripMenuItem.ShowShortcutKeys = False
-        Me.BillAuthorizeToolStripMenuItem.Size = New System.Drawing.Size(244, 22)
+        Me.BillAuthorizeToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.BillAuthorizeToolStripMenuItem.Text = "Bill Authorize"
         '
         'tStripStockUpload
@@ -6602,7 +6610,7 @@ Partial Class Main
         Me.tStripStockUpload.Name = "tStripStockUpload"
         Me.tStripStockUpload.ShortcutKeyDisplayString = "AGU-40"
         Me.tStripStockUpload.ShowShortcutKeys = False
-        Me.tStripStockUpload.Size = New System.Drawing.Size(244, 22)
+        Me.tStripStockUpload.Size = New System.Drawing.Size(305, 26)
         Me.tStripStockUpload.Text = "Stock Upload"
         '
         'tStripGstUpdates
@@ -6612,84 +6620,84 @@ Partial Class Main
         Me.tStripGstUpdates.Name = "tStripGstUpdates"
         Me.tStripGstUpdates.ShortcutKeyDisplayString = "AGU-41"
         Me.tStripGstUpdates.ShowShortcutKeys = False
-        Me.tStripGstUpdates.Size = New System.Drawing.Size(244, 22)
+        Me.tStripGstUpdates.Size = New System.Drawing.Size(305, 26)
         Me.tStripGstUpdates.Text = "GST Updates"
         '
         'CallURLToolStripMenuItem
         '
         Me.CallURLToolStripMenuItem.Name = "CallURLToolStripMenuItem"
-        Me.CallURLToolStripMenuItem.Size = New System.Drawing.Size(244, 22)
+        Me.CallURLToolStripMenuItem.Size = New System.Drawing.Size(305, 26)
         Me.CallURLToolStripMenuItem.Text = "Call URL"
         '
         'OnlineToolStripMenuItem24
         '
         Me.OnlineToolStripMenuItem24.Name = "OnlineToolStripMenuItem24"
-        Me.OnlineToolStripMenuItem24.Size = New System.Drawing.Size(244, 22)
+        Me.OnlineToolStripMenuItem24.Size = New System.Drawing.Size(305, 26)
         Me.OnlineToolStripMenuItem24.Text = "Import & Export"
         '
         'StudRateUpdate
         '
         Me.StudRateUpdate.AccessibleDescription = "frmStuddedAmtRateUpdate"
         Me.StudRateUpdate.Name = "StudRateUpdate"
-        Me.StudRateUpdate.Size = New System.Drawing.Size(244, 22)
+        Me.StudRateUpdate.Size = New System.Drawing.Size(305, 26)
         Me.StudRateUpdate.Text = "Studded Rate Update"
         '
         'tCatLog
         '
         Me.tCatLog.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tcatLogItemDetail})
         Me.tCatLog.Name = "tCatLog"
-        Me.tCatLog.Size = New System.Drawing.Size(244, 22)
+        Me.tCatLog.Size = New System.Drawing.Size(305, 26)
         Me.tCatLog.Text = "Cat Log"
         '
         'tcatLogItemDetail
         '
         Me.tcatLogItemDetail.Name = "tcatLogItemDetail"
-        Me.tcatLogItemDetail.Size = New System.Drawing.Size(183, 22)
+        Me.tcatLogItemDetail.Size = New System.Drawing.Size(229, 26)
         Me.tcatLogItemDetail.Text = "CatLog Item Transfer"
         '
         'tApprovalDet
         '
         Me.tApprovalDet.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tAcheadApproval})
         Me.tApprovalDet.Name = "tApprovalDet"
-        Me.tApprovalDet.Size = New System.Drawing.Size(244, 22)
+        Me.tApprovalDet.Size = New System.Drawing.Size(305, 26)
         Me.tApprovalDet.Text = "Approval"
         '
         'tAcheadApproval
         '
         Me.tAcheadApproval.AccessibleDescription = "frmAcheadApproval"
         Me.tAcheadApproval.Name = "tAcheadApproval"
-        Me.tAcheadApproval.Size = New System.Drawing.Size(182, 22)
+        Me.tAcheadApproval.Size = New System.Drawing.Size(226, 26)
         Me.tAcheadApproval.Text = "ACHEAD APPROVAL"
         '
         'tEinvoiceExcelImport
         '
         Me.tEinvoiceExcelImport.Name = "tEinvoiceExcelImport"
-        Me.tEinvoiceExcelImport.Size = New System.Drawing.Size(244, 22)
+        Me.tEinvoiceExcelImport.Size = New System.Drawing.Size(305, 26)
         Me.tEinvoiceExcelImport.Text = "Einvoice Upload"
         '
         'TStripcatWeightTransfer
         '
         Me.TStripcatWeightTransfer.Name = "TStripcatWeightTransfer"
-        Me.TStripcatWeightTransfer.Size = New System.Drawing.Size(244, 22)
+        Me.TStripcatWeightTransfer.Size = New System.Drawing.Size(305, 26)
         Me.TStripcatWeightTransfer.Text = "Category Weight Transfer"
         '
         'tstripHallmarknoImport
         '
         Me.tstripHallmarknoImport.Name = "tstripHallmarknoImport"
-        Me.tstripHallmarknoImport.Size = New System.Drawing.Size(244, 22)
+        Me.tstripHallmarknoImport.Size = New System.Drawing.Size(305, 26)
         Me.tstripHallmarknoImport.Text = "Hallmarkno Upload"
         '
         'TStripBounzProcess
         '
         Me.TStripBounzProcess.Name = "TStripBounzProcess"
-        Me.TStripBounzProcess.Size = New System.Drawing.Size(244, 22)
+        Me.TStripBounzProcess.Size = New System.Drawing.Size(305, 26)
         Me.TStripBounzProcess.Text = "Bounz Process"
         '
         'TStripBillprintDesign
         '
         Me.TStripBillprintDesign.AccessibleDescription = "frmBillPrintCustDesign"
         Me.TStripBillprintDesign.Name = "TStripBillprintDesign"
-        Me.TStripBillprintDesign.Size = New System.Drawing.Size(244, 22)
+        Me.TStripBillprintDesign.Size = New System.Drawing.Size(305, 26)
         Me.TStripBillprintDesign.Text = "Billprint Design"
         '
         'TstripDashBoard
@@ -6697,27 +6705,27 @@ Partial Class Main
         Me.TstripDashBoard.AccessibleDescription = "frmCustomerDashboardDetail~RPT"
         Me.TstripDashBoard.AccessibleName = ""
         Me.TstripDashBoard.Name = "TstripDashBoard"
-        Me.TstripDashBoard.Size = New System.Drawing.Size(244, 22)
+        Me.TstripDashBoard.Size = New System.Drawing.Size(305, 26)
         Me.TstripDashBoard.Text = "DashBoard"
         '
         'TStripTransferVoucherGeneration
         '
         Me.TStripTransferVoucherGeneration.AccessibleDescription = "frmTransferVoucherGeneration"
         Me.TStripTransferVoucherGeneration.Name = "TStripTransferVoucherGeneration"
-        Me.TStripTransferVoucherGeneration.Size = New System.Drawing.Size(244, 22)
+        Me.TStripTransferVoucherGeneration.Size = New System.Drawing.Size(305, 26)
         Me.TStripTransferVoucherGeneration.Text = "Transfer Voucher Generation"
         '
         'TStripMIVoucherGeneration
         '
         Me.TStripMIVoucherGeneration.AccessibleDescription = "frmMIVoucherGeneration"
         Me.TStripMIVoucherGeneration.Name = "TStripMIVoucherGeneration"
-        Me.TStripMIVoucherGeneration.Size = New System.Drawing.Size(244, 22)
+        Me.TStripMIVoucherGeneration.Size = New System.Drawing.Size(305, 26)
         Me.TStripMIVoucherGeneration.Text = "MiscIssue Voucher Generation"
         '
         'tStripExit
         '
         Me.tStripExit.Name = "tStripExit"
-        Me.tStripExit.Size = New System.Drawing.Size(38, 20)
+        Me.tStripExit.Size = New System.Drawing.Size(47, 24)
         Me.tStripExit.Text = "E&xit"
         '
         'Master
@@ -6730,7 +6738,7 @@ Partial Class Main
         'mnuAccounts
         '
         Me.mnuAccounts.Name = "mnuAccounts"
-        Me.mnuAccounts.Size = New System.Drawing.Size(127, 22)
+        Me.mnuAccounts.Size = New System.Drawing.Size(156, 26)
         Me.mnuAccounts.Text = "Accounts "
         '
         'tStripTitle
@@ -6739,7 +6747,7 @@ Partial Class Main
         Me.tStripTitle.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tStripTitle.ImageScalingSize = New System.Drawing.Size(24, 24)
         Me.tStripTitle.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripLogOut, Me.tStripLanguageChange, Me.TStripLblTitle, Me.tStripCalculator, Me.tStripMessenger, Me.tStripBkImage, Me.tStripCompanySelection, Me.tStripFontBackgroundColor, Me.tStripShortcut, Me.ToolStripLabel1, Me.tStripSilverRate, Me.ToolStripLabel2, Me.tStripGoldRate, Me.ToolStripLabel4, Me.tStripBillDate, Me.ToolStripLabel5})
-        Me.tStripTitle.Location = New System.Drawing.Point(0, 24)
+        Me.tStripTitle.Location = New System.Drawing.Point(0, 28)
         Me.tStripTitle.Name = "tStripTitle"
         Me.tStripTitle.Size = New System.Drawing.Size(1370, 28)
         Me.tStripTitle.TabIndex = 3
@@ -6752,7 +6760,7 @@ Partial Class Main
         Me.tStripLogOut.Image = CType(resources.GetObject("tStripLogOut.Image"), System.Drawing.Image)
         Me.tStripLogOut.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tStripLogOut.Name = "tStripLogOut"
-        Me.tStripLogOut.Size = New System.Drawing.Size(28, 25)
+        Me.tStripLogOut.Size = New System.Drawing.Size(29, 25)
         Me.tStripLogOut.Text = "Logout"
         Me.tStripLogOut.ToolTipText = "Logout"
         '
@@ -6772,7 +6780,7 @@ Partial Class Main
         Me.TStripLblTitle.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TStripLblTitle.ForeColor = System.Drawing.Color.Blue
         Me.TStripLblTitle.Name = "TStripLblTitle"
-        Me.TStripLblTitle.Size = New System.Drawing.Size(46, 25)
+        Me.TStripLblTitle.Size = New System.Drawing.Size(65, 25)
         Me.TStripLblTitle.Text = "TITLE"
         '
         'tStripCalculator
@@ -6782,7 +6790,7 @@ Partial Class Main
         Me.tStripCalculator.Image = CType(resources.GetObject("tStripCalculator.Image"), System.Drawing.Image)
         Me.tStripCalculator.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tStripCalculator.Name = "tStripCalculator"
-        Me.tStripCalculator.Size = New System.Drawing.Size(28, 25)
+        Me.tStripCalculator.Size = New System.Drawing.Size(29, 25)
         Me.tStripCalculator.Text = "Calculator"
         '
         'tStripMessenger
@@ -6792,7 +6800,7 @@ Partial Class Main
         Me.tStripMessenger.Image = Global.BrighttechRetailJewellery.My.Resources.Resources.Live_Messenger_32
         Me.tStripMessenger.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tStripMessenger.Name = "tStripMessenger"
-        Me.tStripMessenger.Size = New System.Drawing.Size(28, 25)
+        Me.tStripMessenger.Size = New System.Drawing.Size(29, 25)
         Me.tStripMessenger.Text = "ToolStripButton1"
         Me.tStripMessenger.ToolTipText = "Messenger"
         '
@@ -6803,7 +6811,7 @@ Partial Class Main
         Me.tStripBkImage.Image = CType(resources.GetObject("tStripBkImage.Image"), System.Drawing.Image)
         Me.tStripBkImage.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tStripBkImage.Name = "tStripBkImage"
-        Me.tStripBkImage.Size = New System.Drawing.Size(28, 25)
+        Me.tStripBkImage.Size = New System.Drawing.Size(29, 25)
         Me.tStripBkImage.Text = "Click To Change BackGround Image"
         '
         'tStripCompanySelection
@@ -6813,7 +6821,7 @@ Partial Class Main
         Me.tStripCompanySelection.Image = Global.BrighttechRetailJewellery.My.Resources.Resources.Gtk_Dnd_Multiple_64
         Me.tStripCompanySelection.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tStripCompanySelection.Name = "tStripCompanySelection"
-        Me.tStripCompanySelection.Size = New System.Drawing.Size(28, 25)
+        Me.tStripCompanySelection.Size = New System.Drawing.Size(29, 25)
         Me.tStripCompanySelection.Text = "ToolStripButton1"
         Me.tStripCompanySelection.ToolTipText = "CompanyChange [Ctrl + Shift + M]  "
         '
@@ -6824,7 +6832,7 @@ Partial Class Main
         Me.tStripFontBackgroundColor.Image = CType(resources.GetObject("tStripFontBackgroundColor.Image"), System.Drawing.Image)
         Me.tStripFontBackgroundColor.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.tStripFontBackgroundColor.Name = "tStripFontBackgroundColor"
-        Me.tStripFontBackgroundColor.Size = New System.Drawing.Size(28, 25)
+        Me.tStripFontBackgroundColor.Size = New System.Drawing.Size(29, 25)
         Me.tStripFontBackgroundColor.Text = "Font Background Color"
         '
         'tStripShortcut
@@ -6840,7 +6848,7 @@ Partial Class Main
         Me.ToolStripLabel1.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ToolStripLabel1.ForeColor = System.Drawing.Color.Blue
         Me.ToolStripLabel1.Name = "ToolStripLabel1"
-        Me.ToolStripLabel1.Size = New System.Drawing.Size(70, 25)
+        Me.ToolStripLabel1.Size = New System.Drawing.Size(86, 25)
         Me.ToolStripLabel1.Text = "Short&cut :"
         '
         'tStripSilverRate
@@ -6849,7 +6857,7 @@ Partial Class Main
         Me.tStripSilverRate.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tStripSilverRate.ForeColor = System.Drawing.Color.Red
         Me.tStripSilverRate.Name = "tStripSilverRate"
-        Me.tStripSilverRate.Size = New System.Drawing.Size(57, 25)
+        Me.tStripSilverRate.Size = New System.Drawing.Size(75, 25)
         Me.tStripSilverRate.Text = "152.00"
         '
         'ToolStripLabel2
@@ -6858,7 +6866,7 @@ Partial Class Main
         Me.ToolStripLabel2.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ToolStripLabel2.ForeColor = System.Drawing.Color.Blue
         Me.ToolStripLabel2.Name = "ToolStripLabel2"
-        Me.ToolStripLabel2.Size = New System.Drawing.Size(86, 25)
+        Me.ToolStripLabel2.Size = New System.Drawing.Size(102, 25)
         Me.ToolStripLabel2.Text = "Silver Rate :"
         '
         'tStripGoldRate
@@ -6867,7 +6875,7 @@ Partial Class Main
         Me.tStripGoldRate.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tStripGoldRate.ForeColor = System.Drawing.Color.Red
         Me.tStripGoldRate.Name = "tStripGoldRate"
-        Me.tStripGoldRate.Size = New System.Drawing.Size(66, 25)
+        Me.tStripGoldRate.Size = New System.Drawing.Size(87, 25)
         Me.tStripGoldRate.Text = "1520.00"
         '
         'ToolStripLabel4
@@ -6876,7 +6884,7 @@ Partial Class Main
         Me.ToolStripLabel4.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ToolStripLabel4.ForeColor = System.Drawing.Color.Blue
         Me.ToolStripLabel4.Name = "ToolStripLabel4"
-        Me.ToolStripLabel4.Size = New System.Drawing.Size(77, 25)
+        Me.ToolStripLabel4.Size = New System.Drawing.Size(94, 25)
         Me.ToolStripLabel4.Text = "Gold Rate :"
         '
         'tStripBillDate
@@ -6885,7 +6893,7 @@ Partial Class Main
         Me.tStripBillDate.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tStripBillDate.ForeColor = System.Drawing.Color.Red
         Me.tStripBillDate.Name = "tStripBillDate"
-        Me.tStripBillDate.Size = New System.Drawing.Size(97, 25)
+        Me.tStripBillDate.Size = New System.Drawing.Size(129, 25)
         Me.tStripBillDate.Text = "99/99/9999"
         '
         'ToolStripLabel5
@@ -6894,7 +6902,7 @@ Partial Class Main
         Me.ToolStripLabel5.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ToolStripLabel5.ForeColor = System.Drawing.Color.Blue
         Me.ToolStripLabel5.Name = "ToolStripLabel5"
-        Me.ToolStripLabel5.Size = New System.Drawing.Size(45, 25)
+        Me.ToolStripLabel5.Size = New System.Drawing.Size(54, 25)
         Me.ToolStripLabel5.Text = "Date :"
         '
         'CompanyShortCut
@@ -6902,14 +6910,14 @@ Partial Class Main
         Me.CompanyShortCut.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.CompanyShortCut.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CompanySelectionToolStripMenuItem, Me.Company1ToolStripMenuItem, Me.Company2ToolStripMenuItem, Me.Company3ToolStripMenuItem, Me.Company4ToolStripMenuItem, Me.Company5ToolStripMenuItem, Me.Company6ToolStripMenuItem, Me.Company7ToolStripMenuItem, Me.Company8ToolStripMenuItem, Me.Company9ToolStripMenuItem, Me.Company0ToolStripMenuItem, Me.ToolStripMenuItem1, Me.ToolStripMenuItem2, Me.ToolStripMenuItem3, Me.ToolStripMenuItem4, Me.ToolStripMenuItem5, Me.ToolStripMenuItem6, Me.ToolStripMenuItem7, Me.ToolStripMenuItem8, Me.ToolStripMenuItem9, Me.ToolStripMenuItem10, Me.CompanystatusToolStripMenuItem, Me.RemainderToolStripMenuItem, Me.PortalToolStripMenuItem})
         Me.CompanyShortCut.Name = "ContextMenuStrip1"
-        Me.CompanyShortCut.Size = New System.Drawing.Size(255, 532)
+        Me.CompanyShortCut.Size = New System.Drawing.Size(302, 580)
         '
         'CompanySelectionToolStripMenuItem
         '
         Me.CompanySelectionToolStripMenuItem.Name = "CompanySelectionToolStripMenuItem"
         Me.CompanySelectionToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.M), System.Windows.Forms.Keys)
-        Me.CompanySelectionToolStripMenuItem.Size = New System.Drawing.Size(254, 22)
+        Me.CompanySelectionToolStripMenuItem.Size = New System.Drawing.Size(301, 24)
         Me.CompanySelectionToolStripMenuItem.Tag = "Main"
         Me.CompanySelectionToolStripMenuItem.Text = "Company Selection"
         Me.CompanySelectionToolStripMenuItem.Visible = False
@@ -6918,7 +6926,7 @@ Partial Class Main
         '
         Me.Company1ToolStripMenuItem.Name = "Company1ToolStripMenuItem"
         Me.Company1ToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D1), System.Windows.Forms.Keys)
-        Me.Company1ToolStripMenuItem.Size = New System.Drawing.Size(254, 22)
+        Me.Company1ToolStripMenuItem.Size = New System.Drawing.Size(301, 24)
         Me.Company1ToolStripMenuItem.Tag = "1"
         Me.Company1ToolStripMenuItem.Text = "Company1"
         Me.Company1ToolStripMenuItem.Visible = False
@@ -6927,7 +6935,7 @@ Partial Class Main
         '
         Me.Company2ToolStripMenuItem.Name = "Company2ToolStripMenuItem"
         Me.Company2ToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D2), System.Windows.Forms.Keys)
-        Me.Company2ToolStripMenuItem.Size = New System.Drawing.Size(254, 22)
+        Me.Company2ToolStripMenuItem.Size = New System.Drawing.Size(301, 24)
         Me.Company2ToolStripMenuItem.Tag = "2"
         Me.Company2ToolStripMenuItem.Text = "Company2"
         Me.Company2ToolStripMenuItem.Visible = False
@@ -6936,7 +6944,7 @@ Partial Class Main
         '
         Me.Company3ToolStripMenuItem.Name = "Company3ToolStripMenuItem"
         Me.Company3ToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D3), System.Windows.Forms.Keys)
-        Me.Company3ToolStripMenuItem.Size = New System.Drawing.Size(254, 22)
+        Me.Company3ToolStripMenuItem.Size = New System.Drawing.Size(301, 24)
         Me.Company3ToolStripMenuItem.Tag = "3"
         Me.Company3ToolStripMenuItem.Text = "Company3"
         Me.Company3ToolStripMenuItem.Visible = False
@@ -6945,7 +6953,7 @@ Partial Class Main
         '
         Me.Company4ToolStripMenuItem.Name = "Company4ToolStripMenuItem"
         Me.Company4ToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D4), System.Windows.Forms.Keys)
-        Me.Company4ToolStripMenuItem.Size = New System.Drawing.Size(254, 22)
+        Me.Company4ToolStripMenuItem.Size = New System.Drawing.Size(301, 24)
         Me.Company4ToolStripMenuItem.Tag = "4"
         Me.Company4ToolStripMenuItem.Text = "Company4"
         Me.Company4ToolStripMenuItem.Visible = False
@@ -6954,7 +6962,7 @@ Partial Class Main
         '
         Me.Company5ToolStripMenuItem.Name = "Company5ToolStripMenuItem"
         Me.Company5ToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D5), System.Windows.Forms.Keys)
-        Me.Company5ToolStripMenuItem.Size = New System.Drawing.Size(254, 22)
+        Me.Company5ToolStripMenuItem.Size = New System.Drawing.Size(301, 24)
         Me.Company5ToolStripMenuItem.Tag = "5"
         Me.Company5ToolStripMenuItem.Text = "Company5"
         Me.Company5ToolStripMenuItem.Visible = False
@@ -6963,7 +6971,7 @@ Partial Class Main
         '
         Me.Company6ToolStripMenuItem.Name = "Company6ToolStripMenuItem"
         Me.Company6ToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D6), System.Windows.Forms.Keys)
-        Me.Company6ToolStripMenuItem.Size = New System.Drawing.Size(254, 22)
+        Me.Company6ToolStripMenuItem.Size = New System.Drawing.Size(301, 24)
         Me.Company6ToolStripMenuItem.Tag = "6"
         Me.Company6ToolStripMenuItem.Text = "Company6"
         Me.Company6ToolStripMenuItem.Visible = False
@@ -6972,7 +6980,7 @@ Partial Class Main
         '
         Me.Company7ToolStripMenuItem.Name = "Company7ToolStripMenuItem"
         Me.Company7ToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D7), System.Windows.Forms.Keys)
-        Me.Company7ToolStripMenuItem.Size = New System.Drawing.Size(254, 22)
+        Me.Company7ToolStripMenuItem.Size = New System.Drawing.Size(301, 24)
         Me.Company7ToolStripMenuItem.Tag = "7"
         Me.Company7ToolStripMenuItem.Text = "Company7"
         Me.Company7ToolStripMenuItem.Visible = False
@@ -6981,7 +6989,7 @@ Partial Class Main
         '
         Me.Company8ToolStripMenuItem.Name = "Company8ToolStripMenuItem"
         Me.Company8ToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D8), System.Windows.Forms.Keys)
-        Me.Company8ToolStripMenuItem.Size = New System.Drawing.Size(254, 22)
+        Me.Company8ToolStripMenuItem.Size = New System.Drawing.Size(301, 24)
         Me.Company8ToolStripMenuItem.Tag = "8"
         Me.Company8ToolStripMenuItem.Text = "Company8"
         Me.Company8ToolStripMenuItem.Visible = False
@@ -6990,7 +6998,7 @@ Partial Class Main
         '
         Me.Company9ToolStripMenuItem.Name = "Company9ToolStripMenuItem"
         Me.Company9ToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D9), System.Windows.Forms.Keys)
-        Me.Company9ToolStripMenuItem.Size = New System.Drawing.Size(254, 22)
+        Me.Company9ToolStripMenuItem.Size = New System.Drawing.Size(301, 24)
         Me.Company9ToolStripMenuItem.Tag = "9"
         Me.Company9ToolStripMenuItem.Text = "Company9"
         Me.Company9ToolStripMenuItem.Visible = False
@@ -6999,7 +7007,7 @@ Partial Class Main
         '
         Me.Company0ToolStripMenuItem.Name = "Company0ToolStripMenuItem"
         Me.Company0ToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D0), System.Windows.Forms.Keys)
-        Me.Company0ToolStripMenuItem.Size = New System.Drawing.Size(254, 22)
+        Me.Company0ToolStripMenuItem.Size = New System.Drawing.Size(301, 24)
         Me.Company0ToolStripMenuItem.Tag = "0"
         Me.Company0ToolStripMenuItem.Text = "Company0"
         Me.Company0ToolStripMenuItem.Visible = False
@@ -7008,7 +7016,7 @@ Partial Class Main
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
         Me.ToolStripMenuItem1.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.NumPad1), System.Windows.Forms.Keys)
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(254, 22)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(301, 24)
         Me.ToolStripMenuItem1.Tag = "1"
         Me.ToolStripMenuItem1.Text = "Company1"
         Me.ToolStripMenuItem1.Visible = False
@@ -7017,7 +7025,7 @@ Partial Class Main
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
         Me.ToolStripMenuItem2.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.NumPad2), System.Windows.Forms.Keys)
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(254, 22)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(301, 24)
         Me.ToolStripMenuItem2.Tag = "2"
         Me.ToolStripMenuItem2.Text = "Company2"
         Me.ToolStripMenuItem2.Visible = False
@@ -7026,7 +7034,7 @@ Partial Class Main
         '
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
         Me.ToolStripMenuItem3.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.NumPad3), System.Windows.Forms.Keys)
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(254, 22)
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(301, 24)
         Me.ToolStripMenuItem3.Tag = "3"
         Me.ToolStripMenuItem3.Text = "Company3"
         Me.ToolStripMenuItem3.Visible = False
@@ -7035,7 +7043,7 @@ Partial Class Main
         '
         Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
         Me.ToolStripMenuItem4.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.NumPad4), System.Windows.Forms.Keys)
-        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(254, 22)
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(301, 24)
         Me.ToolStripMenuItem4.Tag = "4"
         Me.ToolStripMenuItem4.Text = "Company4"
         Me.ToolStripMenuItem4.Visible = False
@@ -7044,7 +7052,7 @@ Partial Class Main
         '
         Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
         Me.ToolStripMenuItem5.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.NumPad5), System.Windows.Forms.Keys)
-        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(254, 22)
+        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(301, 24)
         Me.ToolStripMenuItem5.Tag = "5"
         Me.ToolStripMenuItem5.Text = "Company5"
         Me.ToolStripMenuItem5.Visible = False
@@ -7053,7 +7061,7 @@ Partial Class Main
         '
         Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
         Me.ToolStripMenuItem6.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.NumPad6), System.Windows.Forms.Keys)
-        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(254, 22)
+        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(301, 24)
         Me.ToolStripMenuItem6.Tag = "6"
         Me.ToolStripMenuItem6.Text = "Company6"
         Me.ToolStripMenuItem6.Visible = False
@@ -7062,7 +7070,7 @@ Partial Class Main
         '
         Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
         Me.ToolStripMenuItem7.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.NumPad7), System.Windows.Forms.Keys)
-        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(254, 22)
+        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(301, 24)
         Me.ToolStripMenuItem7.Tag = "7"
         Me.ToolStripMenuItem7.Text = "Company7"
         Me.ToolStripMenuItem7.Visible = False
@@ -7071,7 +7079,7 @@ Partial Class Main
         '
         Me.ToolStripMenuItem8.Name = "ToolStripMenuItem8"
         Me.ToolStripMenuItem8.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.NumPad8), System.Windows.Forms.Keys)
-        Me.ToolStripMenuItem8.Size = New System.Drawing.Size(254, 22)
+        Me.ToolStripMenuItem8.Size = New System.Drawing.Size(301, 24)
         Me.ToolStripMenuItem8.Tag = "8"
         Me.ToolStripMenuItem8.Text = "Company8"
         Me.ToolStripMenuItem8.Visible = False
@@ -7080,7 +7088,7 @@ Partial Class Main
         '
         Me.ToolStripMenuItem9.Name = "ToolStripMenuItem9"
         Me.ToolStripMenuItem9.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.NumPad9), System.Windows.Forms.Keys)
-        Me.ToolStripMenuItem9.Size = New System.Drawing.Size(254, 22)
+        Me.ToolStripMenuItem9.Size = New System.Drawing.Size(301, 24)
         Me.ToolStripMenuItem9.Tag = "9"
         Me.ToolStripMenuItem9.Text = "Company9"
         Me.ToolStripMenuItem9.Visible = False
@@ -7089,7 +7097,7 @@ Partial Class Main
         '
         Me.ToolStripMenuItem10.Name = "ToolStripMenuItem10"
         Me.ToolStripMenuItem10.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.NumPad0), System.Windows.Forms.Keys)
-        Me.ToolStripMenuItem10.Size = New System.Drawing.Size(254, 22)
+        Me.ToolStripMenuItem10.Size = New System.Drawing.Size(301, 24)
         Me.ToolStripMenuItem10.Tag = "0"
         Me.ToolStripMenuItem10.Text = "Company0"
         Me.ToolStripMenuItem10.Visible = False
@@ -7099,7 +7107,7 @@ Partial Class Main
         Me.CompanystatusToolStripMenuItem.Name = "CompanystatusToolStripMenuItem"
         Me.CompanystatusToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
-        Me.CompanystatusToolStripMenuItem.Size = New System.Drawing.Size(254, 22)
+        Me.CompanystatusToolStripMenuItem.Size = New System.Drawing.Size(301, 24)
         Me.CompanystatusToolStripMenuItem.Text = "companystatus"
         Me.CompanystatusToolStripMenuItem.Visible = False
         '
@@ -7107,56 +7115,56 @@ Partial Class Main
         '
         Me.RemainderToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.OrderRemainderToolStripMenuItem, Me.OrderRemainderTodayToolStripMenuItem, Me.CustomerSummaryRemainderToolStripMenuItem, Me.StockRemainderToolStripMenuItem, Me.OutstandingRemainderToolStripMenuItem, Me.StockReorderToolStripMenuItem1, Me.CashReceivedTodayToolStripMenuItem, Me.Birthday_AnniversaryToolStripMenuItem})
         Me.RemainderToolStripMenuItem.Name = "RemainderToolStripMenuItem"
-        Me.RemainderToolStripMenuItem.Size = New System.Drawing.Size(254, 22)
+        Me.RemainderToolStripMenuItem.Size = New System.Drawing.Size(301, 24)
         Me.RemainderToolStripMenuItem.Text = "Remainder"
         Me.RemainderToolStripMenuItem.Visible = False
         '
         'OrderRemainderToolStripMenuItem
         '
         Me.OrderRemainderToolStripMenuItem.Name = "OrderRemainderToolStripMenuItem"
-        Me.OrderRemainderToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.OrderRemainderToolStripMenuItem.Size = New System.Drawing.Size(293, 26)
         Me.OrderRemainderToolStripMenuItem.Text = "Order Remainder"
         '
         'OrderRemainderTodayToolStripMenuItem
         '
         Me.OrderRemainderTodayToolStripMenuItem.Name = "OrderRemainderTodayToolStripMenuItem"
-        Me.OrderRemainderTodayToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.OrderRemainderTodayToolStripMenuItem.Size = New System.Drawing.Size(293, 26)
         Me.OrderRemainderTodayToolStripMenuItem.Text = "Order Remainder(Today)"
         '
         'CustomerSummaryRemainderToolStripMenuItem
         '
         Me.CustomerSummaryRemainderToolStripMenuItem.Name = "CustomerSummaryRemainderToolStripMenuItem"
-        Me.CustomerSummaryRemainderToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.CustomerSummaryRemainderToolStripMenuItem.Size = New System.Drawing.Size(293, 26)
         Me.CustomerSummaryRemainderToolStripMenuItem.Text = "CustomerSummary Remainder"
         '
         'StockRemainderToolStripMenuItem
         '
         Me.StockRemainderToolStripMenuItem.Name = "StockRemainderToolStripMenuItem"
-        Me.StockRemainderToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.StockRemainderToolStripMenuItem.Size = New System.Drawing.Size(293, 26)
         Me.StockRemainderToolStripMenuItem.Text = "Stock Remainder"
         '
         'OutstandingRemainderToolStripMenuItem
         '
         Me.OutstandingRemainderToolStripMenuItem.Name = "OutstandingRemainderToolStripMenuItem"
-        Me.OutstandingRemainderToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.OutstandingRemainderToolStripMenuItem.Size = New System.Drawing.Size(293, 26)
         Me.OutstandingRemainderToolStripMenuItem.Text = "Outstanding Remainder"
         '
         'StockReorderToolStripMenuItem1
         '
         Me.StockReorderToolStripMenuItem1.Name = "StockReorderToolStripMenuItem1"
-        Me.StockReorderToolStripMenuItem1.Size = New System.Drawing.Size(237, 22)
+        Me.StockReorderToolStripMenuItem1.Size = New System.Drawing.Size(293, 26)
         Me.StockReorderToolStripMenuItem1.Text = "Stock Reorder"
         '
         'CashReceivedTodayToolStripMenuItem
         '
         Me.CashReceivedTodayToolStripMenuItem.Name = "CashReceivedTodayToolStripMenuItem"
-        Me.CashReceivedTodayToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.CashReceivedTodayToolStripMenuItem.Size = New System.Drawing.Size(293, 26)
         Me.CashReceivedTodayToolStripMenuItem.Text = "Cash Received (Today)"
         '
         'Birthday_AnniversaryToolStripMenuItem
         '
         Me.Birthday_AnniversaryToolStripMenuItem.Name = "Birthday_AnniversaryToolStripMenuItem"
-        Me.Birthday_AnniversaryToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
+        Me.Birthday_AnniversaryToolStripMenuItem.Size = New System.Drawing.Size(293, 26)
         Me.Birthday_AnniversaryToolStripMenuItem.Text = "Birthday\Anniversary"
         '
         'PortalToolStripMenuItem
@@ -7165,7 +7173,7 @@ Partial Class Main
         Me.PortalToolStripMenuItem.ShortcutKeys = CType((((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Alt) _
             Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
-        Me.PortalToolStripMenuItem.Size = New System.Drawing.Size(254, 22)
+        Me.PortalToolStripMenuItem.Size = New System.Drawing.Size(301, 24)
         Me.PortalToolStripMenuItem.Text = "Portal"
         Me.PortalToolStripMenuItem.Visible = False
         '
@@ -7187,15 +7195,15 @@ Partial Class Main
         Me.NotifyIcon1.Icon = CType(resources.GetObject("NotifyIcon1.Icon"), System.Drawing.Icon)
         Me.NotifyIcon1.Text = "NotifyIcon1"
         '
-        'PurchaseOrderTrackingToolStripMenuItem
+        'ToolStripMenuItem25
         '
-        Me.PurchaseOrderTrackingToolStripMenuItem.Name = "PurchaseOrderTrackingToolStripMenuItem"
-        Me.PurchaseOrderTrackingToolStripMenuItem.Size = New System.Drawing.Size(237, 22)
-        Me.PurchaseOrderTrackingToolStripMenuItem.Text = "Purchase Order Tracking"
+        Me.ToolStripMenuItem25.Name = "ToolStripMenuItem25"
+        Me.ToolStripMenuItem25.Size = New System.Drawing.Size(338, 26)
+        Me.ToolStripMenuItem25.Text = "Smith Balance Detailed New"
         '
         'Main
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
@@ -7938,4 +7946,5 @@ Partial Class Main
     Friend WithEvents PurchaseOrderToolStripMenuItem1 As ToolStripMenuItem
     Friend WithEvents DesignerLotToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents PurchaseOrderTrackingToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripMenuItem25 As ToolStripMenuItem
 End Class

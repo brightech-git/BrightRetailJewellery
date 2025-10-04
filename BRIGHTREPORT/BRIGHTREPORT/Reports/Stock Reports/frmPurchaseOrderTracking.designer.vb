@@ -24,7 +24,14 @@ Partial Class frmPurchaseOrderTracking
         Me.tabGen = New System.Windows.Forms.TabPage()
         Me.pnlGroupFilter = New System.Windows.Forms.Panel()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.Label15 = New System.Windows.Forms.Label()
+        Me.cmbCostcentre = New System.Windows.Forms.ComboBox()
+        Me.cmbMetal = New System.Windows.Forms.ComboBox()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.optBetween = New System.Windows.Forms.RadioButton()
+        Me.optAsOn = New System.Windows.Forms.RadioButton()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Metal = New System.Windows.Forms.Label()
+        Me.lblFrom = New System.Windows.Forms.Label()
         Me.btnNew = New System.Windows.Forms.Button()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -49,6 +56,7 @@ Partial Class frmPurchaseOrderTracking
         Me.tabGen.SuspendLayout()
         Me.pnlGroupFilter.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        Me.Panel1.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.tabView.SuspendLayout()
         CType(Me.gridviewDetail, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -73,10 +81,10 @@ Partial Class frmPurchaseOrderTracking
         'tabGen
         '
         Me.tabGen.Controls.Add(Me.pnlGroupFilter)
-        Me.tabGen.Location = New System.Drawing.Point(4, 25)
+        Me.tabGen.Location = New System.Drawing.Point(4, 29)
         Me.tabGen.Name = "tabGen"
         Me.tabGen.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabGen.Size = New System.Drawing.Size(933, 593)
+        Me.tabGen.Size = New System.Drawing.Size(933, 589)
         Me.tabGen.TabIndex = 0
         Me.tabGen.Text = "Gen"
         Me.tabGen.UseVisualStyleBackColor = True
@@ -91,7 +99,12 @@ Partial Class frmPurchaseOrderTracking
         '
         'GroupBox1
         '
-        Me.GroupBox1.Controls.Add(Me.Label15)
+        Me.GroupBox1.Controls.Add(Me.cmbCostcentre)
+        Me.GroupBox1.Controls.Add(Me.cmbMetal)
+        Me.GroupBox1.Controls.Add(Me.Panel1)
+        Me.GroupBox1.Controls.Add(Me.Label1)
+        Me.GroupBox1.Controls.Add(Me.Metal)
+        Me.GroupBox1.Controls.Add(Me.lblFrom)
         Me.GroupBox1.Controls.Add(Me.btnNew)
         Me.GroupBox1.Controls.Add(Me.btnExit)
         Me.GroupBox1.Controls.Add(Me.btnView_Search)
@@ -104,20 +117,89 @@ Partial Class frmPurchaseOrderTracking
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         '
-        'Label15
+        'cmbCostcentre
         '
-        Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(101, 97)
-        Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(80, 13)
-        Me.Label15.TabIndex = 34
-        Me.Label15.Text = "Date :  From"
-        Me.Label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.cmbCostcentre.FormattingEnabled = True
+        Me.cmbCostcentre.Location = New System.Drawing.Point(226, 152)
+        Me.cmbCostcentre.Name = "cmbCostcentre"
+        Me.cmbCostcentre.Size = New System.Drawing.Size(174, 25)
+        Me.cmbCostcentre.TabIndex = 5
+        '
+        'cmbMetal
+        '
+        Me.cmbMetal.FormattingEnabled = True
+        Me.cmbMetal.Location = New System.Drawing.Point(226, 113)
+        Me.cmbMetal.Name = "cmbMetal"
+        Me.cmbMetal.Size = New System.Drawing.Size(121, 25)
+        Me.cmbMetal.TabIndex = 5
+        '
+        'Panel1
+        '
+        Me.Panel1.Controls.Add(Me.optBetween)
+        Me.Panel1.Controls.Add(Me.optAsOn)
+        Me.Panel1.Location = New System.Drawing.Point(124, 35)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(187, 27)
+        Me.Panel1.TabIndex = 35
+        '
+        'optBetween
+        '
+        Me.optBetween.AutoSize = True
+        Me.optBetween.Location = New System.Drawing.Point(93, 3)
+        Me.optBetween.Name = "optBetween"
+        Me.optBetween.Size = New System.Drawing.Size(89, 21)
+        Me.optBetween.TabIndex = 1
+        Me.optBetween.TabStop = True
+        Me.optBetween.Text = "Between"
+        Me.optBetween.UseVisualStyleBackColor = True
+        AddHandler Me.optBetween.CheckedChanged, AddressOf Me.optBetween_CheckedChanged
+        '
+        'optAsOn
+        '
+        Me.optAsOn.AutoSize = True
+        Me.optAsOn.Location = New System.Drawing.Point(3, 3)
+        Me.optAsOn.Name = "optAsOn"
+        Me.optAsOn.Size = New System.Drawing.Size(72, 21)
+        Me.optAsOn.TabIndex = 0
+        Me.optAsOn.TabStop = True
+        Me.optAsOn.Text = "As On"
+        Me.optAsOn.UseVisualStyleBackColor = True
+        AddHandler Me.optAsOn.CheckedChanged, AddressOf Me.optAsOn_CheckedChanged
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(125, 155)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(101, 17)
+        Me.Label1.TabIndex = 34
+        Me.Label1.Text = "Costcentre : "
+        Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'Metal
+        '
+        Me.Metal.AutoSize = True
+        Me.Metal.Location = New System.Drawing.Point(125, 116)
+        Me.Metal.Name = "Metal"
+        Me.Metal.Size = New System.Drawing.Size(60, 17)
+        Me.Metal.TabIndex = 34
+        Me.Metal.Text = "Metal : "
+        Me.Metal.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'lblFrom
+        '
+        Me.lblFrom.AutoSize = True
+        Me.lblFrom.Location = New System.Drawing.Point(125, 79)
+        Me.lblFrom.Name = "lblFrom"
+        Me.lblFrom.Size = New System.Drawing.Size(44, 17)
+        Me.lblFrom.TabIndex = 34
+        Me.lblFrom.Text = "From"
+        Me.lblFrom.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'btnNew
         '
         Me.btnNew.ContextMenuStrip = Me.ContextMenuStrip1
-        Me.btnNew.Location = New System.Drawing.Point(218, 155)
+        Me.btnNew.Location = New System.Drawing.Point(218, 191)
         Me.btnNew.Name = "btnNew"
         Me.btnNew.Size = New System.Drawing.Size(100, 30)
         Me.btnNew.TabIndex = 32
@@ -128,13 +210,13 @@ Partial Class frmPurchaseOrderTracking
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExitToolStripMenuItem, Me.NewToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(119, 48)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(135, 52)
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
         Me.ExitToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F12
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(118, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(134, 24)
         Me.ExitToolStripMenuItem.Text = "Exit"
         Me.ExitToolStripMenuItem.Visible = False
         '
@@ -142,13 +224,13 @@ Partial Class frmPurchaseOrderTracking
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
         Me.NewToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(118, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(134, 24)
         Me.NewToolStripMenuItem.Text = "New"
         Me.NewToolStripMenuItem.Visible = False
         '
         'btnExit
         '
-        Me.btnExit.Location = New System.Drawing.Point(324, 155)
+        Me.btnExit.Location = New System.Drawing.Point(324, 191)
         Me.btnExit.Name = "btnExit"
         Me.btnExit.Size = New System.Drawing.Size(100, 30)
         Me.btnExit.TabIndex = 33
@@ -157,45 +239,45 @@ Partial Class frmPurchaseOrderTracking
         '
         'btnView_Search
         '
-        Me.btnView_Search.Location = New System.Drawing.Point(112, 155)
+        Me.btnView_Search.Location = New System.Drawing.Point(112, 191)
         Me.btnView_Search.Name = "btnView_Search"
         Me.btnView_Search.Size = New System.Drawing.Size(100, 30)
-        Me.btnView_Search.TabIndex = 31
+        Me.btnView_Search.TabIndex = 6
         Me.btnView_Search.Text = "&View"
         Me.btnView_Search.UseVisualStyleBackColor = True
         '
         'dtpTo
         '
-        Me.dtpTo.Location = New System.Drawing.Point(315, 94)
+        Me.dtpTo.Location = New System.Drawing.Point(351, 75)
         Me.dtpTo.Mask = "##/##/####"
         Me.dtpTo.MaximumDate = New Date(9998, 12, 31, 0, 0, 0, 0)
         Me.dtpTo.MinimumDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpTo.Name = "dtpTo"
         Me.dtpTo.Seperator = Global.Microsoft.VisualBasic.ChrW(47)
-        Me.dtpTo.Size = New System.Drawing.Size(93, 21)
-        Me.dtpTo.TabIndex = 11
+        Me.dtpTo.Size = New System.Drawing.Size(93, 24)
+        Me.dtpTo.TabIndex = 4
         Me.dtpTo.Text = "07/03/9998"
         Me.dtpTo.Value = New Date(9998, 3, 7, 0, 0, 0, 0)
         '
         'dtpFrom
         '
-        Me.dtpFrom.Location = New System.Drawing.Point(189, 94)
+        Me.dtpFrom.Location = New System.Drawing.Point(225, 75)
         Me.dtpFrom.Mask = "##/##/####"
         Me.dtpFrom.MaximumDate = New Date(9998, 12, 31, 0, 0, 0, 0)
         Me.dtpFrom.MinimumDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpFrom.Name = "dtpFrom"
         Me.dtpFrom.Seperator = Global.Microsoft.VisualBasic.ChrW(47)
-        Me.dtpFrom.Size = New System.Drawing.Size(93, 21)
-        Me.dtpFrom.TabIndex = 9
+        Me.dtpFrom.Size = New System.Drawing.Size(93, 24)
+        Me.dtpFrom.TabIndex = 3
         Me.dtpFrom.Text = "07/03/9998"
         Me.dtpFrom.Value = New Date(9998, 3, 7, 0, 0, 0, 0)
         '
         'lblTo
         '
         Me.lblTo.AutoSize = True
-        Me.lblTo.Location = New System.Drawing.Point(288, 99)
+        Me.lblTo.Location = New System.Drawing.Point(324, 80)
         Me.lblTo.Name = "lblTo"
-        Me.lblTo.Size = New System.Drawing.Size(20, 13)
+        Me.lblTo.Size = New System.Drawing.Size(24, 17)
         Me.lblTo.TabIndex = 10
         Me.lblTo.Text = "To"
         Me.lblTo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -207,10 +289,10 @@ Partial Class frmPurchaseOrderTracking
         Me.tabView.Controls.Add(Me.gridViewHead)
         Me.tabView.Controls.Add(Me.lblTitle)
         Me.tabView.Controls.Add(Me.pnlfooter)
-        Me.tabView.Location = New System.Drawing.Point(4, 25)
+        Me.tabView.Location = New System.Drawing.Point(4, 29)
         Me.tabView.Name = "tabView"
         Me.tabView.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabView.Size = New System.Drawing.Size(933, 593)
+        Me.tabView.Size = New System.Drawing.Size(933, 589)
         Me.tabView.TabIndex = 1
         Me.tabView.Text = "View"
         Me.tabView.UseVisualStyleBackColor = True
@@ -222,7 +304,7 @@ Partial Class frmPurchaseOrderTracking
         Me.gridviewDetail.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.gridviewDetail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         Me.gridviewDetail.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gridviewDetail.Location = New System.Drawing.Point(3, 69)
+        Me.gridviewDetail.Location = New System.Drawing.Point(3, 98)
         Me.gridviewDetail.MultiSelect = False
         Me.gridviewDetail.Name = "gridviewDetail"
         Me.gridviewDetail.ReadOnly = True
@@ -232,7 +314,7 @@ Partial Class frmPurchaseOrderTracking
         Me.gridviewDetail.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.[False]
         Me.gridviewDetail.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.gridviewDetail.ShowCellToolTips = False
-        Me.gridviewDetail.Size = New System.Drawing.Size(927, 479)
+        Me.gridviewDetail.Size = New System.Drawing.Size(927, 446)
         Me.gridviewDetail.TabIndex = 5
         Me.gridviewDetail.Visible = False
         '
@@ -244,7 +326,7 @@ Partial Class frmPurchaseOrderTracking
         Me.gridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         Me.gridView.ContextMenuStrip = Me.cmbGridShortCut
         Me.gridView.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gridView.Location = New System.Drawing.Point(3, 69)
+        Me.gridView.Location = New System.Drawing.Point(3, 98)
         Me.gridView.MultiSelect = False
         Me.gridView.Name = "gridView"
         Me.gridView.ReadOnly = True
@@ -254,20 +336,20 @@ Partial Class frmPurchaseOrderTracking
         Me.gridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.[False]
         Me.gridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.gridView.ShowCellToolTips = False
-        Me.gridView.Size = New System.Drawing.Size(927, 479)
+        Me.gridView.Size = New System.Drawing.Size(927, 446)
         Me.gridView.TabIndex = 1
         '
         'cmbGridShortCut
         '
         Me.cmbGridShortCut.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ResizeToolStripMenuItem})
         Me.cmbGridShortCut.Name = "ContextMenuStrip2"
-        Me.cmbGridShortCut.Size = New System.Drawing.Size(136, 26)
+        Me.cmbGridShortCut.Size = New System.Drawing.Size(157, 28)
         '
         'ResizeToolStripMenuItem
         '
         Me.ResizeToolStripMenuItem.CheckOnClick = True
         Me.ResizeToolStripMenuItem.Name = "ResizeToolStripMenuItem"
-        Me.ResizeToolStripMenuItem.Size = New System.Drawing.Size(135, 22)
+        Me.ResizeToolStripMenuItem.Size = New System.Drawing.Size(156, 24)
         Me.ResizeToolStripMenuItem.Text = "Auto Resize"
         '
         'gridViewHead
@@ -279,7 +361,7 @@ Partial Class frmPurchaseOrderTracking
         Me.gridViewHead.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         Me.gridViewHead.Dock = System.Windows.Forms.DockStyle.Top
         Me.gridViewHead.Enabled = False
-        Me.gridViewHead.Location = New System.Drawing.Point(3, 49)
+        Me.gridViewHead.Location = New System.Drawing.Point(3, 78)
         Me.gridViewHead.Name = "gridViewHead"
         Me.gridViewHead.ReadOnly = True
         Me.gridViewHead.RowHeadersVisible = False
@@ -293,7 +375,7 @@ Partial Class frmPurchaseOrderTracking
         Me.lblTitle.Dock = System.Windows.Forms.DockStyle.Top
         Me.lblTitle.Location = New System.Drawing.Point(3, 3)
         Me.lblTitle.Name = "lblTitle"
-        Me.lblTitle.Size = New System.Drawing.Size(927, 46)
+        Me.lblTitle.Size = New System.Drawing.Size(927, 75)
         Me.lblTitle.TabIndex = 0
         Me.lblTitle.Text = "Label3"
         Me.lblTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -304,7 +386,7 @@ Partial Class frmPurchaseOrderTracking
         Me.pnlfooter.Controls.Add(Me.btnPrint)
         Me.pnlfooter.Controls.Add(Me.btnExport)
         Me.pnlfooter.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.pnlfooter.Location = New System.Drawing.Point(3, 548)
+        Me.pnlfooter.Location = New System.Drawing.Point(3, 544)
         Me.pnlfooter.Name = "pnlfooter"
         Me.pnlfooter.Size = New System.Drawing.Size(927, 42)
         Me.pnlfooter.TabIndex = 2
@@ -338,7 +420,7 @@ Partial Class frmPurchaseOrderTracking
         '
         'frmPurchaseOrderTracking
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(941, 622)
         Me.ContextMenuStrip = Me.ContextMenuStrip1
@@ -356,6 +438,8 @@ Partial Class frmPurchaseOrderTracking
         Me.pnlGroupFilter.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
         Me.ContextMenuStrip1.ResumeLayout(False)
         Me.tabView.ResumeLayout(False)
         CType(Me.gridviewDetail, System.ComponentModel.ISupportInitialize).EndInit()
@@ -388,7 +472,14 @@ Partial Class frmPurchaseOrderTracking
     Friend WithEvents ResizeToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents dtpTo As BrighttechPack.DatePicker
     Friend WithEvents lblTo As System.Windows.Forms.Label
-    Friend WithEvents Label15 As System.Windows.Forms.Label
+    Friend WithEvents lblFrom As System.Windows.Forms.Label
     Friend WithEvents gridviewDetail As DataGridView
     Friend WithEvents gridViewHead As DataGridView
+    Friend WithEvents Panel1 As Panel
+    Friend WithEvents optAsOn As RadioButton
+    Friend WithEvents optBetween As RadioButton
+    Friend WithEvents Metal As Label
+    Friend WithEvents cmbMetal As ComboBox
+    Friend WithEvents cmbCostcentre As ComboBox
+    Friend WithEvents Label1 As Label
 End Class

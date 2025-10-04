@@ -126,7 +126,7 @@ Public Class frmPurchaseOrderDetail
         Try
             DgView.DataSource = Nothing
             DgView.DataSource = dt
-            btnExport.Visible = False : btnPrint.Visible = False
+            btnExport.Visible = True : btnPrint.Visible = True
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try

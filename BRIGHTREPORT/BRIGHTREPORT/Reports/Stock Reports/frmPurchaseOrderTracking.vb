@@ -49,6 +49,9 @@ Public Class frmPurchaseOrderTracking
         ' Add any initialization after the InitializeComponent() call.
         'Me.WindowState = FormWindowState.Maximized
         tabMain.SelectedTab = tabGen
+        optAsOn.Checked = True : optBetween.Checked = False
+        LoadMetal()
+        LoadCostcentre()
     End Sub
 
     Function funcExit() As Integer
@@ -179,31 +182,68 @@ Public Class frmPurchaseOrderTracking
         End If
         Return retStr
     End Function
+    Private Sub LoadMetal()
+        strSql = $"select 'ALL' METALID,'ALL' METALNAME, 0 DISPLAYORDER"
+        strSql += vbCrLf + $"UNION"
+        strSql += vbCrLf + $"select METALID,METALNAME,DISPLAYORDER from {cnAdminDb}..METALMAST where ACTIVE = 'Y' order by DISPLAYORDER"
+        cmd = New OleDb.OleDbCommand(strSql, cn)
+        da = New OleDbDataAdapter(cmd)
+        Dim dtMetal As New DataTable
+        da.Fill(dtMetal)
+        cmbMetal.DataSource = Nothing
+        cmbMetal.DataSource = dtMetal
+        cmbMetal.DisplayMember = "METALNAME"
+        cmbMetal.ValueMember = "METALID"
+    End Sub
+    Private Sub LoadCostcentre()
+        strSql = $"select 'ALL' COSTID,'ALL' COSTNAME"
+        strSql += vbCrLf + $"UNION"
+        strSql += vbCrLf + $"select COSTID,COSTNAME from {cnAdminDb}..COSTCENTRE where active = 'Y'"
+        cmd = New OleDb.OleDbCommand(strSql, cn)
+        da = New OleDbDataAdapter(cmd)
+        Dim dtMetal As New DataTable
+        da.Fill(dtMetal)
+        cmbCostcentre.DataSource = Nothing
+        cmbCostcentre.DataSource = dtMetal
+        cmbCostcentre.DisplayMember = "COSTNAME"
+        cmbCostcentre.ValueMember = "COSTID"
+    End Sub
+
     Private Sub btnView_Search_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnView_Search.Click
         gridviewDetail.Visible = False
         strSql = $"	with cte1 as(	"
-        strSql += vbCrLf + $"	select PONUMBER,sum(PO_PIECES)PO_PIECES from {cnAdminDb}..PURCHASEORDER a	"
+        strSql += vbCrLf + $"	select I.ITEMNAME,PONUMBER,sum(PO_PIECES)PO_PIECES from {cnAdminDb}..PURCHASEORDER a	"
+        strSql += vbCrLf + $"   JOIN {cnAdminDb}..ITEMMAST I on a.ITEMID = I.ITEMID"
         strSql += vbCrLf + $"	where 1=1	"
-        strSql += vbCrLf + $"	and TRANDATE between '{dtpFrom.Value}' and '{dtpTo.Value}'	"
-        strSql += vbCrLf + $"	group by PONUMBER	"
+        If optBetween.Checked Then
+            strSql += vbCrLf + $"	and TRANDATE between '{dtpFrom.Value}' and '{dtpTo.Value}'	"
+        ElseIf optAsOn.Checked Then
+            strSql += vbCrLf + $"	and TRANDATE <= '{dtpFrom.Value}'	"
+        End If
+        If cmbMetal.Text <> "ALL" Then strSql += vbCrLf + $"   AND I.METALID = '{cmbMetal.SelectedValue}'"
+        strSql += vbCrLf + $"	group by PONUMBER,I.ITEMNAME	"
         strSql += vbCrLf + $"	),	"
         strSql += vbCrLf + $"	cte2 as(	"
         strSql += vbCrLf + $"	select PONUMBER,sno,sum(a.pcs)LOTPCS from {cnAdminDb}..ITEMLOT a	"
+        If cmbMetal.Text <> "ALL" Then strSql += vbCrLf + $"   JOIN {cnAdminDb}..ITEMMAST I on a.ITEMID = I.ITEMID AND I.METALID = '{cmbMetal.SelectedValue}'"
         strSql += vbCrLf + $"	where ISNULL(ponumber,'') <> ''	"
         strSql += vbCrLf + $"	group by PONUMBER,sno	"
         strSql += vbCrLf + $"	),	"
         strSql += vbCrLf + $"	cte3 as(	"
-        strSql += vbCrLf + $"	select lotsno,sum(pcs)TAGPCS from {cnAdminDb}..itemtag group by LOTSNO 	"
+        strSql += vbCrLf + $"	select lotsno,sum(pcs)TAGPCS from {cnAdminDb}..itemtag a "
+        If cmbMetal.Text <> "ALL" Then strSql += vbCrLf + $"   JOIN {cnAdminDb}..ITEMMAST I on a.ITEMID = I.ITEMID AND I.METALID = '{cmbMetal.SelectedValue}'"
+        strSql += vbCrLf + $"   group by LOTSNO 	"
         strSql += vbCrLf + $"	),	"
         strSql += vbCrLf + $"	cte4 as(	"
         strSql += vbCrLf + $"	select a.PONUMBER,sum(a.LOTPCS)LOTPCS,sum(b.TAGPCS)TAGPCS from cte2 a	"
         strSql += vbCrLf + $"	join cte3 b on a.SNO = b.LOTSNO 	"
         strSql += vbCrLf + $"	group by  a.PONUMBER	"
         strSql += vbCrLf + $"	)	"
-        strSql += vbCrLf + $"	select a.PONUMBER,isnull(a.PO_PIECES,0)PO_PIECES,isnull(b.LOTPCS,0)LOTPCS,isnull(b.TAGPCS,0)TAGPCS,	"
+        strSql += vbCrLf + $"	select a.PONUMBER,a.ITEMNAME,isnull(a.PO_PIECES,0)PO_PIECES,isnull(b.LOTPCS,0)LOTPCS,isnull(b.TAGPCS,0)TAGPCS,	"
         strSql += vbCrLf + $"	(isnull(b.LOTPCS,0)-isnull(b.TAGPCS,0))PENDINGLOTPCS,	"
         strSql += vbCrLf + $"	(isnull(a.PO_PIECES,0)-isnull(b.LOTPCS,0))PENDINGPOPCS from cte1 a	"
         strSql += vbCrLf + $"	left join cte4 b on a.ponumber = b.ponumber	"
+        If cmbCostcentre.Text <> "ALL" Then strSql += vbCrLf + $"   where substring(a.PONUMBER,1,2) = '{cmbCostcentre.SelectedValue}'	"
 
         cmd = New OleDb.OleDbCommand(strSql, cn)
         da = New OleDbDataAdapter(cmd)
@@ -217,8 +257,12 @@ Public Class frmPurchaseOrderTracking
 
             Dim tit As String
             tit = " PURCHASE ORDER TRACKING" + vbCrLf
-            tit += " DATE FROM " & dtpFrom.Text + " TO " + dtpTo.Text
-            lblTitle.Text = tit.ToString
+            If optAsOn.Checked Then
+                tit += " AS ON DATE : " & dtpFrom.Text
+            Else
+                tit += " DATE FROM : " & dtpFrom.Text + " TO " + dtpTo.Text
+            End If
+            lblTitle.Text = tit.ToString + vbCrLf + "METAL : " + cmbMetal.Text + vbCrLf + "COSTCENTRE : " + cmbCostcentre.Text
         Else
             gridView.DataSource = Nothing
             tabMain.SelectedTab = tabGen
@@ -262,6 +306,9 @@ Public Class frmPurchaseOrderTracking
     Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNew.Click
         dtpFrom.Value = GetServerDate()
         gridView.DataSource = Nothing
+        optAsOn.Checked = True : optBetween.Checked = False
+        LoadMetal()
+        LoadCostcentre()
     End Sub
 
     Private Sub NewToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewToolStripMenuItem.Click
@@ -343,5 +390,25 @@ Public Class frmPurchaseOrderTracking
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try
+    End Sub
+
+    Private Sub optAsOn_CheckedChanged(sender As Object, e As EventArgs)
+        If optAsOn.Checked Then
+            lblFrom.Text = "AS ON : "
+            lblTo.Visible = False : dtpTo.Visible = False
+        Else
+            lblFrom.Text = "FROM : "
+            lblTo.Visible = True : dtpTo.Visible = True
+        End If
+    End Sub
+
+    Private Sub optBetween_CheckedChanged(sender As Object, e As EventArgs)
+        If optBetween.Checked Then
+            lblFrom.Text = "FROM : "
+            lblTo.Visible = True : dtpTo.Visible = True
+        Else
+            lblFrom.Text = "AS ON : "
+            lblTo.Visible = False : dtpTo.Visible = False
+        End If
     End Sub
 End Class
