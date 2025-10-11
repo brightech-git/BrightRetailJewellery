@@ -1,5 +1,5 @@
 Imports System.Data.OleDb
-Public Class frmSmithBalanceDetailedReport
+Public Class frmSmithBalanceDetailedReportNew
     Dim objGridShower As frmGridDispDia
     Dim strSql As String
     Dim dtissue As New DataTable
@@ -12,7 +12,7 @@ Public Class frmSmithBalanceDetailedReport
 
     Private Sub btnSearch_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSearch.Click
         ''If objGPack.Validator_Check(Me) Then Exit Sub
-        Prop_Sets()
+        'Prop_Sets()
         Sysid = Trim(LSet(Mid(Guid.NewGuid.ToString, 1, InStr(Guid.NewGuid.ToString, "-") - 1), 10))
         ReziseToolStripMenuItem.Checked = False
         If ChkFormat.Checked Then funcSpecificFormat() : Exit Sub
@@ -1974,14 +1974,14 @@ Public Class frmSmithBalanceDetailedReport
         dtpTo.Value = GetServerDate()
         cmbSmith_MAN.Text = ""
         CmbSmith.Text = ""
-        Prop_Gets()
+        'Prop_Gets()
         chkMultiSelect_CheckStateChanged(Me, New EventArgs)
         'cmbTranType.Select()
         chkCompanySelectAll.Select()
     End Sub
 
     Private Sub Prop_Sets()
-        Dim obj As New frmSmithBalanceDetailedReport_Properties
+        Dim obj As New frmSmithBalanceDetailedReportNew_Properties
         GetChecked_CheckedList(chkCmbTranType, obj.p_chkCmbTrantype)
         obj.p_cmbSmith_MAN = cmbSmith_MAN.Text
         obj.p_cmbSmith = CmbSmith.Text
@@ -2010,8 +2010,8 @@ Public Class frmSmithBalanceDetailedReport
     End Sub
 
     Private Sub Prop_Gets()
-        Dim obj As New frmSmithBalanceDetailedReport_Properties
-        GetSettingsObj(obj, Me.Name, GetType(frmSmithBalanceDetailedReport_Properties))
+        Dim obj As New frmSmithBalanceDetailedReportNew_Properties
+        GetSettingsObj(obj, Me.Name, GetType(frmSmithBalanceDetailedReportNew_Properties))
         SetChecked_CheckedList(chkCmbTranType, obj.p_chkCmbTrantype, "ALL")
         cmbSmith_MAN.Text = obj.p_cmbSmith_MAN
         CmbSmith.Text = obj.p_cmbSmith
@@ -2453,7 +2453,7 @@ Public Class frmSmithBalanceDetailedReport
     End Sub
 End Class
 
-Public Class frmSmithBalanceDetailedReport_Properties
+Public Class frmSmithBalanceDetailedReportNew_Properties
     Private chkTranNowise As Boolean = False
     Public Property p_chkTranNowise() As Boolean
         Get

@@ -825,7 +825,7 @@ Partial Class Main
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripMaster, Me.tStripRateEntry, Me.tStripAccounts, Me.tStripStockMenu, Me.tStripEstimation, Me.tStripBilling, Me.tStripOrder, Me.tStripReports, Me.WholeSaleToolStripMenuItem1, Me.tStripSavingsScheme, Me.AddressBookToolStripMenuItem, Me.tStripUtility, Me.tStripExit})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(1370, 28)
+        Me.MenuStrip1.Size = New System.Drawing.Size(1370, 30)
         Me.MenuStrip1.TabIndex = 3
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -3284,7 +3284,7 @@ Partial Class Main
         '
         Me.tStripReports.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripAccReports, Me.tStripDailyReports, Me.tStripStockReports, Me.tStripOrderReports, Me.tStripApproval, Me.tStripEstimationRpt, Me.MISReportTStrip, Me.DailyTallyReportTStrip, Me.XmlGenerationToolStripMenuItem, Me.OtherReportsToolStripMenuItem, Me.AuditReportToolStripMenuItem, Me.ComplementsToolStripMenuItem, Me.GSTReportsToolStripMenuItem})
         Me.tStripReports.Name = "tStripReports"
-        Me.tStripReports.Size = New System.Drawing.Size(74, 24)
+        Me.tStripReports.Size = New System.Drawing.Size(74, 26)
         Me.tStripReports.Text = "Reports"
         '
         'tStripAccReports
@@ -6747,7 +6747,7 @@ Partial Class Main
         Me.tStripTitle.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tStripTitle.ImageScalingSize = New System.Drawing.Size(24, 24)
         Me.tStripTitle.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripLogOut, Me.tStripLanguageChange, Me.TStripLblTitle, Me.tStripCalculator, Me.tStripMessenger, Me.tStripBkImage, Me.tStripCompanySelection, Me.tStripFontBackgroundColor, Me.tStripShortcut, Me.ToolStripLabel1, Me.tStripSilverRate, Me.ToolStripLabel2, Me.tStripGoldRate, Me.ToolStripLabel4, Me.tStripBillDate, Me.ToolStripLabel5})
-        Me.tStripTitle.Location = New System.Drawing.Point(0, 28)
+        Me.tStripTitle.Location = New System.Drawing.Point(0, 30)
         Me.tStripTitle.Name = "tStripTitle"
         Me.tStripTitle.Size = New System.Drawing.Size(1370, 28)
         Me.tStripTitle.TabIndex = 3

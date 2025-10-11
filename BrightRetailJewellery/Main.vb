@@ -4925,4 +4925,9 @@ Public Class Main
         Dim obj As New BrighttechREPORT.frmPurchaseOrderTracking
         funcShow(obj, "PURCHASE ORDER TRACKING")
     End Sub
+
+    Private Sub ToolStripMenuItem25_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem25.Click
+        Dim obj As New BrighttechREPORT.frmSmithBalanceDetailedReportNew()
+        funcShow(obj, "SMITH BALANCE DETAILED NEW")
+    End Sub
 End Class

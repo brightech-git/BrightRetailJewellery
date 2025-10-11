@@ -384,8 +384,12 @@ Public Class frmPurchaseOrder
         If gridView.Columns(e.ColumnIndex).Name = "MARK" Then
             Dim poNumber As String = gridView.Rows(e.RowIndex).Cells("PONUMBER").Value
             If Not IsDBNull(gridView.Rows(e.RowIndex).Cells("TRANS DATE").Value) Then Exit Sub
+
+            Dim parts() As String = poNumber.Split("-"c)
+            Dim lastPart As String = parts(parts.Length - 1)
+            If lastPart.StartsWith("M", StringComparison.OrdinalIgnoreCase) Then Exit Sub
+
             If gridView.Rows(e.RowIndex).Cells(e.ColumnIndex).Value = False Then
-                'gridView.Rows(e.RowIndex).Cells(e.ColumnIndex).Value = True
                 For Each row As DataGridViewRow In gridView.Rows
                     If row.Cells("PONUMBER").Value.ToString() = poNumber Then
                         row.Cells("MARK").Value = "True"
@@ -397,7 +401,6 @@ Public Class frmPurchaseOrder
                         row.Cells("MARK").Value = "False"
                     End If
                 Next
-                'gridView.Rows(e.RowIndex).Cells(e.ColumnIndex).Value = False
             End If
         End If
     End Sub

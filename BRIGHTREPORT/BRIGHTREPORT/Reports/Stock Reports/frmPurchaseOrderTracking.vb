@@ -50,6 +50,7 @@ Public Class frmPurchaseOrderTracking
         'Me.WindowState = FormWindowState.Maximized
         tabMain.SelectedTab = tabGen
         optAsOn.Checked = True : optBetween.Checked = False
+        chkWithCompleted.Checked = False
         LoadMetal()
         LoadCostcentre()
     End Sub
@@ -239,12 +240,12 @@ Public Class frmPurchaseOrderTracking
         strSql += vbCrLf + $"	join cte3 b on a.SNO = b.LOTSNO 	"
         strSql += vbCrLf + $"	group by  a.PONUMBER	"
         strSql += vbCrLf + $"	)	"
-        strSql += vbCrLf + $"	select a.PONUMBER,a.ITEMNAME,isnull(a.PO_PIECES,0)PO_PIECES,isnull(b.LOTPCS,0)LOTPCS,isnull(b.TAGPCS,0)TAGPCS,	"
+        strSql += vbCrLf + $"	select ROW_NUMBER()OVER(ORDER BY a.PONUMBER) SNO,a.PONUMBER,a.ITEMNAME,isnull(a.PO_PIECES,0)PO_PIECES,isnull(b.LOTPCS,0)LOTPCS,isnull(b.TAGPCS,0)TAGPCS,	"
         strSql += vbCrLf + $"	(isnull(b.LOTPCS,0)-isnull(b.TAGPCS,0))PENDINGLOTPCS,	"
         strSql += vbCrLf + $"	(isnull(a.PO_PIECES,0)-isnull(b.LOTPCS,0))PENDINGPOPCS from cte1 a	"
-        strSql += vbCrLf + $"	left join cte4 b on a.ponumber = b.ponumber	"
-        If cmbCostcentre.Text <> "ALL" Then strSql += vbCrLf + $"   where substring(a.PONUMBER,1,2) = '{cmbCostcentre.SelectedValue}'	"
-
+        strSql += vbCrLf + $"	left join cte4 b on a.ponumber = b.ponumber	WHERE 1=1"
+        If cmbCostcentre.Text <> "ALL" Then strSql += vbCrLf + $"   AND substring(a.PONUMBER,1,2) = '{cmbCostcentre.SelectedValue}'	"
+        If chkWithCompleted.Checked = False Then strSql += vbCrLf + " AND (isnull(a.PO_PIECES,0)-isnull(b.LOTPCS,0)) > 0"
         cmd = New OleDb.OleDbCommand(strSql, cn)
         da = New OleDbDataAdapter(cmd)
 
@@ -307,6 +308,7 @@ Public Class frmPurchaseOrderTracking
         dtpFrom.Value = GetServerDate()
         gridView.DataSource = Nothing
         optAsOn.Checked = True : optBetween.Checked = False
+        chkWithCompleted.Checked = False
         LoadMetal()
         LoadCostcentre()
     End Sub
@@ -362,31 +364,50 @@ Public Class frmPurchaseOrderTracking
 
     Private Sub gridView_KeyDown(sender As Object, e As KeyEventArgs) Handles gridView.KeyDown
         Try
-            If e.KeyCode = Keys.D Then
-                Dim _poNo As String = gridView.Item("PONUMBER", gridView.CurrentRow.Index).Value.ToString
-                Dim dt As New DataTable
+            Dim _poNo As String = gridView.Item("PONUMBER", gridView.CurrentRow.Index).Value.ToString
+            Dim dt As New DataTable
+            Dim lblText As String = ""
 
-                strSql = $"	select c.ITEMNAME,d.SUBITEMNAME,b.LOTNO,TAGNO,a.GRSWT from {cnAdminDb}..ITEMTAG a	"
+            If e.KeyCode = Keys.D Then
+                strSql = $"	select ROW_NUMBER()OVER(ORDER BY TAGNO) SNO,c.ITEMNAME,d.SUBITEMNAME,b.LOTNO,TAGNO,a.PCS,a.GRSWT from {cnAdminDb}..ITEMTAG a	"
                 strSql += vbCrLf + $"	join {cnAdminDb}..ITEMLOT b on b.SNO = a.LOTSNO 	"
                 strSql += vbCrLf + $"	join {cnAdminDb}..ITEMMAST c on c.ITEMID = a.ITEMID	"
                 strSql += vbCrLf + $"	join {cnAdminDb}..SUBITEMMAST d on d.SUBITEMID = a.SUBITEMID 	"
                 strSql += vbCrLf + $"	where b.PONUMBER = '{_poNo}'	"
-
-                cmd = New OleDb.OleDbCommand(strSql, cn)
-                da = New OleDbDataAdapter(cmd)
-                da.Fill(dt)
-
-                If dt.Rows.Count > 0 Then
-                    Dim ofrmPurchaseOrderDetail As New frmPurchaseOrderDetail(dt)
-                    ofrmPurchaseOrderDetail.lblHead.Text = $"PURCHASE ORDER TAG DETAILS { vbCrLf } PONUMBER : {_poNo}"
-                    If ofrmPurchaseOrderDetail.ShowDialog() = Windows.Forms.DialogResult.OK Then
-                    Else
-                        Exit Sub
-                    End If
-                Else
-                    MessageBox.Show("No Details found")
-                End If
+                lblText = $"PURCHASE ORDER TAG DETAILS { vbCrLf } PONUMBER : {_poNo}"
+            ElseIf e.KeyCode = Keys.T Then
+                strSql = $" ;WITH CTE1 AS("
+                strSql += vbCrLf + $"	select ITEMID,SUBITEMID,PONUMBER,SUM(PO_PIECES) PO_PIECES from {cnAdminDb}..PURCHASEORDER where PONUMBER = '{_poNo}'"
+                strSql += vbCrLf + $"	GROUP BY ITEMID,SUBITEMID,PONUMBER"
+                strSql += vbCrLf + $"	),"
+                strSql += vbCrLf + $"	CTE2 AS("
+                strSql += vbCrLf + $"	SELECT ITEMTAG.ITEMID,ITEMTAG.SUBITEMID,SUM(ITEMTAG.PCS) PCS FROM {cnAdminDb}..ITEMLOT"
+                strSql += vbCrLf + $"	JOIN {cnAdminDb}..ITEMTAG ON ITEMLOT.SNO = ITEMTAG.LOTSNO"
+                strSql += vbCrLf + $"	WHERE  PONUMBER = '{_poNo}'"
+                strSql += vbCrLf + $"	GROUP BY ITEMTAG.ITEMID,ITEMTAG.SUBITEMID"
+                strSql += vbCrLf + $"	)"
+                strSql += vbCrLf + $"	SELECT ROW_NUMBER()OVER(ORDER BY SUBITEMMAST.SUBITEMNAME) SNO,ITEMMAST.ITEMNAME,SUBITEMMAST.SUBITEMNAME,CTE1.PO_PIECES PO_PCS,ISNULL(CTE2.PCS,0) TAGGED_PCS,CTE1.PO_PIECES - ISNULL(CTE2.PCS,0) PENDING_PCS  FROM CTE1"
+                strSql += vbCrLf + $"	LEFT JOIN CTE2 ON CTE1.ITEMID = CTE2.ITEMID AND CTE1.SUBITEMID = CTE2.SUBITEMID"
+                strSql += vbCrLf + $"	JOIN {cnAdminDb}..ITEMMAST ON CTE1.ITEMID = ITEMMAST.ITEMID"
+                strSql += vbCrLf + $"	JOIN {cnAdminDb}..SUBITEMMAST ON CTE1.ITEMID = SUBITEMMAST.ITEMID AND CTE1.SUBITEMID = SUBITEMMAST.SUBITEMID"
+                strSql += vbCrLf + $"	WHERE (CTE1.PO_PIECES - ISNULL(CTE2.PCS,0)) > 0"
+                lblText = $"PURCHASE ORDER PENDING TAG DETAILS { vbCrLf } PONUMBER : {_poNo}"
             End If
+
+            cmd = New OleDb.OleDbCommand(strSql, cn)
+            da = New OleDbDataAdapter(cmd)
+            da.Fill(dt)
+            If dt.Rows.Count > 0 Then
+                Dim ofrmPurchaseOrderDetail As New frmPurchaseOrderDetail(dt)
+                ofrmPurchaseOrderDetail.lblHead.Text = lblText
+                If ofrmPurchaseOrderDetail.ShowDialog() = Windows.Forms.DialogResult.OK Then
+                Else
+                    Exit Sub
+                End If
+            Else
+                MessageBox.Show("No Details found")
+            End If
+
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try

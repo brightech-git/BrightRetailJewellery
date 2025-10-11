@@ -52,6 +52,7 @@ Partial Class frmPurchaseOrderTracking
         Me.btnBack = New System.Windows.Forms.Button()
         Me.btnPrint = New System.Windows.Forms.Button()
         Me.btnExport = New System.Windows.Forms.Button()
+        Me.chkWithCompleted = New System.Windows.Forms.CheckBox()
         Me.tabMain.SuspendLayout()
         Me.tabGen.SuspendLayout()
         Me.pnlGroupFilter.SuspendLayout()
@@ -92,13 +93,14 @@ Partial Class frmPurchaseOrderTracking
         'pnlGroupFilter
         '
         Me.pnlGroupFilter.Controls.Add(Me.GroupBox1)
-        Me.pnlGroupFilter.Location = New System.Drawing.Point(182, 151)
+        Me.pnlGroupFilter.Location = New System.Drawing.Point(182, 84)
         Me.pnlGroupFilter.Name = "pnlGroupFilter"
-        Me.pnlGroupFilter.Size = New System.Drawing.Size(532, 261)
+        Me.pnlGroupFilter.Size = New System.Drawing.Size(532, 328)
         Me.pnlGroupFilter.TabIndex = 0
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.chkWithCompleted)
         Me.GroupBox1.Controls.Add(Me.cmbCostcentre)
         Me.GroupBox1.Controls.Add(Me.cmbMetal)
         Me.GroupBox1.Controls.Add(Me.Panel1)
@@ -111,9 +113,9 @@ Partial Class frmPurchaseOrderTracking
         Me.GroupBox1.Controls.Add(Me.dtpTo)
         Me.GroupBox1.Controls.Add(Me.dtpFrom)
         Me.GroupBox1.Controls.Add(Me.lblTo)
-        Me.GroupBox1.Location = New System.Drawing.Point(3, 15)
+        Me.GroupBox1.Location = New System.Drawing.Point(13, 15)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(519, 233)
+        Me.GroupBox1.Size = New System.Drawing.Size(509, 298)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         '
@@ -199,7 +201,7 @@ Partial Class frmPurchaseOrderTracking
         'btnNew
         '
         Me.btnNew.ContextMenuStrip = Me.ContextMenuStrip1
-        Me.btnNew.Location = New System.Drawing.Point(218, 191)
+        Me.btnNew.Location = New System.Drawing.Point(218, 228)
         Me.btnNew.Name = "btnNew"
         Me.btnNew.Size = New System.Drawing.Size(100, 30)
         Me.btnNew.TabIndex = 32
@@ -230,7 +232,7 @@ Partial Class frmPurchaseOrderTracking
         '
         'btnExit
         '
-        Me.btnExit.Location = New System.Drawing.Point(324, 191)
+        Me.btnExit.Location = New System.Drawing.Point(324, 228)
         Me.btnExit.Name = "btnExit"
         Me.btnExit.Size = New System.Drawing.Size(100, 30)
         Me.btnExit.TabIndex = 33
@@ -239,7 +241,7 @@ Partial Class frmPurchaseOrderTracking
         '
         'btnView_Search
         '
-        Me.btnView_Search.Location = New System.Drawing.Point(112, 191)
+        Me.btnView_Search.Location = New System.Drawing.Point(112, 228)
         Me.btnView_Search.Name = "btnView_Search"
         Me.btnView_Search.Size = New System.Drawing.Size(100, 30)
         Me.btnView_Search.TabIndex = 6
@@ -418,6 +420,16 @@ Partial Class frmPurchaseOrderTracking
         Me.btnExport.Text = "Export [X]"
         Me.btnExport.UseVisualStyleBackColor = True
         '
+        'chkWithCompleted
+        '
+        Me.chkWithCompleted.AutoSize = True
+        Me.chkWithCompleted.Location = New System.Drawing.Point(225, 193)
+        Me.chkWithCompleted.Name = "chkWithCompleted"
+        Me.chkWithCompleted.Size = New System.Drawing.Size(143, 21)
+        Me.chkWithCompleted.TabIndex = 36
+        Me.chkWithCompleted.Text = "With Completed"
+        Me.chkWithCompleted.UseVisualStyleBackColor = True
+        '
         'frmPurchaseOrderTracking
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 17.0!)
@@ -482,4 +494,5 @@ Partial Class frmPurchaseOrderTracking
     Friend WithEvents cmbMetal As ComboBox
     Friend WithEvents cmbCostcentre As ComboBox
     Friend WithEvents Label1 As Label
+    Friend WithEvents chkWithCompleted As CheckBox
 End Class
