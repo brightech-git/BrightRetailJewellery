@@ -31,7 +31,6 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.btnExit = New System.Windows.Forms.Button()
         Me.btnNew = New System.Windows.Forms.Button()
         Me.pnlContainer = New System.Windows.Forms.Panel()
-        Me.chkWithAmountBalance = New System.Windows.Forms.CheckBox()
         Me.chkCmbTranType = New BrighttechPack.CheckedComboBox()
         Me.cmbSmith_MAN = New BrighttechPack.CheckedComboBox()
         Me.CmbSmith = New System.Windows.Forms.ComboBox()
@@ -100,6 +99,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.btnExport = New System.Windows.Forms.Button()
         Me.btnBack = New System.Windows.Forms.Button()
         Me.btnPrint = New System.Windows.Forms.Button()
+        Me.chkWithAmountBalance = New System.Windows.Forms.CheckBox()
         Me.pnlContainer.SuspendLayout()
         Me.Panel5.SuspendLayout()
         Me.Panel1.SuspendLayout()
@@ -135,7 +135,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(17, 110)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(82, 17)
+        Me.Label1.Size = New System.Drawing.Size(67, 13)
         Me.Label1.TabIndex = 5
         Me.Label1.Text = "Date From"
         '
@@ -144,7 +144,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.chkCostCentreSelectAll.AutoSize = True
         Me.chkCostCentreSelectAll.Location = New System.Drawing.Point(20, 200)
         Me.chkCostCentreSelectAll.Name = "chkCostCentreSelectAll"
-        Me.chkCostCentreSelectAll.Size = New System.Drawing.Size(115, 21)
+        Me.chkCostCentreSelectAll.Size = New System.Drawing.Size(95, 17)
         Me.chkCostCentreSelectAll.TabIndex = 14
         Me.chkCostCentreSelectAll.Text = "Cost Centre"
         Me.chkCostCentreSelectAll.UseVisualStyleBackColor = True
@@ -154,7 +154,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.chkLstCategory.FormattingEnabled = True
         Me.chkLstCategory.Location = New System.Drawing.Point(17, 304)
         Me.chkLstCategory.Name = "chkLstCategory"
-        Me.chkLstCategory.Size = New System.Drawing.Size(407, 80)
+        Me.chkLstCategory.Size = New System.Drawing.Size(407, 84)
         Me.chkLstCategory.TabIndex = 19
         '
         'chkCategorySelectAll
@@ -162,7 +162,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.chkCategorySelectAll.AutoSize = True
         Me.chkCategorySelectAll.Location = New System.Drawing.Point(20, 287)
         Me.chkCategorySelectAll.Name = "chkCategorySelectAll"
-        Me.chkCategorySelectAll.Size = New System.Drawing.Size(94, 21)
+        Me.chkCategorySelectAll.Size = New System.Drawing.Size(79, 17)
         Me.chkCategorySelectAll.TabIndex = 18
         Me.chkCategorySelectAll.Text = "Category"
         Me.chkCategorySelectAll.UseVisualStyleBackColor = True
@@ -172,7 +172,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.chkLstMetal.FormattingEnabled = True
         Me.chkLstMetal.Location = New System.Drawing.Point(225, 219)
         Me.chkLstMetal.Name = "chkLstMetal"
-        Me.chkLstMetal.Size = New System.Drawing.Size(199, 61)
+        Me.chkLstMetal.Size = New System.Drawing.Size(199, 68)
         Me.chkLstMetal.TabIndex = 17
         '
         'chkMetalSelectAll
@@ -180,7 +180,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.chkMetalSelectAll.AutoSize = True
         Me.chkMetalSelectAll.Location = New System.Drawing.Point(228, 200)
         Me.chkMetalSelectAll.Name = "chkMetalSelectAll"
-        Me.chkMetalSelectAll.Size = New System.Drawing.Size(66, 21)
+        Me.chkMetalSelectAll.Size = New System.Drawing.Size(56, 17)
         Me.chkMetalSelectAll.TabIndex = 16
         Me.chkMetalSelectAll.Text = "Metal"
         Me.chkMetalSelectAll.UseVisualStyleBackColor = True
@@ -190,7 +190,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.chkLstCostCentre.FormattingEnabled = True
         Me.chkLstCostCentre.Location = New System.Drawing.Point(17, 219)
         Me.chkLstCostCentre.Name = "chkLstCostCentre"
-        Me.chkLstCostCentre.Size = New System.Drawing.Size(201, 61)
+        Me.chkLstCostCentre.Size = New System.Drawing.Size(201, 68)
         Me.chkLstCostCentre.TabIndex = 15
         '
         'btnExit
@@ -252,16 +252,6 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.pnlContainer.Size = New System.Drawing.Size(454, 540)
         Me.pnlContainer.TabIndex = 0
         '
-        'chkWithAmountBalance
-        '
-        Me.chkWithAmountBalance.AutoSize = True
-        Me.chkWithAmountBalance.Location = New System.Drawing.Point(270, 464)
-        Me.chkWithAmountBalance.Name = "chkWithAmountBalance"
-        Me.chkWithAmountBalance.Size = New System.Drawing.Size(182, 21)
-        Me.chkWithAmountBalance.TabIndex = 27
-        Me.chkWithAmountBalance.Text = "With Amount Balance"
-        Me.chkWithAmountBalance.UseVisualStyleBackColor = True
-        '
         'chkCmbTranType
         '
         Me.chkCmbTranType.CheckOnClick = True
@@ -271,7 +261,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.chkCmbTranType.IntegralHeight = False
         Me.chkCmbTranType.Location = New System.Drawing.Point(89, 80)
         Me.chkCmbTranType.Name = "chkCmbTranType"
-        Me.chkCmbTranType.Size = New System.Drawing.Size(176, 25)
+        Me.chkCmbTranType.Size = New System.Drawing.Size(176, 22)
         Me.chkCmbTranType.TabIndex = 3
         Me.chkCmbTranType.ValueSeparator = ", "
         '
@@ -284,7 +274,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.cmbSmith_MAN.IntegralHeight = False
         Me.cmbSmith_MAN.Location = New System.Drawing.Point(89, 175)
         Me.cmbSmith_MAN.Name = "cmbSmith_MAN"
-        Me.cmbSmith_MAN.Size = New System.Drawing.Size(337, 25)
+        Me.cmbSmith_MAN.Size = New System.Drawing.Size(337, 22)
         Me.cmbSmith_MAN.TabIndex = 13
         Me.cmbSmith_MAN.ValueSeparator = ", "
         '
@@ -295,7 +285,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.CmbSmith.FormattingEnabled = True
         Me.CmbSmith.Location = New System.Drawing.Point(89, 176)
         Me.CmbSmith.Name = "CmbSmith"
-        Me.CmbSmith.Size = New System.Drawing.Size(337, 25)
+        Me.CmbSmith.Size = New System.Drawing.Size(337, 21)
         Me.CmbSmith.TabIndex = 12
         Me.CmbSmith.Visible = False
         '
@@ -304,7 +294,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.chkCompanySelectAll.AutoSize = True
         Me.chkCompanySelectAll.Location = New System.Drawing.Point(17, 6)
         Me.chkCompanySelectAll.Name = "chkCompanySelectAll"
-        Me.chkCompanySelectAll.Size = New System.Drawing.Size(96, 21)
+        Me.chkCompanySelectAll.Size = New System.Drawing.Size(81, 17)
         Me.chkCompanySelectAll.TabIndex = 0
         Me.chkCompanySelectAll.Text = "Company"
         Me.chkCompanySelectAll.UseVisualStyleBackColor = True
@@ -314,7 +304,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.chkLstCompany.FormattingEnabled = True
         Me.chkLstCompany.Location = New System.Drawing.Point(14, 25)
         Me.chkLstCompany.Name = "chkLstCompany"
-        Me.chkLstCompany.Size = New System.Drawing.Size(411, 42)
+        Me.chkLstCompany.Size = New System.Drawing.Size(411, 52)
         Me.chkLstCompany.TabIndex = 1
         '
         'ChkWithWast
@@ -322,7 +312,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.ChkWithWast.AutoSize = True
         Me.ChkWithWast.Location = New System.Drawing.Point(164, 463)
         Me.ChkWithWast.Name = "ChkWithWast"
-        Me.ChkWithWast.Size = New System.Drawing.Size(129, 21)
+        Me.ChkWithWast.Size = New System.Drawing.Size(103, 17)
         Me.ChkWithWast.TabIndex = 26
         Me.ChkWithWast.Text = "With Wastage"
         Me.ChkWithWast.UseVisualStyleBackColor = True
@@ -344,7 +334,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.chkInternal.AutoSize = True
         Me.chkInternal.Location = New System.Drawing.Point(208, 4)
         Me.chkInternal.Name = "chkInternal"
-        Me.chkInternal.Size = New System.Drawing.Size(84, 21)
+        Me.chkInternal.Size = New System.Drawing.Size(71, 17)
         Me.chkInternal.TabIndex = 3
         Me.chkInternal.Text = "Internal"
         Me.chkInternal.UseVisualStyleBackColor = True
@@ -354,7 +344,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.chkOthers.AutoSize = True
         Me.chkOthers.Location = New System.Drawing.Point(280, 4)
         Me.chkOthers.Name = "chkOthers"
-        Me.chkOthers.Size = New System.Drawing.Size(78, 21)
+        Me.chkOthers.Size = New System.Drawing.Size(64, 17)
         Me.chkOthers.TabIndex = 4
         Me.chkOthers.Text = "Others"
         Me.chkOthers.UseVisualStyleBackColor = True
@@ -366,7 +356,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.chkSmith.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkSmith.Location = New System.Drawing.Point(74, 4)
         Me.chkSmith.Name = "chkSmith"
-        Me.chkSmith.Size = New System.Drawing.Size(71, 21)
+        Me.chkSmith.Size = New System.Drawing.Size(59, 17)
         Me.chkSmith.TabIndex = 1
         Me.chkSmith.Text = "Smith"
         Me.chkSmith.UseVisualStyleBackColor = True
@@ -378,7 +368,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.chkDealer.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkDealer.Location = New System.Drawing.Point(140, 4)
         Me.chkDealer.Name = "chkDealer"
-        Me.chkDealer.Size = New System.Drawing.Size(74, 21)
+        Me.chkDealer.Size = New System.Drawing.Size(64, 17)
         Me.chkDealer.TabIndex = 2
         Me.chkDealer.Text = "Dealer"
         Me.chkDealer.UseVisualStyleBackColor = True
@@ -388,7 +378,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(3, 5)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(56, 17)
+        Me.Label5.Size = New System.Drawing.Size(46, 13)
         Me.Label5.TabIndex = 0
         Me.Label5.Text = "Actype"
         '
@@ -397,7 +387,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.chkTranno.AutoSize = True
         Me.chkTranno.Location = New System.Drawing.Point(164, 483)
         Me.chkTranno.Name = "chkTranno"
-        Me.chkTranno.Size = New System.Drawing.Size(147, 21)
+        Me.chkTranno.Size = New System.Drawing.Size(123, 17)
         Me.chkTranno.TabIndex = 29
         Me.chkTranno.Text = "Order by Billdate"
         Me.chkTranno.UseVisualStyleBackColor = True
@@ -409,7 +399,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.ChkWithDirectPur.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ChkWithDirectPur.Location = New System.Drawing.Point(20, 483)
         Me.ChkWithDirectPur.Name = "ChkWithDirectPur"
-        Me.ChkWithDirectPur.Size = New System.Drawing.Size(177, 21)
+        Me.ChkWithDirectPur.Size = New System.Drawing.Size(145, 17)
         Me.ChkWithDirectPur.TabIndex = 28
         Me.ChkWithDirectPur.Text = "With Direct Purchase"
         Me.ChkWithDirectPur.UseVisualStyleBackColor = True
@@ -421,7 +411,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.chkMultiSelect.CheckState = System.Windows.Forms.CheckState.Checked
         Me.chkMultiSelect.Location = New System.Drawing.Point(89, 156)
         Me.chkMultiSelect.Name = "chkMultiSelect"
-        Me.chkMultiSelect.Size = New System.Drawing.Size(109, 21)
+        Me.chkMultiSelect.Size = New System.Drawing.Size(91, 17)
         Me.chkMultiSelect.TabIndex = 10
         Me.chkMultiSelect.Text = "Multi Select"
         Me.chkMultiSelect.UseVisualStyleBackColor = True
@@ -431,7 +421,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.ChkFormat.AutoSize = True
         Me.ChkFormat.Location = New System.Drawing.Point(271, 83)
         Me.ChkFormat.Name = "ChkFormat"
-        Me.ChkFormat.Size = New System.Drawing.Size(137, 21)
+        Me.ChkFormat.Size = New System.Drawing.Size(114, 17)
         Me.ChkFormat.TabIndex = 4
         Me.ChkFormat.Text = "Specific Format"
         Me.ChkFormat.UseVisualStyleBackColor = True
@@ -442,7 +432,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.ChkApproval.Enabled = False
         Me.ChkApproval.Location = New System.Drawing.Point(20, 463)
         Me.ChkApproval.Name = "ChkApproval"
-        Me.ChkApproval.Size = New System.Drawing.Size(172, 21)
+        Me.ChkApproval.Size = New System.Drawing.Size(141, 17)
         Me.ChkApproval.TabIndex = 25
         Me.ChkApproval.Text = "With MIMR Approval"
         Me.ChkApproval.UseVisualStyleBackColor = True
@@ -452,7 +442,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.chkTranNowise.AutoSize = True
         Me.chkTranNowise.Location = New System.Drawing.Point(20, 390)
         Me.chkTranNowise.Name = "chkTranNowise"
-        Me.chkTranNowise.Size = New System.Drawing.Size(192, 21)
+        Me.chkTranNowise.Size = New System.Drawing.Size(159, 17)
         Me.chkTranNowise.TabIndex = 20
         Me.chkTranNowise.Text = "Tran. Nowise Summary"
         Me.chkTranNowise.UseVisualStyleBackColor = True
@@ -474,7 +464,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.rbtPureWeight.Enabled = False
         Me.rbtPureWeight.Location = New System.Drawing.Point(186, 4)
         Me.rbtPureWeight.Name = "rbtPureWeight"
-        Me.rbtPureWeight.Size = New System.Drawing.Size(114, 21)
+        Me.rbtPureWeight.Size = New System.Drawing.Size(93, 17)
         Me.rbtPureWeight.TabIndex = 2
         Me.rbtPureWeight.TabStop = True
         Me.rbtPureWeight.Text = "Pure Weight"
@@ -486,7 +476,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.rbtNetWeight.Enabled = False
         Me.rbtNetWeight.Location = New System.Drawing.Point(103, 4)
         Me.rbtNetWeight.Name = "rbtNetWeight"
-        Me.rbtNetWeight.Size = New System.Drawing.Size(107, 21)
+        Me.rbtNetWeight.Size = New System.Drawing.Size(86, 17)
         Me.rbtNetWeight.TabIndex = 1
         Me.rbtNetWeight.Text = "Net Weight"
         Me.rbtNetWeight.UseVisualStyleBackColor = True
@@ -497,7 +487,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.rbtGrossWeight.Enabled = False
         Me.rbtGrossWeight.Location = New System.Drawing.Point(3, 4)
         Me.rbtGrossWeight.Name = "rbtGrossWeight"
-        Me.rbtGrossWeight.Size = New System.Drawing.Size(125, 21)
+        Me.rbtGrossWeight.Size = New System.Drawing.Size(100, 17)
         Me.rbtGrossWeight.TabIndex = 0
         Me.rbtGrossWeight.Text = "Gross Weight"
         Me.rbtGrossWeight.UseVisualStyleBackColor = True
@@ -517,7 +507,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.rbtLocal.AutoSize = True
         Me.rbtLocal.Location = New System.Drawing.Point(103, 3)
         Me.rbtLocal.Name = "rbtLocal"
-        Me.rbtLocal.Size = New System.Drawing.Size(64, 21)
+        Me.rbtLocal.Size = New System.Drawing.Size(54, 17)
         Me.rbtLocal.TabIndex = 1
         Me.rbtLocal.Text = "Local"
         Me.rbtLocal.UseVisualStyleBackColor = True
@@ -527,7 +517,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.rbtOutstation.AutoSize = True
         Me.rbtOutstation.Location = New System.Drawing.Point(186, 3)
         Me.rbtOutstation.Name = "rbtOutstation"
-        Me.rbtOutstation.Size = New System.Drawing.Size(104, 21)
+        Me.rbtOutstation.Size = New System.Drawing.Size(83, 17)
         Me.rbtOutstation.TabIndex = 2
         Me.rbtOutstation.Text = "Outstation"
         Me.rbtOutstation.UseVisualStyleBackColor = True
@@ -538,7 +528,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.rbtBothMU.Checked = True
         Me.rbtBothMU.Location = New System.Drawing.Point(3, 3)
         Me.rbtBothMU.Name = "rbtBothMU"
-        Me.rbtBothMU.Size = New System.Drawing.Size(63, 21)
+        Me.rbtBothMU.Size = New System.Drawing.Size(51, 17)
         Me.rbtBothMU.TabIndex = 0
         Me.rbtBothMU.TabStop = True
         Me.rbtBothMU.Text = "Both"
@@ -550,7 +540,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.ChktransactionOnly.Enabled = False
         Me.ChktransactionOnly.Location = New System.Drawing.Point(210, 390)
         Me.ChktransactionOnly.Name = "ChktransactionOnly"
-        Me.ChktransactionOnly.Size = New System.Drawing.Size(147, 21)
+        Me.ChktransactionOnly.Size = New System.Drawing.Size(121, 17)
         Me.ChktransactionOnly.TabIndex = 21
         Me.ChktransactionOnly.Text = "Transaction Only"
         Me.ChktransactionOnly.UseVisualStyleBackColor = True
@@ -572,7 +562,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.dtpTo.MinimumDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpTo.Name = "dtpTo"
         Me.dtpTo.Seperator = Global.Microsoft.VisualBasic.ChrW(47)
-        Me.dtpTo.Size = New System.Drawing.Size(93, 24)
+        Me.dtpTo.Size = New System.Drawing.Size(93, 21)
         Me.dtpTo.TabIndex = 8
         Me.dtpTo.Text = "07/03/9998"
         Me.dtpTo.Value = New Date(9998, 3, 7, 0, 0, 0, 0)
@@ -585,7 +575,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.dtpFrom.MinimumDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpFrom.Name = "dtpFrom"
         Me.dtpFrom.Seperator = Global.Microsoft.VisualBasic.ChrW(47)
-        Me.dtpFrom.Size = New System.Drawing.Size(93, 24)
+        Me.dtpFrom.Size = New System.Drawing.Size(93, 21)
         Me.dtpFrom.TabIndex = 6
         Me.dtpFrom.Text = "07/03/9998"
         Me.dtpFrom.Value = New Date(9998, 3, 7, 0, 0, 0, 0)
@@ -595,7 +585,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(16, 84)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(77, 17)
+        Me.Label2.Size = New System.Drawing.Size(63, 13)
         Me.Label2.TabIndex = 2
         Me.Label2.Text = "Tran Type"
         '
@@ -604,7 +594,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(192, 110)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(24, 17)
+        Me.Label4.Size = New System.Drawing.Size(20, 13)
         Me.Label4.TabIndex = 7
         Me.Label4.Text = "To"
         '
@@ -613,7 +603,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(17, 178)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(49, 17)
+        Me.Label3.Size = New System.Drawing.Size(40, 13)
         Me.Label3.TabIndex = 11
         Me.Label3.Text = "Smith"
         '
@@ -621,13 +611,13 @@ Partial Class frmSmithBalanceDetailedReportNew
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.ExitToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(135, 52)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(119, 48)
         '
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
         Me.NewToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(134, 24)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(118, 22)
         Me.NewToolStripMenuItem.Text = "New"
         Me.NewToolStripMenuItem.Visible = False
         '
@@ -635,7 +625,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
         Me.ExitToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F12
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(134, 24)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(118, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         Me.ExitToolStripMenuItem.Visible = False
         '
@@ -653,10 +643,10 @@ Partial Class frmSmithBalanceDetailedReportNew
         'TabGeneral
         '
         Me.TabGeneral.Controls.Add(Me.pnlContainer)
-        Me.TabGeneral.Location = New System.Drawing.Point(4, 26)
+        Me.TabGeneral.Location = New System.Drawing.Point(4, 22)
         Me.TabGeneral.Name = "TabGeneral"
         Me.TabGeneral.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabGeneral.Size = New System.Drawing.Size(781, 537)
+        Me.TabGeneral.Size = New System.Drawing.Size(781, 541)
         Me.TabGeneral.TabIndex = 0
         Me.TabGeneral.Text = "General"
         Me.TabGeneral.UseVisualStyleBackColor = True
@@ -665,10 +655,10 @@ Partial Class frmSmithBalanceDetailedReportNew
         '
         Me.TabView.Controls.Add(Me.Panel3)
         Me.TabView.Controls.Add(Me.Panel2)
-        Me.TabView.Location = New System.Drawing.Point(4, 26)
+        Me.TabView.Location = New System.Drawing.Point(4, 22)
         Me.TabView.Name = "TabView"
         Me.TabView.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabView.Size = New System.Drawing.Size(781, 537)
+        Me.TabView.Size = New System.Drawing.Size(781, 541)
         Me.TabView.TabIndex = 1
         Me.TabView.Text = "View"
         Me.TabView.UseVisualStyleBackColor = True
@@ -681,7 +671,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.Panel3.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel3.Location = New System.Drawing.Point(3, 3)
         Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(775, 405)
+        Me.Panel3.Size = New System.Drawing.Size(775, 409)
         Me.Panel3.TabIndex = 1
         '
         'Panel6
@@ -711,7 +701,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.lblItem.ForeColor = System.Drawing.SystemColors.Desktop
         Me.lblItem.Location = New System.Drawing.Point(88, 50)
         Me.lblItem.Name = "lblItem"
-        Me.lblItem.Size = New System.Drawing.Size(41, 17)
+        Me.lblItem.Size = New System.Drawing.Size(31, 13)
         Me.lblItem.TabIndex = 44
         Me.lblItem.Text = "XXX"
         Me.lblItem.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -722,7 +712,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.Label6.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label6.Location = New System.Drawing.Point(3, 31)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(94, 17)
+        Me.Label6.Size = New System.Drawing.Size(78, 13)
         Me.Label6.TabIndex = 41
         Me.Label6.Text = "O CatName"
         '
@@ -733,7 +723,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.lblOCatName.ForeColor = System.Drawing.SystemColors.Desktop
         Me.lblOCatName.Location = New System.Drawing.Point(88, 31)
         Me.lblOCatName.Name = "lblOCatName"
-        Me.lblOCatName.Size = New System.Drawing.Size(41, 17)
+        Me.lblOCatName.Size = New System.Drawing.Size(31, 13)
         Me.lblOCatName.TabIndex = 42
         Me.lblOCatName.Text = "XXX"
         Me.lblOCatName.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -745,7 +735,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.lblCatName.ForeColor = System.Drawing.SystemColors.Desktop
         Me.lblCatName.Location = New System.Drawing.Point(88, 12)
         Me.lblCatName.Name = "lblCatName"
-        Me.lblCatName.Size = New System.Drawing.Size(41, 17)
+        Me.lblCatName.Size = New System.Drawing.Size(31, 13)
         Me.lblCatName.TabIndex = 40
         Me.lblCatName.Text = "XXX"
         Me.lblCatName.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -756,7 +746,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.Label7.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label7.Location = New System.Drawing.Point(3, 50)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(93, 17)
+        Me.Label7.Size = New System.Drawing.Size(79, 13)
         Me.Label7.TabIndex = 43
         Me.Label7.Text = "Item Name"
         '
@@ -766,7 +756,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.CatName.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CatName.Location = New System.Drawing.Point(3, 12)
         Me.CatName.Name = "CatName"
-        Me.CatName.Size = New System.Drawing.Size(77, 17)
+        Me.CatName.Size = New System.Drawing.Size(65, 13)
         Me.CatName.TabIndex = 39
         Me.CatName.Text = "CatName"
         '
@@ -776,7 +766,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.Label17.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label17.Location = New System.Drawing.Point(123, 50)
         Me.Label17.Name = "Label17"
-        Me.Label17.Size = New System.Drawing.Size(61, 17)
+        Me.Label17.Size = New System.Drawing.Size(50, 13)
         Me.Label17.TabIndex = 37
         Me.Label17.Text = "Net Wt"
         '
@@ -786,7 +776,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.Label15.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label15.Location = New System.Drawing.Point(123, 31)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(71, 17)
+        Me.Label15.Size = New System.Drawing.Size(58, 13)
         Me.Label15.TabIndex = 35
         Me.Label15.Text = "Pure Wt"
         '
@@ -797,7 +787,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.Label16.ForeColor = System.Drawing.SystemColors.Desktop
         Me.Label16.Location = New System.Drawing.Point(179, 50)
         Me.Label16.Name = "Label16"
-        Me.Label16.Size = New System.Drawing.Size(69, 17)
+        Me.Label16.Size = New System.Drawing.Size(58, 13)
         Me.Label16.TabIndex = 38
         Me.Label16.Text = "Label16"
         Me.Label16.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -808,7 +798,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.Label9.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label9.Location = New System.Drawing.Point(123, 12)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(61, 17)
+        Me.Label9.Size = New System.Drawing.Size(50, 13)
         Me.Label9.TabIndex = 30
         Me.Label9.Text = "Grs Wt"
         '
@@ -819,7 +809,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.Label14.ForeColor = System.Drawing.SystemColors.Desktop
         Me.Label14.Location = New System.Drawing.Point(179, 31)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(69, 17)
+        Me.Label14.Size = New System.Drawing.Size(58, 13)
         Me.Label14.TabIndex = 36
         Me.Label14.Text = "Label14"
         Me.Label14.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -831,7 +821,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.Label11.ForeColor = System.Drawing.SystemColors.Desktop
         Me.Label11.Location = New System.Drawing.Point(179, 12)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(69, 17)
+        Me.Label11.Size = New System.Drawing.Size(58, 13)
         Me.Label11.TabIndex = 32
         Me.Label11.Text = "Label11"
         Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -848,19 +838,19 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.GridView.ReadOnly = True
         Me.GridView.RowHeadersVisible = False
         Me.GridView.RowTemplate.Height = 18
-        Me.GridView.Size = New System.Drawing.Size(775, 372)
+        Me.GridView.Size = New System.Drawing.Size(775, 376)
         Me.GridView.TabIndex = 3
         '
         'ContextMenuStrip2
         '
         Me.ContextMenuStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ReziseToolStripMenuItem})
         Me.ContextMenuStrip2.Name = "ContextMenuStrip2"
-        Me.ContextMenuStrip2.Size = New System.Drawing.Size(121, 28)
+        Me.ContextMenuStrip2.Size = New System.Drawing.Size(107, 26)
         '
         'ReziseToolStripMenuItem
         '
         Me.ReziseToolStripMenuItem.Name = "ReziseToolStripMenuItem"
-        Me.ReziseToolStripMenuItem.Size = New System.Drawing.Size(120, 24)
+        Me.ReziseToolStripMenuItem.Size = New System.Drawing.Size(106, 22)
         Me.ReziseToolStripMenuItem.Text = "Rezise"
         '
         'Panel4
@@ -898,7 +888,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.Panel2.BackColor = System.Drawing.Color.LightGoldenrodYellow
         Me.Panel2.Controls.Add(Me.Panel7)
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel2.Location = New System.Drawing.Point(3, 408)
+        Me.Panel2.Location = New System.Drawing.Point(3, 412)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(775, 126)
         Me.Panel2.TabIndex = 0
@@ -995,9 +985,19 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.btnPrint.Text = "&Print"
         Me.btnPrint.UseVisualStyleBackColor = True
         '
-        'frmSmithBalanceDetailedReport
+        'chkWithAmountBalance
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 17.0!)
+        Me.chkWithAmountBalance.AutoSize = True
+        Me.chkWithAmountBalance.Location = New System.Drawing.Point(270, 464)
+        Me.chkWithAmountBalance.Name = "chkWithAmountBalance"
+        Me.chkWithAmountBalance.Size = New System.Drawing.Size(148, 17)
+        Me.chkWithAmountBalance.TabIndex = 27
+        Me.chkWithAmountBalance.Text = "With Amount Balance"
+        Me.chkWithAmountBalance.UseVisualStyleBackColor = True
+        '
+        'frmSmithBalanceDetailedReportNew
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(789, 567)
         Me.ContextMenuStrip = Me.ContextMenuStrip1
@@ -1006,7 +1006,7 @@ Partial Class frmSmithBalanceDetailedReportNew
         Me.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.KeyPreview = True
-        Me.Name = "frmSmithBalanceDetailedReport"
+        Me.Name = "frmSmithBalanceDetailedReportNew"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Smith Balance Detailed"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized

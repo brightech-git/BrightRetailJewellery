@@ -24,10 +24,14 @@ Partial Class frmPurchaseOrder
         Me.tabGen = New System.Windows.Forms.TabPage()
         Me.pnlGroupFilter = New System.Windows.Forms.Panel()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.optBetween = New System.Windows.Forms.RadioButton()
+        Me.optAsOn = New System.Windows.Forms.RadioButton()
+        Me.chkTrans = New System.Windows.Forms.CheckBox()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.optSummary = New System.Windows.Forms.RadioButton()
         Me.optDetail = New System.Windows.Forms.RadioButton()
-        Me.Label15 = New System.Windows.Forms.Label()
+        Me.lblFrom = New System.Windows.Forms.Label()
         Me.btnNew = New System.Windows.Forms.Button()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -51,15 +55,15 @@ Partial Class frmPurchaseOrder
         Me.pnlfooter = New System.Windows.Forms.Panel()
         Me.chkSelectAll = New System.Windows.Forms.CheckBox()
         Me.btnBack = New System.Windows.Forms.Button()
+        Me.btnTransfer = New System.Windows.Forms.Button()
         Me.btnMerge = New System.Windows.Forms.Button()
         Me.btnPrint = New System.Windows.Forms.Button()
         Me.btnExport = New System.Windows.Forms.Button()
-        Me.btnTransfer = New System.Windows.Forms.Button()
-        Me.chkTrans = New System.Windows.Forms.CheckBox()
         Me.tabMain.SuspendLayout()
         Me.tabGen.SuspendLayout()
         Me.pnlGroupFilter.SuspendLayout()
         Me.GroupBox1.SuspendLayout()
+        Me.Panel1.SuspendLayout()
         Me.GroupBox2.SuspendLayout()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.tabView.SuspendLayout()
@@ -85,10 +89,10 @@ Partial Class frmPurchaseOrder
         'tabGen
         '
         Me.tabGen.Controls.Add(Me.pnlGroupFilter)
-        Me.tabGen.Location = New System.Drawing.Point(4, 25)
+        Me.tabGen.Location = New System.Drawing.Point(4, 29)
         Me.tabGen.Name = "tabGen"
         Me.tabGen.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabGen.Size = New System.Drawing.Size(933, 593)
+        Me.tabGen.Size = New System.Drawing.Size(933, 589)
         Me.tabGen.TabIndex = 0
         Me.tabGen.Text = "Gen"
         Me.tabGen.UseVisualStyleBackColor = True
@@ -103,9 +107,10 @@ Partial Class frmPurchaseOrder
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.Panel1)
         Me.GroupBox1.Controls.Add(Me.chkTrans)
         Me.GroupBox1.Controls.Add(Me.GroupBox2)
-        Me.GroupBox1.Controls.Add(Me.Label15)
+        Me.GroupBox1.Controls.Add(Me.lblFrom)
         Me.GroupBox1.Controls.Add(Me.btnNew)
         Me.GroupBox1.Controls.Add(Me.btnExit)
         Me.GroupBox1.Controls.Add(Me.btnView_Search)
@@ -122,22 +127,65 @@ Partial Class frmPurchaseOrder
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         '
+        'Panel1
+        '
+        Me.Panel1.Controls.Add(Me.optBetween)
+        Me.Panel1.Controls.Add(Me.optAsOn)
+        Me.Panel1.Location = New System.Drawing.Point(186, 17)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(187, 27)
+        Me.Panel1.TabIndex = 37
+        '
+        'optBetween
+        '
+        Me.optBetween.AutoSize = True
+        Me.optBetween.Location = New System.Drawing.Point(93, 3)
+        Me.optBetween.Name = "optBetween"
+        Me.optBetween.Size = New System.Drawing.Size(89, 21)
+        Me.optBetween.TabIndex = 1
+        Me.optBetween.TabStop = True
+        Me.optBetween.Text = "Between"
+        Me.optBetween.UseVisualStyleBackColor = True
+        AddHandler Me.optBetween.CheckedChanged, AddressOf Me.optBetween_CheckedChanged
+        '
+        'optAsOn
+        '
+        Me.optAsOn.AutoSize = True
+        Me.optAsOn.Location = New System.Drawing.Point(3, 3)
+        Me.optAsOn.Name = "optAsOn"
+        Me.optAsOn.Size = New System.Drawing.Size(72, 21)
+        Me.optAsOn.TabIndex = 0
+        Me.optAsOn.TabStop = True
+        Me.optAsOn.Text = "As On"
+        Me.optAsOn.UseVisualStyleBackColor = True
+        AddHandler Me.optAsOn.CheckedChanged, AddressOf Me.optAsOn_CheckedChanged
+        '
+        'chkTrans
+        '
+        Me.chkTrans.AutoSize = True
+        Me.chkTrans.Location = New System.Drawing.Point(375, 160)
+        Me.chkTrans.Name = "chkTrans"
+        Me.chkTrans.Size = New System.Drawing.Size(126, 21)
+        Me.chkTrans.TabIndex = 36
+        Me.chkTrans.Text = "With Transfer"
+        Me.chkTrans.UseVisualStyleBackColor = True
+        '
         'GroupBox2
         '
         Me.GroupBox2.Controls.Add(Me.optSummary)
         Me.GroupBox2.Controls.Add(Me.optDetail)
         Me.GroupBox2.Location = New System.Drawing.Point(183, 141)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(220, 43)
+        Me.GroupBox2.Size = New System.Drawing.Size(183, 43)
         Me.GroupBox2.TabIndex = 35
         Me.GroupBox2.TabStop = False
         '
         'optSummary
         '
         Me.optSummary.AutoSize = True
-        Me.optSummary.Location = New System.Drawing.Point(133, 16)
+        Me.optSummary.Location = New System.Drawing.Point(87, 16)
         Me.optSummary.Name = "optSummary"
-        Me.optSummary.Size = New System.Drawing.Size(81, 17)
+        Me.optSummary.Size = New System.Drawing.Size(96, 21)
         Me.optSummary.TabIndex = 1
         Me.optSummary.TabStop = True
         Me.optSummary.Text = "Summary"
@@ -149,21 +197,21 @@ Partial Class frmPurchaseOrder
         Me.optDetail.Checked = True
         Me.optDetail.Location = New System.Drawing.Point(8, 15)
         Me.optDetail.Name = "optDetail"
-        Me.optDetail.Size = New System.Drawing.Size(58, 17)
+        Me.optDetail.Size = New System.Drawing.Size(68, 21)
         Me.optDetail.TabIndex = 0
         Me.optDetail.TabStop = True
         Me.optDetail.Text = "Detail"
         Me.optDetail.UseVisualStyleBackColor = True
         '
-        'Label15
+        'lblFrom
         '
-        Me.Label15.AutoSize = True
-        Me.Label15.Location = New System.Drawing.Point(77, 120)
-        Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(67, 13)
-        Me.Label15.TabIndex = 34
-        Me.Label15.Text = "Date From"
-        Me.Label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        Me.lblFrom.AutoSize = True
+        Me.lblFrom.Location = New System.Drawing.Point(77, 55)
+        Me.lblFrom.Name = "lblFrom"
+        Me.lblFrom.Size = New System.Drawing.Size(44, 17)
+        Me.lblFrom.TabIndex = 34
+        Me.lblFrom.Text = "From"
+        Me.lblFrom.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'btnNew
         '
@@ -179,13 +227,13 @@ Partial Class frmPurchaseOrder
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExitToolStripMenuItem, Me.NewToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(119, 48)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(135, 52)
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
         Me.ExitToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F12
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(118, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(134, 24)
         Me.ExitToolStripMenuItem.Text = "Exit"
         Me.ExitToolStripMenuItem.Visible = False
         '
@@ -193,7 +241,7 @@ Partial Class frmPurchaseOrder
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
         Me.NewToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(118, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(134, 24)
         Me.NewToolStripMenuItem.Text = "New"
         Me.NewToolStripMenuItem.Visible = False
         '
@@ -222,9 +270,9 @@ Partial Class frmPurchaseOrder
         Me.chkCmbItem.DropDownHeight = 1
         Me.chkCmbItem.FormattingEnabled = True
         Me.chkCmbItem.IntegralHeight = False
-        Me.chkCmbItem.Location = New System.Drawing.Point(183, 85)
+        Me.chkCmbItem.Location = New System.Drawing.Point(183, 114)
         Me.chkCmbItem.Name = "chkCmbItem"
-        Me.chkCmbItem.Size = New System.Drawing.Size(290, 22)
+        Me.chkCmbItem.Size = New System.Drawing.Size(290, 25)
         Me.chkCmbItem.TabIndex = 7
         Me.chkCmbItem.ValueSeparator = ", "
         '
@@ -235,34 +283,34 @@ Partial Class frmPurchaseOrder
         Me.chkCmbMetal.DropDownHeight = 1
         Me.chkCmbMetal.FormattingEnabled = True
         Me.chkCmbMetal.IntegralHeight = False
-        Me.chkCmbMetal.Location = New System.Drawing.Point(183, 55)
+        Me.chkCmbMetal.Location = New System.Drawing.Point(183, 84)
         Me.chkCmbMetal.Name = "chkCmbMetal"
-        Me.chkCmbMetal.Size = New System.Drawing.Size(290, 22)
+        Me.chkCmbMetal.Size = New System.Drawing.Size(290, 25)
         Me.chkCmbMetal.TabIndex = 1
         Me.chkCmbMetal.ValueSeparator = ", "
         '
         'dtpTo
         '
-        Me.dtpTo.Location = New System.Drawing.Point(309, 117)
+        Me.dtpTo.Location = New System.Drawing.Point(309, 52)
         Me.dtpTo.Mask = "##/##/####"
         Me.dtpTo.MaximumDate = New Date(9998, 12, 31, 0, 0, 0, 0)
         Me.dtpTo.MinimumDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpTo.Name = "dtpTo"
         Me.dtpTo.Seperator = Global.Microsoft.VisualBasic.ChrW(47)
-        Me.dtpTo.Size = New System.Drawing.Size(93, 21)
+        Me.dtpTo.Size = New System.Drawing.Size(93, 24)
         Me.dtpTo.TabIndex = 11
         Me.dtpTo.Text = "07/03/9998"
         Me.dtpTo.Value = New Date(9998, 3, 7, 0, 0, 0, 0)
         '
         'dtpFrom
         '
-        Me.dtpFrom.Location = New System.Drawing.Point(183, 117)
+        Me.dtpFrom.Location = New System.Drawing.Point(183, 52)
         Me.dtpFrom.Mask = "##/##/####"
         Me.dtpFrom.MaximumDate = New Date(9998, 12, 31, 0, 0, 0, 0)
         Me.dtpFrom.MinimumDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpFrom.Name = "dtpFrom"
         Me.dtpFrom.Seperator = Global.Microsoft.VisualBasic.ChrW(47)
-        Me.dtpFrom.Size = New System.Drawing.Size(93, 21)
+        Me.dtpFrom.Size = New System.Drawing.Size(93, 24)
         Me.dtpFrom.TabIndex = 9
         Me.dtpFrom.Text = "07/03/9998"
         Me.dtpFrom.Value = New Date(9998, 3, 7, 0, 0, 0, 0)
@@ -270,9 +318,9 @@ Partial Class frmPurchaseOrder
         'label10
         '
         Me.label10.AutoSize = True
-        Me.label10.Location = New System.Drawing.Point(77, 60)
+        Me.label10.Location = New System.Drawing.Point(77, 89)
         Me.label10.Name = "label10"
-        Me.label10.Size = New System.Drawing.Size(37, 13)
+        Me.label10.Size = New System.Drawing.Size(44, 17)
         Me.label10.TabIndex = 0
         Me.label10.Text = "Metal"
         Me.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -280,9 +328,9 @@ Partial Class frmPurchaseOrder
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(77, 90)
+        Me.Label3.Location = New System.Drawing.Point(77, 119)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(67, 13)
+        Me.Label3.Size = New System.Drawing.Size(79, 17)
         Me.Label3.TabIndex = 6
         Me.Label3.Text = "ItemName"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -290,9 +338,9 @@ Partial Class frmPurchaseOrder
         'lblTo
         '
         Me.lblTo.AutoSize = True
-        Me.lblTo.Location = New System.Drawing.Point(282, 122)
+        Me.lblTo.Location = New System.Drawing.Point(282, 57)
         Me.lblTo.Name = "lblTo"
-        Me.lblTo.Size = New System.Drawing.Size(20, 13)
+        Me.lblTo.Size = New System.Drawing.Size(24, 17)
         Me.lblTo.TabIndex = 10
         Me.lblTo.Text = "To"
         Me.lblTo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -304,10 +352,10 @@ Partial Class frmPurchaseOrder
         Me.tabView.Controls.Add(Me.gridViewHead)
         Me.tabView.Controls.Add(Me.lblTitle)
         Me.tabView.Controls.Add(Me.pnlfooter)
-        Me.tabView.Location = New System.Drawing.Point(4, 25)
+        Me.tabView.Location = New System.Drawing.Point(4, 29)
         Me.tabView.Name = "tabView"
         Me.tabView.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabView.Size = New System.Drawing.Size(933, 593)
+        Me.tabView.Size = New System.Drawing.Size(933, 589)
         Me.tabView.TabIndex = 1
         Me.tabView.Text = "View"
         Me.tabView.UseVisualStyleBackColor = True
@@ -329,7 +377,7 @@ Partial Class frmPurchaseOrder
         Me.gridviewDetail.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.[False]
         Me.gridviewDetail.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.gridviewDetail.ShowCellToolTips = False
-        Me.gridviewDetail.Size = New System.Drawing.Size(927, 479)
+        Me.gridviewDetail.Size = New System.Drawing.Size(927, 475)
         Me.gridviewDetail.TabIndex = 5
         Me.gridviewDetail.Visible = False
         '
@@ -350,20 +398,20 @@ Partial Class frmPurchaseOrder
         Me.gridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.[False]
         Me.gridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.gridView.ShowCellToolTips = False
-        Me.gridView.Size = New System.Drawing.Size(927, 479)
+        Me.gridView.Size = New System.Drawing.Size(927, 475)
         Me.gridView.TabIndex = 1
         '
         'cmbGridShortCut
         '
         Me.cmbGridShortCut.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ResizeToolStripMenuItem})
         Me.cmbGridShortCut.Name = "ContextMenuStrip2"
-        Me.cmbGridShortCut.Size = New System.Drawing.Size(136, 26)
+        Me.cmbGridShortCut.Size = New System.Drawing.Size(157, 28)
         '
         'ResizeToolStripMenuItem
         '
         Me.ResizeToolStripMenuItem.CheckOnClick = True
         Me.ResizeToolStripMenuItem.Name = "ResizeToolStripMenuItem"
-        Me.ResizeToolStripMenuItem.Size = New System.Drawing.Size(135, 22)
+        Me.ResizeToolStripMenuItem.Size = New System.Drawing.Size(156, 24)
         Me.ResizeToolStripMenuItem.Text = "Auto Resize"
         '
         'gridViewHead
@@ -403,7 +451,7 @@ Partial Class frmPurchaseOrder
         Me.pnlfooter.Controls.Add(Me.btnPrint)
         Me.pnlfooter.Controls.Add(Me.btnExport)
         Me.pnlfooter.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.pnlfooter.Location = New System.Drawing.Point(3, 548)
+        Me.pnlfooter.Location = New System.Drawing.Point(3, 544)
         Me.pnlfooter.Name = "pnlfooter"
         Me.pnlfooter.Size = New System.Drawing.Size(927, 42)
         Me.pnlfooter.TabIndex = 2
@@ -413,7 +461,7 @@ Partial Class frmPurchaseOrder
         Me.chkSelectAll.AutoSize = True
         Me.chkSelectAll.Location = New System.Drawing.Point(636, 13)
         Me.chkSelectAll.Name = "chkSelectAll"
-        Me.chkSelectAll.Size = New System.Drawing.Size(79, 17)
+        Me.chkSelectAll.Size = New System.Drawing.Size(93, 21)
         Me.chkSelectAll.TabIndex = 2
         Me.chkSelectAll.Text = "Select All"
         Me.chkSelectAll.UseVisualStyleBackColor = True
@@ -426,6 +474,16 @@ Partial Class frmPurchaseOrder
         Me.btnBack.TabIndex = 1
         Me.btnBack.Text = "Back [Esc]"
         Me.btnBack.UseVisualStyleBackColor = True
+        '
+        'btnTransfer
+        '
+        Me.btnTransfer.Location = New System.Drawing.Point(821, 5)
+        Me.btnTransfer.Name = "btnTransfer"
+        Me.btnTransfer.Size = New System.Drawing.Size(100, 30)
+        Me.btnTransfer.TabIndex = 0
+        Me.btnTransfer.Text = "HO Transfer"
+        Me.btnTransfer.UseVisualStyleBackColor = True
+        Me.btnTransfer.Visible = False
         '
         'btnMerge
         '
@@ -454,29 +512,9 @@ Partial Class frmPurchaseOrder
         Me.btnExport.Text = "Export [X]"
         Me.btnExport.UseVisualStyleBackColor = True
         '
-        'btnTransfer
-        '
-        Me.btnTransfer.Location = New System.Drawing.Point(821, 5)
-        Me.btnTransfer.Name = "btnTransfer"
-        Me.btnTransfer.Size = New System.Drawing.Size(100, 30)
-        Me.btnTransfer.TabIndex = 0
-        Me.btnTransfer.Text = "HO Transfer"
-        Me.btnTransfer.UseVisualStyleBackColor = True
-        Me.btnTransfer.Visible = False
-        '
-        'chkTrans
-        '
-        Me.chkTrans.AutoSize = True
-        Me.chkTrans.Location = New System.Drawing.Point(407, 160)
-        Me.chkTrans.Name = "chkTrans"
-        Me.chkTrans.Size = New System.Drawing.Size(102, 17)
-        Me.chkTrans.TabIndex = 36
-        Me.chkTrans.Text = "With Transfer"
-        Me.chkTrans.UseVisualStyleBackColor = True
-        '
         'frmPurchaseOrder
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(941, 622)
         Me.ContextMenuStrip = Me.ContextMenuStrip1
@@ -494,6 +532,8 @@ Partial Class frmPurchaseOrder
         Me.pnlGroupFilter.ResumeLayout(False)
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        Me.Panel1.ResumeLayout(False)
+        Me.Panel1.PerformLayout()
         Me.GroupBox2.ResumeLayout(False)
         Me.GroupBox2.PerformLayout()
         Me.ContextMenuStrip1.ResumeLayout(False)
@@ -533,7 +573,7 @@ Partial Class frmPurchaseOrder
     Friend WithEvents dtpTo As BrighttechPack.DatePicker
     Friend WithEvents lblTo As System.Windows.Forms.Label
     Friend WithEvents chkCmbItem As BrighttechPack.CheckedComboBox
-    Friend WithEvents Label15 As System.Windows.Forms.Label
+    Friend WithEvents lblFrom As System.Windows.Forms.Label
     Friend WithEvents gridviewDetail As DataGridView
     Friend WithEvents gridViewHead As DataGridView
     Friend WithEvents btnMerge As Button
@@ -543,4 +583,7 @@ Partial Class frmPurchaseOrder
     Friend WithEvents optDetail As RadioButton
     Friend WithEvents btnTransfer As Button
     Friend WithEvents chkTrans As CheckBox
+    Friend WithEvents Panel1 As Panel
+    Friend WithEvents optBetween As RadioButton
+    Friend WithEvents optAsOn As RadioButton
 End Class

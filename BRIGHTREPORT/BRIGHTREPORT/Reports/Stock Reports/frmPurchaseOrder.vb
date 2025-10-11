@@ -6,6 +6,7 @@ Imports System.Web.UI.WebControls
 Imports System.Windows.Controls.Primitives
 Imports System.Xml
 Imports com.ms.win32
+Imports java.lang
 Public Class frmPurchaseOrder
     '01 SHERIFF - 24-10-12
     '250213 VASANTHAN For WHITEFIRE
@@ -50,6 +51,7 @@ Public Class frmPurchaseOrder
         ' Add any initialization after the InitializeComponent() call.
         'Me.WindowState = FormWindowState.Maximized
         tabMain.SelectedTab = tabGen
+        optAsOn.Checked = True : optBetween.Checked = False
         HoServerDetails()
     End Sub
 
@@ -208,7 +210,12 @@ Public Class frmPurchaseOrder
                 strSql += " AND b.METALID IN (SELECT METALID FROM " & cnAdminDb & "..METALMAST WHERE METALNAME IN (" & GetQryString(chkCmbMetal.Text.ToString) & "))"
             End If
             If itemid <> "ALL" Then strSql += $" And a.itemid in ({itemid})"
-            strSql += $" And a.podate between '{dtpFrom.Value}' and '{dtpTo.Value}'"
+            'strSql += $" And a.podate between '{dtpFrom.Value}' and '{dtpTo.Value}'"
+            If optBetween.Checked Then
+                strSql += vbCrLf + $"	and a.podate between '{dtpFrom.Value}' and '{dtpTo.Value}'	"
+            ElseIf optAsOn.Checked Then
+                strSql += vbCrLf + $"	and a.podate <= '{dtpFrom.Value}'	"
+            End If
             If Not chkTrans.Checked Then strSql += " and isnull(a.TRANFLAG,0) = 0"
             strSql += " order by ponumber"
             chkSelectAll.Visible = True : btnMerge.Visible = True
@@ -220,7 +227,12 @@ Public Class frmPurchaseOrder
                 strSql += " AND b.METALID IN (SELECT METALID FROM " & cnAdminDb & "..METALMAST WHERE METALNAME IN (" & GetQryString(chkCmbMetal.Text.ToString) & "))"
             End If
             If itemid <> "ALL" Then strSql += $" And a.itemid in ({itemid})"
-            strSql += $" And a.podate between '{dtpFrom.Value}' and '{dtpTo.Value}'"
+            'strSql += $" And a.podate between '{dtpFrom.Value}' and '{dtpTo.Value}'"
+            If optBetween.Checked Then
+                strSql += vbCrLf + $"	and a.podate between '{dtpFrom.Value}' and '{dtpTo.Value}'	"
+            ElseIf optAsOn.Checked Then
+                strSql += vbCrLf + $"	and a.podate <= '{dtpFrom.Value}'	"
+            End If
             If Not chkTrans.Checked Then strSql += " and isnull(a.TRANFLAG,0) = 0"
             strSql += " group by a.ITEMID,ponumber,b.ITEMNAME,a.PODATE,a.TRANDATE"
             chkSelectAll.Visible = False : btnMerge.Visible = False
@@ -238,7 +250,11 @@ Public Class frmPurchaseOrder
 
             Dim tit As String
             tit = " PURCHASE ORDER " + IIf(optDetail.Checked, "DETAIL", "SUMMARY") + vbCrLf
-            tit += " DATE FROM " & dtpFrom.Text + " TO " + dtpTo.Text
+            If optAsOn.Checked Then
+                tit += " AS ON DATE : " & dtpFrom.Text
+            Else
+                tit += " DATE FROM : " & dtpFrom.Text + " TO " + dtpTo.Text
+            End If
             If chkCmbMetal.Text.ToString <> "ALL" And chkCmbMetal.Text.ToString <> "" Then
                 tit += " FOR METAL " & chkCmbMetal.Text.ToString & ""
             End If
@@ -308,6 +324,7 @@ Public Class frmPurchaseOrder
         optDetail.Checked = True : optSummary.Checked = False
         HoServerDetails()
         chkTrans.Checked = False
+        optAsOn.Checked = True : optBetween.Checked = False
     End Sub
 
     Private Sub NewToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewToolStripMenuItem.Click
@@ -385,10 +402,6 @@ Public Class frmPurchaseOrder
             Dim poNumber As String = gridView.Rows(e.RowIndex).Cells("PONUMBER").Value
             If Not IsDBNull(gridView.Rows(e.RowIndex).Cells("TRANS DATE").Value) Then Exit Sub
 
-            Dim parts() As String = poNumber.Split("-"c)
-            Dim lastPart As String = parts(parts.Length - 1)
-            If lastPart.StartsWith("M", StringComparison.OrdinalIgnoreCase) Then Exit Sub
-
             If gridView.Rows(e.RowIndex).Cells(e.ColumnIndex).Value = False Then
                 For Each row As DataGridViewRow In gridView.Rows
                     If row.Cells("PONUMBER").Value.ToString() = poNumber Then
@@ -409,6 +422,9 @@ Public Class frmPurchaseOrder
             Dim filteredTable As DataTable = dtSource.Clone()
             For Each dr As DataRow In dtSource.Rows
                 If dr("MARK").ToString = "True" Then
+                    Dim parts() As String = dr("PONUMBER").ToString.Split("-"c)
+                    Dim lastPart As String = parts(parts.Length - 1)
+                    If lastPart.StartsWith("M", StringComparison.OrdinalIgnoreCase) Then Continue For
                     filteredTable.ImportRow(dr)
                 End If
             Next
@@ -506,13 +522,13 @@ Public Class frmPurchaseOrder
                 Else
                     MsgBox("Billprint exe not found", MsgBoxStyle.Information)
                 End If
-            ElseIf Keys.D Then
+            ElseIf e.KeyCode = Keys.D Then
                 If optSummary.Checked Then
                     Dim _poNo As String = gridView.Item("PONUMBER", gridView.CurrentRow.Index).Value.ToString
                     Dim _item As String = gridView.Item("ITEM", gridView.CurrentRow.Index).Value.ToString
                     Dim _totPieces As Integer = gridView.Item("PO_PIECES", gridView.CurrentRow.Index).Value
                     Dim ofrmPurchaseOrderDetail As New frmPurchaseOrderDetail(chkCmbMetal.Text, itemid, dtpFrom.Value, dtpTo.Value, _poNo, _item,
-                                                                              _totPieces)
+                                                                              _totPieces, optAsOn.Checked)
                     If ofrmPurchaseOrderDetail.ShowDialog() = Windows.Forms.DialogResult.OK Then
                     Else
                         Exit Sub
@@ -591,5 +607,23 @@ Public Class frmPurchaseOrder
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try
+    End Sub
+    Private Sub optAsOn_CheckedChanged(sender As Object, e As EventArgs)
+        If optAsOn.Checked Then
+            lblFrom.Text = "AS ON : "
+            lblTo.Visible = False : dtpTo.Visible = False
+        Else
+            lblFrom.Text = "FROM : "
+            lblTo.Visible = True : dtpTo.Visible = True
+        End If
+    End Sub
+    Private Sub optBetween_CheckedChanged(sender As Object, e As EventArgs)
+        If optBetween.Checked Then
+            lblFrom.Text = "FROM : "
+            lblTo.Visible = True : dtpTo.Visible = True
+        Else
+            lblFrom.Text = "AS ON : "
+            lblTo.Visible = False : dtpTo.Visible = False
+        End If
     End Sub
 End Class

@@ -11,9 +11,9 @@ Public Class frmPurchaseOrderDetail
     Public itemName As String
     Public subItem As String
     Public pieces As Integer
-    Sub New(metal As String, itemId As String, fromDate As Date, toDate As Date, poNo As String, item As String, totPieces As Integer)
+    Sub New(metal As String, itemId As String, fromDate As Date, toDate As Date, poNo As String, item As String, totPieces As Integer, asOn As Boolean)
         InitializeComponent()
-        ShowDetail(metal, itemId, fromDate, toDate, poNo, item, totPieces)
+        ShowDetail(metal, itemId, fromDate, toDate, poNo, item, totPieces, asOn)
     End Sub
     Sub New(dt As DataTable, _particular As String)
         InitializeComponent()
@@ -28,7 +28,7 @@ Public Class frmPurchaseOrderDetail
         InitializeComponent()
         ShowDetail(dt)
     End Sub
-    Private Sub ShowDetail(metal As String, itemId As String, fromDate As Date, toDate As Date, poNo As String, item As String, totPieces As Integer)
+    Private Sub ShowDetail(metal As String, itemId As String, fromDate As Date, toDate As Date, poNo As String, item As String, totPieces As Integer, asOn As Boolean)
         Try
             'strSql = $"select cast(a.ITEMID as nvarchar(100))+ '-' + b.ITEMNAME ITEM,a.PARTICULAR,a.PO_PIECES,a.POFROMDATE POSTINGFROM,a.POTODATE POSTINGTO,a.PONUMBER,a.PODATE from {cnAdminDb}.. PURCHASEORDER a"
             strSql = $"select a.PARTICULAR,a.PO_PIECES,CONVERT(VARCHAR(10), a.PODATE, 105) PODATE from {cnAdminDb}.. PURCHASEORDER a"
@@ -38,7 +38,11 @@ Public Class frmPurchaseOrderDetail
                 strSql += " AND b.METALID IN (SELECT METALID FROM " & cnAdminDb & "..METALMAST WHERE METALNAME IN (" & GetQryString(metal) & "))"
             End If
             If itemId <> "ALL" Then strSql += $" And a.itemid in ({itemId})"
-            strSql += $" And a.podate between '{fromDate}' and '{toDate}'"
+            If asOn Then
+                strSql += $" And a.podate <= '{fromDate}'"
+            Else
+                strSql += $" And a.podate between '{fromDate}' and '{toDate}'"
+            End If
             strSql += $" And a.PONUMBER = '{poNo}'"
             strSql += " order by ponumber"
 
