@@ -1,4 +1,4 @@
-CREATE PROCEDURE sp_Dashboard
+CREATE OR ALTER PROCEDURE sp_Dashboard
     @fromDate DATE,
     @toDate DATE,
     @costId VARCHAR(10),
@@ -24,7 +24,7 @@ BEGIN
         LEFT JOIN ' + @adminDB + '..ITEMTAGSTONE ON ITEMTAG.tagno = ITEMTAGSTONE.tagno
         WHERE 1 = 1
             AND ITEMTAG.issdate IS NULL
-            AND ITEMTAG.costid = @costId
+			AND (ISNULL(@CostId, '''') = '''' OR ITEMTAG.CostId = @CostId)
         GROUP BY ITEMMAST.METALID
         )
         ,cte1
@@ -37,7 +37,7 @@ BEGIN
         FROM ' + @transDB + '..issue
         JOIN ' + @adminDB + '..ITEMMAST ON issue.itemid = itemmast.itemid
         WHERE 1 = 1
-            AND costid = @costId
+			AND (ISNULL(@CostId, '''') = '''' OR CostId = @CostId)
             AND cancel <> ''Y''
             AND ISSUE.TRANTYPE = ''SA''
             AND issue.TRANDATE BETWEEN @fromDate
@@ -54,7 +54,7 @@ BEGIN
         FROM ' + @transDB + '..RECEIPT
         JOIN ' + @adminDB + '..CATEGORY ON RECEIPT.CATCODE = CATEGORY.CATCODE
         WHERE 1 = 1
-            AND costid = @costId
+			AND (ISNULL(@CostId, '''') = '''' OR CostId = @CostId)
             AND cancel <> ''Y''
             AND RECEIPT.TRANTYPE IN (''PU'')
             AND RECEIPT.TRANDATE BETWEEN @fromDate
@@ -71,7 +71,7 @@ BEGIN
         FROM ' + @transDB + '..RECEIPT
         JOIN ' + @adminDB + '..CATEGORY ON RECEIPT.CATCODE = CATEGORY.CATCODE
         WHERE 1 = 1
-            AND costid = @costId
+            AND (ISNULL(@CostId, '''') = '''' OR CostId = @CostId)
             AND cancel <> ''Y''
             AND RECEIPT.TRANTYPE IN (''SR'')
             AND RECEIPT.TRANDATE BETWEEN @fromDate
@@ -135,7 +135,7 @@ BEGIN
         AND ISNULL(cancel, '''') = ''''
         AND RDATE BETWEEN @fromDate
             AND @toDate
-        AND COSTID = @costId
+        AND (ISNULL(@CostId, '''') = '''' OR CostId = @CostId)
     GROUP BY MODEPAY
 
     UNION
@@ -147,7 +147,7 @@ BEGIN
         AND ISNULL(cancel, '''') = ''''
         AND RDATE BETWEEN @fromDate
             AND @toDate
-        AND COSTID = @costId
+        AND (ISNULL(@CostId, '''') = '''' OR CostId = @CostId)
 
     --sales collection
     ;WITH cte
@@ -166,7 +166,7 @@ BEGIN
                 ,''CB''
                 )
             AND TRANNO <> 9999
-            AND COSTID = @costId
+            AND (ISNULL(@CostId, '''') = '''' OR CostId = @CostId)
             AND acctran.TRANDATE BETWEEN @fromDate
                 AND @toDate
         GROUP BY PAYMODE
@@ -187,7 +187,7 @@ BEGIN
                 ,''CB''
                 )
             AND TRANNO <> 9999
-            AND COSTID = @costId
+            AND (ISNULL(@CostId, '''') = '''' OR CostId = @CostId)
             AND acctran.TRANDATE BETWEEN @fromDate
                 AND @toDate
         GROUP BY PAYMODE
@@ -235,7 +235,7 @@ BEGIN
         FROM ' + @transDB + '..ESTISSUE
         WHERE 1 = 1
             AND isnull(cancel, '''') = ''''
-            AND COSTID = @costId
+            AND (ISNULL(@CostId, '''') = '''' OR CostId = @CostId)
             AND TRANDATE BETWEEN @fromDate
                 AND @toDate
         )
@@ -262,7 +262,7 @@ BEGIN
     JOIN ' + @adminDB + '..EMPMASTER ON ISSUE.EMPID = EMPMASTER.EMPID
     WHERE 1 = 1
         AND ISNULL(cancel, '''') = ''Y''
-        AND ISSUE.COSTID = @costId
+		AND (ISNULL(@CostId, '''') = '''' OR ISSUE.CostId = @CostId)
         AND TRANDATE BETWEEN @fromDate
             AND @toDate
 
@@ -279,10 +279,10 @@ BEGIN
     JOIN ' + @adminDB + '..EMPMASTER ON RECEIPT.EMPID = EMPMASTER.EMPID
     WHERE 1 = 1
         AND ISNULL(cancel, '''') = ''Y''
-        AND RECEIPT.COSTID = @costId
+		AND (ISNULL(@CostId, '''') = '''' OR RECEIPT.CostId = @CostId)
         AND TRANDATE BETWEEN @fromDate
             AND @toDate'
-
+			
     EXEC sp_executesql @sql, 
         N'@fromDate DATE, @toDate DATE, @costId VARCHAR(10)', 
         @fromDate, @toDate, @costId
