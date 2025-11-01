@@ -7,9 +7,7 @@ Imports System.Windows.Controls.Primitives
 Imports System.Xml
 Imports com.ms.win32
 Imports java.lang
-Public Class frmPurchaseOrder
-    '01 SHERIFF - 24-10-12
-    '250213 VASANTHAN For WHITEFIRE
+Public Class frmReorderOrderReport
     Dim strSql As String = Nothing
     Dim da As OleDbDataAdapter
     Dim cmd As OleDbCommand
@@ -51,8 +49,6 @@ Public Class frmPurchaseOrder
         ' Add any initialization after the InitializeComponent() call.
         'Me.WindowState = FormWindowState.Maximized
         tabMain.SelectedTab = tabGen
-        optAsOn.Checked = True : optBetween.Checked = False
-        HoServerDetails()
     End Sub
 
     Function funcExit() As Integer
@@ -199,45 +195,22 @@ Public Class frmPurchaseOrder
     End Function
     Private Sub btnView_Search_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnView_Search.Click
         gridviewDetail.Visible = False
-        chkSelectAll.Checked = False
         If Trim(chkCmbItem.Text.ToString) = "ALL" Or Trim(chkCmbItem.Text.ToString) = "" Then itemid = "ALL" Else itemid = GetSelecteditemid(chkCmbItem, True)
 
-        If optDetail.Checked Then
-            strSql = $"select cast(0 as bit) [MARK], cast(a.ITEMID as nvarchar(100))+ '-' + b.ITEMNAME ITEM,a.PARTICULAR,a.PO_PIECES, a.POFROMDATE POSTINGFROM, a.POTODATE POSTINGTO,a.PONUMBER, a.PODATE PODATE, a.TRANDATE [TRANS DATE] from {cnAdminDb}.. PURCHASEORDER a"
-            strSql += $" join {cnAdminDb}..itemmast b on a.itemid = b.ITEMID"
-            strSql += " where ISNULL(po_pieces,0)<>0"
-            If chkCmbMetal.Text.ToString <> "ALL" And chkCmbMetal.Text.ToString <> "" Then
-                strSql += " AND b.METALID IN (SELECT METALID FROM " & cnAdminDb & "..METALMAST WHERE METALNAME IN (" & GetQryString(chkCmbMetal.Text.ToString) & "))"
-            End If
-            If itemid <> "ALL" Then strSql += $" And a.itemid in ({itemid})"
-            'strSql += $" And a.podate between '{dtpFrom.Value}' and '{dtpTo.Value}'"
-            If optBetween.Checked Then
-                strSql += vbCrLf + $"	and a.podate between '{dtpFrom.Value}' and '{dtpTo.Value}'	"
-            ElseIf optAsOn.Checked Then
-                strSql += vbCrLf + $"	and a.podate <= '{dtpFrom.Value}'	"
-            End If
-            If Not chkTrans.Checked Then strSql += " and isnull(a.TRANFLAG,0) = 0"
-            strSql += " order by ponumber"
-            chkSelectAll.Visible = True : btnMerge.Visible = True
-        Else
-            strSql = $"select cast(0 as bit) [MARK], cast(a.ITEMID as nvarchar(100))+ '-' + b.ITEMNAME ITEM, SUM(a.PO_PIECES) PO_PIECES,a.PONUMBER, a.PODATE PODATE, a.TRANDATE [TRANS DATE] from {cnAdminDb}.. PURCHASEORDER a"
-            strSql += $" join {cnAdminDb}..itemmast b on a.itemid = b.ITEMID"
-            strSql += " where ISNULL(po_pieces,0)<>0"
-            If chkCmbMetal.Text.ToString <> "ALL" And chkCmbMetal.Text.ToString <> "" Then
-                strSql += " AND b.METALID IN (SELECT METALID FROM " & cnAdminDb & "..METALMAST WHERE METALNAME IN (" & GetQryString(chkCmbMetal.Text.ToString) & "))"
-            End If
-            If itemid <> "ALL" Then strSql += $" And a.itemid in ({itemid})"
-            'strSql += $" And a.podate between '{dtpFrom.Value}' and '{dtpTo.Value}'"
-            If optBetween.Checked Then
-                strSql += vbCrLf + $"	and a.podate between '{dtpFrom.Value}' and '{dtpTo.Value}'	"
-            ElseIf optAsOn.Checked Then
-                strSql += vbCrLf + $"	and a.podate <= '{dtpFrom.Value}'	"
-            End If
-            If Not chkTrans.Checked Then strSql += " and isnull(a.TRANFLAG,0) = 0"
-            strSql += " group by a.ITEMID,ponumber,b.ITEMNAME,a.PODATE,a.TRANDATE"
-            chkSelectAll.Visible = False : btnMerge.Visible = False
-        End If
-
+        strSql = $";with cte as("
+        strSql += vbCrLf + $" select (ITEMMAST.ITEMNAME + ' - ' + isnull(ITEMSIZE.SIZENAME,'') + ' - ' + STKREORDER.RANGECAPTION) PARTICULAR,STKREORDER.MINPIECE REORDERPCS,sum(ITEMTAG.PCS) CLSPCS,STKREORDER.ITEMID,STKREORDER.SIZEID,STKREORDER.RANGECAPTION from {cnAdminDb}..ITEMTAG"
+        strSql += vbCrLf + $" left join {cnAdminDb}..STKREORDER on ITEMTAG.ITEMID = STKREORDER.ITEMID and ITEMTAG.SIZEID = STKREORDER.SIZEID"
+        strSql += vbCrLf + $" left join {cnAdminDb}..ITEMMAST on STKREORDER.ITEMID = ITEMMAST.ITEMID"
+        strSql += vbCrLf + $" left join {cnAdminDb}..ITEMSIZE on STKREORDER.ITEMID = ITEMSIZE.ITEMID and STKREORDER.SIZEID = ITEMSIZE.SIZEID"
+        strSql += vbCrLf + $" where 1=1"
+        If itemid <> "ALL" Then strSql += vbCrLf + $" and STKREORDER.ITEMID in ({itemid})"
+        strSql += vbCrLf + $" and ISSDATE is null"
+        strSql += vbCrLf + $" and (ITEMTAG.GRSWT between STKREORDER.FROMWEIGHT and STKREORDER.TOWEIGHT)"
+        strSql += vbCrLf + $" group by ITEMMAST.ITEMNAME,ITEMSIZE.SIZENAME,STKREORDER.RANGECAPTION,STKREORDER.MINPIECE,STKREORDER.ITEMID,STKREORDER.SIZEID,STKREORDER.RANGECAPTION"
+        strSql += vbCrLf + $" )"
+        strSql += vbCrLf + $" select PARTICULAR,REORDERPCS,CLSPCS,(case when (REORDERPCS-CLSPCS) > 0 then (REORDERPCS-CLSPCS) else 0 end) SHORTAGE,"
+        strSql += vbCrLf + $" (case when (REORDERPCS-CLSPCS) < 0 then (REORDERPCS-CLSPCS)*-1 else 0 end) EXCESS,ITEMID,SIZEID,RANGECAPTION from cte"
+        strSql += vbCrLf + $" order by PARTICULAR"
         cmd = New OleDb.OleDbCommand(strSql, cn)
         da = New OleDbDataAdapter(cmd)
 
@@ -247,19 +220,16 @@ Public Class frmPurchaseOrder
             gridView.DataSource = Nothing
             gridView.DataSource = dtSource
             tabMain.SelectedTab = tabView
+            gridView.Columns("ITEMID").Visible = False
+            gridView.Columns("SIZEID").Visible = False
+            gridView.Columns("RANGECAPTION").Visible = False
 
             Dim tit As String
-            tit = " PURCHASE ORDER " + IIf(optDetail.Checked, "DETAIL", "SUMMARY") + vbCrLf
-            If optAsOn.Checked Then
-                tit += " AS ON DATE : " & dtpFrom.Text
-            Else
-                tit += " DATE FROM : " & dtpFrom.Text + " TO " + dtpTo.Text
-            End If
+            tit = " REORDER STOCK REPORT " + vbCrLf
             If chkCmbMetal.Text.ToString <> "ALL" And chkCmbMetal.Text.ToString <> "" Then
                 tit += " FOR METAL " & chkCmbMetal.Text.ToString & ""
             End If
             lblTitle.Text = tit.ToString
-            chkSelectAll.Enabled = True : btnMerge.Enabled = True
         Else
             gridView.DataSource = Nothing
             tabMain.SelectedTab = tabGen
@@ -301,15 +271,9 @@ Public Class frmPurchaseOrder
     End Sub
 
     Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNew.Click
-        'funcLoadMetal()
-        dtpFrom.Value = GetServerDate()
         gridView.DataSource = Nothing
-        ' chkDiamond.Checked = False
-        ' chkStone.Checked = False
         BrighttechPack.GlobalMethods.FillCombo(chkCmbMetal, dtMetal, "METALNAME", , "ALL")
-        ' chkAsOnDate.Checked = True
         funcLoadItemName()
-        ' chkWithApproval.Checked = False
         If Trim(chkCmbItem.Text.ToString) = "ALL" Or Trim(chkCmbItem.Text.ToString) = "" Then itemid = "ALL" Else itemid = GetSelecteditemid(chkCmbItem, True)
         strSql = " SELECT 'ALL' Caption,0 RESULT UNION ALL "
         strSql += "SELECT DISTINCT CAPTION,1 RESULT FROM " & cnAdminDb & "..RANGEMAST WHERE 1=1 " ',ITEMID,SUBITEMID,COSTID 
@@ -319,12 +283,6 @@ Public Class frmPurchaseOrder
         dtrange = GetSqlTable(strSql, cn)
         If dtrange.Rows.Count = 1 Then : MsgBox("No Ranges available.") : Exit Sub : End If
         chkCmbMetal.Select()
-        chkSelectAll.Checked = False : chkSelectAll.Enabled = False
-        btnMerge.Enabled = False
-        optDetail.Checked = True : optSummary.Checked = False
-        HoServerDetails()
-        chkTrans.Checked = False
-        optAsOn.Checked = True : optBetween.Checked = False
     End Sub
 
     Private Sub NewToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles NewToolStripMenuItem.Click
@@ -397,243 +355,54 @@ Public Class frmPurchaseOrder
     Private Sub chkCmbMetal_Validated(sender As Object, e As EventArgs) Handles chkCmbMetal.Validated
         funcLoadItemName()
     End Sub
-    Private Sub gridView_CellMouseClick(sender As Object, e As DataGridViewCellMouseEventArgs) Handles gridView.CellMouseClick
-        If gridView.Columns(e.ColumnIndex).Name = "MARK" Then
-            If optSummary.Checked Then
-                If gridView.Rows(e.RowIndex).Cells(e.ColumnIndex).Value = False Then
-                    gridView.Rows(e.RowIndex).Cells("MARK").Value = "True"
-                Else
-                    gridView.Rows(e.RowIndex).Cells("MARK").Value = "False"
-                End If
-            Else
-                Dim poNumber As String = gridView.Rows(e.RowIndex).Cells("PONUMBER").Value
-                If Not IsDBNull(gridView.Rows(e.RowIndex).Cells("TRANS DATE").Value) Then Exit Sub
-                If gridView.Rows(e.RowIndex).Cells(e.ColumnIndex).Value = False Then
-                    For Each row As DataGridViewRow In gridView.Rows
-                        If row.Cells("PONUMBER").Value.ToString() = poNumber Then
-                            row.Cells("MARK").Value = "True"
-                        End If
-                    Next
-                Else
-                    For Each row As DataGridViewRow In gridView.Rows
-                        If row.Cells("PONUMBER").Value.ToString() = poNumber Then
-                            row.Cells("MARK").Value = "False"
-                        End If
-                    Next
-                End If
-            End If
-        End If
-    End Sub
-    Private Sub btnMerge_Click(sender As Object, e As EventArgs) Handles btnMerge.Click
-        Try
-            Dim filteredTable As DataTable = dtSource.Clone()
-            For Each dr As DataRow In dtSource.Rows
-                If dr("MARK").ToString = "True" Then
-                    Dim parts() As String = dr("PONUMBER").ToString.Split("-"c)
-                    Dim lastPart As String = parts(parts.Length - 1)
-                    If lastPart.StartsWith("M", StringComparison.OrdinalIgnoreCase) Then Continue For
-                    filteredTable.ImportRow(dr)
-                End If
-            Next
-
-            If filteredTable.AsDataView.ToTable(True, "ITEM").Rows.Count > 1 Then
-                MessageBox.Show("Different items cannot be merged.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Exit Sub
-            End If
-
-            If filteredTable.Rows.Count <= 0 Then
-                Throw New Exception("Invalid data to merge.")
-            End If
-
-            ConInfo = New BrighttechPack.Coninfo(Application.StartupPath + "\ConInfo.ini")
-            Using connection As New SqlConnection("Data Source=" & ConInfo.lServerName & ";Initial Catalog=" & cnAdminDb & ";User ID=" & IIf(ConInfo.lDbUserId <> "", ConInfo.lDbUserId, "SA") & ";Password=" & BrighttechPack.Decrypt(ConInfo.lDbPwd) & "")
-                Using command As New SqlCommand("MergePurchaseOrder", connection)
-                    command.CommandType = CommandType.StoredProcedure
-                    command.Parameters.AddWithValue("@USERID", userId)
-
-                    Dim tvpParameter As New SqlParameter("@MergePurchaseOrderData", SqlDbType.Structured)
-                    tvpParameter.Value = filteredTable
-                    tvpParameter.TypeName = "MergePurchaseOrderTableType"
-                    command.Parameters.Add(tvpParameter)
-                    connection.Open()
-                    command.ExecuteNonQuery()
-                End Using
-            End Using
-
-            Dim distinctDt As DataTable = filteredTable.AsDataView.ToTable(True, "ITEM", "PONUMBER")
-            Dim grouped = distinctDt.AsEnumerable() _
-                .GroupBy(Function(row) row.Field(Of String)("ITEM")) _
-                .Select(Function(g) New With {
-                    .Item = g.Key.ToString().Split("-"c)(0),
-                    .PONumbers = String.Join(",", g.Select(Function(r) "'" & r.Field(Of String)("PONUMBER") & "'"))
-                })
-            For Each itemGroup As Object In grouped
-                strSql = $"select cast(min(pofromdate) as date)frm, cast(max(potodate) as date) [to] from {cnAdminDb}..PURCHASEORDER where ITEMID = {itemGroup.Item} and PONUMBER IN ({itemGroup.PONumbers})"
-                Dim dtMinMax As New DataTable
-                cmd = New OleDb.OleDbCommand(strSql, cn)
-                da = New OleDbDataAdapter(cmd)
-                da.Fill(dtMinMax)
-                Dim frmDt As DateTime = CType(dtMinMax.Rows(0)(0), DateTime)
-                Dim toDt As DateTime = CType(dtMinMax.Rows(0)(1), DateTime)
-
-                strSql = "select ISNULL(ctltext,0)+1 ctltext from " & cnStockDb & "..BILLCONTROL where CTLID = 'MET-O-PUR' and COMPANYID = '" & strCompanyId & "'"
-                Dim poNum As Integer = objGPack.GetSqlValue(strSql, , , tran)
-                Dim ActPoNum As String = $"{cnCostId}-{itemGroup.Item}-({frmDt.ToString("ddMM")}/{toDt.ToString("ddMM")}/{toDt.ToString("yy")})-M{poNum.ToString("0000")}"
-                strSql = $"update {cnAdminDb}.. PURCHASEORDER set PONUMBER = '{ActPoNum}',PODATE = '{Now.Date}', POFROMDATE = '{dtMinMax.Rows(0)(0)}', POTODATE = '{dtMinMax.Rows(0)(1)}' where itemid = {itemGroup.Item} and PONUMBER IN ({itemGroup.PONumbers})"
-                strSql += vbCrLf + $"update {cnStockDb}..BILLCONTROL set ctltext = '{poNum}' where CTLID = 'MET-O-PUR' and COMPANYID = '{strCompanyId}'"
-                cmd = New OleDb.OleDbCommand(strSql, cn)
-                cmd.CommandTimeout = 100000
-                cmd.ExecuteNonQuery()
-            Next
-            MessageBox.Show("Purchase Order merged successfully!")
-            btnView_Search_Click(sender, e)
-            chkSelectAll.Enabled = False : btnMerge.Enabled = False
-        Catch ex As Exception
-            MessageBox.Show(ex.Message)
-        End Try
-    End Sub
-    Private Sub chkSelectAll_CheckedChanged(sender As Object, e As EventArgs) Handles chkSelectAll.CheckedChanged
-        If chkSelectAll.Checked Then
-            For Each row As DataGridViewRow In gridView.Rows
-                row.Cells("MARK").Value = "True"
-            Next
-        Else
-            For Each row As DataGridViewRow In gridView.Rows
-                row.Cells("MARK").Value = "False"
-            Next
-        End If
-    End Sub
     Private Sub gridView_KeyDown(sender As Object, e As KeyEventArgs) Handles gridView.KeyDown
         Try
-            If e.KeyCode = Keys.P Then
-                Dim filteredTable As DataTable = dtSource.Clone()
-                For Each dr As DataRow In dtSource.Rows
-                    If dr("MARK").ToString = "True" Then
-                        filteredTable.ImportRow(dr)
-                    End If
-                Next
-                If filteredTable.Rows.Count <= 0 Then
-                    Throw New Exception("Mark and then print.")
-                End If
-                Dim distinctDt As DataTable = filteredTable.DefaultView.ToTable(True, "PONUMBER")
+            If e.KeyCode = Keys.D Then
+                Dim itemId As Integer = gridView.Item("ITEMID", gridView.CurrentRow.Index).Value
+                Dim sizeId As Integer = gridView.Item("SIZEID", gridView.CurrentRow.Index).Value
+                Dim rangeCaption As String = gridView.Item("RANGECAPTION", gridView.CurrentRow.Index).Value.ToString
+                Dim particular As String = gridView.Item("PARTICULAR", gridView.CurrentRow.Index).Value.ToString
 
-                Dim _type As String = "PO"
-                If IO.File.Exists(Application.StartupPath & "\BillPrint.exe") Then
-                    Dim write As IO.StreamWriter
-                    write = IO.File.CreateText(Application.StartupPath & "\BillPrint.mem")
-                    write.WriteLine(LSet("TYPE", 15) & ":" & _type)
-                    For Each dr As DataRow In distinctDt.Rows
-                        write.WriteLine(LSet("BATCHNO", 15) & ":" & dr("PONUMBER").ToString)
-                    Next
-                    write.WriteLine(LSet("DUPLICATE", 15) & ":Y")
-                    write.Flush()
-                    write.Close()
-                    System.Diagnostics.Process.Start(Application.StartupPath & "\BillPrint.exe")
-                Else
-                    MsgBox("Billprint exe not found", MsgBoxStyle.Information)
-                End If
-            ElseIf e.KeyCode = Keys.D Then
-                If optSummary.Checked Then
-                    Dim _poNo As String = gridView.Item("PONUMBER", gridView.CurrentRow.Index).Value.ToString
-                    Dim _item As String = gridView.Item("ITEM", gridView.CurrentRow.Index).Value.ToString
-                    Dim _totPieces As Integer = gridView.Item("PO_PIECES", gridView.CurrentRow.Index).Value
-                    Dim ofrmPurchaseOrderDetail As New frmPurchaseOrderDetail(chkCmbMetal.Text, itemid, dtpFrom.Value, dtpTo.Value, _poNo, _item,
-                                                                              _totPieces, optAsOn.Checked)
+                strSql = $" select '{particular} - ' + SUBITEMNAME PARTICULAR,count(tagno) as TagCount,sum(ITEMTAG.PCS)PCS,sum(ITEMTAG.GRSWT) GRSWT,sum(ITEMTAG.NETWT) NETWT from {cnAdminDb}..ITEMTAG"
+                strSql += vbCrLf + $" left join {cnAdminDb}..SUBITEMMAST on ITEMTAG.SUBITEMID =SUBITEMMAST.SUBITEMID"
+                strSql += vbCrLf + $" join {cnAdminDb}..STKREORDER on ITEMTAG.ITEMID = STKREORDER.ITEMID and ITEMTAG.SIZEID = STKREORDER.SIZEID"
+                strSql += vbCrLf + $" where 1=1"
+                strSql += vbCrLf + $" and ISSDATE is null"
+                strSql += vbCrLf + $" and ITEMTAG.ITEMID = {itemId}"
+                strSql += vbCrLf + $" and ITEMTAG.SIZEID = {sizeId}"
+                strSql += vbCrLf + $" and STKREORDER.RANGECAPTION = '{rangeCaption}'"
+                strSql += vbCrLf + $" and (ITEMTAG.GRSWT between STKREORDER.FROMWEIGHT and STKREORDER.TOWEIGHT) group by SUBITEMNAME"
+                strSql += vbCrLf + $" UNION"
+                strSql += vbCrLf + $" select '    TOTAL' PARTICULAR,count(tagno) as TagCount,sum(ITEMTAG.PCS)PCS,sum(GRSWT) GRSWT,sum(NETWT) NETWT from {cnAdminDb}..ITEMTAG"
+                strSql += vbCrLf + $" join {cnAdminDb}..STKREORDER on ITEMTAG.ITEMID = STKREORDER.ITEMID and ITEMTAG.SIZEID = STKREORDER.SIZEID"
+                strSql += vbCrLf + $" where 1=1"
+                strSql += vbCrLf + $" and ISSDATE is null"
+                strSql += vbCrLf + $" and ITEMTAG.ITEMID = {itemId}"
+                strSql += vbCrLf + $" and ITEMTAG.SIZEID = {sizeId}"
+                strSql += vbCrLf + $" and STKREORDER.RANGECAPTION = '{rangeCaption}'"
+                strSql += vbCrLf + $" and (ITEMTAG.GRSWT between STKREORDER.FROMWEIGHT and STKREORDER.TOWEIGHT)"
+                strSql += vbCrLf + $" order by PARTICULAR desc"
+                Dim dt As New DataTable
+                cmd = New OleDb.OleDbCommand(strSql, cn)
+                da = New OleDbDataAdapter(cmd)
+                da.Fill(dt)
+                If dt.Rows.Count > 0 Then
+                    Dim ofrmPurchaseOrderDetail As New frmPurchaseOrderDetail(dt)
+                    ofrmPurchaseOrderDetail.Text = ""
+                    ofrmPurchaseOrderDetail.lblHead.Text = "REORDER STOCK TAG DETAILS" + vbCrLf + $"FOR THE PARTICULAR {particular}"
                     If ofrmPurchaseOrderDetail.ShowDialog() = Windows.Forms.DialogResult.OK Then
                     Else
                         Exit Sub
                     End If
+                Else
+                    MessageBox.Show("No Details found")
                 End If
+
             End If
         Catch ex As Exception
             MessageBox.Show(ex.Message)
         End Try
     End Sub
-    Private Sub HoServerDetails()
-        Try
-            strSql = "select FTPID,[PASSWORD],COMPID from " & cnAdminDb & "..SYNCCOSTCENTRE where MAIN = 'Y'"
-            Dim dt As New DataTable
-            cmd = New OleDb.OleDbCommand(strSql, cn)
-            da = New OleDbDataAdapter(cmd)
-            da.Fill(dt)
-            If dt.Rows.Count > 0 Then
-                btnTransfer.Visible = True
-                hoServerId = dt.Rows(0)("FTPID").ToString
-                hoPassword = dt.Rows(0)("PASSWORD").ToString
-                hoComIpd = dt.Rows(0)("COMPID").ToString
-            Else
-                btnTransfer.Visible = False
-            End If
-        Catch ex As Exception
-            btnTransfer.Visible = False
-            MessageBox.Show(ex.Message)
-        End Try
-    End Sub
-    Private Sub btnTransfer_Click(sender As Object, e As EventArgs) Handles btnTransfer.Click
-        Try
-            Dim filteredTable As DataTable = dtSource.Clone()
-            For Each dr As DataRow In dtSource.Rows
-                If dr("MARK").ToString = "True" Then
-                    filteredTable.ImportRow(dr)
-                End If
-            Next
 
-            If filteredTable.Rows.Count <= 0 Then
-                Throw New Exception("Invalid data to transfer.")
-            End If
 
-            Dim distinctDt As DataTable = filteredTable.DefaultView.ToTable(True, "PONUMBER")
-            For Each dr As DataRow In distinctDt.Rows
-                strSql = $"select ITEMID,PARTICULAR,PO_PIECES,POFROMDATE,POTODATE,USERID,PONUMBER,PODATE,SUBITEMID from {cnAdminDb}..PURCHASEORDER where PONUMBER = '{dr("PONUMBER")}'"
-                Dim dtData As New DataTable
-                cmd = New OleDb.OleDbCommand(strSql, cn)
-                da = New OleDbDataAdapter(cmd)
-                da.Fill(dtData)
-
-                Using connection As New SqlConnection("Data Source=" & hoServerId & ";Initial Catalog=" & hoComIpd & "ADMINDB;User ID=SA;Password=" & BrighttechPack.Decrypt(hoPassword) & "")
-                    Using command As New SqlCommand("TransferPurchaseOrder", connection)
-                        command.CommandType = CommandType.StoredProcedure
-                        command.Parameters.AddWithValue("@TranFlag", 1)
-                        command.Parameters.AddWithValue("@Trandate", Now.Date)
-
-                        Dim tvpParameter As New SqlParameter("@PurchaseOrderTransferData", SqlDbType.Structured)
-                        tvpParameter.Value = dtData
-                        tvpParameter.TypeName = "PurchaseOrderTransferTableType"
-                        command.Parameters.Add(tvpParameter)
-                        connection.Open()
-                        command.ExecuteNonQuery()
-                    End Using
-                End Using
-
-                strSql = $"update {cnAdminDb}.. PURCHASEORDER set TRANFLAG = 1,TRANDATE = '{Now.Date}' where PONUMBER = '{dr("PONUMBER")}'"
-                cmd = New OleDb.OleDbCommand(strSql, cn)
-                cmd.CommandTimeout = 100000
-                cmd.ExecuteNonQuery()
-            Next
-
-            MessageBox.Show("Purchase Order transfered successfully!")
-            btnView_Search_Click(sender, e)
-            chkSelectAll.Enabled = False : btnMerge.Enabled = False
-        Catch ex As Exception
-            MessageBox.Show(ex.Message)
-        End Try
-    End Sub
-    Private Sub optAsOn_CheckedChanged(sender As Object, e As EventArgs)
-        If optAsOn.Checked Then
-            lblFrom.Text = "AS ON : "
-            lblTo.Visible = False : dtpTo.Visible = False
-        Else
-            lblFrom.Text = "FROM : "
-            lblTo.Visible = True : dtpTo.Visible = True
-        End If
-    End Sub
-    Private Sub optBetween_CheckedChanged(sender As Object, e As EventArgs)
-        If optBetween.Checked Then
-            lblFrom.Text = "FROM : "
-            lblTo.Visible = True : dtpTo.Visible = True
-        Else
-            lblFrom.Text = "AS ON : "
-            lblTo.Visible = False : dtpTo.Visible = False
-        End If
-    End Sub
 End Class

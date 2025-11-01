@@ -280,6 +280,7 @@ Partial Class frmItemRangeWiseStockCostCentre
         Me.btnSave.TabIndex = 33
         Me.btnSave.Text = "Save Settings"
         Me.btnSave.UseVisualStyleBackColor = True
+        Me.btnSave.Visible = False
         AddHandler Me.btnSave.Click, AddressOf Me.btnSave_Click
         '
         'btnExit

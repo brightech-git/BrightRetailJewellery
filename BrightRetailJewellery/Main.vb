@@ -4930,4 +4930,9 @@ Public Class Main
         Dim obj As New BrighttechREPORT.frmSmithBalanceDetailedReportNew()
         funcShow(obj, "SMITH BALANCE DETAILED NEW")
     End Sub
+
+    Private Sub ReorderReportToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ReorderReportToolStripMenuItem.Click
+        Dim obj As New BrighttechREPORT.frmReorderOrderReport
+        funcShow(obj, "REORDER STOCK REPORT")
+    End Sub
 End Class

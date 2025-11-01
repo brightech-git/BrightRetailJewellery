@@ -319,6 +319,7 @@ Partial Class Main
         Me.tStripLedgerWithWeight = New System.Windows.Forms.ToolStripMenuItem()
         Me.SmithBalanceSummaryTStrip = New System.Windows.Forms.ToolStripMenuItem()
         Me.SmithIssueReciptViewTStrip = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripMenuItem25 = New System.Windows.Forms.ToolStripMenuItem()
         Me.SmithBalanceDetailedTStrip = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem16 = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripMenuItem14 = New System.Windows.Forms.ToolStripMenuItem()
@@ -736,7 +737,7 @@ Partial Class Main
         Me.receiveThread = New System.ComponentModel.BackgroundWorker()
         Me.GlobalDateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
-        Me.ToolStripMenuItem25 = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ReorderReportToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StatusStrip1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.tStripTitle.SuspendLayout()
@@ -749,10 +750,10 @@ Partial Class Main
         Me.StatusStrip1.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.StatusStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.TransactionYearTStripLabel, Me.pnlUserName, Me.tStripBarStatus, Me.pBar, Me.tStripModuleId, Me.tStripHelp})
-        Me.StatusStrip1.Location = New System.Drawing.Point(0, 728)
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 854)
         Me.StatusStrip1.Name = "StatusStrip1"
         Me.StatusStrip1.ShowItemToolTips = True
-        Me.StatusStrip1.Size = New System.Drawing.Size(1370, 21)
+        Me.StatusStrip1.Size = New System.Drawing.Size(1512, 21)
         Me.StatusStrip1.TabIndex = 2
         Me.StatusStrip1.Text = "StatusStrip1"
         '
@@ -825,7 +826,7 @@ Partial Class Main
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripMaster, Me.tStripRateEntry, Me.tStripAccounts, Me.tStripStockMenu, Me.tStripEstimation, Me.tStripBilling, Me.tStripOrder, Me.tStripReports, Me.WholeSaleToolStripMenuItem1, Me.tStripSavingsScheme, Me.AddressBookToolStripMenuItem, Me.tStripUtility, Me.tStripExit})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Size = New System.Drawing.Size(1370, 30)
+        Me.MenuStrip1.Size = New System.Drawing.Size(1512, 28)
         Me.MenuStrip1.TabIndex = 3
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -3284,7 +3285,7 @@ Partial Class Main
         '
         Me.tStripReports.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripAccReports, Me.tStripDailyReports, Me.tStripStockReports, Me.tStripOrderReports, Me.tStripApproval, Me.tStripEstimationRpt, Me.MISReportTStrip, Me.DailyTallyReportTStrip, Me.XmlGenerationToolStripMenuItem, Me.OtherReportsToolStripMenuItem, Me.AuditReportToolStripMenuItem, Me.ComplementsToolStripMenuItem, Me.GSTReportsToolStripMenuItem})
         Me.tStripReports.Name = "tStripReports"
-        Me.tStripReports.Size = New System.Drawing.Size(74, 26)
+        Me.tStripReports.Size = New System.Drawing.Size(74, 24)
         Me.tStripReports.Text = "Reports"
         '
         'tStripAccReports
@@ -3419,6 +3420,12 @@ Partial Class Main
         Me.SmithIssueReciptViewTStrip.Size = New System.Drawing.Size(338, 26)
         Me.SmithIssueReciptViewTStrip.Tag = "E"
         Me.SmithIssueReciptViewTStrip.Text = "Smith Issue Recipt View"
+        '
+        'ToolStripMenuItem25
+        '
+        Me.ToolStripMenuItem25.Name = "ToolStripMenuItem25"
+        Me.ToolStripMenuItem25.Size = New System.Drawing.Size(338, 26)
+        Me.ToolStripMenuItem25.Text = "Smith Balance Detailed New"
         '
         'SmithBalanceDetailedTStrip
         '
@@ -4759,7 +4766,7 @@ Partial Class Main
         '
         'RangeWiseStockToolStripMenuItem
         '
-        Me.RangeWiseStockToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RangeWiseStockToolStripMenuItem1, Me.RangeWiseStockItemToolStripMenuItem, Me.RangeWiseStockIssueToolStripMenuItem, Me.RangeWiseStockToolStripMenuItemCostCentre, Me.PurchaseOrderToolStripMenuItem1, Me.PurchaseOrderTrackingToolStripMenuItem})
+        Me.RangeWiseStockToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RangeWiseStockToolStripMenuItem1, Me.RangeWiseStockItemToolStripMenuItem, Me.RangeWiseStockIssueToolStripMenuItem, Me.RangeWiseStockToolStripMenuItemCostCentre, Me.PurchaseOrderToolStripMenuItem1, Me.PurchaseOrderTrackingToolStripMenuItem, Me.ReorderReportToolStripMenuItem})
         Me.RangeWiseStockToolStripMenuItem.Name = "RangeWiseStockToolStripMenuItem"
         Me.RangeWiseStockToolStripMenuItem.ShortcutKeyDisplayString = "AGR-3-34"
         Me.RangeWiseStockToolStripMenuItem.ShowShortcutKeys = False
@@ -5911,7 +5918,7 @@ Partial Class Main
         Me.ReportsToolStripMenuItem.Name = "ReportsToolStripMenuItem"
         Me.ReportsToolStripMenuItem.ShortcutKeyDisplayString = "AGW-1"
         Me.ReportsToolStripMenuItem.ShowShortcutKeys = False
-        Me.ReportsToolStripMenuItem.Size = New System.Drawing.Size(224, 26)
+        Me.ReportsToolStripMenuItem.Size = New System.Drawing.Size(134, 26)
         Me.ReportsToolStripMenuItem.Text = "Reports"
         '
         'RunningBalanceToolStripMenuItem
@@ -6747,9 +6754,9 @@ Partial Class Main
         Me.tStripTitle.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.tStripTitle.ImageScalingSize = New System.Drawing.Size(24, 24)
         Me.tStripTitle.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripLogOut, Me.tStripLanguageChange, Me.TStripLblTitle, Me.tStripCalculator, Me.tStripMessenger, Me.tStripBkImage, Me.tStripCompanySelection, Me.tStripFontBackgroundColor, Me.tStripShortcut, Me.ToolStripLabel1, Me.tStripSilverRate, Me.ToolStripLabel2, Me.tStripGoldRate, Me.ToolStripLabel4, Me.tStripBillDate, Me.ToolStripLabel5})
-        Me.tStripTitle.Location = New System.Drawing.Point(0, 30)
+        Me.tStripTitle.Location = New System.Drawing.Point(0, 28)
         Me.tStripTitle.Name = "tStripTitle"
-        Me.tStripTitle.Size = New System.Drawing.Size(1370, 28)
+        Me.tStripTitle.Size = New System.Drawing.Size(1512, 28)
         Me.tStripTitle.TabIndex = 3
         Me.tStripTitle.Text = "ToolStrip1"
         '
@@ -7195,11 +7202,11 @@ Partial Class Main
         Me.NotifyIcon1.Icon = CType(resources.GetObject("NotifyIcon1.Icon"), System.Drawing.Icon)
         Me.NotifyIcon1.Text = "NotifyIcon1"
         '
-        'ToolStripMenuItem25
+        'ReorderReportToolStripMenuItem
         '
-        Me.ToolStripMenuItem25.Name = "ToolStripMenuItem25"
-        Me.ToolStripMenuItem25.Size = New System.Drawing.Size(338, 26)
-        Me.ToolStripMenuItem25.Text = "Smith Balance Detailed New"
+        Me.ReorderReportToolStripMenuItem.Name = "ReorderReportToolStripMenuItem"
+        Me.ReorderReportToolStripMenuItem.Size = New System.Drawing.Size(296, 26)
+        Me.ReorderReportToolStripMenuItem.Text = "Reorder Report"
         '
         'Main
         '
@@ -7207,7 +7214,7 @@ Partial Class Main
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-        Me.ClientSize = New System.Drawing.Size(1370, 749)
+        Me.ClientSize = New System.Drawing.Size(1512, 875)
         Me.ContextMenuStrip = Me.CompanyShortCut
         Me.Controls.Add(Me.tStripTitle)
         Me.Controls.Add(Me.StatusStrip1)
@@ -7947,4 +7954,5 @@ Partial Class Main
     Friend WithEvents DesignerLotToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents PurchaseOrderTrackingToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ToolStripMenuItem25 As ToolStripMenuItem
+    Friend WithEvents ReorderReportToolStripMenuItem As ToolStripMenuItem
 End Class

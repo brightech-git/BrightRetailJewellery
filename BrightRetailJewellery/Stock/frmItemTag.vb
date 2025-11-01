@@ -34,6 +34,7 @@ Public Class frmItemTag
     Const SWP_NOZORDER As Short = &H4S
     Const HWND_BOTTOM As Short = 1
     Dim lotprintack As Boolean = IIf(GetAdmindbSoftValue("LOTACKPRINT", "N") = "Y", True, False)
+    Dim lotCompletePrint As Boolean = IIf(GetAdmindbSoftValue("LOTCOMPPRINT", "N") = "Y", True, False)
     Dim Lotautopost As Boolean = IIf(GetAdmindbSoftValue("ACC_LOTAUTOPOST", "N") = "Y", True, False)
     Dim LOTNARRATION As Boolean = IIf(GetAdmindbSoftValue("LOTNARRATION", "N") = "Y", True, False)
     Dim STKAFINDATE As Boolean = IIf(GetAdmindbSoftValue("STKAFINDATE", "N") = "Y", True, False)
@@ -3834,6 +3835,24 @@ Continuetagging:
             End If
             If flagComplete And TAGWOLOT = False Then
                 MsgBox("Lot Completed..", MsgBoxStyle.Information)
+
+                If lotCompletePrint Then
+                    If IO.File.Exists(Application.StartupPath & "\BillPrint.exe") Then
+                        Dim write As IO.StreamWriter
+                        Dim memfile As String = "\BillPrint" & ".mem"
+                        write = IO.File.CreateText(Application.StartupPath & memfile)
+                        write.WriteLine(LSet("TYPE", 15) & ":" & "LOT" & "")
+                        write.WriteLine(LSet("BATCHNO", 15) & ":" & txtLotNo_Num_Man.Text)
+                        write.WriteLine(LSet("TRANDATE", 15) & ":" & CType(Now.Date, Date).ToString("yyyy-MM-dd"))
+                        write.WriteLine(LSet("DUPLICATE", 15) & ":Y")
+                        write.Flush()
+                        write.Close()
+                        System.Diagnostics.Process.Start(Application.StartupPath & "\BillPrint.exe")
+                    Else
+                        MsgBox("Billprint exe not found", MsgBoxStyle.Information)
+                    End If
+                End If
+
                 If lotprintack = True Then
                     If MsgBox("Do you print acknowledgement?", MsgBoxStyle.YesNo, "Brighttech Message") = MsgBoxResult.Yes Then
                         DetailPrint()
