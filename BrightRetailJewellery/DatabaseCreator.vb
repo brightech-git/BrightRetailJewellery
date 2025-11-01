@@ -122796,6 +122796,17 @@ ByVal PurchaseTaxName As String
         cmd.ExecuteNonQuery()
         funcProgressStep(1)
 
+        ListAdminTables.Add("POPRINT")
+        strSql = vbCrLf + " CREATE TABLE " & rootDB & "..POPRINT"
+        strSql += vbCrLf + " ("
+        strSql += vbCrLf + "SNO INT"
+        strSql += vbCrLf + ",PONUMBER NVARCHAR(100)"
+        strSql += vbCrLf + ",PRINTDATETIME datetime"
+        strSql += vbCrLf + " )"
+        cmd = New OleDbCommand(strSql, cn, tran)
+        cmd.ExecuteNonQuery()
+        funcProgressStep(1)
+
     End Function
 
     Private Sub CreateTablePriviledgeTran(ByVal rootDb As String, ByVal tblName As String)
