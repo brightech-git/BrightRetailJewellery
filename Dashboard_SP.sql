@@ -2,9 +2,9 @@ CREATE OR ALTER PROCEDURE sp_Dashboard
     @fromDate DATE,
     @toDate DATE,
     @costId VARCHAR(10),
-    @adminDB VARCHAR(50) = 'SFLADMINDB',
-    @transDB VARCHAR(50) = 'SFLT2526',
-    @schemeDB VARCHAR(50) = 'SFLSH0708'
+    @adminDB VARCHAR(50) = '',
+    @transDB VARCHAR(50) = '',
+    @schemeDB VARCHAR(50) = ''
 AS
 BEGIN
     DECLARE @sql NVARCHAR(MAX)
