@@ -1,0 +1,289 @@
+CREATE PROCEDURE sp_Dashboard
+    @fromDate DATE,
+    @toDate DATE,
+    @costId VARCHAR(10),
+    @adminDB VARCHAR(50) = 'SFLADMINDB',
+    @transDB VARCHAR(50) = 'SFLT2526',
+    @schemeDB VARCHAR(50) = 'SFLSH0708'
+AS
+BEGIN
+    DECLARE @sql NVARCHAR(MAX)
+    
+    SET @sql = '
+    --sales,purchase,return,closing
+    ;WITH cte
+    AS (
+        SELECT ITEMMAST.METALID
+            ,sum(PCS) PCS
+            ,sum(itemtag.GRSWT) GRSWT
+            ,sum(NETWT) NETWT
+            ,sum(LESSWT) LESSWT
+            ,sum(isnull(ITEMTAGSTONE.stnwt, 0)) StnWt
+        FROM ' + @adminDB + '..ITEMTAG
+        JOIN ' + @adminDB + '..ITEMMAST ON itemtag.itemid = itemmast.itemid
+        LEFT JOIN ' + @adminDB + '..ITEMTAGSTONE ON ITEMTAG.tagno = ITEMTAGSTONE.tagno
+        WHERE 1 = 1
+            AND ITEMTAG.issdate IS NULL
+            AND ITEMTAG.costid = @costId
+        GROUP BY ITEMMAST.METALID
+        )
+        ,cte1
+    AS (
+        SELECT ITEMMAST.METALID
+            ,sum(PCS) PCS
+            ,sum(issue.GRSWT) GRSWT
+            ,sum(NETWT) NETWT
+            ,sum(LESSWT) LESSWT
+        FROM ' + @transDB + '..issue
+        JOIN ' + @adminDB + '..ITEMMAST ON issue.itemid = itemmast.itemid
+        WHERE 1 = 1
+            AND costid = @costId
+            AND cancel <> ''Y''
+            AND ISSUE.TRANTYPE = ''SA''
+            AND issue.TRANDATE BETWEEN @fromDate
+                AND @toDate
+        GROUP BY ITEMMAST.METALID
+        )
+        ,cte2
+    AS (
+        SELECT CATEGORY.METALID
+            ,sum(PCS) PCS
+            ,sum(RECEIPT.GRSWT) GRSWT
+            ,sum(NETWT) NETWT
+            ,sum(LESSWT) LESSWT
+        FROM ' + @transDB + '..RECEIPT
+        JOIN ' + @adminDB + '..CATEGORY ON RECEIPT.CATCODE = CATEGORY.CATCODE
+        WHERE 1 = 1
+            AND costid = @costId
+            AND cancel <> ''Y''
+            AND RECEIPT.TRANTYPE IN (''PU'')
+            AND RECEIPT.TRANDATE BETWEEN @fromDate
+                AND @toDate
+        GROUP BY CATEGORY.METALID
+        )
+        ,cte3
+    AS (
+        SELECT CATEGORY.METALID
+            ,sum(PCS) PCS
+            ,sum(RECEIPT.GRSWT) GRSWT
+            ,sum(NETWT) NETWT
+            ,sum(LESSWT) LESSWT
+        FROM ' + @transDB + '..RECEIPT
+        JOIN ' + @adminDB + '..CATEGORY ON RECEIPT.CATCODE = CATEGORY.CATCODE
+        WHERE 1 = 1
+            AND costid = @costId
+            AND cancel <> ''Y''
+            AND RECEIPT.TRANTYPE IN (''SR'')
+            AND RECEIPT.TRANDATE BETWEEN @fromDate
+                AND @toDate
+        GROUP BY CATEGORY.METALID
+        )
+    SELECT METALNAME
+        ,cte1.PCS AS SPCS
+        ,cte1.GRSWT AS SGRSWT
+        ,cte1.NETWT AS SNETWT
+        ,cte1.LESSWT AS SLESSWT
+        ,cte2.PCS AS PPCS
+        ,cte2.GRSWT AS PGRSWT
+        ,cte2.NETWT AS PNETWT
+        ,cte2.LESSWT AS PLESSWT
+        ,cte3.PCS AS SRPCS
+        ,cte3.GRSWT AS SRGRSWT
+        ,cte3.NETWT AS SRNETWT
+        ,cte3.LESSWT AS SRLESSWT
+        ,cte.PCS AS StkPCS
+        ,cte.GRSWT AS StkGRSWT
+        ,cte.NETWT AS StkWT
+        ,cte.LESSWT AS StkLESSWT
+        ,cte.StnWt AS StkStnWt
+    FROM ' + @adminDB + '..METALMAST
+    LEFT JOIN cte ON METALMAST.METALID = cte.METALID
+    LEFT JOIN cte1 ON METALMAST.METALID = cte1.METALID
+    LEFT JOIN cte2 ON METALMAST.METALID = cte2.METALID
+    LEFT JOIN cte3 ON METALMAST.METALID = cte3.METALID
+    WHERE ISNULL(cte1.PCS, 0) > 0
+        OR ISNULL(cte1.GRSWT, 0) > 0
+        OR ISNULL(cte1.NETWT, 0) > 0
+        OR ISNULL(cte1.LESSWT, 0) > 0
+        OR ISNULL(cte2.PCS, 0) > 0
+        OR ISNULL(cte2.GRSWT, 0) > 0
+        OR ISNULL(cte2.NETWT, 0) > 0
+        OR ISNULL(cte2.LESSWT, 0) > 0
+        OR ISNULL(cte3.PCS, 0) > 0
+        OR ISNULL(cte3.GRSWT, 0) > 0
+        OR ISNULL(cte3.NETWT, 0) > 0
+        OR ISNULL(cte3.LESSWT, 0) > 0
+        OR ISNULL(cte.PCS, 0) > 0
+        OR ISNULL(cte.GRSWT, 0) > 0
+        OR ISNULL(cte.NETWT, 0) > 0
+        OR ISNULL(cte.LESSWT, 0) > 0
+        OR ISNULL(cte.StnWt, 0) > 0
+    ORDER BY METALMAST.DISPLAYORDER;
+
+    --scheme collection
+    SELECT CASE 
+            WHEN MODEPAY = ''C''
+                THEN ''CASH''
+            WHEN MODEPAY = ''E''
+                THEN ''GPAY''
+            WHEN MODEPAY = ''R''
+                THEN ''CARD''
+            END MODEPAY
+        ,sum(Amount) Amount
+    FROM ' + @schemeDB + '..SCHEMECOLLECT
+    WHERE 1 = 1
+        AND ISNULL(cancel, '''') = ''''
+        AND RDATE BETWEEN @fromDate
+            AND @toDate
+        AND COSTID = @costId
+    GROUP BY MODEPAY
+
+    UNION
+
+    SELECT ''TOTAL'' MODEPAY
+        ,sum(Amount) Amount
+    FROM ' + @schemeDB + '..SCHEMECOLLECT
+    WHERE 1 = 1
+        AND ISNULL(cancel, '''') = ''''
+        AND RDATE BETWEEN @fromDate
+            AND @toDate
+        AND COSTID = @costId
+
+    --sales collection
+    ;WITH cte
+    AS (
+        SELECT PAYMODE
+            ,sum(AMOUNT) AMOUNT
+        FROM ' + @transDB + '..acctran
+        WHERE 1 = 1
+            AND cancel <> ''Y''
+            AND tranmode = ''D''
+            AND PAYMODE IN (
+                ''CC''
+                ,''CA''
+                ,''CH''
+                ,''SS''
+                ,''CB''
+                )
+            AND TRANNO <> 9999
+            AND COSTID = @costId
+            AND acctran.TRANDATE BETWEEN @fromDate
+                AND @toDate
+        GROUP BY PAYMODE
+        )
+        ,cte1
+    AS (
+        SELECT PAYMODE
+            ,sum(AMOUNT) AMOUNT
+        FROM ' + @transDB + '..acctran
+        WHERE 1 = 1
+            AND cancel <> ''Y''
+            AND tranmode = ''C''
+            AND PAYMODE IN (
+                ''CC''
+                ,''CA''
+                ,''CH''
+                ,''SS''
+                ,''CB''
+                )
+            AND TRANNO <> 9999
+            AND COSTID = @costId
+            AND acctran.TRANDATE BETWEEN @fromDate
+                AND @toDate
+        GROUP BY PAYMODE
+        )
+        ,cte3
+    AS (
+        SELECT CASE 
+                WHEN cte.PAYMODE = ''CC''
+                    THEN ''CARD''
+                WHEN cte.PAYMODE = ''CA''
+                    THEN ''CASH''
+                WHEN cte.PAYMODE = ''CH''
+                    THEN ''CHEQUE\UPI''
+                WHEN cte.PAYMODE IN (
+                        ''SS''
+                        ,''CB''
+                        )
+                    THEN ''SCHEME ADJUSTED''
+                END PAYMODE
+            ,(isnull(cte.AMOUNT, 0) - isnull(cte1.AMOUNT, 0)) AMOUNT
+        FROM cte
+        LEFT JOIN cte1 ON cte.PAYMODE = cte1.PAYMODE
+        WHERE 1 = 1
+        )
+    SELECT PAYMODE
+        ,sum(AMOUNT) AMOUNT
+    FROM cte3
+    GROUP BY PAYMODE
+
+    UNION
+
+    SELECT ''TOTAL'' PAYMODE
+        ,sum(AMOUNT) AMOUNT
+    FROM cte3
+
+    --estimate
+    ;WITH cte
+    AS (
+        SELECT DISTINCT ESTBATCHNO
+            ,CASE 
+                WHEN isnull(BATCHNO, '''') <> ''''
+                    THEN ''BILLED''
+                ELSE ''NOT BILLED''
+                END [STATUS]
+        FROM ' + @transDB + '..ESTISSUE
+        WHERE 1 = 1
+            AND isnull(cancel, '''') = ''''
+            AND COSTID = @costId
+            AND TRANDATE BETWEEN @fromDate
+                AND @toDate
+        )
+    SELECT [STATUS] EST_STATUS
+        ,COUNT([STATUS]) EST_COUNT
+    FROM cte
+    GROUP BY [status]
+
+    UNION
+
+    SELECT ''TOTAL'' EST_STATUS
+        ,COUNT([STATUS]) [COUNT]
+    FROM cte
+
+    --canceled bills
+    SELECT ''SALES'' [TYPE]
+        ,TRANDATE
+        ,TRANNO
+        ,GRSWT
+        ,NETWT
+        ,AMOUNT
+        ,EMPMASTER.EMPNAME
+    FROM ' + @transDB + '..ISSUE
+    JOIN ' + @adminDB + '..EMPMASTER ON ISSUE.EMPID = EMPMASTER.EMPID
+    WHERE 1 = 1
+        AND ISNULL(cancel, '''') = ''Y''
+        AND ISSUE.COSTID = @costId
+        AND TRANDATE BETWEEN @fromDate
+            AND @toDate
+
+    UNION
+
+    SELECT ''PURCHASE'' [TYPE]
+        ,TRANDATE
+        ,TRANNO
+        ,GRSWT
+        ,NETWT
+        ,AMOUNT
+        ,EMPMASTER.EMPNAME
+    FROM ' + @transDB + '..RECEIPT
+    JOIN ' + @adminDB + '..EMPMASTER ON RECEIPT.EMPID = EMPMASTER.EMPID
+    WHERE 1 = 1
+        AND ISNULL(cancel, '''') = ''Y''
+        AND RECEIPT.COSTID = @costId
+        AND TRANDATE BETWEEN @fromDate
+            AND @toDate'
+
+    EXEC sp_executesql @sql, 
+        N'@fromDate DATE, @toDate DATE, @costId VARCHAR(10)', 
+        @fromDate, @toDate, @costId
+END

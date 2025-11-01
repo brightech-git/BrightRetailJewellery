@@ -1,11 +1,6 @@
 Imports System.Data.OleDb
 Imports System.Data.SqlClient
-Imports System.IO
 Imports System.Linq
-Imports System.Web.UI.WebControls
-Imports System.Windows.Controls.Primitives
-Imports System.Xml
-Imports com.ms.win32
 Imports java.lang
 Public Class frmPurchaseOrder
     '01 SHERIFF - 24-10-12
@@ -519,12 +514,20 @@ Public Class frmPurchaseOrder
 
                 Dim _type As String = "PO"
                 If IO.File.Exists(Application.StartupPath & "\BillPrint.exe") Then
+                    strSql = $"select isnull(MAX(SNO),0)+1 from {cnAdminDb}..POPRINT"
+                    cmd = New OleDbCommand(strSql, cn)
+                    Dim sno As Integer = cmd.ExecuteScalar().ToString()
+                    For Each dr As DataRow In distinctDt.Rows
+                        strSql = $"INSERT INTO {cnAdminDb}..POPRINT(SNO,PONUMBER,PRINTDATETIME)"
+                        strSql += vbCrLf + $"VALUES({sno},'{dr("PONUMBER").ToString}','{Now}')"
+                        cmd = New OleDb.OleDbCommand(strSql, cn)
+                        cmd.CommandTimeout = 100000
+                        cmd.ExecuteNonQuery()
+                    Next
                     Dim write As IO.StreamWriter
                     write = IO.File.CreateText(Application.StartupPath & "\BillPrint.mem")
                     write.WriteLine(LSet("TYPE", 15) & ":" & _type)
-                    For Each dr As DataRow In distinctDt.Rows
-                        write.WriteLine(LSet("BATCHNO", 15) & ":" & dr("PONUMBER").ToString)
-                    Next
+                    write.WriteLine(LSet("BATCHNO", 15) & ":" & sno)
                     write.WriteLine(LSet("DUPLICATE", 15) & ":Y")
                     write.Flush()
                     write.Close()
