@@ -11,7 +11,11 @@ CREATE TABLE PURCHASEORDER (
 	,PODATE DATE
 	,TRANFLAG BIT
 	,TRANDATE DATE
+	,RANGECAPTION varchar(20) 
+	,SIZEID INT
 	)
+--alter table ITEMLOT add PONUMBER nvarchar(200)
+--alter table PURCHASEORDER add RANGECAPTION varchar(20), SIZEID int
 
 CREATE TYPE PurchaseOrderTableType AS TABLE (
 	PARTICULAR NVARCHAR(100)
@@ -20,7 +24,7 @@ CREATE TYPE PurchaseOrderTableType AS TABLE (
 	,RESULT INT
 	)
 
-Create PROCEDURE UpdatePurchaseOrder @USERID INT
+CREATE PROCEDURE UpdatePurchaseOrder @USERID INT
 	,@POFromDate DATE
 	,@POToDate DATE
 	,@PurchaseOrderData PurchaseOrderTableType READONLY
@@ -36,15 +40,42 @@ BEGIN
 		AND c.POFROMDATE = @POFromDate
 		AND c.POTODATE = @POToDate
 
+    ;WITH CTE AS(
+	SELECT PARTICULAR,PO_PIECES,ITEM,
+	  LTRIM(RTRIM(
+		CASE 
+		  WHEN ca.p1 > 0 THEN LEFT(po.PARTICULAR, ca.p1 - 1)
+		  ELSE po.PARTICULAR
+		END
+	  )) AS [Range],
+	  NULLIF(LTRIM(RTRIM(
+		CASE 
+		  WHEN ca.p2 > 0 THEN SUBSTRING(po.PARTICULAR, ca.p1 + 1, ca.p2 - ca.p1 - 1)
+		  ELSE NULL
+		END
+	  )), '') AS [Size]
+	FROM @PurchaseOrderData po
+	CROSS APPLY (
+	  SELECT
+		CHARINDEX('-', po.PARTICULAR) AS p1,
+		CASE 
+		  WHEN CHARINDEX('-', po.PARTICULAR) > 0 
+		  THEN CHARINDEX('-', po.PARTICULAR, CHARINDEX('-', po.PARTICULAR) + 1)
+		  ELSE 0
+		END AS p2
+	) AS ca
+	)
 	INSERT INTO PURCHASEORDER (
-		ITEMID
-		,PARTICULAR
-		,PO_PIECES
-		,POFROMDATE
-		,POTODATE
-		,USERID
-		,SUBITEMID
-		)
+	ITEMID
+	,PARTICULAR
+	,PO_PIECES
+	,POFROMDATE
+	,POTODATE
+	,USERID
+	,SUBITEMID
+	,RANGECAPTION
+	,SIZEID
+	)
 	SELECT b.ITEMID
 		,a.PARTICULAR
 		,a.PO_PIECES
@@ -52,9 +83,12 @@ BEGIN
 		,@POToDate
 		,@USERID
 		,D.SUBITEMID
-	FROM @PurchaseOrderData a
+		,a.Range
+		,ITEMSIZE.SIZEID 
+	FROM CTE a
 	JOIN ITEMMAST b ON b.ITEMNAME = a.ITEM
 	LEFT JOIN SUBITEMMAST D ON D.SUBITEMNAME = RIGHT(A.PARTICULAR, CHARINDEX('-', REVERSE(A.PARTICULAR)) - 1)
+	LEFT JOIN ITEMSIZE ON A.Size = ITEMSIZE.SIZENAME and ITEMSIZE.ITEMID = b.ITEMID
 	LEFT JOIN PURCHASEORDER c ON c.ITEMID = b.ITEMID
 		AND c.PARTICULAR = a.PARTICULAR
 		AND c.POFROMDATE = @POFromDate
@@ -73,9 +107,11 @@ CREATE TYPE MergePurchaseOrderTableType AS TABLE (
 	,PONUMBER NVARCHAR(100)
 	,PODATE DATE
 	,[TRANS DATE] DATE
+	,RANGECAPTION NVARCHAR(20)
+	,SIZEID INT
 	)
 
-CREATE PROCEDURE MergePurchaseOrder @USERID INT
+create PROCEDURE MergePurchaseOrder @USERID INT
 	,@MergePurchaseOrderData MergePurchaseOrderTableType READONLY
 AS
 BEGIN
@@ -98,6 +134,8 @@ BEGIN
 		,PONUMBER
 		,USERID
 		,SUBITEMID
+		,RANGECAPTION
+		,SIZEID
 		)
 	SELECT LEFT(CAST(ITEM AS NVARCHAR(100)), CHARINDEX('-', CAST(ITEM AS NVARCHAR(100))) - 1) AS ITEM
 		,PARTICULAR
@@ -107,11 +145,15 @@ BEGIN
 		,'RTM'
 		,@USERID
 		,B.SUBITEMID
+		,A.RANGECAPTION
+		,A.SIZEID
 	FROM #MERGEPO A
 	LEFT JOIN SUBITEMMAST B ON B.SUBITEMNAME = RIGHT(A.PARTICULAR, CHARINDEX('-', REVERSE(A.PARTICULAR)) - 1)
 	GROUP BY A.ITEM
 		,A.PARTICULAR
 		,B.SUBITEMID
+		,A.RANGECAPTION
+		,A.SIZEID
 	HAVING count(cnt) > 1
 
 	DELETE c
@@ -139,9 +181,11 @@ create TYPE PurchaseOrderTransferTableType AS TABLE (
 	,PONUMBER NVARCHAR(100)
 	,PODATE DATE
 	,SUBITEMID INT
+	,RANGECAPTION NVARCHAR(20)
+	,SIZEID INT
 	)
 
-Create PROCEDURE TransferPurchaseOrder @TranFlag BIT
+create PROCEDURE TransferPurchaseOrder @TranFlag BIT
 	,@Trandate DATE
 	,@PurchaseOrderTransferData PurchaseOrderTransferTableType READONLY
 AS
@@ -158,6 +202,8 @@ BEGIN
 		,TRANFLAG
 		,TRANDATE
 		,SUBITEMID
+		,RANGECAPTION
+		,SIZEID
 		)
 	SELECT ITEMID
 		,PARTICULAR
@@ -170,7 +216,15 @@ BEGIN
 		,@TranFlag
 		,@Trandate
 		,SUBITEMID
+		,RANGECAPTION
+		,SIZEID
 	FROM @PurchaseOrderTransferData
 END
 
-alter table ITEMLOT add PONUMBER nvarchar(200)
+--drop proc UpdatePurchaseOrder
+--drop proc MergePurchaseOrder
+--drop proc TransferPurchaseOrder
+--drop type PurchaseOrderTableType
+--drop type MergePurchaseOrderTableType
+--drop type PurchaseOrderTransferTableType
+

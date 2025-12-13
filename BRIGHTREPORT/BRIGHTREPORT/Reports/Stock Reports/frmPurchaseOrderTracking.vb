@@ -51,6 +51,7 @@ Public Class frmPurchaseOrderTracking
         tabMain.SelectedTab = tabGen
         optAsOn.Checked = True : optBetween.Checked = False
         chkWithCompleted.Checked = False
+        chkCanceled.Checked = False
         LoadMetal()
         LoadCostcentre()
     End Sub
@@ -215,7 +216,12 @@ Public Class frmPurchaseOrderTracking
         strSql = $"	with cte1 as(	"
         strSql += vbCrLf + $"	select I.ITEMNAME,PONUMBER,sum(PO_PIECES)PO_PIECES from {cnAdminDb}..PURCHASEORDER a	"
         strSql += vbCrLf + $"   JOIN {cnAdminDb}..ITEMMAST I on a.ITEMID = I.ITEMID"
-        strSql += vbCrLf + $"	where 1=1	"
+        strSql += vbCrLf + $"	where 1=1 "
+        If chkCanceled.Checked Then
+            strSql += vbCrLf + $"	AND ISNULL(CANCEL,'')='Y'"
+        Else
+            strSql += vbCrLf + $"	AND ISNULL(CANCEL,'')=''"
+        End If
         If optBetween.Checked Then
             strSql += vbCrLf + $"	and TRANDATE between '{dtpFrom.Value}' and '{dtpTo.Value}'	"
         ElseIf optAsOn.Checked Then
@@ -309,6 +315,7 @@ Public Class frmPurchaseOrderTracking
         gridView.DataSource = Nothing
         optAsOn.Checked = True : optBetween.Checked = False
         chkWithCompleted.Checked = False
+        chkCanceled.Checked = False
         LoadMetal()
         LoadCostcentre()
     End Sub
@@ -375,37 +382,61 @@ Public Class frmPurchaseOrderTracking
                 strSql += vbCrLf + $"	join {cnAdminDb}..SUBITEMMAST d on d.SUBITEMID = a.SUBITEMID 	"
                 strSql += vbCrLf + $"	where b.PONUMBER = '{_poNo}'	"
                 lblText = $"PURCHASE ORDER TAG DETAILS { vbCrLf } PONUMBER : {_poNo}"
+                cmd = New OleDbCommand(strSql, cn)
+                da = New OleDbDataAdapter(cmd)
+                da.Fill(dt)
+                If dt.Rows.Count > 0 Then
+                    Dim ofrmPurchaseOrderDetail As New frmPurchaseOrderDetail(dt)
+                    ofrmPurchaseOrderDetail.lblHead.Text = lblText
+                    If ofrmPurchaseOrderDetail.ShowDialog() = Windows.Forms.DialogResult.OK Then
+                    Else
+                        Exit Sub
+                    End If
+                Else
+                    MessageBox.Show("No Details found")
+                End If
+
             ElseIf e.KeyCode = Keys.T Then
                 strSql = $" ;WITH CTE1 AS("
-                strSql += vbCrLf + $"	select ITEMID,SUBITEMID,PONUMBER,SUM(PO_PIECES) PO_PIECES from {cnAdminDb}..PURCHASEORDER where PONUMBER = '{_poNo}'"
-                strSql += vbCrLf + $"	GROUP BY ITEMID,SUBITEMID,PONUMBER"
+                strSql += vbCrLf + $"	select ITEMID,SUBITEMID,PONUMBER,RANGECAPTION,SIZEID,SUM(PO_PIECES) PO_PIECES from {cnAdminDb}..PURCHASEORDER where PONUMBER = '{_poNo}'"
+                strSql += vbCrLf + $"	GROUP BY ITEMID,SUBITEMID,PONUMBER,RANGECAPTION,SIZEID"
                 strSql += vbCrLf + $"	),"
                 strSql += vbCrLf + $"	CTE2 AS("
-                strSql += vbCrLf + $"	SELECT ITEMTAG.ITEMID,ITEMTAG.SUBITEMID,SUM(ITEMTAG.PCS) PCS FROM {cnAdminDb}..ITEMLOT"
+                strSql += vbCrLf + $"	SELECT ITEMTAG.ITEMID,ITEMTAG.SUBITEMID,ITEMTAG.SIZEID,RANGEMAST.CAPTION,SUM(ITEMTAG.PCS) PCS FROM {cnAdminDb}..ITEMLOT"
                 strSql += vbCrLf + $"	JOIN {cnAdminDb}..ITEMTAG ON ITEMLOT.SNO = ITEMTAG.LOTSNO"
+                strSql += vbCrLf + $"	JOIN {cnAdminDb}..RANGEMAST ON ITEMTAG.ITEMID = RANGEMAST.ITEMID AND ITEMTAG.SUBITEMID = RANGEMAST.SUBITEMID AND (ITEMTAG.GRSWT BETWEEN RANGEMAST.FROMWEIGHT AND RANGEMAST.TOWEIGHT)"
+                strSql += vbCrLf + $"	LEFT JOIN {cnAdminDb}..ITEMSIZE ON ITEMTAG.ITEMID = ITEMSIZE.ITEMID AND ITEMTAG.SIZEID = ITEMSIZE.SIZEID"
                 strSql += vbCrLf + $"	WHERE  PONUMBER = '{_poNo}'"
-                strSql += vbCrLf + $"	GROUP BY ITEMTAG.ITEMID,ITEMTAG.SUBITEMID"
+                strSql += vbCrLf + $"	GROUP BY ITEMTAG.ITEMID,ITEMTAG.SUBITEMID,ITEMTAG.SIZEID,RANGEMAST.CAPTION"
                 strSql += vbCrLf + $"	)"
-                strSql += vbCrLf + $"	SELECT ROW_NUMBER()OVER(ORDER BY SUBITEMMAST.SUBITEMNAME) SNO,ITEMMAST.ITEMNAME,SUBITEMMAST.SUBITEMNAME,CTE1.PO_PIECES PO_PCS,ISNULL(CTE2.PCS,0) TAGGED_PCS,CTE1.PO_PIECES - ISNULL(CTE2.PCS,0) PENDING_PCS  FROM CTE1"
-                strSql += vbCrLf + $"	LEFT JOIN CTE2 ON CTE1.ITEMID = CTE2.ITEMID AND CTE1.SUBITEMID = CTE2.SUBITEMID"
+                strSql += vbCrLf + $"	SELECT ROW_NUMBER()OVER(ORDER BY SUBITEMMAST.SUBITEMNAME) SNO,ITEMMAST.ITEMNAME,CTE1.RANGECAPTION + ' - ' + ISNULL(ITEMSIZE.SIZENAME,'') + ' - ' + SUBITEMMAST.SUBITEMNAME PARTICULAR,CTE1.PO_PIECES PO_PCS,ISNULL(CTE2.PCS,0) TAGGED_PCS,CTE1.PO_PIECES - ISNULL(CTE2.PCS,0) PENDING_PCS  FROM CTE1"
+                strSql += vbCrLf + $"	LEFT JOIN CTE2 ON CTE1.ITEMID = CTE2.ITEMID AND CTE1.SUBITEMID = CTE2.SUBITEMID AND CTE1.RANGECAPTION = CTE2.CAPTION AND CTE1.SIZEID = CTE2.SIZEID"
+                strSql += vbCrLf + $"	LEFT JOIN {cnAdminDb}..ITEMSIZE ON CTE1.ITEMID = ITEMSIZE.ITEMID AND CTE1.SIZEID = ITEMSIZE.SIZEID"
                 strSql += vbCrLf + $"	JOIN {cnAdminDb}..ITEMMAST ON CTE1.ITEMID = ITEMMAST.ITEMID"
                 strSql += vbCrLf + $"	JOIN {cnAdminDb}..SUBITEMMAST ON CTE1.ITEMID = SUBITEMMAST.ITEMID AND CTE1.SUBITEMID = SUBITEMMAST.SUBITEMID"
                 strSql += vbCrLf + $"	WHERE (CTE1.PO_PIECES - ISNULL(CTE2.PCS,0)) > 0"
                 lblText = $"PURCHASE ORDER PENDING TAG DETAILS { vbCrLf } PONUMBER : {_poNo}"
-            End If
-
-            cmd = New OleDb.OleDbCommand(strSql, cn)
-            da = New OleDbDataAdapter(cmd)
-            da.Fill(dt)
-            If dt.Rows.Count > 0 Then
-                Dim ofrmPurchaseOrderDetail As New frmPurchaseOrderDetail(dt)
-                ofrmPurchaseOrderDetail.lblHead.Text = lblText
-                If ofrmPurchaseOrderDetail.ShowDialog() = Windows.Forms.DialogResult.OK Then
+                cmd = New OleDbCommand(strSql, cn)
+                da = New OleDbDataAdapter(cmd)
+                da.Fill(dt)
+                If dt.Rows.Count > 0 Then
+                    Dim ofrmPurchaseOrderDetail As New frmPurchaseOrderDetail(dt)
+                    ofrmPurchaseOrderDetail.lblHead.Text = lblText
+                    If ofrmPurchaseOrderDetail.ShowDialog() = Windows.Forms.DialogResult.OK Then
+                    Else
+                        Exit Sub
+                    End If
                 Else
-                    Exit Sub
+                    MessageBox.Show("No Details found")
                 End If
-            Else
-                MessageBox.Show("No Details found")
+
+            ElseIf e.KeyCode = Keys.C Then
+                If (MessageBox.Show("Confirm to Cacel ?", "Cancel", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.Yes) Then
+                    strSql = $"UPDATE {cnAdminDb}..PURCHASEORDER SET CANCEL = 'Y' WHERE PONUMBER = '{_poNo}'"
+                    cmd = New OleDbCommand(strSql, cn)
+                    cmd.ExecuteNonQuery()
+                    btnView_Search_Click(sender, e)
+                End If
             End If
 
         Catch ex As Exception
@@ -413,7 +444,7 @@ Public Class frmPurchaseOrderTracking
         End Try
     End Sub
 
-    Private Sub optAsOn_CheckedChanged(sender As Object, e As EventArgs)
+    Private Sub optAsOn_CheckedChanged(sender As Object, e As EventArgs) Handles optAsOn.CheckedChanged
         If optAsOn.Checked Then
             lblFrom.Text = "AS ON : "
             lblTo.Visible = False : dtpTo.Visible = False
@@ -423,7 +454,7 @@ Public Class frmPurchaseOrderTracking
         End If
     End Sub
 
-    Private Sub optBetween_CheckedChanged(sender As Object, e As EventArgs)
+    Private Sub optBetween_CheckedChanged(sender As Object, e As EventArgs) Handles optBetween.CheckedChanged
         If optBetween.Checked Then
             lblFrom.Text = "FROM : "
             lblTo.Visible = True : dtpTo.Visible = True

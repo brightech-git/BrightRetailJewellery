@@ -198,7 +198,7 @@ Public Class frmPurchaseOrder
         If Trim(chkCmbItem.Text.ToString) = "ALL" Or Trim(chkCmbItem.Text.ToString) = "" Then itemid = "ALL" Else itemid = GetSelecteditemid(chkCmbItem, True)
 
         If optDetail.Checked Then
-            strSql = $"select cast(0 as bit) [MARK], cast(a.ITEMID as nvarchar(100))+ '-' + b.ITEMNAME ITEM,a.PARTICULAR,a.PO_PIECES, a.POFROMDATE POSTINGFROM, a.POTODATE POSTINGTO,a.PONUMBER, a.PODATE PODATE, a.TRANDATE [TRANS DATE] from {cnAdminDb}.. PURCHASEORDER a"
+            strSql = $"select cast(0 as bit) [MARK], cast(a.ITEMID as nvarchar(100))+ '-' + b.ITEMNAME ITEM,a.PARTICULAR,a.PO_PIECES, a.POFROMDATE POSTINGFROM, a.POTODATE POSTINGTO,a.PONUMBER, a.PODATE PODATE, a.TRANDATE [TRANS DATE], a.RANGECAPTION, a.SIZEID from {cnAdminDb}.. PURCHASEORDER a"
             strSql += $" join {cnAdminDb}..itemmast b on a.itemid = b.ITEMID"
             strSql += " where ISNULL(po_pieces,0)<>0"
             If chkCmbMetal.Text.ToString <> "ALL" And chkCmbMetal.Text.ToString <> "" Then
@@ -587,7 +587,7 @@ Public Class frmPurchaseOrder
 
             Dim distinctDt As DataTable = filteredTable.DefaultView.ToTable(True, "PONUMBER")
             For Each dr As DataRow In distinctDt.Rows
-                strSql = $"select ITEMID,PARTICULAR,PO_PIECES,POFROMDATE,POTODATE,USERID,PONUMBER,PODATE,SUBITEMID from {cnAdminDb}..PURCHASEORDER where PONUMBER = '{dr("PONUMBER")}'"
+                strSql = $"select ITEMID,PARTICULAR,PO_PIECES,POFROMDATE,POTODATE,USERID,PONUMBER,PODATE,SUBITEMID,RANGECAPTION,SIZEID from {cnAdminDb}..PURCHASEORDER where PONUMBER = '{dr("PONUMBER")}'"
                 Dim dtData As New DataTable
                 cmd = New OleDb.OleDbCommand(strSql, cn)
                 da = New OleDbDataAdapter(cmd)

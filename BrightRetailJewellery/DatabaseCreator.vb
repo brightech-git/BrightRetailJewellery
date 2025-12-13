@@ -122791,6 +122791,8 @@ ByVal PurchaseTaxName As String
         strSql += vbCrLf + ",PODATE DATE"
         strSql += vbCrLf + ",TRANFLAG BIT"
         strSql += vbCrLf + ",TRANDATE DATE"
+        strSql += vbCrLf + ",RANGECAPTION NVARCHAR(20)"
+        strSql += vbCrLf + ",SIZEID INT"
         strSql += vbCrLf + " )"
         cmd = New OleDbCommand(strSql, cn, tran)
         cmd.ExecuteNonQuery()
@@ -143976,6 +143978,11 @@ ByVal PurchaseTaxName As String
 
             strSql = " IF (SELECT COUNT(*) FROM " & tranDbName & "..SYSCOLUMNS WHERE NAME='PONUMBER' AND ID=OBJECT_ID('" & tranDbName & "..ITEMLOT'))<0"
             strSql += " ALTER TABLE " & tranDbName & "..ITEMLOT ADD PONUMBER NVARCHAR(200)"
+            cmd = New OleDbCommand(strSql, cn, tran)
+            cmd.ExecuteNonQuery()
+
+            strSql = " IF (SELECT COUNT(*) FROM " & tranDbName & "..SYSCOLUMNS WHERE NAME='CANCEL' AND ID=OBJECT_ID('" & tranDbName & "..PURCHASEORDER'))<0"
+            strSql += " ALTER TABLE " & tranDbName & "..PURCHASEORDER ADD CANCEL NVARCHAR(1)"
             cmd = New OleDbCommand(strSql, cn, tran)
             cmd.ExecuteNonQuery()
 

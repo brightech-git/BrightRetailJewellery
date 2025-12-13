@@ -4305,7 +4305,7 @@ Optional ByVal Remark2 As String = Nothing
                 StrSql += " ," & Val(.Cells("PCS").Value.ToString) & "" 'PCS
                 StrSql += " ," & Val(.Cells("GRSWT").Value.ToString) & "" 'GRSWT
                 StrSql += " ," & Val(.Cells("NETWT").Value.ToString) & "" 'NETWT
-                StrSql += " ," & Val(.Cells("LESSWT").Value.ToString) & "" 'LESSWT
+                StrSql += " ," & Val(.Cells("LESSWT").Value.ToString) & "" 'LESSWTL
                 StrSql += " ," & Val(.Cells("PUREWT").Value.ToString) & "" 'PUREWT
                 ''StrSql += " ,''" 'TAGNO
                 If .Cells("TAGNO").Value.ToString <> "" And (cmbTransactionType.Text = "ISSUE" Or cmbTransactionType.Text = "PURCHASE RETURN") Then
@@ -4415,8 +4415,7 @@ Optional ByVal Remark2 As String = Nothing
                 ExecQuery(SyncMode.Transaction, StrSql, cn, tran, CostCenterId)
 
                 If OMaterialType = MaterialType.Issue Then
-                    StrSql = $"select TAGTYPE from {cnAdminDb}..ITEMMAST with(nolock) where ITEMID = {Itemid}"
-
+                    StrSql = $"select STOCKTYPE from {cnAdminDb}..ITEMMAST with(nolock) where ITEMID = {Itemid}"
                     If objGPack.GetSqlValue(StrSql, , , tran) = "N" Then
                         Dim tagSno As String = GetNewSno(TranSnoType.ITEMNONTAGCODE, tran, "GET_ADMINSNO_TRAN")
                         StrSql = " INSERT INTO " & cnAdminDb & "..ITEMNONTAG"

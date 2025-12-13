@@ -1,5 +1,5 @@
-DECLARE @fromDate DATE = '2025-11-01'
-DECLARE @toDate DATE = '2025-11-01'
+DECLARE @fromDate DATE = '2025-11-07'
+DECLARE @toDate DATE = '2025-11-07'
 DECLARE @costId VARCHAR(10) = 'FL'
 
 --sales,purchase,return,closing

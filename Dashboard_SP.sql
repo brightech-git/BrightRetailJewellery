@@ -128,8 +128,8 @@ BEGIN
                 THEN ''GPAY''
             WHEN MODEPAY = ''R''
                 THEN ''CARD''
-            END MODEPAY
-        ,sum(Amount) Amount
+            END CHITMODEPAY
+        ,sum(Amount) CHITAMOUNT
     FROM ' + @schemeDB + '..SCHEMECOLLECT
     WHERE 1 = 1
         AND ISNULL(cancel, '''') = ''''
