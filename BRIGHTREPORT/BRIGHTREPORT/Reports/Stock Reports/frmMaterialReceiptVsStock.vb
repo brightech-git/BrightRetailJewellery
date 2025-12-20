@@ -33,7 +33,7 @@ Public Class frmMaterialReceiptVsStock
         Dim TEMPTABLE As String = "TEMPTABLEDB..TEMP" & Trim(Guid.NewGuid.ToString.Substring(0, 8)) & "RECLOTTAG"
         strSql = "IF OBJECT_ID('" & TEMPTABLE & "') IS NOT NULL DROP TABLE " & TEMPTABLE
         cmd = New OleDbCommand(strSql, cn) : cmd.ExecuteNonQuery()
-        strSql = "EXEC " & cnAdminDb & "..SP_RPT_MATERIALRECEIPTVSSTOCK"
+        strSql = "EXEC " & cnAdminDb & "..SP_RPT_MATERIALRECEIPTVSSTOCK01"
         strSql += vbCrLf + "   @DBNAME='" & cnStockDb & "'"
         strSql += vbCrLf + "  ,@TEMPTABLE='" & TEMPTABLE & "'"
         strSql += vbCrLf + "  ,@FROMDATE='" & dtpFrom.Value.ToString("yyyy/MM/dd") & "'"
@@ -158,7 +158,7 @@ Public Class frmMaterialReceiptVsStock
         With dtMergeHeader
 
             If chkSummary.Checked = False Then
-                .Columns.Add("TRANDATE~TRANNO~PARTICULAR~RPCS~RGRSWT~RNETWT~RDIAWT", GetType(String))
+                .Columns.Add("TRANDATE~TRANNO~ACNAME~PARTICULAR~RPCS~RGRSWT~RNETWT~RDIAWT", GetType(String))
                 .Columns.Add("ISSDATE~ISSNO~IPCS~IGRSWT~INETWT~IDIAWT", GetType(String))
                 .Columns.Add("LOTNO~LOTDATE~LITEMNAME~LPCS~LGRSWT~LNETWT~LDIAWT", GetType(String))
                 .Columns.Add("RECDATE~TAGNO~TITEMNAME~TPCS~TGRSWT~TNETWT~TDIAWT~REMARKS", GetType(String))
@@ -174,7 +174,7 @@ Public Class frmMaterialReceiptVsStock
             .Columns.Add("SCROLL", GetType(String))
 
             If chkSummary.Checked = False Then
-                .Columns("TRANDATE~TRANNO~PARTICULAR~RPCS~RGRSWT~RNETWT~RDIAWT").Caption = "RECEIPT"
+                .Columns("TRANDATE~TRANNO~ACNAME~PARTICULAR~RPCS~RGRSWT~RNETWT~RDIAWT").Caption = "RECEIPT"
                 .Columns("ISSDATE~ISSNO~IPCS~IGRSWT~INETWT~IDIAWT").Caption = "ISSUE"
                 .Columns("LOTNO~LOTDATE~LITEMNAME~LPCS~LGRSWT~LNETWT~LDIAWT").Caption = "LOT"
                 .Columns("RECDATE~TAGNO~TITEMNAME~TPCS~TGRSWT~TNETWT~TDIAWT~REMARKS").Caption = "TAG/NONTAG"
@@ -209,7 +209,7 @@ Public Class frmMaterialReceiptVsStock
             If chkSummary.Checked = False Then
                 .Columns("LOTSNO").Visible = False
                 .Columns("ISNO").Visible = False
-                .Columns("TAGNO").Visible = False
+                .Columns("TAGNO").Visible = True
                 .Columns("TTRANNO").Visible = False
                 .Columns("RECDATE").Visible = True
                 .Columns("TITEMNAME").Visible = True
@@ -240,7 +240,8 @@ Public Class frmMaterialReceiptVsStock
                 '.Columns("LDIFF").HeaderText = "DIFF[D:H:M]"
                 '.Columns("TDIFF").HeaderText = "DIFF[D:H:M]"
                 .Columns("LITEMNAME").Width = 130
-                .Columns("LITEMNAME").HeaderText = "PARTICULAR"
+                .Columns("LITEMNAME").HeaderText = "ACNAME"
+                .Columns("TRANNO").Visible = False
             End If
             .Columns("TRANNO").Visible = True
             .Columns("PARTICULAR").Width = 130
@@ -322,8 +323,8 @@ Public Class frmMaterialReceiptVsStock
         FuncGridHead()
         With gridHead
             If chkSummary.Checked = False Then
-                With .Columns("TRANDATE~TRANNO~PARTICULAR~RPCS~RGRSWT~RNETWT~RDIAWT")
-                    .Width = gridView.Columns("PARTICULAR").Width + gridView.Columns("TRANDATE").Width + gridView.Columns("TRANNO").Width + gridView.Columns("RPCS").Width + gridView.Columns("RGRSWT").Width + gridView.Columns("RNETWT").Width + gridView.Columns("RDIAWT").Width
+                With .Columns("TRANDATE~TRANNO~ACNAME~PARTICULAR~RPCS~RGRSWT~RNETWT~RDIAWT")
+                    .Width = gridView.Columns("PARTICULAR").Width + gridView.Columns("TRANDATE").Width + gridView.Columns("TRANNO").Width + gridView.Columns("ACNAME").Width + gridView.Columns("RPCS").Width + gridView.Columns("RGRSWT").Width + gridView.Columns("RNETWT").Width + gridView.Columns("RDIAWT").Width
                     .HeaderText = "RECEIPT"
                 End With
                 With .Columns("ISSDATE~ISSNO~IPCS~IGRSWT~INETWT~IDIAWT")
