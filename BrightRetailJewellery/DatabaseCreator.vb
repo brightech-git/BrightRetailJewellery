@@ -130684,6 +130684,8 @@ ByVal PurchaseTaxName As String
         AdmindbInsertValuesToSoftControl(compId + suffix, "EST_CHIT_BOARDRATE_DISCOUNT", "IN ESTIMATION SCHEME ADJUSTMENT BALANCEWT NEED BOARDRATE DISCOUNT CALCULATION[Y]ES/[N]O", "T", "N", "E")
         AdmindbInsertValuesToSoftControl(compId + suffix, "MI_POPUP_PROCESSTYPE", "MATERIAL ISSUE ESTIMATION CALLING POPUP PROCESSTYPE [Y]ES/[N]O", "T", "N", "E")
         AdmindbInsertValuesToSoftControl(compId + suffix, "DUP_BILL_NO", "DUPLICATE BILL NUMBER CHECK [Y]ES/[N]O", "T", "N", "B")
+        AdmindbInsertValuesToSoftControl(compId + suffix, "FINDISCPUR", "FINAL DISCOUNT ON PURCHASE (ALT+F2)", "T", "N", "P")
+        AdmindbInsertValuesToSoftControl(compId + suffix, "FINDISCPURMINSALWT", "FINAL DISCOUNT ON PURCHASE MINIMUM SALE WEIGHT", "D", "16", "P")
 
 
         strSql = " UPDATE " & compId + suffix & "..SOFTCONTROL SET CTLNAME = 'PURCHASE RATE CALCULATION FROM PURCHASE GROSS VALUE [Y]ES/[N]O' WHERE CTLID = 'PUR_MRATECALC'"

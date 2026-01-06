@@ -20,7 +20,7 @@ Partial Class RetailBill
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim DataGridViewCellStyle1 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
+        Dim DataGridViewCellStyle2 As System.Windows.Forms.DataGridViewCellStyle = New System.Windows.Forms.DataGridViewCellStyle()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(RetailBill))
         Me.txtSAItemId = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
@@ -455,6 +455,8 @@ Partial Class RetailBill
         Me.Style4ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Style5ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.Style6ToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.lblPNo = New System.Windows.Forms.Label()
+        Me.lblSNo = New System.Windows.Forms.Label()
         Me.btnCalc = New System.Windows.Forms.Button()
         Me.lblTitle = New System.Windows.Forms.Label()
         Me.Label89 = New System.Windows.Forms.Label()
@@ -552,8 +554,7 @@ Partial Class RetailBill
         Me.mTimer = New System.Windows.Forms.Timer(Me.components)
         Me.lblTcsCalcAmt = New System.Windows.Forms.Label()
         Me.lblTcsCalcPrecent = New System.Windows.Forms.Label()
-        Me.lblSNo = New System.Windows.Forms.Label()
-        Me.lblPNo = New System.Windows.Forms.Label()
+        Me.FinalPurchaseDiscountStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.tabMain.SuspendLayout()
         Me.tabSaSrPu.SuspendLayout()
         Me.grpSaSr.SuspendLayout()
@@ -624,7 +625,7 @@ Partial Class RetailBill
         Me.txtSAItemId.Location = New System.Drawing.Point(61, 31)
         Me.txtSAItemId.MaxLength = 17
         Me.txtSAItemId.Name = "txtSAItemId"
-        Me.txtSAItemId.Size = New System.Drawing.Size(42, 26)
+        Me.txtSAItemId.Size = New System.Drawing.Size(42, 22)
         Me.txtSAItemId.TabIndex = 3
         '
         'Label2
@@ -644,7 +645,7 @@ Partial Class RetailBill
         Me.txtSAPcs_NUM.Location = New System.Drawing.Point(185, 31)
         Me.txtSAPcs_NUM.MaxLength = 5
         Me.txtSAPcs_NUM.Name = "txtSAPcs_NUM"
-        Me.txtSAPcs_NUM.Size = New System.Drawing.Size(43, 26)
+        Me.txtSAPcs_NUM.Size = New System.Drawing.Size(43, 22)
         Me.txtSAPcs_NUM.TabIndex = 9
         '
         'Label4
@@ -664,7 +665,7 @@ Partial Class RetailBill
         Me.txtSANetWt_WET.Location = New System.Drawing.Point(305, 31)
         Me.txtSANetWt_WET.MaxLength = 10
         Me.txtSANetWt_WET.Name = "txtSANetWt_WET"
-        Me.txtSANetWt_WET.Size = New System.Drawing.Size(75, 26)
+        Me.txtSANetWt_WET.Size = New System.Drawing.Size(75, 22)
         Me.txtSANetWt_WET.TabIndex = 13
         '
         'Label5
@@ -684,7 +685,7 @@ Partial Class RetailBill
         Me.txtSAGrsWt_WET.Location = New System.Drawing.Point(229, 31)
         Me.txtSAGrsWt_WET.MaxLength = 10
         Me.txtSAGrsWt_WET.Name = "txtSAGrsWt_WET"
-        Me.txtSAGrsWt_WET.Size = New System.Drawing.Size(75, 26)
+        Me.txtSAGrsWt_WET.Size = New System.Drawing.Size(75, 22)
         Me.txtSAGrsWt_WET.TabIndex = 11
         '
         'Label6
@@ -704,7 +705,7 @@ Partial Class RetailBill
         Me.txtSARate_AMT.Location = New System.Drawing.Point(381, 31)
         Me.txtSARate_AMT.MaxLength = 10
         Me.txtSARate_AMT.Name = "txtSARate_AMT"
-        Me.txtSARate_AMT.Size = New System.Drawing.Size(83, 26)
+        Me.txtSARate_AMT.Size = New System.Drawing.Size(83, 22)
         Me.txtSARate_AMT.TabIndex = 15
         '
         'Label7
@@ -724,7 +725,7 @@ Partial Class RetailBill
         Me.txtSAWastage_WET.Location = New System.Drawing.Point(465, 31)
         Me.txtSAWastage_WET.MaxLength = 10
         Me.txtSAWastage_WET.Name = "txtSAWastage_WET"
-        Me.txtSAWastage_WET.Size = New System.Drawing.Size(66, 26)
+        Me.txtSAWastage_WET.Size = New System.Drawing.Size(66, 22)
         Me.txtSAWastage_WET.TabIndex = 17
         '
         'Label8
@@ -744,7 +745,7 @@ Partial Class RetailBill
         Me.txtSAMc_AMT.Location = New System.Drawing.Point(532, 31)
         Me.txtSAMc_AMT.MaxLength = 12
         Me.txtSAMc_AMT.Name = "txtSAMc_AMT"
-        Me.txtSAMc_AMT.Size = New System.Drawing.Size(73, 26)
+        Me.txtSAMc_AMT.Size = New System.Drawing.Size(73, 22)
         Me.txtSAMc_AMT.TabIndex = 19
         '
         'Label9
@@ -764,7 +765,7 @@ Partial Class RetailBill
         Me.txtSAAmount_AMT.Location = New System.Drawing.Point(849, 31)
         Me.txtSAAmount_AMT.MaxLength = 12
         Me.txtSAAmount_AMT.Name = "txtSAAmount_AMT"
-        Me.txtSAAmount_AMT.Size = New System.Drawing.Size(97, 26)
+        Me.txtSAAmount_AMT.Size = New System.Drawing.Size(97, 22)
         Me.txtSAAmount_AMT.TabIndex = 27
         '
         'Label12
@@ -784,7 +785,7 @@ Partial Class RetailBill
         Me.txtSAVat_AMT.Location = New System.Drawing.Point(775, 31)
         Me.txtSAVat_AMT.MaxLength = 12
         Me.txtSAVat_AMT.Name = "txtSAVat_AMT"
-        Me.txtSAVat_AMT.Size = New System.Drawing.Size(73, 26)
+        Me.txtSAVat_AMT.Size = New System.Drawing.Size(73, 22)
         Me.txtSAVat_AMT.TabIndex = 25
         '
         'lblSaVat
@@ -825,7 +826,7 @@ Partial Class RetailBill
         Me.txtPUPcs_NUM.Location = New System.Drawing.Point(312, 31)
         Me.txtPUPcs_NUM.MaxLength = 5
         Me.txtPUPcs_NUM.Name = "txtPUPcs_NUM"
-        Me.txtPUPcs_NUM.Size = New System.Drawing.Size(43, 26)
+        Me.txtPUPcs_NUM.Size = New System.Drawing.Size(43, 22)
         Me.txtPUPcs_NUM.TabIndex = 7
         '
         'Label14
@@ -844,7 +845,7 @@ Partial Class RetailBill
         Me.txtPUGrsWt_WET.Location = New System.Drawing.Point(356, 31)
         Me.txtPUGrsWt_WET.MaxLength = 10
         Me.txtPUGrsWt_WET.Name = "txtPUGrsWt_WET"
-        Me.txtPUGrsWt_WET.Size = New System.Drawing.Size(75, 26)
+        Me.txtPUGrsWt_WET.Size = New System.Drawing.Size(75, 22)
         Me.txtPUGrsWt_WET.TabIndex = 9
         '
         'Label16
@@ -863,7 +864,7 @@ Partial Class RetailBill
         Me.txtPUDustWt_WET.Location = New System.Drawing.Point(432, 31)
         Me.txtPUDustWt_WET.MaxLength = 10
         Me.txtPUDustWt_WET.Name = "txtPUDustWt_WET"
-        Me.txtPUDustWt_WET.Size = New System.Drawing.Size(66, 26)
+        Me.txtPUDustWt_WET.Size = New System.Drawing.Size(66, 22)
         Me.txtPUDustWt_WET.TabIndex = 11
         '
         'Label17
@@ -882,7 +883,7 @@ Partial Class RetailBill
         Me.txtPUWastage_WET.Location = New System.Drawing.Point(548, 31)
         Me.txtPUWastage_WET.MaxLength = 10
         Me.txtPUWastage_WET.Name = "txtPUWastage_WET"
-        Me.txtPUWastage_WET.Size = New System.Drawing.Size(66, 26)
+        Me.txtPUWastage_WET.Size = New System.Drawing.Size(66, 22)
         Me.txtPUWastage_WET.TabIndex = 15
         '
         'Label18
@@ -901,7 +902,7 @@ Partial Class RetailBill
         Me.txtPUStoneWt_WET.Location = New System.Drawing.Point(284, 115)
         Me.txtPUStoneWt_WET.MaxLength = 10
         Me.txtPUStoneWt_WET.Name = "txtPUStoneWt_WET"
-        Me.txtPUStoneWt_WET.Size = New System.Drawing.Size(75, 26)
+        Me.txtPUStoneWt_WET.Size = New System.Drawing.Size(75, 22)
         Me.txtPUStoneWt_WET.TabIndex = 11
         Me.txtPUStoneWt_WET.Text = "999.999"
         '
@@ -921,7 +922,7 @@ Partial Class RetailBill
         Me.txtPUNetWt_WET.Location = New System.Drawing.Point(615, 31)
         Me.txtPUNetWt_WET.MaxLength = 10
         Me.txtPUNetWt_WET.Name = "txtPUNetWt_WET"
-        Me.txtPUNetWt_WET.Size = New System.Drawing.Size(75, 26)
+        Me.txtPUNetWt_WET.Size = New System.Drawing.Size(75, 22)
         Me.txtPUNetWt_WET.TabIndex = 17
         '
         'Label20
@@ -940,7 +941,7 @@ Partial Class RetailBill
         Me.txtPURate_AMT.Location = New System.Drawing.Point(691, 31)
         Me.txtPURate_AMT.MaxLength = 10
         Me.txtPURate_AMT.Name = "txtPURate_AMT"
-        Me.txtPURate_AMT.Size = New System.Drawing.Size(83, 26)
+        Me.txtPURate_AMT.Size = New System.Drawing.Size(83, 22)
         Me.txtPURate_AMT.TabIndex = 19
         '
         'Label21
@@ -959,7 +960,7 @@ Partial Class RetailBill
         Me.txtPUAmount_AMT.Location = New System.Drawing.Point(849, 31)
         Me.txtPUAmount_AMT.MaxLength = 12
         Me.txtPUAmount_AMT.Name = "txtPUAmount_AMT"
-        Me.txtPUAmount_AMT.Size = New System.Drawing.Size(97, 26)
+        Me.txtPUAmount_AMT.Size = New System.Drawing.Size(97, 22)
         Me.txtPUAmount_AMT.TabIndex = 23
         '
         'Label22
@@ -978,7 +979,7 @@ Partial Class RetailBill
         Me.txtPUVat_AMT.Location = New System.Drawing.Point(775, 31)
         Me.txtPUVat_AMT.MaxLength = 12
         Me.txtPUVat_AMT.Name = "txtPUVat_AMT"
-        Me.txtPUVat_AMT.Size = New System.Drawing.Size(73, 26)
+        Me.txtPUVat_AMT.Size = New System.Drawing.Size(73, 22)
         Me.txtPUVat_AMT.TabIndex = 21
         '
         'lblPUVat
@@ -997,7 +998,7 @@ Partial Class RetailBill
         Me.txtSAEstNo_NUM.Location = New System.Drawing.Point(11, 31)
         Me.txtSAEstNo_NUM.MaxLength = 8
         Me.txtSAEstNo_NUM.Name = "txtSAEstNo_NUM"
-        Me.txtSAEstNo_NUM.Size = New System.Drawing.Size(49, 26)
+        Me.txtSAEstNo_NUM.Size = New System.Drawing.Size(49, 22)
         Me.txtSAEstNo_NUM.TabIndex = 1
         '
         'Label1
@@ -1018,7 +1019,7 @@ Partial Class RetailBill
         Me.txtSATagNo.MaxLength = 20
         Me.txtSATagNo.Name = "txtSATagNo"
         Me.txtSATagNo.ShortcutsEnabled = False
-        Me.txtSATagNo.Size = New System.Drawing.Size(80, 26)
+        Me.txtSATagNo.Size = New System.Drawing.Size(80, 22)
         Me.txtSATagNo.TabIndex = 7
         '
         'Label3
@@ -1048,7 +1049,7 @@ Partial Class RetailBill
         Me.Label32.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label32.Location = New System.Drawing.Point(762, 35)
         Me.Label32.Name = "Label32"
-        Me.Label32.Size = New System.Drawing.Size(135, 20)
+        Me.Label32.Size = New System.Drawing.Size(98, 16)
         Me.Label32.TabIndex = 4
         Me.Label32.Text = "SILVER RATE"
         Me.ToolTip1.SetToolTip(Me.Label32, "CTRL+ALT+R - Rate View")
@@ -1070,7 +1071,7 @@ Partial Class RetailBill
         Me.Label31.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label31.Location = New System.Drawing.Point(762, 17)
         Me.Label31.Name = "Label31"
-        Me.Label31.Size = New System.Drawing.Size(118, 20)
+        Me.Label31.Size = New System.Drawing.Size(86, 16)
         Me.Label31.TabIndex = 4
         Me.Label31.Text = "GOLD RATE"
         Me.ToolTip1.SetToolTip(Me.Label31, "CTRL+ALT+R - Rate View")
@@ -1081,7 +1082,7 @@ Partial Class RetailBill
         Me.lblCashCounter.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCashCounter.Location = New System.Drawing.Point(187, 35)
         Me.lblCashCounter.Name = "lblCashCounter"
-        Me.lblCashCounter.Size = New System.Drawing.Size(135, 20)
+        Me.lblCashCounter.Size = New System.Drawing.Size(100, 16)
         Me.lblCashCounter.TabIndex = 4
         Me.lblCashCounter.Text = "FIRST FLOOR"
         '
@@ -1091,7 +1092,7 @@ Partial Class RetailBill
         Me.Label30.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label30.Location = New System.Drawing.Point(23, 35)
         Me.Label30.Name = "Label30"
-        Me.Label30.Size = New System.Drawing.Size(157, 20)
+        Me.Label30.Size = New System.Drawing.Size(118, 16)
         Me.Label30.TabIndex = 4
         Me.Label30.Text = "CASH COUNTER"
         '
@@ -1101,7 +1102,7 @@ Partial Class RetailBill
         Me.lblBillDate.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblBillDate.Location = New System.Drawing.Point(187, 17)
         Me.lblBillDate.Name = "lblBillDate"
-        Me.lblBillDate.Size = New System.Drawing.Size(129, 20)
+        Me.lblBillDate.Size = New System.Drawing.Size(97, 16)
         Me.lblBillDate.TabIndex = 4
         Me.lblBillDate.Text = "08/03/2009"
         '
@@ -1111,7 +1112,7 @@ Partial Class RetailBill
         Me.Label29.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label29.Location = New System.Drawing.Point(23, 17)
         Me.Label29.Name = "Label29"
-        Me.Label29.Size = New System.Drawing.Size(110, 20)
+        Me.Label29.Size = New System.Drawing.Size(80, 16)
         Me.Label29.TabIndex = 4
         Me.Label29.Text = "BILL DATE"
         '
@@ -1198,7 +1199,7 @@ Partial Class RetailBill
         '
         Me.txtSARowIndex.Location = New System.Drawing.Point(996, 26)
         Me.txtSARowIndex.Name = "txtSARowIndex"
-        Me.txtSARowIndex.Size = New System.Drawing.Size(8, 24)
+        Me.txtSARowIndex.Size = New System.Drawing.Size(8, 21)
         Me.txtSARowIndex.TabIndex = 32
         Me.txtSARowIndex.Visible = False
         '
@@ -1208,7 +1209,7 @@ Partial Class RetailBill
         Me.txtSAEmpId_NUM.Location = New System.Drawing.Point(947, 31)
         Me.txtSAEmpId_NUM.MaxLength = 8
         Me.txtSAEmpId_NUM.Name = "txtSAEmpId_NUM"
-        Me.txtSAEmpId_NUM.Size = New System.Drawing.Size(35, 26)
+        Me.txtSAEmpId_NUM.Size = New System.Drawing.Size(35, 22)
         Me.txtSAEmpId_NUM.TabIndex = 29
         '
         'txtSAGrossAmount_AMT
@@ -1217,7 +1218,7 @@ Partial Class RetailBill
         Me.txtSAGrossAmount_AMT.Location = New System.Drawing.Point(682, 31)
         Me.txtSAGrossAmount_AMT.MaxLength = 12
         Me.txtSAGrossAmount_AMT.Name = "txtSAGrossAmount_AMT"
-        Me.txtSAGrossAmount_AMT.Size = New System.Drawing.Size(92, 26)
+        Me.txtSAGrossAmount_AMT.Size = New System.Drawing.Size(92, 22)
         Me.txtSAGrossAmount_AMT.TabIndex = 23
         '
         'gridSASRTotal
@@ -1252,7 +1253,7 @@ Partial Class RetailBill
         Me.txtSAStoneAmount_AMT.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtSAStoneAmount_AMT.Location = New System.Drawing.Point(606, 31)
         Me.txtSAStoneAmount_AMT.Name = "txtSAStoneAmount_AMT"
-        Me.txtSAStoneAmount_AMT.Size = New System.Drawing.Size(75, 26)
+        Me.txtSAStoneAmount_AMT.Size = New System.Drawing.Size(75, 22)
         Me.txtSAStoneAmount_AMT.TabIndex = 21
         '
         'Label62
@@ -1334,7 +1335,7 @@ Partial Class RetailBill
         Me.txtPUMeltWt_WET.Location = New System.Drawing.Point(435, 59)
         Me.txtPUMeltWt_WET.MaxLength = 10
         Me.txtPUMeltWt_WET.Name = "txtPUMeltWt_WET"
-        Me.txtPUMeltWt_WET.Size = New System.Drawing.Size(53, 26)
+        Me.txtPUMeltWt_WET.Size = New System.Drawing.Size(53, 22)
         Me.txtPUMeltWt_WET.TabIndex = 34
         Me.txtPUMeltWt_WET.Visible = False
         '
@@ -1343,7 +1344,7 @@ Partial Class RetailBill
         Me.txtPUPurity_PER.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtPUPurity_PER.Location = New System.Drawing.Point(236, 31)
         Me.txtPUPurity_PER.Name = "txtPUPurity_PER"
-        Me.txtPUPurity_PER.Size = New System.Drawing.Size(75, 26)
+        Me.txtPUPurity_PER.Size = New System.Drawing.Size(75, 22)
         Me.txtPUPurity_PER.TabIndex = 5
         '
         'txtPuWastage_PER
@@ -1351,7 +1352,7 @@ Partial Class RetailBill
         Me.txtPuWastage_PER.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtPuWastage_PER.Location = New System.Drawing.Point(499, 31)
         Me.txtPuWastage_PER.Name = "txtPuWastage_PER"
-        Me.txtPuWastage_PER.Size = New System.Drawing.Size(48, 26)
+        Me.txtPuWastage_PER.Size = New System.Drawing.Size(48, 22)
         Me.txtPuWastage_PER.TabIndex = 13
         '
         'txtPUEstNo_NUM
@@ -1359,14 +1360,14 @@ Partial Class RetailBill
         Me.txtPUEstNo_NUM.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtPUEstNo_NUM.Location = New System.Drawing.Point(8, 31)
         Me.txtPUEstNo_NUM.Name = "txtPUEstNo_NUM"
-        Me.txtPUEstNo_NUM.Size = New System.Drawing.Size(49, 26)
+        Me.txtPUEstNo_NUM.Size = New System.Drawing.Size(49, 22)
         Me.txtPUEstNo_NUM.TabIndex = 1
         '
         'txtPURowIndex
         '
         Me.txtPURowIndex.Location = New System.Drawing.Point(754, 80)
         Me.txtPURowIndex.Name = "txtPURowIndex"
-        Me.txtPURowIndex.Size = New System.Drawing.Size(8, 24)
+        Me.txtPURowIndex.Size = New System.Drawing.Size(8, 21)
         Me.txtPURowIndex.TabIndex = 26
         Me.txtPURowIndex.Visible = False
         '
@@ -1375,7 +1376,7 @@ Partial Class RetailBill
         Me.txtPUCategory.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtPUCategory.Location = New System.Drawing.Point(58, 31)
         Me.txtPUCategory.Name = "txtPUCategory"
-        Me.txtPUCategory.Size = New System.Drawing.Size(177, 26)
+        Me.txtPUCategory.Size = New System.Drawing.Size(177, 22)
         Me.txtPUCategory.TabIndex = 3
         '
         'txtPUEmpId_NUM
@@ -1384,7 +1385,7 @@ Partial Class RetailBill
         Me.txtPUEmpId_NUM.Location = New System.Drawing.Point(947, 31)
         Me.txtPUEmpId_NUM.MaxLength = 8
         Me.txtPUEmpId_NUM.Name = "txtPUEmpId_NUM"
-        Me.txtPUEmpId_NUM.Size = New System.Drawing.Size(35, 26)
+        Me.txtPUEmpId_NUM.Size = New System.Drawing.Size(35, 22)
         Me.txtPUEmpId_NUM.TabIndex = 25
         '
         'gridPur
@@ -1507,18 +1508,18 @@ Partial Class RetailBill
         Me.cmenuReceiptGrid.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.cmenuReceiptGrid.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripWeightAdvance, Me.tagReservation})
         Me.cmenuReceiptGrid.Name = "cmenuReceiptGrid"
-        Me.cmenuReceiptGrid.Size = New System.Drawing.Size(187, 52)
+        Me.cmenuReceiptGrid.Size = New System.Drawing.Size(162, 48)
         '
         'tStripWeightAdvance
         '
         Me.tStripWeightAdvance.Name = "tStripWeightAdvance"
-        Me.tStripWeightAdvance.Size = New System.Drawing.Size(186, 24)
+        Me.tStripWeightAdvance.Size = New System.Drawing.Size(161, 22)
         Me.tStripWeightAdvance.Text = "Weight Advance"
         '
         'tagReservation
         '
         Me.tagReservation.Name = "tagReservation"
-        Me.tagReservation.Size = New System.Drawing.Size(186, 24)
+        Me.tagReservation.Size = New System.Drawing.Size(161, 22)
         Me.tagReservation.Text = "Tag Reservation"
         '
         'txtReceiptTotAmt_AMT
@@ -1529,7 +1530,7 @@ Partial Class RetailBill
         Me.txtReceiptTotAmt_AMT.MaxLength = 10
         Me.txtReceiptTotAmt_AMT.Name = "txtReceiptTotAmt_AMT"
         Me.txtReceiptTotAmt_AMT.ReadOnly = True
-        Me.txtReceiptTotAmt_AMT.Size = New System.Drawing.Size(96, 26)
+        Me.txtReceiptTotAmt_AMT.Size = New System.Drawing.Size(96, 22)
         Me.txtReceiptTotAmt_AMT.TabIndex = 15
         Me.txtReceiptTotAmt_AMT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -1551,7 +1552,7 @@ Partial Class RetailBill
         Me.txtReceiptGST_AMT.MaxLength = 10
         Me.txtReceiptGST_AMT.Name = "txtReceiptGST_AMT"
         Me.txtReceiptGST_AMT.ReadOnly = True
-        Me.txtReceiptGST_AMT.Size = New System.Drawing.Size(70, 26)
+        Me.txtReceiptGST_AMT.Size = New System.Drawing.Size(70, 22)
         Me.txtReceiptGST_AMT.TabIndex = 13
         Me.txtReceiptGST_AMT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -1571,7 +1572,7 @@ Partial Class RetailBill
         Me.txtReceiptType.Location = New System.Drawing.Point(349, 128)
         Me.txtReceiptType.MaxLength = 10
         Me.txtReceiptType.Name = "txtReceiptType"
-        Me.txtReceiptType.Size = New System.Drawing.Size(86, 26)
+        Me.txtReceiptType.Size = New System.Drawing.Size(86, 22)
         Me.txtReceiptType.TabIndex = 24
         Me.txtReceiptType.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.txtReceiptType.Visible = False
@@ -1582,7 +1583,7 @@ Partial Class RetailBill
         Me.txtReceiptAccount.Location = New System.Drawing.Point(237, 46)
         Me.txtReceiptAccount.MaxLength = 50
         Me.txtReceiptAccount.Name = "txtReceiptAccount"
-        Me.txtReceiptAccount.Size = New System.Drawing.Size(125, 26)
+        Me.txtReceiptAccount.Size = New System.Drawing.Size(125, 22)
         Me.txtReceiptAccount.TabIndex = 21
         '
         'lblEsthelp
@@ -1592,7 +1593,7 @@ Partial Class RetailBill
         Me.lblEsthelp.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(64, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.lblEsthelp.Location = New System.Drawing.Point(8, 13)
         Me.lblEsthelp.Name = "lblEsthelp"
-        Me.lblEsthelp.Size = New System.Drawing.Size(205, 18)
+        Me.lblEsthelp.Size = New System.Drawing.Size(173, 14)
         Me.lblEsthelp.TabIndex = 22
         Me.lblEsthelp.Text = "Alt + Insert - Call Estimate"
         '
@@ -1612,7 +1613,7 @@ Partial Class RetailBill
         Me.txtReceiptEmpId_NUM.Location = New System.Drawing.Point(940, 45)
         Me.txtReceiptEmpId_NUM.MaxLength = 50
         Me.txtReceiptEmpId_NUM.Name = "txtReceiptEmpId_NUM"
-        Me.txtReceiptEmpId_NUM.Size = New System.Drawing.Size(41, 26)
+        Me.txtReceiptEmpId_NUM.Size = New System.Drawing.Size(41, 22)
         Me.txtReceiptEmpId_NUM.TabIndex = 19
         '
         'txtReceiptRemark
@@ -1621,7 +1622,7 @@ Partial Class RetailBill
         Me.txtReceiptRemark.Location = New System.Drawing.Point(780, 45)
         Me.txtReceiptRemark.MaxLength = 50
         Me.txtReceiptRemark.Name = "txtReceiptRemark"
-        Me.txtReceiptRemark.Size = New System.Drawing.Size(159, 26)
+        Me.txtReceiptRemark.Size = New System.Drawing.Size(159, 22)
         Me.txtReceiptRemark.TabIndex = 17
         '
         'Label58
@@ -1638,7 +1639,7 @@ Partial Class RetailBill
         '
         Me.txtReceiptEntRefNo.Location = New System.Drawing.Point(503, 149)
         Me.txtReceiptEntRefNo.Name = "txtReceiptEntRefNo"
-        Me.txtReceiptEntRefNo.Size = New System.Drawing.Size(31, 24)
+        Me.txtReceiptEntRefNo.Size = New System.Drawing.Size(31, 21)
         Me.txtReceiptEntRefNo.TabIndex = 14
         Me.txtReceiptEntRefNo.Visible = False
         '
@@ -1646,7 +1647,7 @@ Partial Class RetailBill
         '
         Me.txtReceiptEntAmount.Location = New System.Drawing.Point(503, 176)
         Me.txtReceiptEntAmount.Name = "txtReceiptEntAmount"
-        Me.txtReceiptEntAmount.Size = New System.Drawing.Size(31, 24)
+        Me.txtReceiptEntAmount.Size = New System.Drawing.Size(31, 21)
         Me.txtReceiptEntAmount.TabIndex = 15
         Me.txtReceiptEntAmount.Visible = False
         '
@@ -1679,7 +1680,7 @@ Partial Class RetailBill
         Me.cmbReceiptTranType.FormattingEnabled = True
         Me.cmbReceiptTranType.Location = New System.Drawing.Point(133, 46)
         Me.cmbReceiptTranType.Name = "cmbReceiptTranType"
-        Me.cmbReceiptTranType.Size = New System.Drawing.Size(103, 26)
+        Me.cmbReceiptTranType.Size = New System.Drawing.Size(103, 22)
         Me.cmbReceiptTranType.TabIndex = 3
         '
         'cmbReceiptReceiptType
@@ -1689,7 +1690,7 @@ Partial Class RetailBill
         Me.cmbReceiptReceiptType.FormattingEnabled = True
         Me.cmbReceiptReceiptType.Location = New System.Drawing.Point(10, 46)
         Me.cmbReceiptReceiptType.Name = "cmbReceiptReceiptType"
-        Me.cmbReceiptReceiptType.Size = New System.Drawing.Size(121, 26)
+        Me.cmbReceiptReceiptType.Size = New System.Drawing.Size(121, 22)
         Me.cmbReceiptReceiptType.TabIndex = 1
         '
         'txtReceiptRate_AMT
@@ -1698,7 +1699,7 @@ Partial Class RetailBill
         Me.txtReceiptRate_AMT.Location = New System.Drawing.Point(521, 46)
         Me.txtReceiptRate_AMT.MaxLength = 10
         Me.txtReceiptRate_AMT.Name = "txtReceiptRate_AMT"
-        Me.txtReceiptRate_AMT.Size = New System.Drawing.Size(68, 26)
+        Me.txtReceiptRate_AMT.Size = New System.Drawing.Size(68, 22)
         Me.txtReceiptRate_AMT.TabIndex = 9
         Me.txtReceiptRate_AMT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -1708,7 +1709,7 @@ Partial Class RetailBill
         Me.txtReceiptAmount_AMT.Location = New System.Drawing.Point(431, 46)
         Me.txtReceiptAmount_AMT.MaxLength = 12
         Me.txtReceiptAmount_AMT.Name = "txtReceiptAmount_AMT"
-        Me.txtReceiptAmount_AMT.Size = New System.Drawing.Size(89, 26)
+        Me.txtReceiptAmount_AMT.Size = New System.Drawing.Size(89, 22)
         Me.txtReceiptAmount_AMT.TabIndex = 7
         Me.txtReceiptAmount_AMT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -1718,7 +1719,7 @@ Partial Class RetailBill
         Me.txtReceiptRefNo.Location = New System.Drawing.Point(363, 46)
         Me.txtReceiptRefNo.MaxLength = 10
         Me.txtReceiptRefNo.Name = "txtReceiptRefNo"
-        Me.txtReceiptRefNo.Size = New System.Drawing.Size(67, 26)
+        Me.txtReceiptRefNo.Size = New System.Drawing.Size(67, 22)
         Me.txtReceiptRefNo.TabIndex = 5
         Me.txtReceiptRefNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -1740,7 +1741,7 @@ Partial Class RetailBill
         Me.Label56.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label56.Location = New System.Drawing.Point(582, 13)
         Me.Label56.Name = "Label56"
-        Me.Label56.Size = New System.Drawing.Size(47, 36)
+        Me.Label56.Size = New System.Drawing.Size(37, 28)
         Me.Label56.TabIndex = 10
         Me.Label56.Text = "Rate" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "Fix"
         Me.Label56.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -1869,7 +1870,7 @@ Partial Class RetailBill
         Me.txtPaymentTotAmt_AMT.Location = New System.Drawing.Point(683, 44)
         Me.txtPaymentTotAmt_AMT.MaxLength = 10
         Me.txtPaymentTotAmt_AMT.Name = "txtPaymentTotAmt_AMT"
-        Me.txtPaymentTotAmt_AMT.Size = New System.Drawing.Size(99, 26)
+        Me.txtPaymentTotAmt_AMT.Size = New System.Drawing.Size(99, 22)
         Me.txtPaymentTotAmt_AMT.TabIndex = 15
         Me.txtPaymentTotAmt_AMT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -1889,7 +1890,7 @@ Partial Class RetailBill
         Me.txtPaymentGST_AMT.Location = New System.Drawing.Point(612, 44)
         Me.txtPaymentGST_AMT.MaxLength = 10
         Me.txtPaymentGST_AMT.Name = "txtPaymentGST_AMT"
-        Me.txtPaymentGST_AMT.Size = New System.Drawing.Size(70, 26)
+        Me.txtPaymentGST_AMT.Size = New System.Drawing.Size(70, 22)
         Me.txtPaymentGST_AMT.TabIndex = 13
         Me.txtPaymentGST_AMT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -1909,7 +1910,7 @@ Partial Class RetailBill
         Me.txtPayRefAccode.Location = New System.Drawing.Point(461, 10)
         Me.txtPayRefAccode.MaxLength = 50
         Me.txtPayRefAccode.Name = "txtPayRefAccode"
-        Me.txtPayRefAccode.Size = New System.Drawing.Size(39, 26)
+        Me.txtPayRefAccode.Size = New System.Drawing.Size(39, 22)
         Me.txtPayRefAccode.TabIndex = 18
         Me.txtPayRefAccode.Visible = False
         '
@@ -1919,7 +1920,7 @@ Partial Class RetailBill
         Me.txtPaymentAccount.Location = New System.Drawing.Point(253, 44)
         Me.txtPaymentAccount.MaxLength = 50
         Me.txtPaymentAccount.Name = "txtPaymentAccount"
-        Me.txtPaymentAccount.Size = New System.Drawing.Size(123, 26)
+        Me.txtPaymentAccount.Size = New System.Drawing.Size(123, 22)
         Me.txtPaymentAccount.TabIndex = 5
         '
         'Label101
@@ -1938,7 +1939,7 @@ Partial Class RetailBill
         Me.txtPaymentEmpId_NUM.Location = New System.Drawing.Point(934, 44)
         Me.txtPaymentEmpId_NUM.MaxLength = 50
         Me.txtPaymentEmpId_NUM.Name = "txtPaymentEmpId_NUM"
-        Me.txtPaymentEmpId_NUM.Size = New System.Drawing.Size(41, 26)
+        Me.txtPaymentEmpId_NUM.Size = New System.Drawing.Size(41, 22)
         Me.txtPaymentEmpId_NUM.TabIndex = 19
         '
         'Label33
@@ -1957,14 +1958,14 @@ Partial Class RetailBill
         Me.txtPaymentRemark.Location = New System.Drawing.Point(783, 44)
         Me.txtPaymentRemark.MaxLength = 50
         Me.txtPaymentRemark.Name = "txtPaymentRemark"
-        Me.txtPaymentRemark.Size = New System.Drawing.Size(150, 26)
+        Me.txtPaymentRemark.Size = New System.Drawing.Size(150, 22)
         Me.txtPaymentRemark.TabIndex = 17
         '
         'txtPaymentEntRefNo
         '
         Me.txtPaymentEntRefNo.Location = New System.Drawing.Point(483, 134)
         Me.txtPaymentEntRefNo.Name = "txtPaymentEntRefNo"
-        Me.txtPaymentEntRefNo.Size = New System.Drawing.Size(31, 24)
+        Me.txtPaymentEntRefNo.Size = New System.Drawing.Size(31, 21)
         Me.txtPaymentEntRefNo.TabIndex = 22
         Me.txtPaymentEntRefNo.Visible = False
         '
@@ -1972,7 +1973,7 @@ Partial Class RetailBill
         '
         Me.txtPaymentEntAmount.Location = New System.Drawing.Point(483, 161)
         Me.txtPaymentEntAmount.Name = "txtPaymentEntAmount"
-        Me.txtPaymentEntAmount.Size = New System.Drawing.Size(31, 24)
+        Me.txtPaymentEntAmount.Size = New System.Drawing.Size(31, 21)
         Me.txtPaymentEntAmount.TabIndex = 23
         Me.txtPaymentEntAmount.Visible = False
         '
@@ -1995,7 +1996,7 @@ Partial Class RetailBill
         Me.cmbPaymentTranType.FormattingEnabled = True
         Me.cmbPaymentTranType.Location = New System.Drawing.Point(136, 44)
         Me.cmbPaymentTranType.Name = "cmbPaymentTranType"
-        Me.cmbPaymentTranType.Size = New System.Drawing.Size(116, 26)
+        Me.cmbPaymentTranType.Size = New System.Drawing.Size(116, 22)
         Me.cmbPaymentTranType.TabIndex = 3
         '
         'cmbPaymentPaytype
@@ -2005,7 +2006,7 @@ Partial Class RetailBill
         Me.cmbPaymentPaytype.FormattingEnabled = True
         Me.cmbPaymentPaytype.Location = New System.Drawing.Point(8, 44)
         Me.cmbPaymentPaytype.Name = "cmbPaymentPaytype"
-        Me.cmbPaymentPaytype.Size = New System.Drawing.Size(126, 26)
+        Me.cmbPaymentPaytype.Size = New System.Drawing.Size(126, 22)
         Me.cmbPaymentPaytype.TabIndex = 1
         '
         'txtPaymentRate_AMT
@@ -2014,7 +2015,7 @@ Partial Class RetailBill
         Me.txtPaymentRate_AMT.Location = New System.Drawing.Point(547, 44)
         Me.txtPaymentRate_AMT.MaxLength = 10
         Me.txtPaymentRate_AMT.Name = "txtPaymentRate_AMT"
-        Me.txtPaymentRate_AMT.Size = New System.Drawing.Size(64, 26)
+        Me.txtPaymentRate_AMT.Size = New System.Drawing.Size(64, 22)
         Me.txtPaymentRate_AMT.TabIndex = 11
         Me.txtPaymentRate_AMT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -2024,7 +2025,7 @@ Partial Class RetailBill
         Me.txtPaymentAmount_Amt.Location = New System.Drawing.Point(454, 44)
         Me.txtPaymentAmount_Amt.MaxLength = 12
         Me.txtPaymentAmount_Amt.Name = "txtPaymentAmount_Amt"
-        Me.txtPaymentAmount_Amt.Size = New System.Drawing.Size(92, 26)
+        Me.txtPaymentAmount_Amt.Size = New System.Drawing.Size(92, 22)
         Me.txtPaymentAmount_Amt.TabIndex = 9
         Me.txtPaymentAmount_Amt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -2034,7 +2035,7 @@ Partial Class RetailBill
         Me.txtPaymentRefNo.Location = New System.Drawing.Point(377, 44)
         Me.txtPaymentRefNo.MaxLength = 10
         Me.txtPaymentRefNo.Name = "txtPaymentRefNo"
-        Me.txtPaymentRefNo.Size = New System.Drawing.Size(76, 26)
+        Me.txtPaymentRefNo.Size = New System.Drawing.Size(76, 22)
         Me.txtPaymentRefNo.TabIndex = 7
         Me.txtPaymentRefNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -2116,7 +2117,7 @@ Partial Class RetailBill
         Me.txtPaymentWeight_WET.Location = New System.Drawing.Point(454, 45)
         Me.txtPaymentWeight_WET.MaxLength = 12
         Me.txtPaymentWeight_WET.Name = "txtPaymentWeight_WET"
-        Me.txtPaymentWeight_WET.Size = New System.Drawing.Size(92, 26)
+        Me.txtPaymentWeight_WET.Size = New System.Drawing.Size(92, 22)
         Me.txtPaymentWeight_WET.TabIndex = 7
         Me.txtPaymentWeight_WET.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -2168,7 +2169,7 @@ Partial Class RetailBill
         '
         Me.txtMGiftRowIndex.Location = New System.Drawing.Point(588, 120)
         Me.txtMGiftRowIndex.Name = "txtMGiftRowIndex"
-        Me.txtMGiftRowIndex.Size = New System.Drawing.Size(10, 24)
+        Me.txtMGiftRowIndex.Size = New System.Drawing.Size(10, 21)
         Me.txtMGiftRowIndex.TabIndex = 12
         Me.txtMGiftRowIndex.Visible = False
         '
@@ -2189,7 +2190,7 @@ Partial Class RetailBill
         Me.txtMGiftRemark.Location = New System.Drawing.Point(307, 43)
         Me.txtMGiftRemark.MaxLength = 20
         Me.txtMGiftRemark.Name = "txtMGiftRemark"
-        Me.txtMGiftRemark.Size = New System.Drawing.Size(365, 26)
+        Me.txtMGiftRemark.Size = New System.Drawing.Size(365, 22)
         Me.txtMGiftRemark.TabIndex = 3
         Me.txtMGiftRemark.Text = "12345678901234567890"
         '
@@ -2262,7 +2263,7 @@ Partial Class RetailBill
         Me.txtMGiftAmount_AMT.Location = New System.Drawing.Point(840, 43)
         Me.txtMGiftAmount_AMT.MaxLength = 12
         Me.txtMGiftAmount_AMT.Name = "txtMGiftAmount_AMT"
-        Me.txtMGiftAmount_AMT.Size = New System.Drawing.Size(98, 26)
+        Me.txtMGiftAmount_AMT.Size = New System.Drawing.Size(98, 22)
         Me.txtMGiftAmount_AMT.TabIndex = 9
         '
         'txtMGiftUnit_NUM
@@ -2271,7 +2272,7 @@ Partial Class RetailBill
         Me.txtMGiftUnit_NUM.Location = New System.Drawing.Point(775, 43)
         Me.txtMGiftUnit_NUM.MaxLength = 8
         Me.txtMGiftUnit_NUM.Name = "txtMGiftUnit_NUM"
-        Me.txtMGiftUnit_NUM.Size = New System.Drawing.Size(64, 26)
+        Me.txtMGiftUnit_NUM.Size = New System.Drawing.Size(64, 22)
         Me.txtMGiftUnit_NUM.TabIndex = 7
         '
         'txtMGiftDenomination_AMT
@@ -2280,7 +2281,7 @@ Partial Class RetailBill
         Me.txtMGiftDenomination_AMT.Location = New System.Drawing.Point(673, 43)
         Me.txtMGiftDenomination_AMT.MaxLength = 12
         Me.txtMGiftDenomination_AMT.Name = "txtMGiftDenomination_AMT"
-        Me.txtMGiftDenomination_AMT.Size = New System.Drawing.Size(101, 26)
+        Me.txtMGiftDenomination_AMT.Size = New System.Drawing.Size(101, 22)
         Me.txtMGiftDenomination_AMT.TabIndex = 5
         '
         'cmbMGiftVoucherType
@@ -2290,14 +2291,14 @@ Partial Class RetailBill
         Me.cmbMGiftVoucherType.FormattingEnabled = True
         Me.cmbMGiftVoucherType.Location = New System.Drawing.Point(77, 43)
         Me.cmbMGiftVoucherType.Name = "cmbMGiftVoucherType"
-        Me.cmbMGiftVoucherType.Size = New System.Drawing.Size(229, 26)
+        Me.cmbMGiftVoucherType.Size = New System.Drawing.Size(229, 22)
         Me.cmbMGiftVoucherType.TabIndex = 1
         '
         'txtSaDiscountAfterTax
         '
         Me.txtSaDiscountAfterTax.Location = New System.Drawing.Point(246, 63)
         Me.txtSaDiscountAfterTax.Name = "txtSaDiscountAfterTax"
-        Me.txtSaDiscountAfterTax.Size = New System.Drawing.Size(88, 24)
+        Me.txtSaDiscountAfterTax.Size = New System.Drawing.Size(88, 21)
         Me.txtSaDiscountAfterTax.TabIndex = 22
         Me.txtSaDiscountAfterTax.Visible = False
         '
@@ -2306,7 +2307,7 @@ Partial Class RetailBill
         Me.txtSAVatPer_PER.Font = New System.Drawing.Font("Verdana", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtSAVatPer_PER.Location = New System.Drawing.Point(196, 137)
         Me.txtSAVatPer_PER.Name = "txtSAVatPer_PER"
-        Me.txtSAVatPer_PER.Size = New System.Drawing.Size(31, 21)
+        Me.txtSAVatPer_PER.Size = New System.Drawing.Size(31, 18)
         Me.txtSAVatPer_PER.TabIndex = 0
         '
         'grpRecReservedItem
@@ -2354,7 +2355,7 @@ Partial Class RetailBill
         Me.txtRecEmpId_NUM.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRecEmpId_NUM.Location = New System.Drawing.Point(531, 38)
         Me.txtRecEmpId_NUM.Name = "txtRecEmpId_NUM"
-        Me.txtRecEmpId_NUM.Size = New System.Drawing.Size(32, 26)
+        Me.txtRecEmpId_NUM.Size = New System.Drawing.Size(32, 22)
         Me.txtRecEmpId_NUM.TabIndex = 16
         '
         'Label140
@@ -2372,7 +2373,7 @@ Partial Class RetailBill
         Me.txtReceiptEst_Num.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtReceiptEst_Num.Location = New System.Drawing.Point(6, 38)
         Me.txtReceiptEst_Num.Name = "txtReceiptEst_Num"
-        Me.txtReceiptEst_Num.Size = New System.Drawing.Size(42, 26)
+        Me.txtReceiptEst_Num.Size = New System.Drawing.Size(42, 22)
         Me.txtReceiptEst_Num.TabIndex = 1
         '
         'Label108
@@ -2390,7 +2391,7 @@ Partial Class RetailBill
         Me.txtReceiptValue.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtReceiptValue.Location = New System.Drawing.Point(457, 38)
         Me.txtReceiptValue.Name = "txtReceiptValue"
-        Me.txtReceiptValue.Size = New System.Drawing.Size(73, 26)
+        Me.txtReceiptValue.Size = New System.Drawing.Size(73, 22)
         Me.txtReceiptValue.TabIndex = 13
         '
         'txtReceiptNetWT
@@ -2398,7 +2399,7 @@ Partial Class RetailBill
         Me.txtReceiptNetWT.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtReceiptNetWT.Location = New System.Drawing.Point(393, 38)
         Me.txtReceiptNetWT.Name = "txtReceiptNetWT"
-        Me.txtReceiptNetWT.Size = New System.Drawing.Size(63, 26)
+        Me.txtReceiptNetWT.Size = New System.Drawing.Size(63, 22)
         Me.txtReceiptNetWT.TabIndex = 11
         '
         'txtReceiptPcs
@@ -2406,7 +2407,7 @@ Partial Class RetailBill
         Me.txtReceiptPcs.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtReceiptPcs.Location = New System.Drawing.Point(298, 38)
         Me.txtReceiptPcs.Name = "txtReceiptPcs"
-        Me.txtReceiptPcs.Size = New System.Drawing.Size(32, 26)
+        Me.txtReceiptPcs.Size = New System.Drawing.Size(32, 22)
         Me.txtReceiptPcs.TabIndex = 7
         '
         'txtReceiptGrsWt
@@ -2414,7 +2415,7 @@ Partial Class RetailBill
         Me.txtReceiptGrsWt.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtReceiptGrsWt.Location = New System.Drawing.Point(331, 38)
         Me.txtReceiptGrsWt.Name = "txtReceiptGrsWt"
-        Me.txtReceiptGrsWt.Size = New System.Drawing.Size(61, 26)
+        Me.txtReceiptGrsWt.Size = New System.Drawing.Size(61, 22)
         Me.txtReceiptGrsWt.TabIndex = 9
         '
         'Label67
@@ -2432,7 +2433,7 @@ Partial Class RetailBill
         Me.txtReceiptItemName.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtReceiptItemName.Location = New System.Drawing.Point(103, 38)
         Me.txtReceiptItemName.Name = "txtReceiptItemName"
-        Me.txtReceiptItemName.Size = New System.Drawing.Size(112, 26)
+        Me.txtReceiptItemName.Size = New System.Drawing.Size(112, 22)
         Me.txtReceiptItemName.TabIndex = 3
         '
         'gridReceiptReserved
@@ -2452,7 +2453,7 @@ Partial Class RetailBill
         Me.txtReceiptTagNo.Location = New System.Drawing.Point(216, 38)
         Me.txtReceiptTagNo.MaxLength = 10
         Me.txtReceiptTagNo.Name = "txtReceiptTagNo"
-        Me.txtReceiptTagNo.Size = New System.Drawing.Size(81, 26)
+        Me.txtReceiptTagNo.Size = New System.Drawing.Size(81, 22)
         Me.txtReceiptTagNo.TabIndex = 5
         '
         'txtReceiptItemId_MAN
@@ -2461,7 +2462,7 @@ Partial Class RetailBill
         Me.txtReceiptItemId_MAN.Location = New System.Drawing.Point(49, 38)
         Me.txtReceiptItemId_MAN.MaxLength = 15
         Me.txtReceiptItemId_MAN.Name = "txtReceiptItemId_MAN"
-        Me.txtReceiptItemId_MAN.Size = New System.Drawing.Size(53, 26)
+        Me.txtReceiptItemId_MAN.Size = New System.Drawing.Size(53, 22)
         Me.txtReceiptItemId_MAN.TabIndex = 2
         '
         'Label73
@@ -2565,7 +2566,7 @@ Partial Class RetailBill
         Me.Label176.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label176.Location = New System.Drawing.Point(152, 58)
         Me.Label176.Name = "Label176"
-        Me.Label176.Size = New System.Drawing.Size(83, 18)
+        Me.Label176.Size = New System.Drawing.Size(67, 14)
         Me.Label176.TabIndex = 0
         Me.Label176.Text = "Category"
         Me.Label176.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -2576,7 +2577,7 @@ Partial Class RetailBill
         Me.txtReceiptBullionRate_RATE.Location = New System.Drawing.Point(394, 154)
         Me.txtReceiptBullionRate_RATE.MaxLength = 10
         Me.txtReceiptBullionRate_RATE.Name = "txtReceiptBullionRate_RATE"
-        Me.txtReceiptBullionRate_RATE.Size = New System.Drawing.Size(99, 26)
+        Me.txtReceiptBullionRate_RATE.Size = New System.Drawing.Size(99, 22)
         Me.txtReceiptBullionRate_RATE.TabIndex = 11
         Me.txtReceiptBullionRate_RATE.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -2586,7 +2587,7 @@ Partial Class RetailBill
         Me.txtReceiptWastage_WET.Location = New System.Drawing.Point(394, 119)
         Me.txtReceiptWastage_WET.MaxLength = 9
         Me.txtReceiptWastage_WET.Name = "txtReceiptWastage_WET"
-        Me.txtReceiptWastage_WET.Size = New System.Drawing.Size(99, 26)
+        Me.txtReceiptWastage_WET.Size = New System.Drawing.Size(99, 22)
         Me.txtReceiptWastage_WET.TabIndex = 7
         Me.txtReceiptWastage_WET.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -2596,7 +2597,7 @@ Partial Class RetailBill
         Me.txtReceiptNetWt_WET.Location = New System.Drawing.Point(230, 154)
         Me.txtReceiptNetWt_WET.MaxLength = 10
         Me.txtReceiptNetWt_WET.Name = "txtReceiptNetWt_WET"
-        Me.txtReceiptNetWt_WET.Size = New System.Drawing.Size(90, 26)
+        Me.txtReceiptNetWt_WET.Size = New System.Drawing.Size(90, 22)
         Me.txtReceiptNetWt_WET.TabIndex = 9
         Me.txtReceiptNetWt_WET.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -2606,7 +2607,7 @@ Partial Class RetailBill
         Me.txtReceiptValue_AMT.Location = New System.Drawing.Point(230, 184)
         Me.txtReceiptValue_AMT.MaxLength = 12
         Me.txtReceiptValue_AMT.Name = "txtReceiptValue_AMT"
-        Me.txtReceiptValue_AMT.Size = New System.Drawing.Size(90, 26)
+        Me.txtReceiptValue_AMT.Size = New System.Drawing.Size(90, 22)
         Me.txtReceiptValue_AMT.TabIndex = 13
         Me.txtReceiptValue_AMT.Text = "1000000.00"
         Me.txtReceiptValue_AMT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -2617,7 +2618,7 @@ Partial Class RetailBill
         Me.Label172.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label172.Location = New System.Drawing.Point(152, 158)
         Me.Label172.Name = "Label172"
-        Me.Label172.Size = New System.Drawing.Size(65, 18)
+        Me.Label172.Size = New System.Drawing.Size(53, 14)
         Me.Label172.TabIndex = 8
         Me.Label172.Text = "Net Wt"
         Me.Label172.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -2628,7 +2629,7 @@ Partial Class RetailBill
         Me.Label171.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label171.Location = New System.Drawing.Point(331, 123)
         Me.Label171.Name = "Label171"
-        Me.Label171.Size = New System.Drawing.Size(80, 18)
+        Me.Label171.Size = New System.Drawing.Size(65, 14)
         Me.Label171.TabIndex = 6
         Me.Label171.Text = "Wastage"
         Me.Label171.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -2639,7 +2640,7 @@ Partial Class RetailBill
         Me.Label177.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label177.Location = New System.Drawing.Point(152, 89)
         Me.Label177.Name = "Label177"
-        Me.Label177.Size = New System.Drawing.Size(57, 18)
+        Me.Label177.Size = New System.Drawing.Size(47, 14)
         Me.Label177.TabIndex = 2
         Me.Label177.Text = "Purity"
         Me.Label177.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -2650,7 +2651,7 @@ Partial Class RetailBill
         Me.Label170.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label170.Location = New System.Drawing.Point(152, 124)
         Me.Label170.Name = "Label170"
-        Me.Label170.Size = New System.Drawing.Size(64, 18)
+        Me.Label170.Size = New System.Drawing.Size(53, 14)
         Me.Label170.TabIndex = 4
         Me.Label170.Text = "Grs Wt"
         Me.Label170.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -2661,7 +2662,7 @@ Partial Class RetailBill
         Me.Label173.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label173.Location = New System.Drawing.Point(331, 158)
         Me.Label173.Name = "Label173"
-        Me.Label173.Size = New System.Drawing.Size(47, 18)
+        Me.Label173.Size = New System.Drawing.Size(37, 14)
         Me.Label173.TabIndex = 10
         Me.Label173.Text = "Rate"
         Me.Label173.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -2672,7 +2673,7 @@ Partial Class RetailBill
         Me.Label174.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label174.Location = New System.Drawing.Point(152, 188)
         Me.Label174.Name = "Label174"
-        Me.Label174.Size = New System.Drawing.Size(53, 18)
+        Me.Label174.Size = New System.Drawing.Size(44, 14)
         Me.Label174.TabIndex = 12
         Me.Label174.Text = "Value"
         Me.Label174.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -2683,7 +2684,7 @@ Partial Class RetailBill
         Me.txtReceiptGrsWt_WET.Location = New System.Drawing.Point(230, 120)
         Me.txtReceiptGrsWt_WET.MaxLength = 10
         Me.txtReceiptGrsWt_WET.Name = "txtReceiptGrsWt_WET"
-        Me.txtReceiptGrsWt_WET.Size = New System.Drawing.Size(90, 26)
+        Me.txtReceiptGrsWt_WET.Size = New System.Drawing.Size(90, 22)
         Me.txtReceiptGrsWt_WET.TabIndex = 5
         Me.txtReceiptGrsWt_WET.Text = "100.000"
         Me.txtReceiptGrsWt_WET.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -2694,7 +2695,7 @@ Partial Class RetailBill
         Me.txtReceiptPurity_AMT.Location = New System.Drawing.Point(230, 85)
         Me.txtReceiptPurity_AMT.MaxLength = 5
         Me.txtReceiptPurity_AMT.Name = "txtReceiptPurity_AMT"
-        Me.txtReceiptPurity_AMT.Size = New System.Drawing.Size(90, 26)
+        Me.txtReceiptPurity_AMT.Size = New System.Drawing.Size(90, 22)
         Me.txtReceiptPurity_AMT.TabIndex = 3
         Me.txtReceiptPurity_AMT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -2705,7 +2706,7 @@ Partial Class RetailBill
         Me.cmbReceiptCategory.FormattingEnabled = True
         Me.cmbReceiptCategory.Location = New System.Drawing.Point(230, 54)
         Me.cmbReceiptCategory.Name = "cmbReceiptCategory"
-        Me.cmbReceiptCategory.Size = New System.Drawing.Size(263, 26)
+        Me.cmbReceiptCategory.Size = New System.Drawing.Size(263, 22)
         Me.cmbReceiptCategory.TabIndex = 0
         '
         'tabOtherOptions
@@ -2781,7 +2782,7 @@ Partial Class RetailBill
         Me.lblTCS.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTCS.Location = New System.Drawing.Point(3, 45)
         Me.lblTCS.Name = "lblTCS"
-        Me.lblTCS.Size = New System.Drawing.Size(40, 18)
+        Me.lblTCS.Size = New System.Drawing.Size(33, 14)
         Me.lblTCS.TabIndex = 35
         Me.lblTCS.Text = "TCS"
         Me.lblTCS.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -2794,7 +2795,7 @@ Partial Class RetailBill
         Me.txtTCS_Amt.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
         Me.txtTCS_Amt.MaxLength = 12
         Me.txtTCS_Amt.Name = "txtTCS_Amt"
-        Me.txtTCS_Amt.Size = New System.Drawing.Size(111, 26)
+        Me.txtTCS_Amt.Size = New System.Drawing.Size(111, 22)
         Me.txtTCS_Amt.TabIndex = 34
         Me.txtTCS_Amt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.txtTCS_Amt.Visible = False
@@ -2928,7 +2929,7 @@ Partial Class RetailBill
         Me.Label99.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label99.Location = New System.Drawing.Point(313, 62)
         Me.Label99.Name = "Label99"
-        Me.Label99.Size = New System.Drawing.Size(164, 13)
+        Me.Label99.Size = New System.Drawing.Size(129, 12)
         Me.Label99.TabIndex = 51
         Me.Label99.Text = "[Alt+A] Shiping Address"
         '
@@ -2938,7 +2939,7 @@ Partial Class RetailBill
         Me.txtDetOffWt.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.txtDetOffWt.Location = New System.Drawing.Point(370, 89)
         Me.txtDetOffWt.Name = "txtDetOffWt"
-        Me.txtDetOffWt.Size = New System.Drawing.Size(45, 21)
+        Me.txtDetOffWt.Size = New System.Drawing.Size(45, 18)
         Me.txtDetOffWt.TabIndex = 43
         '
         'lblKFC
@@ -2948,7 +2949,7 @@ Partial Class RetailBill
         Me.lblKFC.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.lblKFC.Location = New System.Drawing.Point(280, 91)
         Me.lblKFC.Name = "lblKFC"
-        Me.lblKFC.Size = New System.Drawing.Size(112, 17)
+        Me.lblKFC.Size = New System.Drawing.Size(89, 13)
         Me.lblKFC.TabIndex = 50
         Me.lblKFC.Text = "[Ctl+F8] KFC"
         '
@@ -2969,7 +2970,7 @@ Partial Class RetailBill
         Me.Label137.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label137.Location = New System.Drawing.Point(175, 90)
         Me.Label137.Name = "Label137"
-        Me.Label137.Size = New System.Drawing.Size(136, 17)
+        Me.Label137.Size = New System.Drawing.Size(109, 13)
         Me.Label137.TabIndex = 46
         Me.Label137.Text = "[Ctl+F10] Comp"
         '
@@ -2980,7 +2981,7 @@ Partial Class RetailBill
         Me.Label129.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label129.Location = New System.Drawing.Point(364, 25)
         Me.Label129.Name = "Label129"
-        Me.Label129.Size = New System.Drawing.Size(13, 16)
+        Me.Label129.Size = New System.Drawing.Size(10, 12)
         Me.Label129.TabIndex = 44
         Me.Label129.Text = "]"
         '
@@ -2991,7 +2992,7 @@ Partial Class RetailBill
         Me.Label130.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label130.Location = New System.Drawing.Point(314, 25)
         Me.Label130.Name = "Label130"
-        Me.Label130.Size = New System.Drawing.Size(13, 16)
+        Me.Label130.Size = New System.Drawing.Size(10, 12)
         Me.Label130.TabIndex = 43
         Me.Label130.Text = "["
         '
@@ -3002,7 +3003,7 @@ Partial Class RetailBill
         Me.Label131.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label131.Location = New System.Drawing.Point(323, 26)
         Me.Label131.Name = "Label131"
-        Me.Label131.Size = New System.Drawing.Size(52, 16)
+        Me.Label131.Size = New System.Drawing.Size(41, 12)
         Me.Label131.TabIndex = 42
         Me.Label131.Text = "Ctl+W"
         '
@@ -3013,7 +3014,7 @@ Partial Class RetailBill
         Me.Label132.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label132.Location = New System.Drawing.Point(375, 26)
         Me.Label132.Name = "Label132"
-        Me.Label132.Size = New System.Drawing.Size(81, 16)
+        Me.Label132.Size = New System.Drawing.Size(65, 12)
         Me.Label132.TabIndex = 41
         Me.Label132.Text = "Wt-Adjust"
         '
@@ -3024,7 +3025,7 @@ Partial Class RetailBill
         Me.Label128.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label128.Location = New System.Drawing.Point(364, 13)
         Me.Label128.Name = "Label128"
-        Me.Label128.Size = New System.Drawing.Size(13, 16)
+        Me.Label128.Size = New System.Drawing.Size(10, 12)
         Me.Label128.TabIndex = 40
         Me.Label128.Text = "]"
         '
@@ -3035,7 +3036,7 @@ Partial Class RetailBill
         Me.Label123.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label123.Location = New System.Drawing.Point(313, 13)
         Me.Label123.Name = "Label123"
-        Me.Label123.Size = New System.Drawing.Size(13, 16)
+        Me.Label123.Size = New System.Drawing.Size(10, 12)
         Me.Label123.TabIndex = 38
         Me.Label123.Text = "["
         '
@@ -3046,7 +3047,7 @@ Partial Class RetailBill
         Me.Label120.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label120.Location = New System.Drawing.Point(323, 14)
         Me.Label120.Name = "Label120"
-        Me.Label120.Size = New System.Drawing.Size(48, 16)
+        Me.Label120.Size = New System.Drawing.Size(38, 12)
         Me.Label120.TabIndex = 37
         Me.Label120.Text = "Ctl+D"
         '
@@ -3057,7 +3058,7 @@ Partial Class RetailBill
         Me.Label122.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label122.Location = New System.Drawing.Point(375, 14)
         Me.Label122.Name = "Label122"
-        Me.Label122.Size = New System.Drawing.Size(66, 16)
+        Me.Label122.Size = New System.Drawing.Size(52, 12)
         Me.Label122.TabIndex = 36
         Me.Label122.Text = "Dup. Bill"
         '
@@ -3068,7 +3069,7 @@ Partial Class RetailBill
         Me.Label109.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label109.Location = New System.Drawing.Point(314, 37)
         Me.Label109.Name = "Label109"
-        Me.Label109.Size = New System.Drawing.Size(166, 16)
+        Me.Label109.Size = New System.Drawing.Size(133, 12)
         Me.Label109.TabIndex = 35
         Me.Label109.Text = "[Ctl+Alt+R] Rate View"
         '
@@ -3079,7 +3080,7 @@ Partial Class RetailBill
         Me.Label119.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label119.Location = New System.Drawing.Point(313, 50)
         Me.Label119.Name = "Label119"
-        Me.Label119.Size = New System.Drawing.Size(167, 14)
+        Me.Label119.Size = New System.Drawing.Size(128, 12)
         Me.Label119.TabIndex = 34
         Me.Label119.Text = "[Alt+H] HallmarkDetails"
         '
@@ -3089,7 +3090,7 @@ Partial Class RetailBill
         Me.chkAppSales.CheckAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.chkAppSales.Location = New System.Drawing.Point(335, 74)
         Me.chkAppSales.Name = "chkAppSales"
-        Me.chkAppSales.Size = New System.Drawing.Size(100, 21)
+        Me.chkAppSales.Size = New System.Drawing.Size(83, 17)
         Me.chkAppSales.TabIndex = 33
         Me.chkAppSales.Text = "App Sales"
         Me.chkAppSales.UseVisualStyleBackColor = True
@@ -3102,7 +3103,7 @@ Partial Class RetailBill
         Me.Label198.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label198.Location = New System.Drawing.Point(0, 90)
         Me.Label198.Name = "Label198"
-        Me.Label198.Size = New System.Drawing.Size(100, 17)
+        Me.Label198.Size = New System.Drawing.Size(79, 13)
         Me.Label198.TabIndex = 13
         Me.Label198.Text = "[Ctl+J] JND"
         '
@@ -3113,7 +3114,7 @@ Partial Class RetailBill
         Me.Label166.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label166.Location = New System.Drawing.Point(182, 16)
         Me.Label166.Name = "Label166"
-        Me.Label166.Size = New System.Drawing.Size(52, 17)
+        Me.Label166.Size = New System.Drawing.Size(42, 13)
         Me.Label166.TabIndex = 13
         Me.Label166.Text = "Ctl+A"
         '
@@ -3124,7 +3125,7 @@ Partial Class RetailBill
         Me.Label185.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label185.Location = New System.Drawing.Point(6, 45)
         Me.Label185.Name = "Label185"
-        Me.Label185.Size = New System.Drawing.Size(60, 17)
+        Me.Label185.Size = New System.Drawing.Size(49, 13)
         Me.Label185.TabIndex = 13
         Me.Label185.Text = "Ctl+F3"
         '
@@ -3135,7 +3136,7 @@ Partial Class RetailBill
         Me.Label197.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label197.Location = New System.Drawing.Point(182, 30)
         Me.Label197.Name = "Label197"
-        Me.Label197.Size = New System.Drawing.Size(52, 17)
+        Me.Label197.Size = New System.Drawing.Size(41, 13)
         Me.Label197.TabIndex = 13
         Me.Label197.Text = "Ctl+B"
         '
@@ -3146,7 +3147,7 @@ Partial Class RetailBill
         Me.Label165.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label165.Location = New System.Drawing.Point(79, 90)
         Me.Label165.Name = "Label165"
-        Me.Label165.Size = New System.Drawing.Size(107, 17)
+        Me.Label165.Size = New System.Drawing.Size(86, 13)
         Me.Label165.TabIndex = 13
         Me.Label165.Text = "[Ctl+O] Misc"
         '
@@ -3157,7 +3158,7 @@ Partial Class RetailBill
         Me.Label184.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label184.Location = New System.Drawing.Point(6, 30)
         Me.Label184.Name = "Label184"
-        Me.Label184.Size = New System.Drawing.Size(60, 17)
+        Me.Label184.Size = New System.Drawing.Size(49, 13)
         Me.Label184.TabIndex = 13
         Me.Label184.Text = "Ctl+F2"
         '
@@ -3168,7 +3169,7 @@ Partial Class RetailBill
         Me.Label196.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label196.Location = New System.Drawing.Point(182, 75)
         Me.Label196.Name = "Label196"
-        Me.Label196.Size = New System.Drawing.Size(51, 17)
+        Me.Label196.Size = New System.Drawing.Size(41, 13)
         Me.Label196.TabIndex = 13
         Me.Label196.Text = "Ctl+P"
         '
@@ -3179,7 +3180,7 @@ Partial Class RetailBill
         Me.Label164.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label164.Location = New System.Drawing.Point(6, 75)
         Me.Label164.Name = "Label164"
-        Me.Label164.Size = New System.Drawing.Size(54, 17)
+        Me.Label164.Size = New System.Drawing.Size(43, 13)
         Me.Label164.TabIndex = 13
         Me.Label164.Text = "Ctl+M"
         '
@@ -3190,7 +3191,7 @@ Partial Class RetailBill
         Me.Label183.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label183.Location = New System.Drawing.Point(6, 16)
         Me.Label183.Name = "Label183"
-        Me.Label183.Size = New System.Drawing.Size(60, 17)
+        Me.Label183.Size = New System.Drawing.Size(49, 13)
         Me.Label183.TabIndex = 13
         Me.Label183.Text = "Ctl+F1"
         '
@@ -3201,7 +3202,7 @@ Partial Class RetailBill
         Me.Label163.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label163.Location = New System.Drawing.Point(182, 45)
         Me.Label163.Name = "Label163"
-        Me.Label163.Size = New System.Drawing.Size(51, 17)
+        Me.Label163.Size = New System.Drawing.Size(41, 13)
         Me.Label163.TabIndex = 13
         Me.Label163.Text = "Ctl+S"
         '
@@ -3212,7 +3213,7 @@ Partial Class RetailBill
         Me.Label162.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label162.Location = New System.Drawing.Point(182, 60)
         Me.Label162.Name = "Label162"
-        Me.Label162.Size = New System.Drawing.Size(52, 17)
+        Me.Label162.Size = New System.Drawing.Size(41, 13)
         Me.Label162.TabIndex = 13
         Me.Label162.Text = "Ctl+R"
         '
@@ -3223,7 +3224,7 @@ Partial Class RetailBill
         Me.Label161.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label161.Location = New System.Drawing.Point(6, 60)
         Me.Label161.Name = "Label161"
-        Me.Label161.Size = New System.Drawing.Size(60, 17)
+        Me.Label161.Size = New System.Drawing.Size(49, 13)
         Me.Label161.TabIndex = 29
         Me.Label161.Text = "Ctl+F9"
         '
@@ -3234,7 +3235,7 @@ Partial Class RetailBill
         Me.Label182.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label182.Location = New System.Drawing.Point(50, 44)
         Me.Label182.Name = "Label182"
-        Me.Label182.Size = New System.Drawing.Size(16, 17)
+        Me.Label182.Size = New System.Drawing.Size(13, 13)
         Me.Label182.TabIndex = 32
         Me.Label182.Text = "]"
         '
@@ -3245,7 +3246,7 @@ Partial Class RetailBill
         Me.Label193.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label193.Location = New System.Drawing.Point(50, 74)
         Me.Label193.Name = "Label193"
-        Me.Label193.Size = New System.Drawing.Size(16, 17)
+        Me.Label193.Size = New System.Drawing.Size(13, 13)
         Me.Label193.TabIndex = 32
         Me.Label193.Text = "]"
         '
@@ -3256,7 +3257,7 @@ Partial Class RetailBill
         Me.Label158.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label158.Location = New System.Drawing.Point(219, 74)
         Me.Label158.Name = "Label158"
-        Me.Label158.Size = New System.Drawing.Size(16, 17)
+        Me.Label158.Size = New System.Drawing.Size(13, 13)
         Me.Label158.TabIndex = 32
         Me.Label158.Text = "]"
         '
@@ -3267,7 +3268,7 @@ Partial Class RetailBill
         Me.Label181.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label181.Location = New System.Drawing.Point(-1, 44)
         Me.Label181.Name = "Label181"
-        Me.Label181.Size = New System.Drawing.Size(16, 17)
+        Me.Label181.Size = New System.Drawing.Size(13, 13)
         Me.Label181.TabIndex = 32
         Me.Label181.Text = "["
         '
@@ -3278,7 +3279,7 @@ Partial Class RetailBill
         Me.Label192.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label192.Location = New System.Drawing.Point(-1, 74)
         Me.Label192.Name = "Label192"
-        Me.Label192.Size = New System.Drawing.Size(16, 17)
+        Me.Label192.Size = New System.Drawing.Size(13, 13)
         Me.Label192.TabIndex = 32
         Me.Label192.Text = "["
         '
@@ -3289,7 +3290,7 @@ Partial Class RetailBill
         Me.Label157.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label157.Location = New System.Drawing.Point(175, 74)
         Me.Label157.Name = "Label157"
-        Me.Label157.Size = New System.Drawing.Size(16, 17)
+        Me.Label157.Size = New System.Drawing.Size(13, 13)
         Me.Label157.TabIndex = 32
         Me.Label157.Text = "["
         '
@@ -3300,7 +3301,7 @@ Partial Class RetailBill
         Me.Label180.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label180.Location = New System.Drawing.Point(50, 29)
         Me.Label180.Name = "Label180"
-        Me.Label180.Size = New System.Drawing.Size(16, 17)
+        Me.Label180.Size = New System.Drawing.Size(13, 13)
         Me.Label180.TabIndex = 32
         Me.Label180.Text = "]"
         '
@@ -3311,7 +3312,7 @@ Partial Class RetailBill
         Me.Label190.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label190.Location = New System.Drawing.Point(50, 59)
         Me.Label190.Name = "Label190"
-        Me.Label190.Size = New System.Drawing.Size(16, 17)
+        Me.Label190.Size = New System.Drawing.Size(13, 13)
         Me.Label190.TabIndex = 32
         Me.Label190.Text = "]"
         '
@@ -3322,7 +3323,7 @@ Partial Class RetailBill
         Me.Label156.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label156.Location = New System.Drawing.Point(219, 59)
         Me.Label156.Name = "Label156"
-        Me.Label156.Size = New System.Drawing.Size(16, 17)
+        Me.Label156.Size = New System.Drawing.Size(13, 13)
         Me.Label156.TabIndex = 32
         Me.Label156.Text = "]"
         '
@@ -3333,7 +3334,7 @@ Partial Class RetailBill
         Me.Label179.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label179.Location = New System.Drawing.Point(-1, 29)
         Me.Label179.Name = "Label179"
-        Me.Label179.Size = New System.Drawing.Size(16, 17)
+        Me.Label179.Size = New System.Drawing.Size(13, 13)
         Me.Label179.TabIndex = 32
         Me.Label179.Text = "["
         '
@@ -3344,7 +3345,7 @@ Partial Class RetailBill
         Me.Label189.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label189.Location = New System.Drawing.Point(-1, 59)
         Me.Label189.Name = "Label189"
-        Me.Label189.Size = New System.Drawing.Size(16, 17)
+        Me.Label189.Size = New System.Drawing.Size(13, 13)
         Me.Label189.TabIndex = 32
         Me.Label189.Text = "["
         '
@@ -3355,7 +3356,7 @@ Partial Class RetailBill
         Me.Label155.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label155.Location = New System.Drawing.Point(175, 59)
         Me.Label155.Name = "Label155"
-        Me.Label155.Size = New System.Drawing.Size(16, 17)
+        Me.Label155.Size = New System.Drawing.Size(13, 13)
         Me.Label155.TabIndex = 32
         Me.Label155.Text = "["
         '
@@ -3366,7 +3367,7 @@ Partial Class RetailBill
         Me.Label178.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label178.Location = New System.Drawing.Point(51, 15)
         Me.Label178.Name = "Label178"
-        Me.Label178.Size = New System.Drawing.Size(16, 17)
+        Me.Label178.Size = New System.Drawing.Size(13, 13)
         Me.Label178.TabIndex = 32
         Me.Label178.Text = "]"
         '
@@ -3377,7 +3378,7 @@ Partial Class RetailBill
         Me.Label154.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label154.Location = New System.Drawing.Point(219, 45)
         Me.Label154.Name = "Label154"
-        Me.Label154.Size = New System.Drawing.Size(16, 17)
+        Me.Label154.Size = New System.Drawing.Size(13, 13)
         Me.Label154.TabIndex = 32
         Me.Label154.Text = "]"
         '
@@ -3388,7 +3389,7 @@ Partial Class RetailBill
         Me.Label175.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label175.Location = New System.Drawing.Point(-1, 15)
         Me.Label175.Name = "Label175"
-        Me.Label175.Size = New System.Drawing.Size(16, 17)
+        Me.Label175.Size = New System.Drawing.Size(13, 13)
         Me.Label175.TabIndex = 32
         Me.Label175.Text = "["
         '
@@ -3399,7 +3400,7 @@ Partial Class RetailBill
         Me.Label153.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label153.Location = New System.Drawing.Point(175, 45)
         Me.Label153.Name = "Label153"
-        Me.Label153.Size = New System.Drawing.Size(16, 17)
+        Me.Label153.Size = New System.Drawing.Size(13, 13)
         Me.Label153.TabIndex = 32
         Me.Label153.Text = "["
         '
@@ -3410,7 +3411,7 @@ Partial Class RetailBill
         Me.Label152.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label152.Location = New System.Drawing.Point(219, 29)
         Me.Label152.Name = "Label152"
-        Me.Label152.Size = New System.Drawing.Size(16, 17)
+        Me.Label152.Size = New System.Drawing.Size(13, 13)
         Me.Label152.TabIndex = 32
         Me.Label152.Text = "]"
         '
@@ -3421,7 +3422,7 @@ Partial Class RetailBill
         Me.Label151.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label151.Location = New System.Drawing.Point(175, 29)
         Me.Label151.Name = "Label151"
-        Me.Label151.Size = New System.Drawing.Size(16, 17)
+        Me.Label151.Size = New System.Drawing.Size(13, 13)
         Me.Label151.TabIndex = 32
         Me.Label151.Text = "["
         '
@@ -3432,7 +3433,7 @@ Partial Class RetailBill
         Me.Label150.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label150.Location = New System.Drawing.Point(219, 15)
         Me.Label150.Name = "Label150"
-        Me.Label150.Size = New System.Drawing.Size(16, 17)
+        Me.Label150.Size = New System.Drawing.Size(13, 13)
         Me.Label150.TabIndex = 32
         Me.Label150.Text = "]"
         '
@@ -3443,7 +3444,7 @@ Partial Class RetailBill
         Me.Label149.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label149.Location = New System.Drawing.Point(175, 15)
         Me.Label149.Name = "Label149"
-        Me.Label149.Size = New System.Drawing.Size(16, 17)
+        Me.Label149.Size = New System.Drawing.Size(13, 13)
         Me.Label149.TabIndex = 32
         Me.Label149.Text = "["
         '
@@ -3455,7 +3456,7 @@ Partial Class RetailBill
         Me.Label48.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label48.Location = New System.Drawing.Point(228, 16)
         Me.Label48.Name = "Label48"
-        Me.Label48.Size = New System.Drawing.Size(71, 17)
+        Me.Label48.Size = New System.Drawing.Size(60, 13)
         Me.Label48.TabIndex = 30
         Me.Label48.Text = "Address"
         '
@@ -3467,7 +3468,7 @@ Partial Class RetailBill
         Me.Label186.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label186.Location = New System.Drawing.Point(60, 16)
         Me.Label186.Name = "Label186"
-        Me.Label186.Size = New System.Drawing.Size(125, 17)
+        Me.Label186.Size = New System.Drawing.Size(105, 13)
         Me.Label186.TabIndex = 14
         Me.Label186.Text = "Other State Bill"
         '
@@ -3479,7 +3480,7 @@ Partial Class RetailBill
         Me.Label187.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label187.Location = New System.Drawing.Point(60, 30)
         Me.Label187.Name = "Label187"
-        Me.Label187.Size = New System.Drawing.Size(120, 17)
+        Me.Label187.Size = New System.Drawing.Size(102, 13)
         Me.Label187.TabIndex = 14
         Me.Label187.Text = "Sales Discount"
         '
@@ -3493,7 +3494,7 @@ Partial Class RetailBill
         Me.chkPartlySales.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.chkPartlySales.Location = New System.Drawing.Point(228, 75)
         Me.chkPartlySales.Name = "chkPartlySales"
-        Me.chkPartlySales.Size = New System.Drawing.Size(120, 21)
+        Me.chkPartlySales.Size = New System.Drawing.Size(104, 17)
         Me.chkPartlySales.TabIndex = 0
         Me.chkPartlySales.Text = "Partly Sales"
         Me.chkPartlySales.UseVisualStyleBackColor = False
@@ -3525,7 +3526,7 @@ Partial Class RetailBill
         Me.Label204.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label204.Location = New System.Drawing.Point(60, 75)
         Me.Label204.Name = "Label204"
-        Me.Label204.Size = New System.Drawing.Size(139, 17)
+        Me.Label204.Size = New System.Drawing.Size(119, 13)
         Me.Label204.TabIndex = 13
         Me.Label204.Text = "Multi Metal Detail"
         '
@@ -3536,7 +3537,7 @@ Partial Class RetailBill
         Me.Label203.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label203.Location = New System.Drawing.Point(60, 60)
         Me.Label203.Name = "Label203"
-        Me.Label203.Size = New System.Drawing.Size(126, 17)
+        Me.Label203.Size = New System.Drawing.Size(103, 13)
         Me.Label203.TabIndex = 29
         Me.Label203.Text = "Wast%|McGrm"
         '
@@ -3547,7 +3548,7 @@ Partial Class RetailBill
         Me.Label202.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label202.Location = New System.Drawing.Point(228, 46)
         Me.Label202.Name = "Label202"
-        Me.Label202.Size = New System.Drawing.Size(101, 17)
+        Me.Label202.Size = New System.Drawing.Size(86, 13)
         Me.Label202.TabIndex = 13
         Me.Label202.Text = "Stone Detail"
         '
@@ -3558,7 +3559,7 @@ Partial Class RetailBill
         Me.Label201.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label201.Location = New System.Drawing.Point(228, 60)
         Me.Label201.Name = "Label201"
-        Me.Label201.Size = New System.Drawing.Size(107, 17)
+        Me.Label201.Size = New System.Drawing.Size(88, 13)
         Me.Label201.TabIndex = 13
         Me.Label201.Text = "Rate Change"
         '
@@ -3570,7 +3571,7 @@ Partial Class RetailBill
         Me.lblBookedItem.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.lblBookedItem.Location = New System.Drawing.Point(228, 30)
         Me.lblBookedItem.Name = "lblBookedItem"
-        Me.lblBookedItem.Size = New System.Drawing.Size(109, 17)
+        Me.lblBookedItem.Size = New System.Drawing.Size(90, 13)
         Me.lblBookedItem.TabIndex = 14
         Me.lblBookedItem.Text = "Booked Item"
         '
@@ -3592,7 +3593,7 @@ Partial Class RetailBill
         Me.Label188.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label188.Location = New System.Drawing.Point(60, 45)
         Me.Label188.Name = "Label188"
-        Me.Label188.Size = New System.Drawing.Size(115, 17)
+        Me.Label188.Size = New System.Drawing.Size(98, 13)
         Me.Label188.TabIndex = 14
         Me.Label188.Text = "Purchase Disc"
         '
@@ -3672,7 +3673,7 @@ Partial Class RetailBill
         Me.lblHallmarkNo.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.lblHallmarkNo.Location = New System.Drawing.Point(231, 168)
         Me.lblHallmarkNo.Name = "lblHallmarkNo"
-        Me.lblHallmarkNo.Size = New System.Drawing.Size(79, 15)
+        Me.lblHallmarkNo.Size = New System.Drawing.Size(68, 12)
         Me.lblHallmarkNo.TabIndex = 45
         Me.lblHallmarkNo.Text = "HallmarkNo :"
         Me.lblHallmarkNo.Visible = False
@@ -3683,7 +3684,7 @@ Partial Class RetailBill
         Me.txtDetVAMin.ForeColor = System.Drawing.Color.Red
         Me.txtDetVAMin.Location = New System.Drawing.Point(150, 155)
         Me.txtDetVAMin.Name = "txtDetVAMin"
-        Me.txtDetVAMin.Size = New System.Drawing.Size(77, 24)
+        Me.txtDetVAMin.Size = New System.Drawing.Size(77, 21)
         Me.txtDetVAMin.TabIndex = 41
         '
         'txtDetVAMax
@@ -3692,7 +3693,7 @@ Partial Class RetailBill
         Me.txtDetVAMax.ForeColor = System.Drawing.Color.Red
         Me.txtDetVAMax.Location = New System.Drawing.Point(85, 155)
         Me.txtDetVAMax.Name = "txtDetVAMax"
-        Me.txtDetVAMax.Size = New System.Drawing.Size(63, 24)
+        Me.txtDetVAMax.Size = New System.Drawing.Size(63, 21)
         Me.txtDetVAMax.TabIndex = 40
         '
         'Label141
@@ -3702,7 +3703,7 @@ Partial Class RetailBill
         Me.Label141.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label141.Location = New System.Drawing.Point(-1, 158)
         Me.Label141.Name = "Label141"
-        Me.Label141.Size = New System.Drawing.Size(98, 17)
+        Me.Label141.Size = New System.Drawing.Size(80, 13)
         Me.Label141.TabIndex = 42
         Me.Label141.Text = "VA Max,Min"
         '
@@ -3712,7 +3713,7 @@ Partial Class RetailBill
         Me.txtDetTagGrsNet.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.txtDetTagGrsNet.Location = New System.Drawing.Point(314, 136)
         Me.txtDetTagGrsNet.Name = "txtDetTagGrsNet"
-        Me.txtDetTagGrsNet.Size = New System.Drawing.Size(84, 21)
+        Me.txtDetTagGrsNet.Size = New System.Drawing.Size(84, 18)
         Me.txtDetTagGrsNet.TabIndex = 38
         Me.txtDetTagGrsNet.Text = "112.000"
         '
@@ -3723,7 +3724,7 @@ Partial Class RetailBill
         Me.Label139.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label139.Location = New System.Drawing.Point(229, 139)
         Me.Label139.Name = "Label139"
-        Me.Label139.Size = New System.Drawing.Size(101, 17)
+        Me.Label139.Size = New System.Drawing.Size(82, 13)
         Me.Label139.TabIndex = 39
         Me.Label139.Text = "Tag G/N Wt"
         '
@@ -3733,7 +3734,7 @@ Partial Class RetailBill
         Me.txtDetDesigner.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.txtDetDesigner.Location = New System.Drawing.Point(85, 65)
         Me.txtDetDesigner.Name = "txtDetDesigner"
-        Me.txtDetDesigner.Size = New System.Drawing.Size(141, 21)
+        Me.txtDetDesigner.Size = New System.Drawing.Size(141, 18)
         Me.txtDetDesigner.TabIndex = 36
         '
         'Label76
@@ -3743,7 +3744,7 @@ Partial Class RetailBill
         Me.Label76.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label76.Location = New System.Drawing.Point(-1, 68)
         Me.Label76.Name = "Label76"
-        Me.Label76.Size = New System.Drawing.Size(76, 17)
+        Me.Label76.Size = New System.Drawing.Size(65, 13)
         Me.Label76.TabIndex = 37
         Me.Label76.Text = "Designer"
         '
@@ -3753,7 +3754,7 @@ Partial Class RetailBill
         Me.txtDifftot.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.txtDifftot.Location = New System.Drawing.Point(314, 154)
         Me.txtDifftot.Name = "txtDifftot"
-        Me.txtDifftot.Size = New System.Drawing.Size(84, 21)
+        Me.txtDifftot.Size = New System.Drawing.Size(84, 18)
         Me.txtDifftot.TabIndex = 35
         Me.txtDifftot.Text = "112.000"
         Me.txtDifftot.Visible = False
@@ -3764,7 +3765,7 @@ Partial Class RetailBill
         Me.txtSASurCharge.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.txtSASurCharge.Location = New System.Drawing.Point(314, 155)
         Me.txtSASurCharge.Name = "txtSASurCharge"
-        Me.txtSASurCharge.Size = New System.Drawing.Size(84, 21)
+        Me.txtSASurCharge.Size = New System.Drawing.Size(84, 18)
         Me.txtSASurCharge.TabIndex = 33
         '
         'Label75
@@ -3774,7 +3775,7 @@ Partial Class RetailBill
         Me.Label75.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label75.Location = New System.Drawing.Point(229, 154)
         Me.Label75.Name = "Label75"
-        Me.Label75.Size = New System.Drawing.Size(73, 17)
+        Me.Label75.Size = New System.Drawing.Size(59, 13)
         Me.Label75.TabIndex = 34
         Me.Label75.Text = "SurChrg"
         '
@@ -3784,7 +3785,7 @@ Partial Class RetailBill
         Me.txtDetRateId.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.txtDetRateId.Location = New System.Drawing.Point(314, 81)
         Me.txtDetRateId.Name = "txtDetRateId"
-        Me.txtDetRateId.Size = New System.Drawing.Size(84, 21)
+        Me.txtDetRateId.Size = New System.Drawing.Size(84, 18)
         Me.txtDetRateId.TabIndex = 31
         '
         'Label72
@@ -3794,7 +3795,7 @@ Partial Class RetailBill
         Me.Label72.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label72.Location = New System.Drawing.Point(229, 84)
         Me.Label72.Name = "Label72"
-        Me.Label72.Size = New System.Drawing.Size(66, 17)
+        Me.Label72.Size = New System.Drawing.Size(54, 13)
         Me.Label72.TabIndex = 32
         Me.Label72.Text = "Rate Id"
         '
@@ -3804,7 +3805,7 @@ Partial Class RetailBill
         Me.txtDetItemType.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.txtDetItemType.Location = New System.Drawing.Point(85, 83)
         Me.txtDetItemType.Name = "txtDetItemType"
-        Me.txtDetItemType.Size = New System.Drawing.Size(63, 21)
+        Me.txtDetItemType.Size = New System.Drawing.Size(63, 18)
         Me.txtDetItemType.TabIndex = 0
         '
         'txtDetWastagePer
@@ -3813,7 +3814,7 @@ Partial Class RetailBill
         Me.txtDetWastagePer.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.txtDetWastagePer.Location = New System.Drawing.Point(196, 83)
         Me.txtDetWastagePer.Name = "txtDetWastagePer"
-        Me.txtDetWastagePer.Size = New System.Drawing.Size(31, 21)
+        Me.txtDetWastagePer.Size = New System.Drawing.Size(31, 18)
         Me.txtDetWastagePer.TabIndex = 0
         '
         'txtDetGrsNet
@@ -3822,7 +3823,7 @@ Partial Class RetailBill
         Me.txtDetGrsNet.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.txtDetGrsNet.Location = New System.Drawing.Point(196, 101)
         Me.txtDetGrsNet.Name = "txtDetGrsNet"
-        Me.txtDetGrsNet.Size = New System.Drawing.Size(31, 21)
+        Me.txtDetGrsNet.Size = New System.Drawing.Size(31, 18)
         Me.txtDetGrsNet.TabIndex = 0
         '
         'Label127
@@ -3832,7 +3833,7 @@ Partial Class RetailBill
         Me.Label127.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label127.Location = New System.Drawing.Point(147, 86)
         Me.Label127.Name = "Label127"
-        Me.Label127.Size = New System.Drawing.Size(65, 17)
+        Me.Label127.Size = New System.Drawing.Size(53, 13)
         Me.Label127.TabIndex = 28
         Me.Label127.Text = "Wast%"
         '
@@ -3842,7 +3843,7 @@ Partial Class RetailBill
         Me.txtDetDiffGrsNet.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.txtDetDiffGrsNet.Location = New System.Drawing.Point(314, 117)
         Me.txtDetDiffGrsNet.Name = "txtDetDiffGrsNet"
-        Me.txtDetDiffGrsNet.Size = New System.Drawing.Size(84, 21)
+        Me.txtDetDiffGrsNet.Size = New System.Drawing.Size(84, 18)
         Me.txtDetDiffGrsNet.TabIndex = 0
         Me.txtDetDiffGrsNet.Text = "112.000"
         '
@@ -3852,7 +3853,7 @@ Partial Class RetailBill
         Me.txtDetTableCode.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.txtDetTableCode.Location = New System.Drawing.Point(196, 119)
         Me.txtDetTableCode.Name = "txtDetTableCode"
-        Me.txtDetTableCode.Size = New System.Drawing.Size(31, 21)
+        Me.txtDetTableCode.Size = New System.Drawing.Size(31, 18)
         Me.txtDetTableCode.TabIndex = 0
         '
         'txtDetDiffDia
@@ -3861,7 +3862,7 @@ Partial Class RetailBill
         Me.txtDetDiffDia.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.txtDetDiffDia.Location = New System.Drawing.Point(314, 99)
         Me.txtDetDiffDia.Name = "txtDetDiffDia"
-        Me.txtDetDiffDia.Size = New System.Drawing.Size(84, 21)
+        Me.txtDetDiffDia.Size = New System.Drawing.Size(84, 18)
         Me.txtDetDiffDia.TabIndex = 0
         '
         'txtDetCounter
@@ -3870,7 +3871,7 @@ Partial Class RetailBill
         Me.txtDetCounter.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.txtDetCounter.Location = New System.Drawing.Point(85, 47)
         Me.txtDetCounter.Name = "txtDetCounter"
-        Me.txtDetCounter.Size = New System.Drawing.Size(141, 21)
+        Me.txtDetCounter.Size = New System.Drawing.Size(141, 18)
         Me.txtDetCounter.TabIndex = 0
         '
         'txtDetSubItem
@@ -3879,7 +3880,7 @@ Partial Class RetailBill
         Me.txtDetSubItem.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.txtDetSubItem.Location = New System.Drawing.Point(85, 29)
         Me.txtDetSubItem.Name = "txtDetSubItem"
-        Me.txtDetSubItem.Size = New System.Drawing.Size(141, 21)
+        Me.txtDetSubItem.Size = New System.Drawing.Size(141, 18)
         Me.txtDetSubItem.TabIndex = 0
         '
         'txtDetItem
@@ -3888,7 +3889,7 @@ Partial Class RetailBill
         Me.txtDetItem.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.txtDetItem.Location = New System.Drawing.Point(85, 11)
         Me.txtDetItem.Name = "txtDetItem"
-        Me.txtDetItem.Size = New System.Drawing.Size(141, 21)
+        Me.txtDetItem.Size = New System.Drawing.Size(141, 18)
         Me.txtDetItem.TabIndex = 0
         Me.txtDetItem.Text = "Item"
         '
@@ -3898,7 +3899,7 @@ Partial Class RetailBill
         Me.txtDetValueAdded.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.txtDetValueAdded.Location = New System.Drawing.Point(85, 119)
         Me.txtDetValueAdded.Name = "txtDetValueAdded"
-        Me.txtDetValueAdded.Size = New System.Drawing.Size(63, 21)
+        Me.txtDetValueAdded.Size = New System.Drawing.Size(63, 18)
         Me.txtDetValueAdded.TabIndex = 0
         '
         'Label64
@@ -3908,7 +3909,7 @@ Partial Class RetailBill
         Me.Label64.ForeColor = System.Drawing.Color.FromArgb(CType(CType(192, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer))
         Me.Label64.Location = New System.Drawing.Point(288, 120)
         Me.Label64.Name = "Label64"
-        Me.Label64.Size = New System.Drawing.Size(28, 17)
+        Me.Label64.Size = New System.Drawing.Size(23, 13)
         Me.Label64.TabIndex = 28
         Me.Label64.Text = "PS"
         '
@@ -3917,7 +3918,7 @@ Partial Class RetailBill
         Me.txtDetDiscount.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold)
         Me.txtDetDiscount.Location = New System.Drawing.Point(314, 27)
         Me.txtDetDiscount.Name = "txtDetDiscount"
-        Me.txtDetDiscount.Size = New System.Drawing.Size(84, 20)
+        Me.txtDetDiscount.Size = New System.Drawing.Size(84, 18)
         Me.txtDetDiscount.TabIndex = 30
         '
         'txtDetCalcType
@@ -3926,7 +3927,7 @@ Partial Class RetailBill
         Me.txtDetCalcType.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.txtDetCalcType.Location = New System.Drawing.Point(85, 101)
         Me.txtDetCalcType.Name = "txtDetCalcType"
-        Me.txtDetCalcType.Size = New System.Drawing.Size(63, 21)
+        Me.txtDetCalcType.Size = New System.Drawing.Size(63, 18)
         Me.txtDetCalcType.TabIndex = 0
         '
         'txtDetMiscAmt
@@ -3935,7 +3936,7 @@ Partial Class RetailBill
         Me.txtDetMiscAmt.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.txtDetMiscAmt.Location = New System.Drawing.Point(314, 45)
         Me.txtDetMiscAmt.Name = "txtDetMiscAmt"
-        Me.txtDetMiscAmt.Size = New System.Drawing.Size(84, 20)
+        Me.txtDetMiscAmt.Size = New System.Drawing.Size(84, 18)
         Me.txtDetMiscAmt.TabIndex = 0
         '
         'txtDetMcPerGrm
@@ -3944,7 +3945,7 @@ Partial Class RetailBill
         Me.txtDetMcPerGrm.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.txtDetMcPerGrm.Location = New System.Drawing.Point(314, 63)
         Me.txtDetMcPerGrm.Name = "txtDetMcPerGrm"
-        Me.txtDetMcPerGrm.Size = New System.Drawing.Size(84, 20)
+        Me.txtDetMcPerGrm.Size = New System.Drawing.Size(84, 18)
         Me.txtDetMcPerGrm.TabIndex = 0
         '
         'txtDetLessWt
@@ -3953,7 +3954,7 @@ Partial Class RetailBill
         Me.txtDetLessWt.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.txtDetLessWt.Location = New System.Drawing.Point(314, 10)
         Me.txtDetLessWt.Name = "txtDetLessWt"
-        Me.txtDetLessWt.Size = New System.Drawing.Size(84, 20)
+        Me.txtDetLessWt.Size = New System.Drawing.Size(84, 18)
         Me.txtDetLessWt.TabIndex = 0
         '
         'txtDetStockType
@@ -3962,7 +3963,7 @@ Partial Class RetailBill
         Me.txtDetStockType.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.txtDetStockType.Location = New System.Drawing.Point(85, 137)
         Me.txtDetStockType.Name = "txtDetStockType"
-        Me.txtDetStockType.Size = New System.Drawing.Size(63, 21)
+        Me.txtDetStockType.Size = New System.Drawing.Size(63, 18)
         Me.txtDetStockType.TabIndex = 0
         '
         'Label71
@@ -3972,7 +3973,7 @@ Partial Class RetailBill
         Me.Label71.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label71.Location = New System.Drawing.Point(229, 66)
         Me.Label71.Name = "Label71"
-        Me.Label71.Size = New System.Drawing.Size(71, 17)
+        Me.Label71.Size = New System.Drawing.Size(59, 13)
         Me.Label71.TabIndex = 28
         Me.Label71.Text = "Mc/Grm"
         '
@@ -3983,7 +3984,7 @@ Partial Class RetailBill
         Me.Label133.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label133.Location = New System.Drawing.Point(147, 104)
         Me.Label133.Name = "Label133"
-        Me.Label133.Size = New System.Drawing.Size(62, 17)
+        Me.Label133.Size = New System.Drawing.Size(52, 13)
         Me.Label133.TabIndex = 25
         Me.Label133.Text = "Gr/Net"
         '
@@ -3994,7 +3995,7 @@ Partial Class RetailBill
         Me.Label134.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label134.Location = New System.Drawing.Point(229, 13)
         Me.Label134.Name = "Label134"
-        Me.Label134.Size = New System.Drawing.Size(64, 17)
+        Me.Label134.Size = New System.Drawing.Size(53, 13)
         Me.Label134.TabIndex = 26
         Me.Label134.Text = "LessWt"
         '
@@ -4006,7 +4007,7 @@ Partial Class RetailBill
         Me.lblDetVat.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.lblDetVat.Location = New System.Drawing.Point(147, 140)
         Me.lblDetVat.Name = "lblDetVat"
-        Me.lblDetVat.Size = New System.Drawing.Size(52, 17)
+        Me.lblDetVat.Size = New System.Drawing.Size(42, 13)
         Me.lblDetVat.TabIndex = 24
         Me.lblDetVat.Text = "Vat%"
         Me.lblDetVat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -4019,7 +4020,7 @@ Partial Class RetailBill
         Me.Label121.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label121.Location = New System.Drawing.Point(229, 30)
         Me.Label121.Name = "Label121"
-        Me.Label121.Size = New System.Drawing.Size(75, 17)
+        Me.Label121.Size = New System.Drawing.Size(63, 13)
         Me.Label121.TabIndex = 24
         Me.Label121.Text = "Discount"
         Me.Label121.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -4031,7 +4032,7 @@ Partial Class RetailBill
         Me.Label125.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label125.Location = New System.Drawing.Point(229, 48)
         Me.Label125.Name = "Label125"
-        Me.Label125.Size = New System.Drawing.Size(107, 17)
+        Me.Label125.Size = New System.Drawing.Size(89, 13)
         Me.Label125.TabIndex = 21
         Me.Label125.Text = "Misc Amount"
         '
@@ -4042,7 +4043,7 @@ Partial Class RetailBill
         Me.Label118.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label118.Location = New System.Drawing.Point(-1, 104)
         Me.Label118.Name = "Label118"
-        Me.Label118.Size = New System.Drawing.Size(83, 17)
+        Me.Label118.Size = New System.Drawing.Size(70, 13)
         Me.Label118.TabIndex = 1
         Me.Label118.Text = "Calc Type"
         '
@@ -4053,7 +4054,7 @@ Partial Class RetailBill
         Me.Label117.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label117.Location = New System.Drawing.Point(-1, 140)
         Me.Label117.Name = "Label117"
-        Me.Label117.Size = New System.Drawing.Size(94, 17)
+        Me.Label117.Size = New System.Drawing.Size(79, 13)
         Me.Label117.TabIndex = 1
         Me.Label117.Text = "Stock Type"
         '
@@ -4064,7 +4065,7 @@ Partial Class RetailBill
         Me.Label116.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label116.Location = New System.Drawing.Point(147, 122)
         Me.Label116.Name = "Label116"
-        Me.Label116.Size = New System.Drawing.Size(50, 17)
+        Me.Label116.Size = New System.Drawing.Size(43, 13)
         Me.Label116.TabIndex = 1
         Me.Label116.Text = "Table"
         Me.ToolTip1.SetToolTip(Me.Label116, "Table Code")
@@ -4076,7 +4077,7 @@ Partial Class RetailBill
         Me.Label115.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label115.Location = New System.Drawing.Point(-1, 122)
         Me.Label115.Name = "Label115"
-        Me.Label115.Size = New System.Drawing.Size(106, 17)
+        Me.Label115.Size = New System.Drawing.Size(88, 13)
         Me.Label115.TabIndex = 1
         Me.Label115.Text = "Value Added"
         '
@@ -4087,7 +4088,7 @@ Partial Class RetailBill
         Me.Label114.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label114.Location = New System.Drawing.Point(-1, 86)
         Me.Label114.Name = "Label114"
-        Me.Label114.Size = New System.Drawing.Size(88, 17)
+        Me.Label114.Size = New System.Drawing.Size(74, 13)
         Me.Label114.TabIndex = 1
         Me.Label114.Text = "Item Type"
         '
@@ -4098,7 +4099,7 @@ Partial Class RetailBill
         Me.Label113.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label113.Location = New System.Drawing.Point(-1, 50)
         Me.Label113.Name = "Label113"
-        Me.Label113.Size = New System.Drawing.Size(71, 17)
+        Me.Label113.Size = New System.Drawing.Size(58, 13)
         Me.Label113.TabIndex = 1
         Me.Label113.Text = "Counter"
         '
@@ -4109,7 +4110,7 @@ Partial Class RetailBill
         Me.Label112.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label112.Location = New System.Drawing.Point(-1, 32)
         Me.Label112.Name = "Label112"
-        Me.Label112.Size = New System.Drawing.Size(75, 17)
+        Me.Label112.Size = New System.Drawing.Size(62, 13)
         Me.Label112.TabIndex = 1
         Me.Label112.Text = "SubItem"
         '
@@ -4120,7 +4121,7 @@ Partial Class RetailBill
         Me.Label111.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label111.Location = New System.Drawing.Point(-1, 14)
         Me.Label111.Name = "Label111"
-        Me.Label111.Size = New System.Drawing.Size(45, 17)
+        Me.Label111.Size = New System.Drawing.Size(38, 13)
         Me.Label111.TabIndex = 1
         Me.Label111.Text = "Item"
         '
@@ -4131,7 +4132,7 @@ Partial Class RetailBill
         Me.Label61.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label61.Location = New System.Drawing.Point(229, 120)
         Me.Label61.Name = "Label61"
-        Me.Label61.Size = New System.Drawing.Size(67, 17)
+        Me.Label61.Size = New System.Drawing.Size(54, 13)
         Me.Label61.TabIndex = 28
         Me.Label61.Text = "G/N Wt"
         '
@@ -4142,7 +4143,7 @@ Partial Class RetailBill
         Me.Label50.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label50.Location = New System.Drawing.Point(229, 102)
         Me.Label50.Name = "Label50"
-        Me.Label50.Size = New System.Drawing.Size(95, 17)
+        Me.Label50.Size = New System.Drawing.Size(79, 13)
         Me.Label50.TabIndex = 28
         Me.Label50.Text = "Dia Pcs/Wt"
         '
@@ -4167,7 +4168,7 @@ Partial Class RetailBill
         '
         Me.txtPurAlloy.Location = New System.Drawing.Point(320, 204)
         Me.txtPurAlloy.Name = "txtPurAlloy"
-        Me.txtPurAlloy.Size = New System.Drawing.Size(90, 24)
+        Me.txtPurAlloy.Size = New System.Drawing.Size(90, 21)
         Me.txtPurAlloy.TabIndex = 24
         '
         'grpStudedDetail
@@ -4195,7 +4196,7 @@ Partial Class RetailBill
         Me.Label102.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label102.Location = New System.Drawing.Point(6, 74)
         Me.Label102.Name = "Label102"
-        Me.Label102.Size = New System.Drawing.Size(103, 17)
+        Me.Label102.Size = New System.Drawing.Size(85, 13)
         Me.Label102.TabIndex = 1
         Me.Label102.Text = "Diamond Wt"
         '
@@ -4258,7 +4259,7 @@ Partial Class RetailBill
         Me.Label35.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label35.Location = New System.Drawing.Point(6, 34)
         Me.Label35.Name = "Label35"
-        Me.Label35.Size = New System.Drawing.Size(113, 17)
+        Me.Label35.Size = New System.Drawing.Size(93, 13)
         Me.Label35.TabIndex = 0
         Me.Label35.Text = "Stone Weight"
         '
@@ -4269,7 +4270,7 @@ Partial Class RetailBill
         Me.Label36.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label36.Location = New System.Drawing.Point(6, 54)
         Me.Label36.Name = "Label36"
-        Me.Label36.Size = New System.Drawing.Size(107, 17)
+        Me.Label36.Size = New System.Drawing.Size(90, 13)
         Me.Label36.TabIndex = 0
         Me.Label36.Text = "Diamond Pcs"
         '
@@ -4280,7 +4281,7 @@ Partial Class RetailBill
         Me.Label34.ForeColor = System.Drawing.SystemColors.HotTrack
         Me.Label34.Location = New System.Drawing.Point(6, 13)
         Me.Label34.Name = "Label34"
-        Me.Label34.Size = New System.Drawing.Size(84, 17)
+        Me.Label34.Size = New System.Drawing.Size(70, 13)
         Me.Label34.TabIndex = 0
         Me.Label34.Text = "Stone Pcs"
         '
@@ -4298,7 +4299,7 @@ Partial Class RetailBill
         Me.Label135.AutoSize = True
         Me.Label135.Location = New System.Drawing.Point(3, 4)
         Me.Label135.Name = "Label135"
-        Me.Label135.Size = New System.Drawing.Size(78, 17)
+        Me.Label135.Size = New System.Drawing.Size(62, 13)
         Me.Label135.TabIndex = 0
         Me.Label135.Text = "&Short Cut"
         '
@@ -4306,7 +4307,7 @@ Partial Class RetailBill
         '
         Me.txtShortCut.Location = New System.Drawing.Point(67, 0)
         Me.txtShortCut.Name = "txtShortCut"
-        Me.txtShortCut.Size = New System.Drawing.Size(100, 24)
+        Me.txtShortCut.Size = New System.Drawing.Size(100, 21)
         Me.txtShortCut.TabIndex = 1
         '
         'picTagImage
@@ -4340,7 +4341,7 @@ Partial Class RetailBill
         Me.txtFinalPURAmount_AMT.Font = New System.Drawing.Font("Verdana", 14.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtFinalPURAmount_AMT.Location = New System.Drawing.Point(3, 37)
         Me.txtFinalPURAmount_AMT.Name = "txtFinalPURAmount_AMT"
-        Me.txtFinalPURAmount_AMT.Size = New System.Drawing.Size(229, 36)
+        Me.txtFinalPURAmount_AMT.Size = New System.Drawing.Size(229, 31)
         Me.txtFinalPURAmount_AMT.TabIndex = 4
         '
         'Label97
@@ -4420,7 +4421,7 @@ Partial Class RetailBill
         Me.Label124.AutoSize = True
         Me.Label124.Location = New System.Drawing.Point(20, 12)
         Me.Label124.Name = "Label124"
-        Me.Label124.Size = New System.Drawing.Size(70, 17)
+        Me.Label124.Size = New System.Drawing.Size(56, 13)
         Me.Label124.TabIndex = 7
         Me.Label124.Text = "Discount"
         '
@@ -4428,7 +4429,7 @@ Partial Class RetailBill
         '
         Me.txtPuDiscount_AMT.Location = New System.Drawing.Point(11, 29)
         Me.txtPuDiscount_AMT.Name = "txtPuDiscount_AMT"
-        Me.txtPuDiscount_AMT.Size = New System.Drawing.Size(75, 24)
+        Me.txtPuDiscount_AMT.Size = New System.Drawing.Size(75, 21)
         Me.txtPuDiscount_AMT.TabIndex = 8
         '
         'tabReceiptWeightAdvance
@@ -4507,7 +4508,7 @@ Partial Class RetailBill
         Me.txtOrdCGST_AMT.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtOrdCGST_AMT.Location = New System.Drawing.Point(100, 151)
         Me.txtOrdCGST_AMT.Name = "txtOrdCGST_AMT"
-        Me.txtOrdCGST_AMT.Size = New System.Drawing.Size(78, 26)
+        Me.txtOrdCGST_AMT.Size = New System.Drawing.Size(78, 22)
         Me.txtOrdCGST_AMT.TabIndex = 8
         Me.txtOrdCGST_AMT.Visible = False
         '
@@ -4516,7 +4517,7 @@ Partial Class RetailBill
         Me.txtOrdSGST_AMT.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtOrdSGST_AMT.Location = New System.Drawing.Point(16, 151)
         Me.txtOrdSGST_AMT.Name = "txtOrdSGST_AMT"
-        Me.txtOrdSGST_AMT.Size = New System.Drawing.Size(78, 26)
+        Me.txtOrdSGST_AMT.Size = New System.Drawing.Size(78, 22)
         Me.txtOrdSGST_AMT.TabIndex = 7
         Me.txtOrdSGST_AMT.Visible = False
         '
@@ -4525,7 +4526,7 @@ Partial Class RetailBill
         Me.txtOrdAdjdisc.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtOrdAdjdisc.Location = New System.Drawing.Point(253, 151)
         Me.txtOrdAdjdisc.Name = "txtOrdAdjdisc"
-        Me.txtOrdAdjdisc.Size = New System.Drawing.Size(79, 26)
+        Me.txtOrdAdjdisc.Size = New System.Drawing.Size(79, 22)
         Me.txtOrdAdjdisc.TabIndex = 6
         Me.txtOrdAdjdisc.Visible = False
         '
@@ -4534,7 +4535,7 @@ Partial Class RetailBill
         Me.txtOrdDisc.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtOrdDisc.Location = New System.Drawing.Point(319, 151)
         Me.txtOrdDisc.Name = "txtOrdDisc"
-        Me.txtOrdDisc.Size = New System.Drawing.Size(79, 26)
+        Me.txtOrdDisc.Size = New System.Drawing.Size(79, 22)
         Me.txtOrdDisc.TabIndex = 5
         Me.txtOrdDisc.Visible = False
         '
@@ -4543,7 +4544,7 @@ Partial Class RetailBill
         Me.txtExMcvat.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtExMcvat.Location = New System.Drawing.Point(114, 123)
         Me.txtExMcvat.Name = "txtExMcvat"
-        Me.txtExMcvat.Size = New System.Drawing.Size(79, 26)
+        Me.txtExMcvat.Size = New System.Drawing.Size(79, 22)
         Me.txtExMcvat.TabIndex = 3
         '
         'Label45
@@ -4552,7 +4553,7 @@ Partial Class RetailBill
         Me.Label45.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label45.Location = New System.Drawing.Point(3, 126)
         Me.Label45.Name = "Label45"
-        Me.Label45.Size = New System.Drawing.Size(131, 18)
+        Me.Label45.Size = New System.Drawing.Size(106, 14)
         Me.Label45.TabIndex = 4
         Me.Label45.Text = "Excess Mc/Tax"
         Me.Label45.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -4562,7 +4563,7 @@ Partial Class RetailBill
         Me.txtOrdVat_AMT.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtOrdVat_AMT.Location = New System.Drawing.Point(320, 94)
         Me.txtOrdVat_AMT.Name = "txtOrdVat_AMT"
-        Me.txtOrdVat_AMT.Size = New System.Drawing.Size(78, 26)
+        Me.txtOrdVat_AMT.Size = New System.Drawing.Size(78, 22)
         Me.txtOrdVat_AMT.TabIndex = 0
         '
         'txtOrdRate_AMT
@@ -4570,7 +4571,7 @@ Partial Class RetailBill
         Me.txtOrdRate_AMT.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtOrdRate_AMT.Location = New System.Drawing.Point(320, 64)
         Me.txtOrdRate_AMT.Name = "txtOrdRate_AMT"
-        Me.txtOrdRate_AMT.Size = New System.Drawing.Size(78, 26)
+        Me.txtOrdRate_AMT.Size = New System.Drawing.Size(78, 22)
         Me.txtOrdRate_AMT.TabIndex = 0
         '
         'txtOrdAmount_AMT
@@ -4578,7 +4579,7 @@ Partial Class RetailBill
         Me.txtOrdAmount_AMT.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtOrdAmount_AMT.Location = New System.Drawing.Point(320, 123)
         Me.txtOrdAmount_AMT.Name = "txtOrdAmount_AMT"
-        Me.txtOrdAmount_AMT.Size = New System.Drawing.Size(79, 26)
+        Me.txtOrdAmount_AMT.Size = New System.Drawing.Size(79, 22)
         Me.txtOrdAmount_AMT.TabIndex = 0
         '
         'txtOrdGrossAmount_AMT
@@ -4586,7 +4587,7 @@ Partial Class RetailBill
         Me.txtOrdGrossAmount_AMT.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtOrdGrossAmount_AMT.Location = New System.Drawing.Point(114, 93)
         Me.txtOrdGrossAmount_AMT.Name = "txtOrdGrossAmount_AMT"
-        Me.txtOrdGrossAmount_AMT.Size = New System.Drawing.Size(79, 26)
+        Me.txtOrdGrossAmount_AMT.Size = New System.Drawing.Size(79, 22)
         Me.txtOrdGrossAmount_AMT.TabIndex = 0
         '
         'txtOrdBalanceWeight_WET
@@ -4594,7 +4595,7 @@ Partial Class RetailBill
         Me.txtOrdBalanceWeight_WET.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtOrdBalanceWeight_WET.Location = New System.Drawing.Point(115, 62)
         Me.txtOrdBalanceWeight_WET.Name = "txtOrdBalanceWeight_WET"
-        Me.txtOrdBalanceWeight_WET.Size = New System.Drawing.Size(79, 26)
+        Me.txtOrdBalanceWeight_WET.Size = New System.Drawing.Size(79, 22)
         Me.txtOrdBalanceWeight_WET.TabIndex = 0
         '
         'txtOrdAdvanceWeight_WET
@@ -4602,7 +4603,7 @@ Partial Class RetailBill
         Me.txtOrdAdvanceWeight_WET.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtOrdAdvanceWeight_WET.Location = New System.Drawing.Point(320, 31)
         Me.txtOrdAdvanceWeight_WET.Name = "txtOrdAdvanceWeight_WET"
-        Me.txtOrdAdvanceWeight_WET.Size = New System.Drawing.Size(78, 26)
+        Me.txtOrdAdvanceWeight_WET.Size = New System.Drawing.Size(78, 22)
         Me.txtOrdAdvanceWeight_WET.TabIndex = 0
         '
         'txtOrdTotalWeight_WET
@@ -4610,7 +4611,7 @@ Partial Class RetailBill
         Me.txtOrdTotalWeight_WET.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtOrdTotalWeight_WET.Location = New System.Drawing.Point(114, 32)
         Me.txtOrdTotalWeight_WET.Name = "txtOrdTotalWeight_WET"
-        Me.txtOrdTotalWeight_WET.Size = New System.Drawing.Size(79, 26)
+        Me.txtOrdTotalWeight_WET.Size = New System.Drawing.Size(79, 22)
         Me.txtOrdTotalWeight_WET.TabIndex = 0
         '
         'lblOrdVat
@@ -4619,7 +4620,7 @@ Partial Class RetailBill
         Me.lblOrdVat.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblOrdVat.Location = New System.Drawing.Point(198, 97)
         Me.lblOrdVat.Name = "lblOrdVat"
-        Me.lblOrdVat.Size = New System.Drawing.Size(36, 18)
+        Me.lblOrdVat.Size = New System.Drawing.Size(29, 14)
         Me.lblOrdVat.TabIndex = 2
         Me.lblOrdVat.Text = "Vat"
         Me.lblOrdVat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -4630,7 +4631,7 @@ Partial Class RetailBill
         Me.Label98.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label98.Location = New System.Drawing.Point(198, 67)
         Me.Label98.Name = "Label98"
-        Me.Label98.Size = New System.Drawing.Size(47, 18)
+        Me.Label98.Size = New System.Drawing.Size(37, 14)
         Me.Label98.TabIndex = 2
         Me.Label98.Text = "Rate"
         Me.Label98.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -4641,7 +4642,7 @@ Partial Class RetailBill
         Me.Label100.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label100.Location = New System.Drawing.Point(198, 126)
         Me.Label100.Name = "Label100"
-        Me.Label100.Size = New System.Drawing.Size(73, 18)
+        Me.Label100.Size = New System.Drawing.Size(57, 14)
         Me.Label100.TabIndex = 2
         Me.Label100.Text = "Amount"
         Me.Label100.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -4652,7 +4653,7 @@ Partial Class RetailBill
         Me.Label79.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label79.Location = New System.Drawing.Point(3, 96)
         Me.Label79.Name = "Label79"
-        Me.Label79.Size = New System.Drawing.Size(125, 18)
+        Me.Label79.Size = New System.Drawing.Size(99, 14)
         Me.Label79.TabIndex = 2
         Me.Label79.Text = "Gross Amount"
         Me.Label79.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -4663,7 +4664,7 @@ Partial Class RetailBill
         Me.Label78.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label78.Location = New System.Drawing.Point(4, 65)
         Me.Label78.Name = "Label78"
-        Me.Label78.Size = New System.Drawing.Size(133, 18)
+        Me.Label78.Size = New System.Drawing.Size(110, 14)
         Me.Label78.TabIndex = 2
         Me.Label78.Text = "Balance Weight"
         Me.Label78.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -4674,7 +4675,7 @@ Partial Class RetailBill
         Me.Label53.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label53.Location = New System.Drawing.Point(198, 35)
         Me.Label53.Name = "Label53"
-        Me.Label53.Size = New System.Drawing.Size(140, 18)
+        Me.Label53.Size = New System.Drawing.Size(114, 14)
         Me.Label53.TabIndex = 2
         Me.Label53.Text = "Advance Weight"
         Me.Label53.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -4685,7 +4686,7 @@ Partial Class RetailBill
         Me.Label52.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label52.Location = New System.Drawing.Point(3, 35)
         Me.Label52.Name = "Label52"
-        Me.Label52.Size = New System.Drawing.Size(111, 18)
+        Me.Label52.Size = New System.Drawing.Size(91, 14)
         Me.Label52.TabIndex = 2
         Me.Label52.Text = "Total Weight"
         Me.Label52.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -4771,14 +4772,14 @@ Partial Class RetailBill
         Me.dgvWholeSaleDetail.AllowUserToAddRows = False
         Me.dgvWholeSaleDetail.AllowUserToDeleteRows = False
         Me.dgvWholeSaleDetail.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Sunken
-        DataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
-        DataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.GradientInactiveCaption
-        DataGridViewCellStyle1.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        DataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText
-        DataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight
-        DataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText
-        DataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
-        Me.dgvWholeSaleDetail.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle1
+        DataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft
+        DataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.GradientInactiveCaption
+        DataGridViewCellStyle2.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        DataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText
+        DataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight
+        DataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText
+        DataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.[True]
+        Me.dgvWholeSaleDetail.ColumnHeadersDefaultCellStyle = DataGridViewCellStyle2
         Me.dgvWholeSaleDetail.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.dgvWholeSaleDetail.Location = New System.Drawing.Point(8, 17)
         Me.dgvWholeSaleDetail.Name = "dgvWholeSaleDetail"
@@ -4802,7 +4803,7 @@ Partial Class RetailBill
         Me.txtAdjSrCredit_AMT.ForeColor = System.Drawing.Color.Red
         Me.txtAdjSrCredit_AMT.Location = New System.Drawing.Point(25, 40)
         Me.txtAdjSrCredit_AMT.Name = "txtAdjSrCredit_AMT"
-        Me.txtAdjSrCredit_AMT.Size = New System.Drawing.Size(96, 26)
+        Me.txtAdjSrCredit_AMT.Size = New System.Drawing.Size(96, 22)
         Me.txtAdjSrCredit_AMT.TabIndex = 32
         Me.txtAdjSrCredit_AMT.Text = "0"
         '
@@ -4890,7 +4891,7 @@ Partial Class RetailBill
         Me.txtAdjDiscount_PER.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
         Me.txtAdjDiscount_PER.MaxLength = 12
         Me.txtAdjDiscount_PER.Name = "txtAdjDiscount_PER"
-        Me.txtAdjDiscount_PER.Size = New System.Drawing.Size(29, 26)
+        Me.txtAdjDiscount_PER.Size = New System.Drawing.Size(29, 22)
         Me.txtAdjDiscount_PER.TabIndex = 34
         Me.txtAdjDiscount_PER.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -4901,7 +4902,7 @@ Partial Class RetailBill
         Me.txtAdjCash_AMT.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
         Me.txtAdjCash_AMT.MaxLength = 12
         Me.txtAdjCash_AMT.Name = "txtAdjCash_AMT"
-        Me.txtAdjCash_AMT.Size = New System.Drawing.Size(111, 26)
+        Me.txtAdjCash_AMT.Size = New System.Drawing.Size(111, 22)
         Me.txtAdjCash_AMT.TabIndex = 33
         Me.txtAdjCash_AMT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -4912,7 +4913,7 @@ Partial Class RetailBill
         Me.txtAdjGiftVoucher_AMT.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
         Me.txtAdjGiftVoucher_AMT.MaxLength = 12
         Me.txtAdjGiftVoucher_AMT.Name = "txtAdjGiftVoucher_AMT"
-        Me.txtAdjGiftVoucher_AMT.Size = New System.Drawing.Size(111, 26)
+        Me.txtAdjGiftVoucher_AMT.Size = New System.Drawing.Size(111, 22)
         Me.txtAdjGiftVoucher_AMT.TabIndex = 8
         Me.txtAdjGiftVoucher_AMT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -4923,7 +4924,7 @@ Partial Class RetailBill
         Me.Label28.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label28.Location = New System.Drawing.Point(43, 140)
         Me.Label28.Name = "Label28"
-        Me.Label28.Size = New System.Drawing.Size(73, 18)
+        Me.Label28.Size = New System.Drawing.Size(59, 14)
         Me.Label28.TabIndex = 9
         Me.Label28.Text = "Scheme"
         Me.Label28.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -4935,7 +4936,7 @@ Partial Class RetailBill
         Me.Label43.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label43.Location = New System.Drawing.Point(45, 20)
         Me.Label43.Name = "Label43"
-        Me.Label43.Size = New System.Drawing.Size(72, 18)
+        Me.Label43.Size = New System.Drawing.Size(59, 14)
         Me.Label43.TabIndex = 0
         Me.Label43.Text = "Receive"
         Me.Label43.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -4947,7 +4948,7 @@ Partial Class RetailBill
         Me.Label41.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label41.Location = New System.Drawing.Point(43, 236)
         Me.Label41.Name = "Label41"
-        Me.Label41.Size = New System.Drawing.Size(78, 18)
+        Me.Label41.Size = New System.Drawing.Size(64, 14)
         Me.Label41.TabIndex = 17
         Me.Label41.Text = "Discount"
         Me.Label41.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -4959,7 +4960,7 @@ Partial Class RetailBill
         Me.Label44.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label44.Location = New System.Drawing.Point(43, 116)
         Me.Label44.Name = "Label44"
-        Me.Label44.Size = New System.Drawing.Size(103, 18)
+        Me.Label44.Size = New System.Drawing.Size(85, 14)
         Me.Label44.TabIndex = 7
         Me.Label44.Text = "Gift&Voucher"
         Me.Label44.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -4971,7 +4972,7 @@ Partial Class RetailBill
         Me.Label60.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label60.Location = New System.Drawing.Point(3, 140)
         Me.Label60.Name = "Label60"
-        Me.Label60.Size = New System.Drawing.Size(45, 18)
+        Me.Label60.Size = New System.Drawing.Size(36, 14)
         Me.Label60.TabIndex = 9
         Me.Label60.Text = "[F9]"
         Me.Label60.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -4983,7 +4984,7 @@ Partial Class RetailBill
         Me.Label38.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label38.Location = New System.Drawing.Point(43, 164)
         Me.Label38.Name = "Label38"
-        Me.Label38.Size = New System.Drawing.Size(80, 18)
+        Me.Label38.Size = New System.Drawing.Size(65, 14)
         Me.Label38.TabIndex = 11
         Me.Label38.Text = "UPI\Chq"
         Me.Label38.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -4995,7 +4996,7 @@ Partial Class RetailBill
         Me.Label59.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label59.Location = New System.Drawing.Point(3, 236)
         Me.Label59.Name = "Label59"
-        Me.Label59.Size = New System.Drawing.Size(45, 18)
+        Me.Label59.Size = New System.Drawing.Size(36, 14)
         Me.Label59.TabIndex = 17
         Me.Label59.Text = "[F5]"
         Me.Label59.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -5007,7 +5008,7 @@ Partial Class RetailBill
         Me.txtAdjCredit_AMT.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
         Me.txtAdjCredit_AMT.MaxLength = 12
         Me.txtAdjCredit_AMT.Name = "txtAdjCredit_AMT"
-        Me.txtAdjCredit_AMT.Size = New System.Drawing.Size(111, 26)
+        Me.txtAdjCredit_AMT.Size = New System.Drawing.Size(111, 22)
         Me.txtAdjCredit_AMT.TabIndex = 6
         Me.txtAdjCredit_AMT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -5018,7 +5019,7 @@ Partial Class RetailBill
         Me.Label40.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label40.Location = New System.Drawing.Point(43, 188)
         Me.Label40.Name = "Label40"
-        Me.Label40.Size = New System.Drawing.Size(100, 18)
+        Me.Label40.Size = New System.Drawing.Size(82, 14)
         Me.Label40.TabIndex = 13
         Me.Label40.Text = "Credit Card"
         Me.Label40.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -5030,7 +5031,7 @@ Partial Class RetailBill
         Me.Label39.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label39.Location = New System.Drawing.Point(45, 92)
         Me.Label39.Name = "Label39"
-        Me.Label39.Size = New System.Drawing.Size(40, 18)
+        Me.Label39.Size = New System.Drawing.Size(33, 14)
         Me.Label39.TabIndex = 5
         Me.Label39.Text = "Due"
         Me.Label39.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -5042,7 +5043,7 @@ Partial Class RetailBill
         Me.txtAdjDiscount_AMT.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
         Me.txtAdjDiscount_AMT.MaxLength = 12
         Me.txtAdjDiscount_AMT.Name = "txtAdjDiscount_AMT"
-        Me.txtAdjDiscount_AMT.Size = New System.Drawing.Size(80, 26)
+        Me.txtAdjDiscount_AMT.Size = New System.Drawing.Size(80, 22)
         Me.txtAdjDiscount_AMT.TabIndex = 18
         Me.txtAdjDiscount_AMT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -5053,7 +5054,7 @@ Partial Class RetailBill
         Me.txtAdjAdvance_AMT.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
         Me.txtAdjAdvance_AMT.MaxLength = 12
         Me.txtAdjAdvance_AMT.Name = "txtAdjAdvance_AMT"
-        Me.txtAdjAdvance_AMT.Size = New System.Drawing.Size(111, 26)
+        Me.txtAdjAdvance_AMT.Size = New System.Drawing.Size(111, 22)
         Me.txtAdjAdvance_AMT.TabIndex = 4
         Me.txtAdjAdvance_AMT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -5064,7 +5065,7 @@ Partial Class RetailBill
         Me.Label57.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label57.Location = New System.Drawing.Point(3, 164)
         Me.Label57.Name = "Label57"
-        Me.Label57.Size = New System.Drawing.Size(45, 18)
+        Me.Label57.Size = New System.Drawing.Size(36, 14)
         Me.Label57.TabIndex = 11
         Me.Label57.Text = "[F8]"
         Me.Label57.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -5076,7 +5077,7 @@ Partial Class RetailBill
         Me.Label42.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label42.Location = New System.Drawing.Point(43, 260)
         Me.Label42.Name = "Label42"
-        Me.Label42.Size = New System.Drawing.Size(48, 18)
+        Me.Label42.Size = New System.Drawing.Size(39, 14)
         Me.Label42.TabIndex = 19
         Me.Label42.Text = "Cash"
         Me.Label42.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -5089,7 +5090,7 @@ Partial Class RetailBill
         Me.Label27.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.Label27.Location = New System.Drawing.Point(43, 68)
         Me.Label27.Name = "Label27"
-        Me.Label27.Size = New System.Drawing.Size(78, 18)
+        Me.Label27.Size = New System.Drawing.Size(63, 14)
         Me.Label27.TabIndex = 3
         Me.Label27.Text = "Advance"
         Me.Label27.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -5101,7 +5102,7 @@ Partial Class RetailBill
         Me.lblHc.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblHc.Location = New System.Drawing.Point(43, 212)
         Me.lblHc.Name = "lblHc"
-        Me.lblHc.Size = New System.Drawing.Size(103, 18)
+        Me.lblHc.Size = New System.Drawing.Size(84, 14)
         Me.lblHc.TabIndex = 15
         Me.lblHc.Text = "Hand Charg"
         Me.lblHc.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -5113,7 +5114,7 @@ Partial Class RetailBill
         Me.txtAdjChitCard_AMT.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
         Me.txtAdjChitCard_AMT.MaxLength = 12
         Me.txtAdjChitCard_AMT.Name = "txtAdjChitCard_AMT"
-        Me.txtAdjChitCard_AMT.Size = New System.Drawing.Size(111, 26)
+        Me.txtAdjChitCard_AMT.Size = New System.Drawing.Size(111, 22)
         Me.txtAdjChitCard_AMT.TabIndex = 10
         Me.txtAdjChitCard_AMT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -5124,7 +5125,7 @@ Partial Class RetailBill
         Me.Label54.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label54.Location = New System.Drawing.Point(3, 188)
         Me.Label54.Name = "Label54"
-        Me.Label54.Size = New System.Drawing.Size(45, 18)
+        Me.Label54.Size = New System.Drawing.Size(36, 14)
         Me.Label54.TabIndex = 13
         Me.Label54.Text = "[F7]"
         Me.Label54.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -5136,7 +5137,7 @@ Partial Class RetailBill
         Me.txtAdjHandlingCharge_AMT.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
         Me.txtAdjHandlingCharge_AMT.MaxLength = 12
         Me.txtAdjHandlingCharge_AMT.Name = "txtAdjHandlingCharge_AMT"
-        Me.txtAdjHandlingCharge_AMT.Size = New System.Drawing.Size(111, 26)
+        Me.txtAdjHandlingCharge_AMT.Size = New System.Drawing.Size(111, 22)
         Me.txtAdjHandlingCharge_AMT.TabIndex = 16
         Me.txtAdjHandlingCharge_AMT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -5147,7 +5148,7 @@ Partial Class RetailBill
         Me.txtAdjRoundoff_AMT.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
         Me.txtAdjRoundoff_AMT.MaxLength = 12
         Me.txtAdjRoundoff_AMT.Name = "txtAdjRoundoff_AMT"
-        Me.txtAdjRoundoff_AMT.Size = New System.Drawing.Size(111, 26)
+        Me.txtAdjRoundoff_AMT.Size = New System.Drawing.Size(111, 22)
         Me.txtAdjRoundoff_AMT.TabIndex = 2
         Me.txtAdjRoundoff_AMT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -5159,7 +5160,7 @@ Partial Class RetailBill
         Me.Label46.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft
         Me.Label46.Location = New System.Drawing.Point(3, 68)
         Me.Label46.Name = "Label46"
-        Me.Label46.Size = New System.Drawing.Size(56, 18)
+        Me.Label46.Size = New System.Drawing.Size(45, 14)
         Me.Label46.TabIndex = 3
         Me.Label46.Text = "[F12]"
         Me.Label46.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -5171,7 +5172,7 @@ Partial Class RetailBill
         Me.Label148.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label148.Location = New System.Drawing.Point(3, 116)
         Me.Label148.Name = "Label148"
-        Me.Label148.Size = New System.Drawing.Size(56, 18)
+        Me.Label148.Size = New System.Drawing.Size(45, 14)
         Me.Label148.TabIndex = 5
         Me.Label148.Text = "[F10]"
         Me.Label148.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -5183,7 +5184,7 @@ Partial Class RetailBill
         Me.Label49.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label49.Location = New System.Drawing.Point(3, 92)
         Me.Label49.Name = "Label49"
-        Me.Label49.Size = New System.Drawing.Size(56, 18)
+        Me.Label49.Size = New System.Drawing.Size(45, 14)
         Me.Label49.TabIndex = 5
         Me.Label49.Text = "[F11]"
         Me.Label49.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -5195,7 +5196,7 @@ Partial Class RetailBill
         Me.Label26.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label26.Location = New System.Drawing.Point(3, 212)
         Me.Label26.Name = "Label26"
-        Me.Label26.Size = New System.Drawing.Size(45, 18)
+        Me.Label26.Size = New System.Drawing.Size(36, 14)
         Me.Label26.TabIndex = 15
         Me.Label26.Text = "[F6]"
         Me.Label26.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -5207,7 +5208,7 @@ Partial Class RetailBill
         Me.txtAdjReceive_AMT.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
         Me.txtAdjReceive_AMT.MaxLength = 12
         Me.txtAdjReceive_AMT.Name = "txtAdjReceive_AMT"
-        Me.txtAdjReceive_AMT.Size = New System.Drawing.Size(111, 26)
+        Me.txtAdjReceive_AMT.Size = New System.Drawing.Size(111, 22)
         Me.txtAdjReceive_AMT.TabIndex = 1
         Me.txtAdjReceive_AMT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -5218,7 +5219,7 @@ Partial Class RetailBill
         Me.Label47.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label47.Location = New System.Drawing.Point(3, 260)
         Me.Label47.Name = "Label47"
-        Me.Label47.Size = New System.Drawing.Size(45, 18)
+        Me.Label47.Size = New System.Drawing.Size(36, 14)
         Me.Label47.TabIndex = 19
         Me.Label47.Text = "[F4]"
         Me.Label47.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -5230,7 +5231,7 @@ Partial Class RetailBill
         Me.txtAdjCheque_AMT.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
         Me.txtAdjCheque_AMT.MaxLength = 12
         Me.txtAdjCheque_AMT.Name = "txtAdjCheque_AMT"
-        Me.txtAdjCheque_AMT.Size = New System.Drawing.Size(111, 26)
+        Me.txtAdjCheque_AMT.Size = New System.Drawing.Size(111, 22)
         Me.txtAdjCheque_AMT.TabIndex = 12
         Me.txtAdjCheque_AMT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -5241,7 +5242,7 @@ Partial Class RetailBill
         Me.txtAdjCreditCard_AMT.Margin = New System.Windows.Forms.Padding(3, 5, 3, 5)
         Me.txtAdjCreditCard_AMT.MaxLength = 12
         Me.txtAdjCreditCard_AMT.Name = "txtAdjCreditCard_AMT"
-        Me.txtAdjCreditCard_AMT.Size = New System.Drawing.Size(111, 26)
+        Me.txtAdjCreditCard_AMT.Size = New System.Drawing.Size(111, 22)
         Me.txtAdjCreditCard_AMT.TabIndex = 14
         Me.txtAdjCreditCard_AMT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
@@ -5372,18 +5373,18 @@ Partial Class RetailBill
         Me.cMenuRecPay.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.cMenuRecPay.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripReceipt, Me.tStripPayment})
         Me.cMenuRecPay.Name = "cMenuRecPay"
-        Me.cMenuRecPay.Size = New System.Drawing.Size(135, 52)
+        Me.cMenuRecPay.Size = New System.Drawing.Size(122, 48)
         '
         'tStripReceipt
         '
         Me.tStripReceipt.Name = "tStripReceipt"
-        Me.tStripReceipt.Size = New System.Drawing.Size(134, 24)
+        Me.tStripReceipt.Size = New System.Drawing.Size(121, 22)
         Me.tStripReceipt.Text = "Receipt"
         '
         'tStripPayment
         '
         Me.tStripPayment.Name = "tStripPayment"
-        Me.tStripPayment.Size = New System.Drawing.Size(134, 24)
+        Me.tStripPayment.Size = New System.Drawing.Size(121, 22)
         Me.tStripPayment.Text = "Payment"
         '
         'btnOrderRepair_OWN
@@ -5404,18 +5405,18 @@ Partial Class RetailBill
         Me.cMenuOrderRepair.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.cMenuOrderRepair.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripOrder, Me.tStripRepair})
         Me.cMenuOrderRepair.Name = "cMenuOrderRepair"
-        Me.cMenuOrderRepair.Size = New System.Drawing.Size(122, 52)
+        Me.cMenuOrderRepair.Size = New System.Drawing.Size(108, 48)
         '
         'tStripOrder
         '
         Me.tStripOrder.Name = "tStripOrder"
-        Me.tStripOrder.Size = New System.Drawing.Size(121, 24)
+        Me.tStripOrder.Size = New System.Drawing.Size(107, 22)
         Me.tStripOrder.Text = "Order"
         '
         'tStripRepair
         '
         Me.tStripRepair.Name = "tStripRepair"
-        Me.tStripRepair.Size = New System.Drawing.Size(121, 24)
+        Me.tStripRepair.Size = New System.Drawing.Size(107, 22)
         Me.tStripRepair.Text = "Repair"
         '
         'btnApproval_OWN
@@ -5436,18 +5437,18 @@ Partial Class RetailBill
         Me.cMenuApproval.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.cMenuApproval.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripApprovalIssue, Me.tStripApprovalReceipt})
         Me.cMenuApproval.Name = "cMenuApproval"
-        Me.cMenuApproval.Size = New System.Drawing.Size(194, 52)
+        Me.cMenuApproval.Size = New System.Drawing.Size(165, 48)
         '
         'tStripApprovalIssue
         '
         Me.tStripApprovalIssue.Name = "tStripApprovalIssue"
-        Me.tStripApprovalIssue.Size = New System.Drawing.Size(193, 24)
+        Me.tStripApprovalIssue.Size = New System.Drawing.Size(164, 22)
         Me.tStripApprovalIssue.Text = "Approval Issue"
         '
         'tStripApprovalReceipt
         '
         Me.tStripApprovalReceipt.Name = "tStripApprovalReceipt"
-        Me.tStripApprovalReceipt.Size = New System.Drawing.Size(193, 24)
+        Me.tStripApprovalReceipt.Size = New System.Drawing.Size(164, 22)
         Me.tStripApprovalReceipt.Text = "Approval Receipt"
         '
         'btnGiftVoucher_OWN
@@ -5571,43 +5572,63 @@ Partial Class RetailBill
         Me.cmenuTemplate.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.cmenuTemplate.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.Style1ToolStripMenuItem, Me.Style2ToolStripMenuItem, Me.Style3ToolStripMenuItem, Me.Style4ToolStripMenuItem, Me.Style5ToolStripMenuItem, Me.Style6ToolStripMenuItem})
         Me.cmenuTemplate.Name = "cmenuTemplate"
-        Me.cmenuTemplate.Size = New System.Drawing.Size(123, 148)
+        Me.cmenuTemplate.Size = New System.Drawing.Size(109, 136)
         '
         'Style1ToolStripMenuItem
         '
         Me.Style1ToolStripMenuItem.Name = "Style1ToolStripMenuItem"
-        Me.Style1ToolStripMenuItem.Size = New System.Drawing.Size(122, 24)
+        Me.Style1ToolStripMenuItem.Size = New System.Drawing.Size(108, 22)
         Me.Style1ToolStripMenuItem.Text = "Style 1"
         '
         'Style2ToolStripMenuItem
         '
         Me.Style2ToolStripMenuItem.Name = "Style2ToolStripMenuItem"
-        Me.Style2ToolStripMenuItem.Size = New System.Drawing.Size(122, 24)
+        Me.Style2ToolStripMenuItem.Size = New System.Drawing.Size(108, 22)
         Me.Style2ToolStripMenuItem.Text = "Style 2"
         '
         'Style3ToolStripMenuItem
         '
         Me.Style3ToolStripMenuItem.Name = "Style3ToolStripMenuItem"
-        Me.Style3ToolStripMenuItem.Size = New System.Drawing.Size(122, 24)
+        Me.Style3ToolStripMenuItem.Size = New System.Drawing.Size(108, 22)
         Me.Style3ToolStripMenuItem.Text = "Style 3"
         '
         'Style4ToolStripMenuItem
         '
         Me.Style4ToolStripMenuItem.Name = "Style4ToolStripMenuItem"
-        Me.Style4ToolStripMenuItem.Size = New System.Drawing.Size(122, 24)
+        Me.Style4ToolStripMenuItem.Size = New System.Drawing.Size(108, 22)
         Me.Style4ToolStripMenuItem.Text = "Style 4"
         '
         'Style5ToolStripMenuItem
         '
         Me.Style5ToolStripMenuItem.Name = "Style5ToolStripMenuItem"
-        Me.Style5ToolStripMenuItem.Size = New System.Drawing.Size(122, 24)
+        Me.Style5ToolStripMenuItem.Size = New System.Drawing.Size(108, 22)
         Me.Style5ToolStripMenuItem.Text = "Style 5"
         '
         'Style6ToolStripMenuItem
         '
         Me.Style6ToolStripMenuItem.Name = "Style6ToolStripMenuItem"
-        Me.Style6ToolStripMenuItem.Size = New System.Drawing.Size(122, 24)
+        Me.Style6ToolStripMenuItem.Size = New System.Drawing.Size(108, 22)
         Me.Style6ToolStripMenuItem.Text = "Style 6"
+        '
+        'lblPNo
+        '
+        Me.lblPNo.AutoSize = True
+        Me.lblPNo.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPNo.Location = New System.Drawing.Point(644, 55)
+        Me.lblPNo.Name = "lblPNo"
+        Me.lblPNo.Size = New System.Drawing.Size(19, 14)
+        Me.lblPNo.TabIndex = 52
+        Me.lblPNo.Text = "[]"
+        '
+        'lblSNo
+        '
+        Me.lblSNo.AutoSize = True
+        Me.lblSNo.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSNo.Location = New System.Drawing.Point(644, 34)
+        Me.lblSNo.Name = "lblSNo"
+        Me.lblSNo.Size = New System.Drawing.Size(19, 14)
+        Me.lblSNo.TabIndex = 51
+        Me.lblSNo.Text = "[]"
         '
         'btnCalc
         '
@@ -5636,7 +5657,7 @@ Partial Class RetailBill
         Me.Label89.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label89.Location = New System.Drawing.Point(875, 54)
         Me.Label89.Name = "Label89"
-        Me.Label89.Size = New System.Drawing.Size(14, 18)
+        Me.Label89.Size = New System.Drawing.Size(12, 14)
         Me.Label89.TabIndex = 9
         Me.Label89.Text = ":"
         '
@@ -5646,7 +5667,7 @@ Partial Class RetailBill
         Me.Label90.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label90.Location = New System.Drawing.Point(875, 36)
         Me.Label90.Name = "Label90"
-        Me.Label90.Size = New System.Drawing.Size(14, 18)
+        Me.Label90.Size = New System.Drawing.Size(12, 14)
         Me.Label90.TabIndex = 8
         Me.Label90.Text = ":"
         '
@@ -5656,7 +5677,7 @@ Partial Class RetailBill
         Me.Label91.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label91.Location = New System.Drawing.Point(875, 18)
         Me.Label91.Name = "Label91"
-        Me.Label91.Size = New System.Drawing.Size(14, 18)
+        Me.Label91.Size = New System.Drawing.Size(12, 14)
         Me.Label91.TabIndex = 7
         Me.Label91.Text = ":"
         '
@@ -5666,7 +5687,7 @@ Partial Class RetailBill
         Me.Label88.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label88.Location = New System.Drawing.Point(153, 54)
         Me.Label88.Name = "Label88"
-        Me.Label88.Size = New System.Drawing.Size(14, 18)
+        Me.Label88.Size = New System.Drawing.Size(12, 14)
         Me.Label88.TabIndex = 6
         Me.Label88.Text = ":"
         '
@@ -5676,7 +5697,7 @@ Partial Class RetailBill
         Me.Label87.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label87.Location = New System.Drawing.Point(153, 36)
         Me.Label87.Name = "Label87"
-        Me.Label87.Size = New System.Drawing.Size(14, 18)
+        Me.Label87.Size = New System.Drawing.Size(12, 14)
         Me.Label87.TabIndex = 6
         Me.Label87.Text = ":"
         '
@@ -5686,7 +5707,7 @@ Partial Class RetailBill
         Me.Label86.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label86.Location = New System.Drawing.Point(153, 18)
         Me.Label86.Name = "Label86"
-        Me.Label86.Size = New System.Drawing.Size(14, 18)
+        Me.Label86.Size = New System.Drawing.Size(12, 14)
         Me.Label86.TabIndex = 6
         Me.Label86.Text = ":"
         '
@@ -5728,7 +5749,7 @@ Partial Class RetailBill
         Me.lblNodeId.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblNodeId.Location = New System.Drawing.Point(762, 53)
         Me.lblNodeId.Name = "lblNodeId"
-        Me.lblNodeId.Size = New System.Drawing.Size(63, 20)
+        Me.lblNodeId.Size = New System.Drawing.Size(47, 16)
         Me.lblNodeId.TabIndex = 4
         Me.lblNodeId.Text = "NODE"
         '
@@ -5738,7 +5759,7 @@ Partial Class RetailBill
         Me.lblUserName.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblUserName.Location = New System.Drawing.Point(187, 53)
         Me.lblUserName.Name = "lblUserName"
-        Me.lblUserName.Size = New System.Drawing.Size(173, 20)
+        Me.lblUserName.Size = New System.Drawing.Size(125, 16)
         Me.lblUserName.TabIndex = 4
         Me.lblUserName.Text = "ADMINISTRATOR"
         '
@@ -5748,23 +5769,23 @@ Partial Class RetailBill
         Me.Label24.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Label24.Location = New System.Drawing.Point(23, 53)
         Me.Label24.Name = "Label24"
-        Me.Label24.Size = New System.Drawing.Size(121, 20)
+        Me.Label24.Size = New System.Drawing.Size(89, 16)
         Me.Label24.TabIndex = 4
         Me.Label24.Text = "USER NAME"
         '
         'ContextMenuStrip1
         '
         Me.ContextMenuStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
-        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CompanySelectionToolStripMenuItem, Me.Company1ToolStripMenuItem, Me.Company2ToolStripMenuItem, Me.Company3ToolStripMenuItem, Me.Company4ToolStripMenuItem, Me.Company5ToolStripMenuItem, Me.Company6ToolStripMenuItem, Me.Company7ToolStripMenuItem, Me.Company8ToolStripMenuItem, Me.Company9ToolStripMenuItem, Me.Company0ToolStripMenuItem, Me.ToolStripMenuItem1, Me.ToolStripMenuItem2, Me.ToolStripMenuItem3, Me.ToolStripMenuItem4, Me.ToolStripMenuItem5, Me.ToolStripMenuItem6, Me.ToolStripMenuItem7, Me.ToolStripMenuItem8, Me.ToolStripMenuItem9, Me.ToolStripMenuItem10, Me.SalesToolStripMenuItem, Me.SalesReturnToolStripMenuItem, Me.PurchaseToolStripMenuItem, Me.PartlySalesToolStripMenuItem, Me.AdvanceToolStripMenuItem, Me.CreditToolStripMenuItem, Me.CreditCardToolStripMenuItem, Me.ChitCardToolStripMenuItem, Me.ChequeToolStripMenuItem, Me.HandlingChargeToolStripMenuItem, Me.DiscountToolStripMenuItem, Me.CashToolStripMenuItem, Me.tStripGiftVouhcer, Me.cmenuBookingItem, Me.tStripMiscIssue, Me.tStripGiftVoucher, Me.FinalDiscountToolStripMenuItem, Me.FinalPurDiscountToolStripMenuItem, Me.SaleRateChangeToolStripMenuItem, Me.WastageMcPerToolStripMenuItem, Me.StoneDetailsToolStripMenuItem, Me.MiscDetailsToolStripMenuItem, Me.MultiMetalDetailsToolStripMenuItem, Me.SalesB4DiscountToolStripMenuItem, Me.AddressToolStripMenuItem, Me.ToBeToolStripMenuItem, Me.ReceiptToolStripMenuItem, Me.PaymentToolStripMenuItem, Me.AppIssueToolStripMenuItem, Me.AppReceiptToolStripMenuItem, Me.OrderToolStripMenuItem, Me.RepairToolStripMenuItem, Me.EstCallToolStrip, Me.ToolStripDupbill, Me.ToolStripSchemeOffer, Me.ToolStripRateView, Me.ToolStripBillno, Me.Wt2WtAdjustToolStripMenuItem, Me.ComplementToolStripMenuItem, Me.ExcelDownloadToolStripMenuItem, Me.tStripSchemeOffer, Me.CalcStripMenuItem, Me.SetItemToolStripMenuItem11, Me.DisableSetItemStripMenuItem, Me.TagCompMoveToolStripMenuItem, Me.tStripSGiftVoucher, Me.BillTypeToolStripMenuItem, Me.PrivilegeDiscountToolStripMenuItem, Me.PruchaseOrderRate, Me.KFC, Me.ToolStripRowFinalAmt, Me.SecondSalesToolStripMenuItem, Me.TrfNoToolStripMenuItem, Me.ToolStripHallmarkDetails, Me.TStripShipingAddress})
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.CompanySelectionToolStripMenuItem, Me.Company1ToolStripMenuItem, Me.Company2ToolStripMenuItem, Me.Company3ToolStripMenuItem, Me.Company4ToolStripMenuItem, Me.Company5ToolStripMenuItem, Me.Company6ToolStripMenuItem, Me.Company7ToolStripMenuItem, Me.Company8ToolStripMenuItem, Me.Company9ToolStripMenuItem, Me.Company0ToolStripMenuItem, Me.ToolStripMenuItem1, Me.ToolStripMenuItem2, Me.ToolStripMenuItem3, Me.ToolStripMenuItem4, Me.ToolStripMenuItem5, Me.ToolStripMenuItem6, Me.ToolStripMenuItem7, Me.ToolStripMenuItem8, Me.ToolStripMenuItem9, Me.ToolStripMenuItem10, Me.SalesToolStripMenuItem, Me.SalesReturnToolStripMenuItem, Me.PurchaseToolStripMenuItem, Me.PartlySalesToolStripMenuItem, Me.AdvanceToolStripMenuItem, Me.CreditToolStripMenuItem, Me.CreditCardToolStripMenuItem, Me.ChitCardToolStripMenuItem, Me.ChequeToolStripMenuItem, Me.HandlingChargeToolStripMenuItem, Me.DiscountToolStripMenuItem, Me.CashToolStripMenuItem, Me.tStripGiftVouhcer, Me.cmenuBookingItem, Me.tStripMiscIssue, Me.tStripGiftVoucher, Me.FinalDiscountToolStripMenuItem, Me.FinalPurDiscountToolStripMenuItem, Me.SaleRateChangeToolStripMenuItem, Me.WastageMcPerToolStripMenuItem, Me.StoneDetailsToolStripMenuItem, Me.MiscDetailsToolStripMenuItem, Me.MultiMetalDetailsToolStripMenuItem, Me.SalesB4DiscountToolStripMenuItem, Me.AddressToolStripMenuItem, Me.ToBeToolStripMenuItem, Me.ReceiptToolStripMenuItem, Me.PaymentToolStripMenuItem, Me.AppIssueToolStripMenuItem, Me.AppReceiptToolStripMenuItem, Me.OrderToolStripMenuItem, Me.RepairToolStripMenuItem, Me.EstCallToolStrip, Me.ToolStripDupbill, Me.ToolStripSchemeOffer, Me.ToolStripRateView, Me.ToolStripBillno, Me.Wt2WtAdjustToolStripMenuItem, Me.ComplementToolStripMenuItem, Me.ExcelDownloadToolStripMenuItem, Me.tStripSchemeOffer, Me.CalcStripMenuItem, Me.SetItemToolStripMenuItem11, Me.DisableSetItemStripMenuItem, Me.TagCompMoveToolStripMenuItem, Me.tStripSGiftVoucher, Me.BillTypeToolStripMenuItem, Me.PrivilegeDiscountToolStripMenuItem, Me.PruchaseOrderRate, Me.KFC, Me.ToolStripRowFinalAmt, Me.SecondSalesToolStripMenuItem, Me.TrfNoToolStripMenuItem, Me.ToolStripHallmarkDetails, Me.TStripShipingAddress, Me.FinalPurchaseDiscountStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(310, 1018)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(316, 1720)
         '
         'CompanySelectionToolStripMenuItem
         '
         Me.CompanySelectionToolStripMenuItem.Name = "CompanySelectionToolStripMenuItem"
         Me.CompanySelectionToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.M), System.Windows.Forms.Keys)
-        Me.CompanySelectionToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.CompanySelectionToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.CompanySelectionToolStripMenuItem.Tag = "Main"
         Me.CompanySelectionToolStripMenuItem.Text = "Company Selection"
         Me.CompanySelectionToolStripMenuItem.Visible = False
@@ -5773,7 +5794,7 @@ Partial Class RetailBill
         '
         Me.Company1ToolStripMenuItem.Name = "Company1ToolStripMenuItem"
         Me.Company1ToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D1), System.Windows.Forms.Keys)
-        Me.Company1ToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.Company1ToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.Company1ToolStripMenuItem.Tag = "1"
         Me.Company1ToolStripMenuItem.Text = "Company1"
         Me.Company1ToolStripMenuItem.Visible = False
@@ -5782,7 +5803,7 @@ Partial Class RetailBill
         '
         Me.Company2ToolStripMenuItem.Name = "Company2ToolStripMenuItem"
         Me.Company2ToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D2), System.Windows.Forms.Keys)
-        Me.Company2ToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.Company2ToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.Company2ToolStripMenuItem.Tag = "2"
         Me.Company2ToolStripMenuItem.Text = "Company2"
         Me.Company2ToolStripMenuItem.Visible = False
@@ -5791,7 +5812,7 @@ Partial Class RetailBill
         '
         Me.Company3ToolStripMenuItem.Name = "Company3ToolStripMenuItem"
         Me.Company3ToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D3), System.Windows.Forms.Keys)
-        Me.Company3ToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.Company3ToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.Company3ToolStripMenuItem.Tag = "3"
         Me.Company3ToolStripMenuItem.Text = "Company3"
         Me.Company3ToolStripMenuItem.Visible = False
@@ -5800,7 +5821,7 @@ Partial Class RetailBill
         '
         Me.Company4ToolStripMenuItem.Name = "Company4ToolStripMenuItem"
         Me.Company4ToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D4), System.Windows.Forms.Keys)
-        Me.Company4ToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.Company4ToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.Company4ToolStripMenuItem.Tag = "4"
         Me.Company4ToolStripMenuItem.Text = "Company4"
         Me.Company4ToolStripMenuItem.Visible = False
@@ -5809,7 +5830,7 @@ Partial Class RetailBill
         '
         Me.Company5ToolStripMenuItem.Name = "Company5ToolStripMenuItem"
         Me.Company5ToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D5), System.Windows.Forms.Keys)
-        Me.Company5ToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.Company5ToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.Company5ToolStripMenuItem.Tag = "5"
         Me.Company5ToolStripMenuItem.Text = "Company5"
         Me.Company5ToolStripMenuItem.Visible = False
@@ -5818,7 +5839,7 @@ Partial Class RetailBill
         '
         Me.Company6ToolStripMenuItem.Name = "Company6ToolStripMenuItem"
         Me.Company6ToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D6), System.Windows.Forms.Keys)
-        Me.Company6ToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.Company6ToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.Company6ToolStripMenuItem.Tag = "6"
         Me.Company6ToolStripMenuItem.Text = "Company6"
         Me.Company6ToolStripMenuItem.Visible = False
@@ -5827,7 +5848,7 @@ Partial Class RetailBill
         '
         Me.Company7ToolStripMenuItem.Name = "Company7ToolStripMenuItem"
         Me.Company7ToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D7), System.Windows.Forms.Keys)
-        Me.Company7ToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.Company7ToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.Company7ToolStripMenuItem.Tag = "7"
         Me.Company7ToolStripMenuItem.Text = "Company7"
         Me.Company7ToolStripMenuItem.Visible = False
@@ -5836,7 +5857,7 @@ Partial Class RetailBill
         '
         Me.Company8ToolStripMenuItem.Name = "Company8ToolStripMenuItem"
         Me.Company8ToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D8), System.Windows.Forms.Keys)
-        Me.Company8ToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.Company8ToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.Company8ToolStripMenuItem.Tag = "8"
         Me.Company8ToolStripMenuItem.Text = "Company8"
         Me.Company8ToolStripMenuItem.Visible = False
@@ -5845,7 +5866,7 @@ Partial Class RetailBill
         '
         Me.Company9ToolStripMenuItem.Name = "Company9ToolStripMenuItem"
         Me.Company9ToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D9), System.Windows.Forms.Keys)
-        Me.Company9ToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.Company9ToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.Company9ToolStripMenuItem.Tag = "9"
         Me.Company9ToolStripMenuItem.Text = "Company9"
         Me.Company9ToolStripMenuItem.Visible = False
@@ -5854,7 +5875,7 @@ Partial Class RetailBill
         '
         Me.Company0ToolStripMenuItem.Name = "Company0ToolStripMenuItem"
         Me.Company0ToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D0), System.Windows.Forms.Keys)
-        Me.Company0ToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.Company0ToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.Company0ToolStripMenuItem.Tag = "0"
         Me.Company0ToolStripMenuItem.Text = "Company0"
         Me.Company0ToolStripMenuItem.Visible = False
@@ -5863,7 +5884,7 @@ Partial Class RetailBill
         '
         Me.ToolStripMenuItem1.Name = "ToolStripMenuItem1"
         Me.ToolStripMenuItem1.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.NumPad1), System.Windows.Forms.Keys)
-        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(309, 24)
+        Me.ToolStripMenuItem1.Size = New System.Drawing.Size(315, 22)
         Me.ToolStripMenuItem1.Tag = "1"
         Me.ToolStripMenuItem1.Text = "Company1"
         Me.ToolStripMenuItem1.Visible = False
@@ -5872,7 +5893,7 @@ Partial Class RetailBill
         '
         Me.ToolStripMenuItem2.Name = "ToolStripMenuItem2"
         Me.ToolStripMenuItem2.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.NumPad2), System.Windows.Forms.Keys)
-        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(309, 24)
+        Me.ToolStripMenuItem2.Size = New System.Drawing.Size(315, 22)
         Me.ToolStripMenuItem2.Tag = "2"
         Me.ToolStripMenuItem2.Text = "Company2"
         Me.ToolStripMenuItem2.Visible = False
@@ -5881,7 +5902,7 @@ Partial Class RetailBill
         '
         Me.ToolStripMenuItem3.Name = "ToolStripMenuItem3"
         Me.ToolStripMenuItem3.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.NumPad3), System.Windows.Forms.Keys)
-        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(309, 24)
+        Me.ToolStripMenuItem3.Size = New System.Drawing.Size(315, 22)
         Me.ToolStripMenuItem3.Tag = "3"
         Me.ToolStripMenuItem3.Text = "Company3"
         Me.ToolStripMenuItem3.Visible = False
@@ -5890,7 +5911,7 @@ Partial Class RetailBill
         '
         Me.ToolStripMenuItem4.Name = "ToolStripMenuItem4"
         Me.ToolStripMenuItem4.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.NumPad4), System.Windows.Forms.Keys)
-        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(309, 24)
+        Me.ToolStripMenuItem4.Size = New System.Drawing.Size(315, 22)
         Me.ToolStripMenuItem4.Tag = "4"
         Me.ToolStripMenuItem4.Text = "Company4"
         Me.ToolStripMenuItem4.Visible = False
@@ -5899,7 +5920,7 @@ Partial Class RetailBill
         '
         Me.ToolStripMenuItem5.Name = "ToolStripMenuItem5"
         Me.ToolStripMenuItem5.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.NumPad5), System.Windows.Forms.Keys)
-        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(309, 24)
+        Me.ToolStripMenuItem5.Size = New System.Drawing.Size(315, 22)
         Me.ToolStripMenuItem5.Tag = "5"
         Me.ToolStripMenuItem5.Text = "Company5"
         Me.ToolStripMenuItem5.Visible = False
@@ -5908,7 +5929,7 @@ Partial Class RetailBill
         '
         Me.ToolStripMenuItem6.Name = "ToolStripMenuItem6"
         Me.ToolStripMenuItem6.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.NumPad6), System.Windows.Forms.Keys)
-        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(309, 24)
+        Me.ToolStripMenuItem6.Size = New System.Drawing.Size(315, 22)
         Me.ToolStripMenuItem6.Tag = "6"
         Me.ToolStripMenuItem6.Text = "Company6"
         Me.ToolStripMenuItem6.Visible = False
@@ -5917,7 +5938,7 @@ Partial Class RetailBill
         '
         Me.ToolStripMenuItem7.Name = "ToolStripMenuItem7"
         Me.ToolStripMenuItem7.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.NumPad7), System.Windows.Forms.Keys)
-        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(309, 24)
+        Me.ToolStripMenuItem7.Size = New System.Drawing.Size(315, 22)
         Me.ToolStripMenuItem7.Tag = "7"
         Me.ToolStripMenuItem7.Text = "Company7"
         Me.ToolStripMenuItem7.Visible = False
@@ -5926,7 +5947,7 @@ Partial Class RetailBill
         '
         Me.ToolStripMenuItem8.Name = "ToolStripMenuItem8"
         Me.ToolStripMenuItem8.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.NumPad8), System.Windows.Forms.Keys)
-        Me.ToolStripMenuItem8.Size = New System.Drawing.Size(309, 24)
+        Me.ToolStripMenuItem8.Size = New System.Drawing.Size(315, 22)
         Me.ToolStripMenuItem8.Tag = "8"
         Me.ToolStripMenuItem8.Text = "Company8"
         Me.ToolStripMenuItem8.Visible = False
@@ -5935,7 +5956,7 @@ Partial Class RetailBill
         '
         Me.ToolStripMenuItem9.Name = "ToolStripMenuItem9"
         Me.ToolStripMenuItem9.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.NumPad9), System.Windows.Forms.Keys)
-        Me.ToolStripMenuItem9.Size = New System.Drawing.Size(309, 24)
+        Me.ToolStripMenuItem9.Size = New System.Drawing.Size(315, 22)
         Me.ToolStripMenuItem9.Tag = "9"
         Me.ToolStripMenuItem9.Text = "Company9"
         Me.ToolStripMenuItem9.Visible = False
@@ -5944,7 +5965,7 @@ Partial Class RetailBill
         '
         Me.ToolStripMenuItem10.Name = "ToolStripMenuItem10"
         Me.ToolStripMenuItem10.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.NumPad0), System.Windows.Forms.Keys)
-        Me.ToolStripMenuItem10.Size = New System.Drawing.Size(309, 24)
+        Me.ToolStripMenuItem10.Size = New System.Drawing.Size(315, 22)
         Me.ToolStripMenuItem10.Tag = "0"
         Me.ToolStripMenuItem10.Text = "Company0"
         Me.ToolStripMenuItem10.Visible = False
@@ -5953,7 +5974,7 @@ Partial Class RetailBill
         '
         Me.SalesToolStripMenuItem.Name = "SalesToolStripMenuItem"
         Me.SalesToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SalesToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.SalesToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.SalesToolStripMenuItem.Text = "Sales"
         Me.SalesToolStripMenuItem.Visible = False
         '
@@ -5961,7 +5982,7 @@ Partial Class RetailBill
         '
         Me.SalesReturnToolStripMenuItem.Name = "SalesReturnToolStripMenuItem"
         Me.SalesReturnToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
-        Me.SalesReturnToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.SalesReturnToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.SalesReturnToolStripMenuItem.Text = "Sales Return"
         Me.SalesReturnToolStripMenuItem.Visible = False
         '
@@ -5969,7 +5990,7 @@ Partial Class RetailBill
         '
         Me.PurchaseToolStripMenuItem.Name = "PurchaseToolStripMenuItem"
         Me.PurchaseToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
-        Me.PurchaseToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.PurchaseToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.PurchaseToolStripMenuItem.Text = "Purchase"
         Me.PurchaseToolStripMenuItem.Visible = False
         '
@@ -5977,7 +5998,7 @@ Partial Class RetailBill
         '
         Me.PartlySalesToolStripMenuItem.Name = "PartlySalesToolStripMenuItem"
         Me.PartlySalesToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.P), System.Windows.Forms.Keys)
-        Me.PartlySalesToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.PartlySalesToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.PartlySalesToolStripMenuItem.Text = "Partly Sales"
         Me.PartlySalesToolStripMenuItem.Visible = False
         '
@@ -5985,7 +6006,7 @@ Partial Class RetailBill
         '
         Me.AdvanceToolStripMenuItem.Name = "AdvanceToolStripMenuItem"
         Me.AdvanceToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F12
-        Me.AdvanceToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.AdvanceToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.AdvanceToolStripMenuItem.Text = "Advance"
         Me.AdvanceToolStripMenuItem.Visible = False
         '
@@ -5993,7 +6014,7 @@ Partial Class RetailBill
         '
         Me.CreditToolStripMenuItem.Name = "CreditToolStripMenuItem"
         Me.CreditToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F11
-        Me.CreditToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.CreditToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.CreditToolStripMenuItem.Text = "Credit"
         Me.CreditToolStripMenuItem.Visible = False
         '
@@ -6001,7 +6022,7 @@ Partial Class RetailBill
         '
         Me.CreditCardToolStripMenuItem.Name = "CreditCardToolStripMenuItem"
         Me.CreditCardToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F7
-        Me.CreditCardToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.CreditCardToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.CreditCardToolStripMenuItem.Text = "Credit Card"
         Me.CreditCardToolStripMenuItem.Visible = False
         '
@@ -6009,7 +6030,7 @@ Partial Class RetailBill
         '
         Me.ChitCardToolStripMenuItem.Name = "ChitCardToolStripMenuItem"
         Me.ChitCardToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F9
-        Me.ChitCardToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.ChitCardToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.ChitCardToolStripMenuItem.Text = "Scheme"
         Me.ChitCardToolStripMenuItem.Visible = False
         '
@@ -6017,7 +6038,7 @@ Partial Class RetailBill
         '
         Me.ChequeToolStripMenuItem.Name = "ChequeToolStripMenuItem"
         Me.ChequeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F8
-        Me.ChequeToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.ChequeToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.ChequeToolStripMenuItem.Text = "Cheque"
         Me.ChequeToolStripMenuItem.Visible = False
         '
@@ -6025,7 +6046,7 @@ Partial Class RetailBill
         '
         Me.HandlingChargeToolStripMenuItem.Name = "HandlingChargeToolStripMenuItem"
         Me.HandlingChargeToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F6
-        Me.HandlingChargeToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.HandlingChargeToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.HandlingChargeToolStripMenuItem.Text = "Handling Charge"
         Me.HandlingChargeToolStripMenuItem.Visible = False
         '
@@ -6033,7 +6054,7 @@ Partial Class RetailBill
         '
         Me.DiscountToolStripMenuItem.Name = "DiscountToolStripMenuItem"
         Me.DiscountToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5
-        Me.DiscountToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.DiscountToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.DiscountToolStripMenuItem.Text = "Discount"
         Me.DiscountToolStripMenuItem.Visible = False
         '
@@ -6041,7 +6062,7 @@ Partial Class RetailBill
         '
         Me.CashToolStripMenuItem.Name = "CashToolStripMenuItem"
         Me.CashToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F4
-        Me.CashToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.CashToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.CashToolStripMenuItem.Text = "Cash"
         Me.CashToolStripMenuItem.Visible = False
         '
@@ -6049,7 +6070,7 @@ Partial Class RetailBill
         '
         Me.tStripGiftVouhcer.Name = "tStripGiftVouhcer"
         Me.tStripGiftVouhcer.ShortcutKeys = System.Windows.Forms.Keys.F10
-        Me.tStripGiftVouhcer.Size = New System.Drawing.Size(309, 24)
+        Me.tStripGiftVouhcer.Size = New System.Drawing.Size(315, 22)
         Me.tStripGiftVouhcer.Text = "Gift Voucher"
         Me.tStripGiftVouhcer.Visible = False
         '
@@ -6057,7 +6078,7 @@ Partial Class RetailBill
         '
         Me.cmenuBookingItem.Name = "cmenuBookingItem"
         Me.cmenuBookingItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.B), System.Windows.Forms.Keys)
-        Me.cmenuBookingItem.Size = New System.Drawing.Size(309, 24)
+        Me.cmenuBookingItem.Size = New System.Drawing.Size(315, 22)
         Me.cmenuBookingItem.Text = "Booked Item"
         Me.cmenuBookingItem.Visible = False
         '
@@ -6065,7 +6086,7 @@ Partial Class RetailBill
         '
         Me.tStripMiscIssue.Name = "tStripMiscIssue"
         Me.tStripMiscIssue.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.M), System.Windows.Forms.Keys)
-        Me.tStripMiscIssue.Size = New System.Drawing.Size(309, 24)
+        Me.tStripMiscIssue.Size = New System.Drawing.Size(315, 22)
         Me.tStripMiscIssue.Text = "Misc Issue"
         Me.tStripMiscIssue.Visible = False
         '
@@ -6073,7 +6094,7 @@ Partial Class RetailBill
         '
         Me.tStripGiftVoucher.Name = "tStripGiftVoucher"
         Me.tStripGiftVoucher.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.G), System.Windows.Forms.Keys)
-        Me.tStripGiftVoucher.Size = New System.Drawing.Size(309, 24)
+        Me.tStripGiftVoucher.Size = New System.Drawing.Size(315, 22)
         Me.tStripGiftVoucher.Text = "Gift Voucher"
         Me.tStripGiftVoucher.Visible = False
         '
@@ -6081,7 +6102,7 @@ Partial Class RetailBill
         '
         Me.FinalDiscountToolStripMenuItem.Name = "FinalDiscountToolStripMenuItem"
         Me.FinalDiscountToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F2), System.Windows.Forms.Keys)
-        Me.FinalDiscountToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.FinalDiscountToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.FinalDiscountToolStripMenuItem.Text = "Final Discount"
         Me.FinalDiscountToolStripMenuItem.Visible = False
         '
@@ -6089,7 +6110,7 @@ Partial Class RetailBill
         '
         Me.FinalPurDiscountToolStripMenuItem.Name = "FinalPurDiscountToolStripMenuItem"
         Me.FinalPurDiscountToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F3), System.Windows.Forms.Keys)
-        Me.FinalPurDiscountToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.FinalPurDiscountToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.FinalPurDiscountToolStripMenuItem.Text = "Final Pur Discount"
         Me.FinalPurDiscountToolStripMenuItem.Visible = False
         '
@@ -6097,7 +6118,7 @@ Partial Class RetailBill
         '
         Me.SaleRateChangeToolStripMenuItem.Name = "SaleRateChangeToolStripMenuItem"
         Me.SaleRateChangeToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
-        Me.SaleRateChangeToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.SaleRateChangeToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.SaleRateChangeToolStripMenuItem.Text = "Sale Rate Change"
         Me.SaleRateChangeToolStripMenuItem.Visible = False
         '
@@ -6105,7 +6126,7 @@ Partial Class RetailBill
         '
         Me.WastageMcPerToolStripMenuItem.Name = "WastageMcPerToolStripMenuItem"
         Me.WastageMcPerToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F9), System.Windows.Forms.Keys)
-        Me.WastageMcPerToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.WastageMcPerToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.WastageMcPerToolStripMenuItem.Text = "WastageMcPer"
         Me.WastageMcPerToolStripMenuItem.Visible = False
         '
@@ -6113,7 +6134,7 @@ Partial Class RetailBill
         '
         Me.StoneDetailsToolStripMenuItem.Name = "StoneDetailsToolStripMenuItem"
         Me.StoneDetailsToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.StoneDetailsToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.StoneDetailsToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.StoneDetailsToolStripMenuItem.Text = "Stone Details"
         Me.StoneDetailsToolStripMenuItem.Visible = False
         '
@@ -6121,7 +6142,7 @@ Partial Class RetailBill
         '
         Me.MiscDetailsToolStripMenuItem.Name = "MiscDetailsToolStripMenuItem"
         Me.MiscDetailsToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
-        Me.MiscDetailsToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.MiscDetailsToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.MiscDetailsToolStripMenuItem.Text = "Misc Details"
         Me.MiscDetailsToolStripMenuItem.Visible = False
         '
@@ -6129,7 +6150,7 @@ Partial Class RetailBill
         '
         Me.MultiMetalDetailsToolStripMenuItem.Name = "MultiMetalDetailsToolStripMenuItem"
         Me.MultiMetalDetailsToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.M), System.Windows.Forms.Keys)
-        Me.MultiMetalDetailsToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.MultiMetalDetailsToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.MultiMetalDetailsToolStripMenuItem.Text = "Multi Metal Details"
         Me.MultiMetalDetailsToolStripMenuItem.Visible = False
         '
@@ -6137,7 +6158,7 @@ Partial Class RetailBill
         '
         Me.SalesB4DiscountToolStripMenuItem.Name = "SalesB4DiscountToolStripMenuItem"
         Me.SalesB4DiscountToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F1), System.Windows.Forms.Keys)
-        Me.SalesB4DiscountToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.SalesB4DiscountToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.SalesB4DiscountToolStripMenuItem.Text = "Sales B4 Discount"
         Me.SalesB4DiscountToolStripMenuItem.Visible = False
         '
@@ -6145,7 +6166,7 @@ Partial Class RetailBill
         '
         Me.AddressToolStripMenuItem.Name = "AddressToolStripMenuItem"
         Me.AddressToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
-        Me.AddressToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.AddressToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.AddressToolStripMenuItem.Text = "Address"
         Me.AddressToolStripMenuItem.Visible = False
         '
@@ -6153,7 +6174,7 @@ Partial Class RetailBill
         '
         Me.ToBeToolStripMenuItem.Name = "ToBeToolStripMenuItem"
         Me.ToBeToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.J), System.Windows.Forms.Keys)
-        Me.ToBeToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.ToBeToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.ToBeToolStripMenuItem.Text = "Jewel not delivered"
         Me.ToBeToolStripMenuItem.Visible = False
         '
@@ -6161,7 +6182,7 @@ Partial Class RetailBill
         '
         Me.ReceiptToolStripMenuItem.Name = "ReceiptToolStripMenuItem"
         Me.ReceiptToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
-        Me.ReceiptToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.ReceiptToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.ReceiptToolStripMenuItem.Text = "Receipt"
         Me.ReceiptToolStripMenuItem.Visible = False
         '
@@ -6169,7 +6190,7 @@ Partial Class RetailBill
         '
         Me.PaymentToolStripMenuItem.Name = "PaymentToolStripMenuItem"
         Me.PaymentToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Y), System.Windows.Forms.Keys)
-        Me.PaymentToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.PaymentToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.PaymentToolStripMenuItem.Text = "Payment"
         Me.PaymentToolStripMenuItem.Visible = False
         '
@@ -6177,7 +6198,7 @@ Partial Class RetailBill
         '
         Me.AppIssueToolStripMenuItem.Name = "AppIssueToolStripMenuItem"
         Me.AppIssueToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.I), System.Windows.Forms.Keys)
-        Me.AppIssueToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.AppIssueToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.AppIssueToolStripMenuItem.Text = "App Issue"
         Me.AppIssueToolStripMenuItem.Visible = False
         '
@@ -6185,7 +6206,7 @@ Partial Class RetailBill
         '
         Me.AppReceiptToolStripMenuItem.Name = "AppReceiptToolStripMenuItem"
         Me.AppReceiptToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.T), System.Windows.Forms.Keys)
-        Me.AppReceiptToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.AppReceiptToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.AppReceiptToolStripMenuItem.Text = "App Receipt"
         Me.AppReceiptToolStripMenuItem.Visible = False
         '
@@ -6193,7 +6214,7 @@ Partial Class RetailBill
         '
         Me.OrderToolStripMenuItem.Name = "OrderToolStripMenuItem"
         Me.OrderToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.D), System.Windows.Forms.Keys)
-        Me.OrderToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.OrderToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.OrderToolStripMenuItem.Text = "Order"
         Me.OrderToolStripMenuItem.Visible = False
         '
@@ -6201,7 +6222,7 @@ Partial Class RetailBill
         '
         Me.RepairToolStripMenuItem.Name = "RepairToolStripMenuItem"
         Me.RepairToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.E), System.Windows.Forms.Keys)
-        Me.RepairToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.RepairToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.RepairToolStripMenuItem.Text = "Repair"
         Me.RepairToolStripMenuItem.Visible = False
         '
@@ -6209,7 +6230,7 @@ Partial Class RetailBill
         '
         Me.EstCallToolStrip.Name = "EstCallToolStrip"
         Me.EstCallToolStrip.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.Insert), System.Windows.Forms.Keys)
-        Me.EstCallToolStrip.Size = New System.Drawing.Size(309, 24)
+        Me.EstCallToolStrip.Size = New System.Drawing.Size(315, 22)
         Me.EstCallToolStrip.Text = "ToolStripMenuItem11"
         Me.EstCallToolStrip.Visible = False
         '
@@ -6217,7 +6238,7 @@ Partial Class RetailBill
         '
         Me.ToolStripDupbill.Name = "ToolStripDupbill"
         Me.ToolStripDupbill.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.D), System.Windows.Forms.Keys)
-        Me.ToolStripDupbill.Size = New System.Drawing.Size(309, 24)
+        Me.ToolStripDupbill.Size = New System.Drawing.Size(315, 22)
         Me.ToolStripDupbill.Text = "ToolStripMenuItem11"
         Me.ToolStripDupbill.Visible = False
         '
@@ -6225,7 +6246,7 @@ Partial Class RetailBill
         '
         Me.ToolStripSchemeOffer.Name = "ToolStripSchemeOffer"
         Me.ToolStripSchemeOffer.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Insert), System.Windows.Forms.Keys)
-        Me.ToolStripSchemeOffer.Size = New System.Drawing.Size(309, 24)
+        Me.ToolStripSchemeOffer.Size = New System.Drawing.Size(315, 22)
         Me.ToolStripSchemeOffer.Text = "ToolStripMenuItem11"
         Me.ToolStripSchemeOffer.Visible = False
         '
@@ -6234,7 +6255,7 @@ Partial Class RetailBill
         Me.ToolStripRateView.Name = "ToolStripRateView"
         Me.ToolStripRateView.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Alt) _
             Or System.Windows.Forms.Keys.R), System.Windows.Forms.Keys)
-        Me.ToolStripRateView.Size = New System.Drawing.Size(309, 24)
+        Me.ToolStripRateView.Size = New System.Drawing.Size(315, 22)
         Me.ToolStripRateView.Text = "ToolStripMenuItem11"
         Me.ToolStripRateView.Visible = False
         '
@@ -6243,7 +6264,7 @@ Partial Class RetailBill
         Me.ToolStripBillno.Name = "ToolStripBillno"
         Me.ToolStripBillno.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Alt) _
             Or System.Windows.Forms.Keys.B), System.Windows.Forms.Keys)
-        Me.ToolStripBillno.Size = New System.Drawing.Size(309, 24)
+        Me.ToolStripBillno.Size = New System.Drawing.Size(315, 22)
         Me.ToolStripBillno.Text = "ToolStripMenuItem11"
         Me.ToolStripBillno.Visible = False
         '
@@ -6251,7 +6272,7 @@ Partial Class RetailBill
         '
         Me.Wt2WtAdjustToolStripMenuItem.Name = "Wt2WtAdjustToolStripMenuItem"
         Me.Wt2WtAdjustToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.W), System.Windows.Forms.Keys)
-        Me.Wt2WtAdjustToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.Wt2WtAdjustToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.Wt2WtAdjustToolStripMenuItem.Text = "Wt2WtAdust Detail"
         Me.Wt2WtAdjustToolStripMenuItem.Visible = False
         '
@@ -6259,7 +6280,7 @@ Partial Class RetailBill
         '
         Me.ComplementToolStripMenuItem.Name = "ComplementToolStripMenuItem"
         Me.ComplementToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F10), System.Windows.Forms.Keys)
-        Me.ComplementToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.ComplementToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.ComplementToolStripMenuItem.Text = "ToolStripMenuItem11"
         Me.ComplementToolStripMenuItem.Visible = False
         '
@@ -6268,7 +6289,7 @@ Partial Class RetailBill
         Me.ExcelDownloadToolStripMenuItem.Name = "ExcelDownloadToolStripMenuItem"
         Me.ExcelDownloadToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Alt) _
             Or System.Windows.Forms.Keys.X), System.Windows.Forms.Keys)
-        Me.ExcelDownloadToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.ExcelDownloadToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.ExcelDownloadToolStripMenuItem.Text = "Excel Sales Import"
         Me.ExcelDownloadToolStripMenuItem.Visible = False
         '
@@ -6276,7 +6297,7 @@ Partial Class RetailBill
         '
         Me.tStripSchemeOffer.Name = "tStripSchemeOffer"
         Me.tStripSchemeOffer.ShortcutKeys = System.Windows.Forms.Keys.F2
-        Me.tStripSchemeOffer.Size = New System.Drawing.Size(309, 24)
+        Me.tStripSchemeOffer.Size = New System.Drawing.Size(315, 22)
         Me.tStripSchemeOffer.Text = "Scheme Offer"
         Me.tStripSchemeOffer.Visible = False
         '
@@ -6285,7 +6306,7 @@ Partial Class RetailBill
         Me.CalcStripMenuItem.Name = "CalcStripMenuItem"
         Me.CalcStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Alt) _
             Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
-        Me.CalcStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.CalcStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.CalcStripMenuItem.Text = "Calculator"
         Me.CalcStripMenuItem.Visible = False
         '
@@ -6294,7 +6315,7 @@ Partial Class RetailBill
         Me.SetItemToolStripMenuItem11.Name = "SetItemToolStripMenuItem11"
         Me.SetItemToolStripMenuItem11.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Alt) _
             Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.SetItemToolStripMenuItem11.Size = New System.Drawing.Size(309, 24)
+        Me.SetItemToolStripMenuItem11.Size = New System.Drawing.Size(315, 22)
         Me.SetItemToolStripMenuItem11.Text = "Enable Set Item"
         Me.SetItemToolStripMenuItem11.Visible = False
         '
@@ -6303,7 +6324,7 @@ Partial Class RetailBill
         Me.DisableSetItemStripMenuItem.Name = "DisableSetItemStripMenuItem"
         Me.DisableSetItemStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Alt) _
             Or System.Windows.Forms.Keys.D), System.Windows.Forms.Keys)
-        Me.DisableSetItemStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.DisableSetItemStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.DisableSetItemStripMenuItem.Text = "Disable Set Item"
         Me.DisableSetItemStripMenuItem.Visible = False
         '
@@ -6311,7 +6332,7 @@ Partial Class RetailBill
         '
         Me.TagCompMoveToolStripMenuItem.Name = "TagCompMoveToolStripMenuItem"
         Me.TagCompMoveToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1
-        Me.TagCompMoveToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.TagCompMoveToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.TagCompMoveToolStripMenuItem.Text = "ToolStripMenuItem11"
         Me.TagCompMoveToolStripMenuItem.Visible = False
         '
@@ -6319,7 +6340,7 @@ Partial Class RetailBill
         '
         Me.tStripSGiftVoucher.Name = "tStripSGiftVoucher"
         Me.tStripSGiftVoucher.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F10), System.Windows.Forms.Keys)
-        Me.tStripSGiftVoucher.Size = New System.Drawing.Size(309, 24)
+        Me.tStripSGiftVoucher.Size = New System.Drawing.Size(315, 22)
         Me.tStripSGiftVoucher.Text = "Silver Gift Voucher"
         Me.tStripSGiftVoucher.Visible = False
         '
@@ -6327,7 +6348,7 @@ Partial Class RetailBill
         '
         Me.BillTypeToolStripMenuItem.Name = "BillTypeToolStripMenuItem"
         Me.BillTypeToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F1), System.Windows.Forms.Keys)
-        Me.BillTypeToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.BillTypeToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.BillTypeToolStripMenuItem.Text = "Change Bill Type"
         Me.BillTypeToolStripMenuItem.Visible = False
         '
@@ -6335,7 +6356,7 @@ Partial Class RetailBill
         '
         Me.PrivilegeDiscountToolStripMenuItem.Name = "PrivilegeDiscountToolStripMenuItem"
         Me.PrivilegeDiscountToolStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.I), System.Windows.Forms.Keys)
-        Me.PrivilegeDiscountToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.PrivilegeDiscountToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.PrivilegeDiscountToolStripMenuItem.Text = "ToolStripMenuItem11"
         Me.PrivilegeDiscountToolStripMenuItem.Visible = False
         '
@@ -6344,7 +6365,7 @@ Partial Class RetailBill
         Me.PruchaseOrderRate.Name = "PruchaseOrderRate"
         Me.PruchaseOrderRate.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Shift) _
             Or System.Windows.Forms.Keys.F6), System.Windows.Forms.Keys)
-        Me.PruchaseOrderRate.Size = New System.Drawing.Size(309, 24)
+        Me.PruchaseOrderRate.Size = New System.Drawing.Size(315, 22)
         Me.PruchaseOrderRate.Text = "Pruchase Order Rate"
         Me.PruchaseOrderRate.Visible = False
         '
@@ -6352,7 +6373,7 @@ Partial Class RetailBill
         '
         Me.KFC.Name = "KFC"
         Me.KFC.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F8), System.Windows.Forms.Keys)
-        Me.KFC.Size = New System.Drawing.Size(309, 24)
+        Me.KFC.Size = New System.Drawing.Size(315, 22)
         Me.KFC.Text = "ToolStripMenuItem11"
         Me.KFC.Visible = False
         '
@@ -6361,7 +6382,7 @@ Partial Class RetailBill
         Me.ToolStripRowFinalAmt.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ToolStripRowFinalAmt.Name = "ToolStripRowFinalAmt"
         Me.ToolStripRowFinalAmt.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.F7), System.Windows.Forms.Keys)
-        Me.ToolStripRowFinalAmt.Size = New System.Drawing.Size(309, 24)
+        Me.ToolStripRowFinalAmt.Size = New System.Drawing.Size(315, 22)
         Me.ToolStripRowFinalAmt.Text = "Row Final Amount"
         Me.ToolStripRowFinalAmt.Visible = False
         '
@@ -6370,7 +6391,7 @@ Partial Class RetailBill
         Me.SecondSalesToolStripMenuItem.Name = "SecondSalesToolStripMenuItem"
         Me.SecondSalesToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Alt) _
             Or System.Windows.Forms.Keys.F10), System.Windows.Forms.Keys)
-        Me.SecondSalesToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.SecondSalesToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.SecondSalesToolStripMenuItem.Text = "Second Sales"
         Me.SecondSalesToolStripMenuItem.Visible = False
         '
@@ -6379,7 +6400,7 @@ Partial Class RetailBill
         Me.TrfNoToolStripMenuItem.Name = "TrfNoToolStripMenuItem"
         Me.TrfNoToolStripMenuItem.ShortcutKeys = CType(((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Alt) _
             Or System.Windows.Forms.Keys.T), System.Windows.Forms.Keys)
-        Me.TrfNoToolStripMenuItem.Size = New System.Drawing.Size(309, 24)
+        Me.TrfNoToolStripMenuItem.Size = New System.Drawing.Size(315, 22)
         Me.TrfNoToolStripMenuItem.Text = "Transfer No Misc Issue"
         Me.TrfNoToolStripMenuItem.Visible = False
         '
@@ -6387,7 +6408,7 @@ Partial Class RetailBill
         '
         Me.ToolStripHallmarkDetails.Name = "ToolStripHallmarkDetails"
         Me.ToolStripHallmarkDetails.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.H), System.Windows.Forms.Keys)
-        Me.ToolStripHallmarkDetails.Size = New System.Drawing.Size(309, 24)
+        Me.ToolStripHallmarkDetails.Size = New System.Drawing.Size(315, 22)
         Me.ToolStripHallmarkDetails.Text = "Hallmark Details"
         Me.ToolStripHallmarkDetails.Visible = False
         '
@@ -6395,7 +6416,7 @@ Partial Class RetailBill
         '
         Me.TStripShipingAddress.Name = "TStripShipingAddress"
         Me.TStripShipingAddress.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.A), System.Windows.Forms.Keys)
-        Me.TStripShipingAddress.Size = New System.Drawing.Size(309, 24)
+        Me.TStripShipingAddress.Size = New System.Drawing.Size(315, 22)
         Me.TStripShipingAddress.Text = "Shiping Address"
         Me.TStripShipingAddress.Visible = False
         '
@@ -6431,7 +6452,7 @@ Partial Class RetailBill
         Me.lblTcsCalcAmt.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTcsCalcAmt.Location = New System.Drawing.Point(447, 688)
         Me.lblTcsCalcAmt.Name = "lblTcsCalcAmt"
-        Me.lblTcsCalcAmt.Size = New System.Drawing.Size(103, 18)
+        Me.lblTcsCalcAmt.Size = New System.Drawing.Size(83, 14)
         Me.lblTcsCalcAmt.TabIndex = 36
         Me.lblTcsCalcAmt.Text = "TcsCalcAmt"
         Me.lblTcsCalcAmt.TextAlign = System.Drawing.ContentAlignment.MiddleRight
@@ -6444,35 +6465,22 @@ Partial Class RetailBill
         Me.lblTcsCalcPrecent.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTcsCalcPrecent.Location = New System.Drawing.Point(364, 688)
         Me.lblTcsCalcPrecent.Name = "lblTcsCalcPrecent"
-        Me.lblTcsCalcPrecent.Size = New System.Drawing.Size(96, 18)
+        Me.lblTcsCalcPrecent.Size = New System.Drawing.Size(80, 14)
         Me.lblTcsCalcPrecent.TabIndex = 37
         Me.lblTcsCalcPrecent.Text = "TcsCalcPer"
         Me.lblTcsCalcPrecent.TextAlign = System.Drawing.ContentAlignment.MiddleRight
         Me.lblTcsCalcPrecent.Visible = False
         '
-        'lblSNo
+        'FinalPurchaseDiscountStripMenuItem
         '
-        Me.lblSNo.AutoSize = True
-        Me.lblSNo.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSNo.Location = New System.Drawing.Point(644, 34)
-        Me.lblSNo.Name = "lblSNo"
-        Me.lblSNo.Size = New System.Drawing.Size(24, 18)
-        Me.lblSNo.TabIndex = 51
-        Me.lblSNo.Text = "[]"
-        '
-        'lblPNo
-        '
-        Me.lblPNo.AutoSize = True
-        Me.lblPNo.Font = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPNo.Location = New System.Drawing.Point(644, 55)
-        Me.lblPNo.Name = "lblPNo"
-        Me.lblPNo.Size = New System.Drawing.Size(24, 18)
-        Me.lblPNo.TabIndex = 52
-        Me.lblPNo.Text = "[]"
+        Me.FinalPurchaseDiscountStripMenuItem.Name = "FinalPurchaseDiscountStripMenuItem"
+        Me.FinalPurchaseDiscountStripMenuItem.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F2), System.Windows.Forms.Keys)
+        Me.FinalPurchaseDiscountStripMenuItem.Size = New System.Drawing.Size(315, 22)
+        Me.FinalPurchaseDiscountStripMenuItem.Text = "FinalPurchaseDiscountStripMenuItem"
         '
         'RetailBill
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 17.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.InactiveCaption
         Me.ClientSize = New System.Drawing.Size(1014, 698)
@@ -7109,4 +7117,5 @@ Partial Class RetailBill
     Friend WithEvents lblTcsCalcPrecent As Label
     Friend WithEvents lblPNo As Label
     Friend WithEvents lblSNo As Label
+    Friend WithEvents FinalPurchaseDiscountStripMenuItem As ToolStripMenuItem
 End Class

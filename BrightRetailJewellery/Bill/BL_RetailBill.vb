@@ -785,7 +785,8 @@ Public Class BL_RetailBill
     , Optional ByVal EDSNO1 As String = "", Optional ByVal EDSNO2 As String = "", Optional ByVal EDSNO3 As String = "" _
     , Optional ByVal SGSTSNO As String = "", Optional ByVal CGSTSNO As String = "", Optional ByVal IGSTSNO As String = "" _
     , Optional ByVal EntOrder As Integer = 0 _
-    , Optional ByVal CESSPER As Double = 0, Optional ByVal CESS As Double = 0, Optional ByVal CESSSNO As String = "", Optional ByVal HSN As String = ""
+    , Optional ByVal CESSPER As Double = 0, Optional ByVal CESS As Double = 0, Optional ByVal CESSSNO As String = "", Optional ByVal HSN As String = "" _
+    , Optional ByVal FIN_PURDISCOUNT As Decimal = 0
     )
         If GetBillControlValue("GEN-SIMILARNO", tran) = "Y" Then
             HasSimilarBillNo = True
@@ -942,6 +943,7 @@ Public Class BL_RetailBill
         strsql += ", @CESSPER='" & CESSPER & "'" 'CESSPER
         strsql += ", @CESSSNO='" & CESSSNO & "'" 'CESSSNO
         strsql += ", @HSNCODE='" & HSN & "'" 'HSNCODE
+        strsql += ", @FIN_PURDISCOUNT='" & FIN_PURDISCOUNT & "'" 'FIN_PURDISCOUNT
         cmd = New OleDbCommand(strsql, cn, tran) : cmd.CommandTimeout = 1000
         cmd.ExecuteNonQuery()
     End Function

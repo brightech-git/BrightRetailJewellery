@@ -266,6 +266,13 @@ Public Class frmDiscountReport
                     .SortMode = DataGridViewColumnSortMode.NotSortable
                 End With
             End If
+            If .Columns.Contains("FINALPURDISC") Then
+                With .Columns("FINALPURDISC")
+                    .Width = 100
+                    .DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+                    .SortMode = DataGridViewColumnSortMode.NotSortable
+                End With
+            End If
             If .Columns.Contains("OFFERDISC") Then
                 With .Columns("OFFERDISC")
                     .Width = 100
