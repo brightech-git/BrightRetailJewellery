@@ -67,6 +67,13 @@ Public Class BillPurchaseDetail
         cmbItem_SelectedIndexChanged(Me, New EventArgs)
         'If categorytype Then
 
+        StrSql = " SELECT NAME FROM " & cnAdminDb & "..ITEMTYPE"
+        StrSql += " WHERE SOFTMODULE = 'E' "
+        StrSql += " AND CATCODE = '" & selecatcode & "'"
+        StrSql += " ORDER BY DISPALYORDER"
+        objGPack.FillCombo(StrSql, cmbItemType_MAN)
+        If cmbItemType_MAN.Items.Count > 0 Then cmbItemType_MAN.Enabled = True Else cmbItemType_MAN.Enabled = False
+
     End Sub
 
     Private Sub cmbItem_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles cmbItem.KeyPress

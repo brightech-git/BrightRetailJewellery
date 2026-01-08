@@ -1,10 +1,12 @@
 Imports System.Data.OleDb
+Imports java.security
 
 Public Class frmDataChecking
     Public Enum Type
         Issue = 0
         Receipt = 1
         Collect = 2
+        IssueReceipt = 3
     End Enum
     Dim cmd As OleDbCommand
     Dim IssRec As Type
@@ -80,6 +82,7 @@ Public Class frmDataChecking
         lblStatus.Visible = False
         dtpFrom.Focus()
         DataGridView1.Visible = False
+        chkDiff.Checked = True
     End Sub
 
     Private Sub frmDataChecking_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles Me.KeyPress
@@ -1022,7 +1025,7 @@ Public Class frmDataChecking
         strSql += " IF (SELECT 1 FROM SYSOBJECTS WHERE NAME = 'TEMP_SRPU')>0 /**/"
         strSql += " DROP TABLE TEMP_SRPU /**/"
         strSql += " SELECT 'IS'SEP,TRANNO,TRANDATE,PCS,GRSWT,NETWT,AMOUNT,TAX,CATCODE,BATCHNO,0 ITEMID,TRANTYPE PAYMODE /**/"
-        strSql += " INTO TEMP_SRPU FROM " & cnstockdb & "..RECEIPT /**/"
+        strSql += " INTO TEMP_SRPU FROM " & cnStockDb & "..RECEIPT /**/"
         strSql += " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
         If catCode <> "" Then strSql += " AND CATCODE = '" & catCode & "'"
         If companyId <> "" Then strSql += " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
@@ -1032,10 +1035,10 @@ Public Class frmDataChecking
         strSql += " INSERT INTO TEMP_SRPU /**/"
         strSql += " SELECT 'AS'SEP,TRANNO,TRANDATE,PCS,GRSWT,NETWT,AMOUNT,0 TAX /**/"
         strSql += " ,(SELECT TOP 1 CATCODE FROM " & cnAdminDb & "..CATEGORY WHERE PURCHASEID = T.ACCODE)AS CATCODE,T.BATCHNO,0 ITEMID,'PU'PAYMODE /**/"
-        strSql += " FROM " & cnstockdb & "..ACCTRAN T /**/"
+        strSql += " FROM " & cnStockDb & "..ACCTRAN T /**/"
         strSql += " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
         strSql += " AND BATCHNO IN (SELECT BATCHNO FROM TEMP_SRPU WHERE PAYMODE = 'PU') /**/"
-        strSql += " AND ACCODE IN (SELECT PURCHASEID FROM " & CNADMINDB & "..CATEGORY WHERE CATCODE IN (SELECT CATCODE FROM TEMP_SRPU WHERE PAYMODE = 'PU')) /**/"
+        strSql += " AND ACCODE IN (SELECT PURCHASEID FROM " & cnAdminDb & "..CATEGORY WHERE CATCODE IN (SELECT CATCODE FROM TEMP_SRPU WHERE PAYMODE = 'PU')) /**/"
         strSql += " AND ISNULL(CANCEL,'') = '' /**/"
         If catCode <> "" Then strSql += " AND CATCODE = '" & catCode & "'"
         If companyId <> "" Then strSql += " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
@@ -1043,30 +1046,30 @@ Public Class frmDataChecking
         strSql += " UNION ALL /**/"
         strSql += " SELECT 'AS'SEP,TRANNO,TRANDATE,PCS,GRSWT,NETWT,AMOUNT,0 TAX /**/"
         strSql += " ,(SELECT TOP 1 CATCODE FROM " & cnAdminDb & "..CATEGORY WHERE SRETURNID = T.ACCODE)AS CATCODE,T.BATCHNO,0 ITEMID,'SR' PAYMODE /**/"
-        strSql += " FROM " & cnstockdb & "..ACCTRAN T /**/"
+        strSql += " FROM " & cnStockDb & "..ACCTRAN T /**/"
         strSql += " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
         strSql += " AND BATCHNO IN (SELECT BATCHNO FROM TEMP_SRPU WHERE PAYMODE = 'SR') /**/"
-        strSql += " AND ACCODE IN (SELECT SRETURNID FROM " & CNADMINDB & "..CATEGORY WHERE CATCODE IN (SELECT CATCODE FROM TEMP_SRPU WHERE PAYMODE = 'SR')) /**/"
+        strSql += " AND ACCODE IN (SELECT SRETURNID FROM " & cnAdminDb & "..CATEGORY WHERE CATCODE IN (SELECT CATCODE FROM TEMP_SRPU WHERE PAYMODE = 'SR')) /**/"
         strSql += " AND ISNULL(CANCEL,'') = '' /**/"
         If catCode <> "" Then strSql += " AND CATCODE = '" & catCode & "'"
         If companyId <> "" Then strSql += " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
         strSql += " UNION ALL /**/"
         strSql += " SELECT 'AS'SEP,TRANNO,TRANDATE,PCS,GRSWT,NETWT,0 AMOUNT,AMOUNT TAX /**/"
         strSql += " ,(SELECT TOP 1 CATCODE FROM " & cnAdminDb & "..CATEGORY WHERE PTAXID = T.ACCODE)AS CATCODE,BATCHNO,0 ITEMID,'PU' PAYMODE /**/"
-        strSql += " FROM " & cnstockdb & "..ACCTRAN T /**/"
+        strSql += " FROM " & cnStockDb & "..ACCTRAN T /**/"
         strSql += " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
         strSql += " AND BATCHNO IN (SELECT BATCHNO FROM TEMP_SRPU) /**/"
-        strSql += " AND ACCODE IN (SELECT PTAXID FROM " & CNADMINDB & "..CATEGORY WHERE CATCODE IN (SELECT CATCODE FROM TEMP_SRPU)) /**/"
+        strSql += " AND ACCODE IN (SELECT PTAXID FROM " & cnAdminDb & "..CATEGORY WHERE CATCODE IN (SELECT CATCODE FROM TEMP_SRPU)) /**/"
         strSql += " AND ISNULL(CANCEL,'') = '' /**/"
         If catCode <> "" Then strSql += " AND CATCODE = '" & catCode & "'"
         If companyId <> "" Then strSql += " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
         strSql += " UNION ALL /**/"
         strSql += " SELECT 'AS'SEP,TRANNO,TRANDATE,PCS,GRSWT,NETWT,0 AMOUNT,AMOUNT TAX /**/"
         strSql += " ,(SELECT TOP 1 CATCODE FROM " & cnAdminDb & "..CATEGORY WHERE STAXID = T.ACCODE)AS CATCODE,BATCHNO,0 ITEMID,'SR'PAYMODE /**/"
-        strSql += " FROM " & cnstockdb & "..ACCTRAN T /**/"
+        strSql += " FROM " & cnStockDb & "..ACCTRAN T /**/"
         strSql += " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
         strSql += " AND BATCHNO IN (SELECT BATCHNO FROM TEMP_SRPU) /**/"
-        strSql += " AND ACCODE IN (SELECT STAXID FROM " & CNADMINDB & "..CATEGORY WHERE CATCODE IN (SELECT CATCODE FROM TEMP_SRPU)) /**/"
+        strSql += " AND ACCODE IN (SELECT STAXID FROM " & cnAdminDb & "..CATEGORY WHERE CATCODE IN (SELECT CATCODE FROM TEMP_SRPU)) /**/"
         strSql += " AND ISNULL(CANCEL,'') = '' /**/"
         If catCode <> "" Then strSql += " AND CATCODE = '" & catCode & "'"
         If companyId <> "" Then strSql += " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
@@ -1088,7 +1091,7 @@ Public Class frmDataChecking
         strSql += " ,SUM(CASE WHEN SEP = 'AS' THEN TAX ELSE 0 END)AS TTAX /**/"
         strSql += " ,CATCODE /**/"
         strSql += " ,BATCHNO"
-        strSql += " ,ISNULL((SELECT CATNAME FROM " & CNADMINDB & "..CATEGORY WHERE CATCODE = T.CATCODE),T.CATCODE)AS CATNAME,PAYMODE /**/"
+        strSql += " ,ISNULL((SELECT CATNAME FROM " & cnAdminDb & "..CATEGORY WHERE CATCODE = T.CATCODE),T.CATCODE)AS CATNAME,PAYMODE /**/"
         strSql += " FROM TEMP_SRPU T /**/"
         strSql += " GROUP BY TRANNO,TRANDATE,BATCHNO,CATCODE,PAYMODE /**/"
         strSql += " )X"
@@ -1099,166 +1102,166 @@ Public Class frmDataChecking
 
     Public Sub CheckIssue(ByVal frmDate As String, ByVal toDate As String, ByVal catCode As String, ByVal companyId As String)
         strSql = " IF (SELECT 1 FROM SYSOBJECTS WHERE NAME = 'TEMP_SA_BATCH')>0 /**SA ONLY**/ /**/ "
-        strSql += " DROP TABLE TEMP_SA_BATCH /**/"
-        strSql += " SELECT DISTINCT CATCODE,ITEMID,BATCHNO INTO TEMP_SA_BATCH FROM " & cnstockdb & "..ISSUE AS I /**/"
-        strSql += " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
-        strSql += " AND TRANTYPE = 'SA' AND NOT EXISTS (SELECT 1 FROM " & cnstockdb & "..ISSUE WHERE TRANTYPE <> 'SA' AND BATCHNO = I.BATCHNO) /**/"
-        strSql += " AND ISNULL(CANCEL,'') = '' /**/"
-        If catCode <> "" Then strSql += " AND CATCODE = '" & catCode & "'"
-        If companyId <> "" Then strSql += " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
-        strSql += " "
-        strSql += " IF (SELECT 1 FROM SYSOBJECTS WHERE NAME = 'TEMP_OD_BATCH')>0 /**OD ONLY**/ /**/"
-        strSql += " DROP TABLE TEMP_OD_BATCH /**/"
-        strSql += " SELECT DISTINCT CATCODE,ITEMID,BATCHNO INTO TEMP_OD_BATCH FROM " & cnstockdb & "..ISSUE AS I /**/"
-        strSql += " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
-        strSql += " AND TRANTYPE IN ('OD','RD') AND NOT EXISTS (SELECT 1 FROM " & cnstockdb & "..ISSUE WHERE TRANTYPE NOT IN ('OD','RD') AND BATCHNO = I.BATCHNO) /**/"
-        strSql += " AND ISNULL(CANCEL,'') = '' /**/"
-        If catCode <> "" Then strSql += " AND CATCODE = '" & catCode & "'"
-        If companyId <> "" Then strSql += " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
-        strSql += " "
-        strSql += " IF (SELECT 1 FROM SYSOBJECTS WHERE NAME = 'TEMP_SAOD_BATCH')>0 /**SA WITH OD**/ /**/"
-        strSql += " DROP TABLE TEMP_SAOD_BATCH /**/"
-        strSql += " SELECT DISTINCT CATCODE,ITEMID,BATCHNO  /**/"
-        strSql += " INTO TEMP_SAOD_BATCH  /**/"
-        strSql += " FROM " & cnstockdb & "..ISSUE AS I /**/"
-        strSql += " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
-        strSql += " AND TRANTYPE = 'SA' AND EXISTS (SELECT 1 FROM " & cnstockdb & "..ISSUE WHERE BATCHNO = I.BATCHNO AND TRANTYPE IN ('OD','RD')) /**/"
-        strSql += " AND ISNULL(CANCEL,'') = '' /**/"
-        If catCode <> "" Then strSql += " AND CATCODE = '" & catCode & "'"
-        If companyId <> "" Then strSql += " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
-        strSql += " "
-        strSql += " /**TAKING SA RECORD ONLY**/ /**/"
-        strSql += " IF (SELECT 1 FROM SYSOBJECTS WHERE NAME = 'TEMP_SA')>0 /**/"
-        strSql += " DROP TABLE TEMP_SA /**/"
-        strSql += " SELECT 'IS'SEP,TRANNO,TRANDATE,PCS,GRSWT,NETWT,AMOUNT,TAX,CATCODE,BATCHNO,0 ITEMID /**/"
-        strSql += " INTO TEMP_SA FROM " & cnstockdb & "..ISSUE /**/"
-        strSql += " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
-        strSql += " AND BATCHNO IN (SELECT BATCHNO FROM TEMP_SA_BATCH) /**/"
-        strSql += " AND ISNULL(CANCEL,'') = '' /**/"
-        If catCode <> "" Then strSql += " AND CATCODE = '" & catCode & "'"
-        If companyId <> "" Then strSql += " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
-        strSql += " INSERT INTO TEMP_SA /**/"
-        strSql += " SELECT 'AS'SEP,TRANNO,TRANDATE,PCS,GRSWT,NETWT,AMOUNT,0 TAX /**/"
-        strSql += " ,(SELECT TOP 1 CATCODE FROM " & cnAdminDb & "..CATEGORY WHERE SALESID = T.ACCODE)AS CATCODE,T.BATCHNO,0 ITEMID /**/"
-        strSql += " FROM " & cnStockDb & "..ACCTRAN T /**/"
-        strSql += " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
-        strSql += " AND BATCHNO IN (SELECT BATCHNO FROM TEMP_SA_BATCH) /**/"
-        strSql += " AND ACCODE IN (SELECT SALESID FROM " & cnAdminDb & "..CATEGORY WHERE CATCODE IN (SELECT CATCODE FROM TEMP_SA)) /**/"
-        strSql += " AND ISNULL(CANCEL,'') = '' /**/"
-        If catCode <> "" Then strSql += " AND CATCODE = '" & catCode & "'"
-        If companyId <> "" Then strSql += " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
-        strSql += " UNION ALL /**/"
-        strSql += " SELECT 'AS'SEP,TRANNO,TRANDATE,PCS,GRSWT,NETWT,0 AMOUNT,AMOUNT TAX /**/"
-        strSql += " ,(SELECT TOP 1 CATCODE FROM " & cnAdminDb & "..CATEGORY WHERE STAXID = T.ACCODE)AS CATCODE,BATCHNO,0 ITEMID /**/"
-        strSql += " FROM " & cnstockdb & "..ACCTRAN T /**/"
-        strSql += " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
-        strSql += " AND BATCHNO IN (SELECT BATCHNO FROM TEMP_SA_BATCH) /**/"
-        strSql += " AND ACCODE IN (SELECT STAXID FROM " & cnAdminDb & "..CATEGORY WHERE CATCODE IN (SELECT CATCODE FROM TEMP_SA)) /**/"
-        strSql += " AND ISNULL(CANCEL,'') = '' /**/"
-        If catCode <> "" Then strSql += " AND CATCODE = '" & catCode & "'"
-        If companyId <> "" Then strSql += " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
-        strSql += " /**TAKING OD RECORD ONLY**/ /**/"
-        strSql += " IF (SELECT 1 FROM SYSOBJECTS WHERE NAME = 'TEMP_OD')>0 /**/"
-        strSql += " DROP TABLE TEMP_OD /**/"
-        strSql += " SELECT 'IS'SEP,TRANNO,TRANDATE,PCS,GRSWT,NETWT,AMOUNT,TAX,(SELECT CATCODE FROM " & cnAdminDb & "..ITEMMAST WHERE ITEMID = I.ITEMID)CATCODE,BATCHNO,ITEMID /**/"
-        strSql += " INTO TEMP_OD FROM " & cnStockDb & "..ISSUE AS I /**/"
-        strSql += " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
-        strSql += " AND BATCHNO IN (SELECT BATCHNO FROM TEMP_OD_BATCH) /**/"
-        strSql += " AND ISNULL(CANCEL,'') = '' /**/"
-        If catCode <> "" Then strSql += " AND CATCODE = '" & catCode & "'"
-        If companyId <> "" Then strSql += " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
-        strSql += " INSERT INTO TEMP_OD /**/"
-        strSql += " SELECT 'AS'SEP,TRANNO,TRANDATE,PCS,GRSWT,NETWT,AMOUNT,0 TAX /**/"
-        strSql += " ,(SELECT TOP 1 CATCODE FROM " & cnAdminDb & "..CATEGORY WHERE SALESID = T.ACCODE)AS CATCODE,T.BATCHNO,0 ITEMID /**/"
-        strSql += " FROM " & cnstockdb & "..ACCTRAN T /**/"
-        strSql += " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
-        strSql += " AND BATCHNO IN (SELECT BATCHNO FROM TEMP_OD_BATCH) /**/"
-        strSql += " AND ACCODE IN (SELECT SALESID FROM " & CNADMINDB & "..CATEGORY WHERE CATCODE IN (SELECT CATCODE FROM TEMP_OD)) /**/"
-        strSql += " AND ISNULL(CANCEL,'') = '' /**/"
-        If catCode <> "" Then strSql += " AND CATCODE = '" & catCode & "'"
-        If companyId <> "" Then strSql += " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
-        strSql += " UNION ALL /**/"
-        strSql += " SELECT 'AS'SEP,TRANNO,TRANDATE,PCS,GRSWT,NETWT,0 AMOUNT,AMOUNT TAX /**/"
-        strSql += " ,(SELECT TOP 1 CATCODE FROM " & cnAdminDb & "..CATEGORY WHERE STAXID = T.ACCODE)AS CATCODE,BATCHNO,0 ITEMID /**/"
-        strSql += " FROM " & cnstockdb & "..ACCTRAN T /**/"
-        strSql += " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
-        strSql += " AND BATCHNO IN (SELECT BATCHNO FROM TEMP_OD_BATCH) /**/"
-        strSql += " AND ACCODE IN (SELECT STAXID FROM " & CNADMINDB & "..CATEGORY WHERE CATCODE IN (SELECT CATCODE FROM TEMP_OD)) /**/"
-        strSql += " AND ISNULL(CANCEL,'') = '' /**/"
-        If catCode <> "" Then strSql += " AND CATCODE = '" & catCode & "'"
-        If companyId <> "" Then strSql += " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
-        strSql += " "
-        strSql += " /**TAKING SAOD RECORD ONLY**/ /**/"
-        strSql += " IF (SELECT 1 FROM SYSOBJECTS WHERE NAME = 'TEMP_SAOD')>0 /**/"
-        strSql += " DROP TABLE TEMP_SAOD /**/"
-        strSql += " SELECT 'IS'SEP,TRANNO,TRANDATE,PCS,GRSWT,NETWT,AMOUNT,TAX,CATCODE,BATCHNO,0 ITEMID /**/"
-        strSql += " INTO TEMP_SAOD FROM " & cnstockdb & "..ISSUE /**/"
-        strSql += " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
-        strSql += " AND BATCHNO IN (SELECT BATCHNO FROM TEMP_SAOD_BATCH) /**/"
-        strSql += " AND TRANTYPE = 'SA' /**/"
-        strSql += " AND ISNULL(CANCEL,'') = '' /**/"
-        If catCode <> "" Then strSql += " AND CATCODE = '" & catCode & "'"
-        If companyId <> "" Then strSql += " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
-        strSql += " UNION ALL"
-        strSql += " SELECT 'IS'SEP,TRANNO,TRANDATE,0 PCS,0 GRSWT,0 NETWT,AMOUNT,0 TAX,'MISC'CATCODE,BATCHNO,0 ITEMID /**/"
-        strSql += " FROM " & cnstockdb & "..ISSUE /**/"
-        strSql += " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
-        strSql += " AND BATCHNO IN (SELECT BATCHNO FROM TEMP_SAOD_BATCH) /**/"
-        strSql += " AND TRANTYPE = 'OD' AND AMOUNT <> 0 /**/"
-        strSql += " AND ISNULL(CANCEL,'') = '' /**/"
-        If catCode <> "" Then strSql += " AND CATCODE = '" & catCode & "'"
-        If companyId <> "" Then strSql += " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
-        strSql += " INSERT INTO TEMP_SAOD /**/"
-        strSql += " SELECT 'AS'SEP,TRANNO,TRANDATE,PCS,GRSWT,NETWT,AMOUNT,0 TAX /**/"
-        strSql += " ,ISNULL((SELECT TOP 1 CATCODE FROM " & cnAdminDb & "..CATEGORY WHERE SALESID = T.ACCODE),T.ACCODE)AS CATCODE,T.BATCHNO,0 ITEMID /**/"
-        strSql += " FROM " & cnStockDb & "..ACCTRAN T /**/"
-        strSql += " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
-        strSql += " AND BATCHNO IN (SELECT BATCHNO FROM TEMP_SAOD_BATCH) /**/"
-        strSql += " AND PAYMODE IN ('SA') /**/"
-        strSql += " AND ISNULL(CANCEL,'') = '' /**/"
-        If catCode <> "" Then strSql += " AND CATCODE = '" & catCode & "'"
-        If companyId <> "" Then strSql += " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
-        strSql += " UNION ALL /**/"
-        strSql += " SELECT 'AS'SEP,TRANNO,TRANDATE,PCS,GRSWT,NETWT,0 AMOUNT,AMOUNT TAX /**/"
-        strSql += " ,(SELECT TOP 1 CATCODE FROM " & cnAdminDb & "..CATEGORY WHERE STAXID = T.ACCODE)AS CATCODE,BATCHNO,0 ITEMID /**/"
-        strSql += " FROM " & cnStockDb & "..ACCTRAN T /**/"
-        strSql += " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
-        strSql += " AND BATCHNO IN (SELECT BATCHNO FROM TEMP_SAOD_BATCH) /**/"
-        strSql += " AND PAYMODE IN ('SV') /**/"
-        strSql += " AND ISNULL(CANCEL,'') = '' /**/"
-        If catCode <> "" Then strSql += " AND CATCODE = '" & catCode & "'"
-        If companyId <> "" Then strSql += " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
-        strSql += " "
-        strSql += " IF (SELECT 1 FROM SYSOBJECTS WHERE NAME = 'TEMP_ISSVSTRAN')>0"
-        strSql += " DROP TABLE TEMP_ISSVSTRAN"
-        strSql += " SELECT * INTO TEMP_ISSVSTRAN FROM /**/"
-        strSql += " ( /**Y STARTS**/ /**/"
-        strSql += " SELECT  /**/"
-        strSql += " TRANNO,TRANDATE /**/"
-        strSql += " ,SUM(CASE WHEN SEP = 'IS' THEN PCS  ELSE 0 END)AS IPCS /**/"
-        strSql += " ,SUM(CASE WHEN SEP = 'IS' THEN GRSWT ELSE 0 END)AS IGRSWT /**/"
-        strSql += " ,SUM(CASE WHEN SEP = 'IS' THEN NETWT ELSE 0 END)AS INETWT /**/"
-        strSql += " ,SUM(CASE WHEN SEP = 'IS' THEN AMOUNT ELSE 0 END)AS IAMOUNT /**/"
-        strSql += " ,SUM(CASE WHEN SEP = 'IS' THEN TAX ELSE 0 END)AS ITAX /**/"
-        strSql += " ,SUM(CASE WHEN SEP = 'AS' THEN PCS  ELSE 0 END)AS TPCS /**/"
-        strSql += " ,SUM(CASE WHEN SEP = 'AS' THEN GRSWT ELSE 0 END)AS TGRSWT /**/"
-        strSql += " ,SUM(CASE WHEN SEP = 'AS' THEN NETWT ELSE 0 END)AS TNETWT /**/"
-        strSql += " ,SUM(CASE WHEN SEP = 'AS' THEN AMOUNT ELSE 0 END)AS TAMOUNT /**/"
-        strSql += " ,SUM(CASE WHEN SEP = 'AS' THEN TAX ELSE 0 END)AS TTAX /**/"
-        strSql += " ,CATCODE /**/"
-        strSql += " ,BATCHNO /**/"
-        strSql += " ,ISNULL((SELECT CATNAME FROM " & cnAdminDb & "..CATEGORY WHERE CATCODE = X.CATCODE),X.CATCODE)AS CATNAME,'SA' PAYMODE"
-        strSql += " FROM /**/"
-        strSql += " 	( /**/"
-        strSql += " 	SELECT * FROM TEMP_SA /**/"
-        strSql += " 	UNION ALL /**/"
-        strSql += " 	SELECT * FROM TEMP_OD /**/"
-        strSql += " 	UNION ALL /**/"
-        strSql += " 	SELECT * FROM TEMP_SAOD /**/"
-        strSql += " 	)X /**/"
-        strSql += " 	GROUP BY TRANNO,TRANDATE,BATCHNO,CATCODE /**/"
-        strSql += " )Y /**/"
-        strSql += " ORDER BY TRANDATE,BATCHNO,TRANNO /**/"
+        strSql += vbCrLf + " DROP TABLE TEMP_SA_BATCH /**/"
+        strSql += vbCrLf + " SELECT DISTINCT CATCODE,ITEMID,BATCHNO INTO TEMP_SA_BATCH FROM " & cnStockDb & "..ISSUE AS I /**/"
+        strSql += vbCrLf + " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
+        strSql += vbCrLf + " AND TRANTYPE = 'SA' AND NOT EXISTS (SELECT 1 FROM " & cnStockDb & "..ISSUE WHERE TRANTYPE <> 'SA' AND BATCHNO = I.BATCHNO) /**/"
+        strSql += vbCrLf + " AND ISNULL(CANCEL,'') = '' /**/"
+        If catCode <> "" Then strSql += vbCrLf + " AND CATCODE = '" & catCode & "'"
+        If companyId <> "" Then strSql += vbCrLf + " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
+        strSql += vbCrLf + " "
+        strSql += vbCrLf + " IF (SELECT 1 FROM SYSOBJECTS WHERE NAME = 'TEMP_OD_BATCH')>0 /**OD ONLY**/ /**/"
+        strSql += vbCrLf + " DROP TABLE TEMP_OD_BATCH /**/"
+        strSql += vbCrLf + " SELECT DISTINCT CATCODE,ITEMID,BATCHNO INTO TEMP_OD_BATCH FROM " & cnStockDb & "..ISSUE AS I /**/"
+        strSql += vbCrLf + " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
+        strSql += vbCrLf + " AND TRANTYPE IN ('OD','RD') AND NOT EXISTS (SELECT 1 FROM " & cnStockDb & "..ISSUE WHERE TRANTYPE NOT IN ('OD','RD') AND BATCHNO = I.BATCHNO) /**/"
+        strSql += vbCrLf + " AND ISNULL(CANCEL,'') = '' /**/"
+        If catCode <> "" Then strSql += vbCrLf + " AND CATCODE = '" & catCode & "'"
+        If companyId <> "" Then strSql += vbCrLf + " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
+        strSql += vbCrLf + " "
+        strSql += vbCrLf + " IF (SELECT 1 FROM SYSOBJECTS WHERE NAME = 'TEMP_SAOD_BATCH')>0 /**SA WITH OD**/ /**/"
+        strSql += vbCrLf + " DROP TABLE TEMP_SAOD_BATCH /**/"
+        strSql += vbCrLf + " SELECT DISTINCT CATCODE,ITEMID,BATCHNO  /**/"
+        strSql += vbCrLf + " INTO TEMP_SAOD_BATCH  /**/"
+        strSql += vbCrLf + " FROM " & cnStockDb & "..ISSUE AS I /**/"
+        strSql += vbCrLf + " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
+        strSql += vbCrLf + " AND TRANTYPE = 'SA' AND EXISTS (SELECT 1 FROM " & cnStockDb & "..ISSUE WHERE BATCHNO = I.BATCHNO AND TRANTYPE IN ('OD','RD')) /**/"
+        strSql += vbCrLf + " AND ISNULL(CANCEL,'') = '' /**/"
+        If catCode <> "" Then strSql += vbCrLf + " AND CATCODE = '" & catCode & "'"
+        If companyId <> "" Then strSql += vbCrLf + " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
+        strSql += vbCrLf + " "
+        strSql += vbCrLf + " /**TAKING SA RECORD ONLY**/ /**/"
+        strSql += vbCrLf + " IF (SELECT 1 FROM SYSOBJECTS WHERE NAME = 'TEMP_SA')>0 /**/"
+        strSql += vbCrLf + " DROP TABLE TEMP_SA /**/"
+        strSql += vbCrLf + " SELECT 'IS'SEP,TRANNO,TRANDATE,PCS,GRSWT,NETWT,AMOUNT,TAX,CATCODE,BATCHNO,0 ITEMID /**/"
+        strSql += vbCrLf + " INTO TEMP_SA FROM " & cnStockDb & "..ISSUE /**/"
+        strSql += vbCrLf + " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
+        strSql += vbCrLf + " AND BATCHNO IN (SELECT BATCHNO FROM TEMP_SA_BATCH) /**/"
+        strSql += vbCrLf + " AND ISNULL(CANCEL,'') = '' /**/"
+        If catCode <> "" Then strSql += vbCrLf + " AND CATCODE = '" & catCode & "'"
+        If companyId <> "" Then strSql += vbCrLf + " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
+        strSql += vbCrLf + " INSERT INTO TEMP_SA /**/"
+        strSql += vbCrLf + " SELECT 'AS'SEP,TRANNO,TRANDATE,PCS,GRSWT,NETWT,AMOUNT,0 TAX /**/"
+        strSql += vbCrLf + " ,(SELECT TOP 1 CATCODE FROM " & cnAdminDb & "..CATEGORY WHERE SALESID = T.ACCODE)AS CATCODE,T.BATCHNO,0 ITEMID /**/"
+        strSql += vbCrLf + " FROM " & cnStockDb & "..ACCTRAN T /**/"
+        strSql += vbCrLf + " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
+        strSql += vbCrLf + " AND BATCHNO IN (SELECT BATCHNO FROM TEMP_SA_BATCH) /**/"
+        strSql += vbCrLf + " AND ACCODE IN (SELECT SALESID FROM " & cnAdminDb & "..CATEGORY WHERE CATCODE IN (SELECT CATCODE FROM TEMP_SA)) /**/"
+        strSql += vbCrLf + " AND ISNULL(CANCEL,'') = '' /**/"
+        If catCode <> "" Then strSql += vbCrLf + " AND CATCODE = '" & catCode & "'"
+        If companyId <> "" Then strSql += vbCrLf + " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
+        strSql += vbCrLf + " UNION ALL /**/"
+        strSql += vbCrLf + " SELECT 'AS'SEP,TRANNO,TRANDATE,PCS,GRSWT,NETWT,0 AMOUNT,AMOUNT TAX /**/"
+        strSql += vbCrLf + " ,(SELECT TOP 1 CATCODE FROM " & cnAdminDb & "..CATEGORY WHERE STAXID = T.ACCODE)AS CATCODE,BATCHNO,0 ITEMID /**/"
+        strSql += vbCrLf + " FROM " & cnStockDb & "..ACCTRAN T /**/"
+        strSql += vbCrLf + " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
+        strSql += vbCrLf + " AND BATCHNO IN (SELECT BATCHNO FROM TEMP_SA_BATCH) /**/"
+        strSql += vbCrLf + " AND ACCODE IN (SELECT STAXID FROM " & cnAdminDb & "..CATEGORY WHERE CATCODE IN (SELECT CATCODE FROM TEMP_SA)) /**/"
+        strSql += vbCrLf + " AND ISNULL(CANCEL,'') = '' /**/"
+        If catCode <> "" Then strSql += vbCrLf + " AND CATCODE = '" & catCode & "'"
+        If companyId <> "" Then strSql += vbCrLf + " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
+        strSql += vbCrLf + " /**TAKING OD RECORD ONLY**/ /**/"
+        strSql += vbCrLf + " IF (SELECT 1 FROM SYSOBJECTS WHERE NAME = 'TEMP_OD')>0 /**/"
+        strSql += vbCrLf + " DROP TABLE TEMP_OD /**/"
+        strSql += vbCrLf + " SELECT 'IS'SEP,TRANNO,TRANDATE,PCS,GRSWT,NETWT,AMOUNT,TAX,(SELECT CATCODE FROM " & cnAdminDb & "..ITEMMAST WHERE ITEMID = I.ITEMID)CATCODE,BATCHNO,ITEMID /**/"
+        strSql += vbCrLf + " INTO TEMP_OD FROM " & cnStockDb & "..ISSUE AS I /**/"
+        strSql += vbCrLf + " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
+        strSql += vbCrLf + " AND BATCHNO IN (SELECT BATCHNO FROM TEMP_OD_BATCH) /**/"
+        strSql += vbCrLf + " AND ISNULL(CANCEL,'') = '' /**/"
+        If catCode <> "" Then strSql += vbCrLf + " AND CATCODE = '" & catCode & "'"
+        If companyId <> "" Then strSql += vbCrLf + " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
+        strSql += vbCrLf + " INSERT INTO TEMP_OD /**/"
+        strSql += vbCrLf + " SELECT 'AS'SEP,TRANNO,TRANDATE,PCS,GRSWT,NETWT,AMOUNT,0 TAX /**/"
+        strSql += vbCrLf + " ,(SELECT TOP 1 CATCODE FROM " & cnAdminDb & "..CATEGORY WHERE SALESID = T.ACCODE)AS CATCODE,T.BATCHNO,0 ITEMID /**/"
+        strSql += vbCrLf + " FROM " & cnStockDb & "..ACCTRAN T /**/"
+        strSql += vbCrLf + " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
+        strSql += vbCrLf + " AND BATCHNO IN (SELECT BATCHNO FROM TEMP_OD_BATCH) /**/"
+        strSql += vbCrLf + " AND ACCODE IN (SELECT SALESID FROM " & cnAdminDb & "..CATEGORY WHERE CATCODE IN (SELECT CATCODE FROM TEMP_OD)) /**/"
+        strSql += vbCrLf + " AND ISNULL(CANCEL,'') = '' /**/"
+        If catCode <> "" Then strSql += vbCrLf + " AND CATCODE = '" & catCode & "'"
+        If companyId <> "" Then strSql += vbCrLf + " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
+        strSql += vbCrLf + " UNION ALL /**/"
+        strSql += vbCrLf + " SELECT 'AS'SEP,TRANNO,TRANDATE,PCS,GRSWT,NETWT,0 AMOUNT,AMOUNT TAX /**/"
+        strSql += vbCrLf + " ,(SELECT TOP 1 CATCODE FROM " & cnAdminDb & "..CATEGORY WHERE STAXID = T.ACCODE)AS CATCODE,BATCHNO,0 ITEMID /**/"
+        strSql += vbCrLf + " FROM " & cnStockDb & "..ACCTRAN T /**/"
+        strSql += vbCrLf + " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
+        strSql += vbCrLf + " AND BATCHNO IN (SELECT BATCHNO FROM TEMP_OD_BATCH) /**/"
+        strSql += vbCrLf + " AND ACCODE IN (SELECT STAXID FROM " & cnAdminDb & "..CATEGORY WHERE CATCODE IN (SELECT CATCODE FROM TEMP_OD)) /**/"
+        strSql += vbCrLf + " AND ISNULL(CANCEL,'') = '' /**/"
+        If catCode <> "" Then strSql += vbCrLf + " AND CATCODE = '" & catCode & "'"
+        If companyId <> "" Then strSql += vbCrLf + " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
+        strSql += vbCrLf + " "
+        strSql += vbCrLf + " /**TAKING SAOD RECORD ONLY**/ /**/"
+        strSql += vbCrLf + " IF (SELECT 1 FROM SYSOBJECTS WHERE NAME = 'TEMP_SAOD')>0 /**/"
+        strSql += vbCrLf + " DROP TABLE TEMP_SAOD /**/"
+        strSql += vbCrLf + " SELECT 'IS'SEP,TRANNO,TRANDATE,PCS,GRSWT,NETWT,AMOUNT,TAX,CATCODE,BATCHNO,0 ITEMID /**/"
+        strSql += vbCrLf + " INTO TEMP_SAOD FROM " & cnStockDb & "..ISSUE /**/"
+        strSql += vbCrLf + " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
+        strSql += vbCrLf + " AND BATCHNO IN (SELECT BATCHNO FROM TEMP_SAOD_BATCH) /**/"
+        strSql += vbCrLf + " AND TRANTYPE = 'SA' /**/"
+        strSql += vbCrLf + " AND ISNULL(CANCEL,'') = '' /**/"
+        If catCode <> "" Then strSql += vbCrLf + " AND CATCODE = '" & catCode & "'"
+        If companyId <> "" Then strSql += vbCrLf + " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
+        strSql += vbCrLf + " UNION ALL"
+        strSql += vbCrLf + " SELECT 'IS'SEP,TRANNO,TRANDATE,0 PCS,0 GRSWT,0 NETWT,AMOUNT,0 TAX,'MISC'CATCODE,BATCHNO,0 ITEMID /**/"
+        strSql += vbCrLf + " FROM " & cnStockDb & "..ISSUE /**/"
+        strSql += vbCrLf + " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
+        strSql += vbCrLf + " AND BATCHNO IN (SELECT BATCHNO FROM TEMP_SAOD_BATCH) /**/"
+        strSql += vbCrLf + " AND TRANTYPE = 'OD' AND AMOUNT <> 0 /**/"
+        strSql += vbCrLf + " AND ISNULL(CANCEL,'') = '' /**/"
+        If catCode <> "" Then strSql += vbCrLf + " AND CATCODE = '" & catCode & "'"
+        If companyId <> "" Then strSql += vbCrLf + " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
+        strSql += vbCrLf + " INSERT INTO TEMP_SAOD /**/"
+        strSql += vbCrLf + " SELECT 'AS'SEP,TRANNO,TRANDATE,PCS,GRSWT,NETWT,AMOUNT,0 TAX /**/"
+        strSql += vbCrLf + " ,ISNULL((SELECT TOP 1 CATCODE FROM " & cnAdminDb & "..CATEGORY WHERE SALESID = T.ACCODE),T.ACCODE)AS CATCODE,T.BATCHNO,0 ITEMID /**/"
+        strSql += vbCrLf + " FROM " & cnStockDb & "..ACCTRAN T /**/"
+        strSql += vbCrLf + " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
+        strSql += vbCrLf + " AND BATCHNO IN (SELECT BATCHNO FROM TEMP_SAOD_BATCH) /**/"
+        strSql += vbCrLf + " AND PAYMODE IN ('SA') /**/"
+        strSql += vbCrLf + " AND ISNULL(CANCEL,'') = '' /**/"
+        If catCode <> "" Then strSql += vbCrLf + " AND CATCODE = '" & catCode & "'"
+        If companyId <> "" Then strSql += vbCrLf + " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
+        strSql += vbCrLf + " UNION ALL /**/"
+        strSql += vbCrLf + " SELECT 'AS'SEP,TRANNO,TRANDATE,PCS,GRSWT,NETWT,0 AMOUNT,AMOUNT TAX /**/"
+        strSql += vbCrLf + " ,(SELECT TOP 1 CATCODE FROM " & cnAdminDb & "..CATEGORY WHERE STAXID = T.ACCODE)AS CATCODE,BATCHNO,0 ITEMID /**/"
+        strSql += vbCrLf + " FROM " & cnStockDb & "..ACCTRAN T /**/"
+        strSql += vbCrLf + " WHERE TRANDATE BETWEEN '" & frmDate & "' AND '" & toDate & "'"
+        'strSql += vbCrLf + " AND BATCHNO IN (SELECT BATCHNO FROM TEMP_SAOD_BATCH) /**/"
+        strSql += vbCrLf + " AND PAYMODE IN ('SV') /**/"
+        strSql += vbCrLf + " AND ISNULL(CANCEL,'') = '' /**/"
+        If catCode <> "" Then strSql += vbCrLf + " AND CATCODE = '" & catCode & "'"
+        If companyId <> "" Then strSql += vbCrLf + " AND ISNULL(COMPANYID,'') = '" & companyId & "'"
+        strSql += vbCrLf + " "
+        strSql += vbCrLf + " IF (SELECT 1 FROM SYSOBJECTS WHERE NAME = 'TEMP_ISSVSTRAN')>0"
+        strSql += vbCrLf + " DROP TABLE TEMP_ISSVSTRAN"
+        strSql += vbCrLf + " SELECT * INTO TEMP_ISSVSTRAN FROM /**/"
+        strSql += vbCrLf + " ( /**Y STARTS**/ /**/"
+        strSql += vbCrLf + " SELECT  /**/"
+        strSql += vbCrLf + " TRANNO,TRANDATE /**/"
+        strSql += vbCrLf + " ,SUM(CASE WHEN SEP = 'IS' THEN PCS  ELSE 0 END)AS IPCS /**/"
+        strSql += vbCrLf + " ,SUM(CASE WHEN SEP = 'IS' THEN GRSWT ELSE 0 END)AS IGRSWT /**/"
+        strSql += vbCrLf + " ,SUM(CASE WHEN SEP = 'IS' THEN NETWT ELSE 0 END)AS INETWT /**/"
+        strSql += vbCrLf + " ,SUM(CASE WHEN SEP = 'IS' THEN AMOUNT ELSE 0 END)AS IAMOUNT /**/"
+        strSql += vbCrLf + " ,SUM(CASE WHEN SEP = 'IS' THEN TAX ELSE 0 END)AS ITAX /**/"
+        strSql += vbCrLf + " ,SUM(CASE WHEN SEP = 'AS' THEN PCS  ELSE 0 END)AS TPCS /**/"
+        strSql += vbCrLf + " ,SUM(CASE WHEN SEP = 'AS' THEN GRSWT ELSE 0 END)AS TGRSWT /**/"
+        strSql += vbCrLf + " ,SUM(CASE WHEN SEP = 'AS' THEN NETWT ELSE 0 END)AS TNETWT /**/"
+        strSql += vbCrLf + " ,SUM(CASE WHEN SEP = 'AS' THEN AMOUNT ELSE 0 END)AS TAMOUNT /**/"
+        strSql += vbCrLf + " ,SUM(CASE WHEN SEP = 'AS' THEN TAX ELSE 0 END)AS TTAX /**/"
+        strSql += vbCrLf + " ,CATCODE /**/"
+        strSql += vbCrLf + " ,BATCHNO /**/"
+        strSql += vbCrLf + " ,ISNULL((SELECT CATNAME FROM " & cnAdminDb & "..CATEGORY WHERE CATCODE = X.CATCODE),X.CATCODE)AS CATNAME,'SA' PAYMODE"
+        strSql += vbCrLf + " FROM /**/"
+        strSql += vbCrLf + " 	( /**/"
+        strSql += vbCrLf + " 	SELECT * FROM TEMP_SA /**/"
+        strSql += vbCrLf + " 	UNION ALL /**/"
+        strSql += vbCrLf + " 	SELECT * FROM TEMP_OD /**/"
+        strSql += vbCrLf + " 	UNION ALL /**/"
+        strSql += vbCrLf + " 	SELECT * FROM TEMP_SAOD /**/"
+        strSql += vbCrLf + " 	)X /**/"
+        strSql += vbCrLf + " 	GROUP BY TRANNO,TRANDATE,BATCHNO,CATCODE /**/"
+        strSql += vbCrLf + " )Y /**/"
+        strSql += vbCrLf + " ORDER BY TRANDATE,BATCHNO,TRANNO /**/"
         cmd = New OleDbCommand(strSql, cn) : cmd.CommandTimeout = 1000
         cmd.ExecuteNonQuery()
     End Sub
@@ -1315,15 +1318,15 @@ Public Class frmDataChecking
             .Columns("TRANDATE").HeaderText = ""
             .Columns("TRANNO").Width = gridView.Columns("TRANNO").Width
             .Columns("TRANDATE").Width = gridView.Columns("TRANDATE").Width
-            .Columns("ISSUE").Width = gridView.Columns("IPCS").Width + _
-                                        gridView.Columns("IGRSWT").Width + _
-                                        gridView.Columns("INETWT").Width + _
-                                        gridView.Columns("IAMOUNT").Width + _
+            .Columns("ISSUE").Width = gridView.Columns("IPCS").Width +
+                                        gridView.Columns("IGRSWT").Width +
+                                        gridView.Columns("INETWT").Width +
+                                        gridView.Columns("IAMOUNT").Width +
                                         gridView.Columns("ITAX").Width
-            .Columns("TRANSACTION").Width = gridView.Columns("TPCS").Width + _
-                                        gridView.Columns("TGRSWT").Width + _
-                                        gridView.Columns("TNETWT").Width + _
-                                        gridView.Columns("TAMOUNT").Width + _
+            .Columns("TRANSACTION").Width = gridView.Columns("TPCS").Width +
+                                        gridView.Columns("TGRSWT").Width +
+                                        gridView.Columns("TNETWT").Width +
+                                        gridView.Columns("TAMOUNT").Width +
                                         gridView.Columns("TTAX").Width
         End With
         If IssRec = Type.Receipt Then gridViewHeader.Columns("ISSUE").HeaderText = "RECEIPT"
@@ -1339,25 +1342,51 @@ Public Class frmDataChecking
             CostId = ""
             Me.Cursor = Cursors.WaitCursor
             If IssRec = Type.Issue Then
-                CheckIssue(dtpFrom.Value.Date.ToString("yyyy-MM-dd"), dtpTo.Value.Date.ToString("yyyy-MM-dd"), _
+                CheckIssue(dtpFrom.Value.Date.ToString("yyyy-MM-dd"), dtpTo.Value.Date.ToString("yyyy-MM-dd"),
                 objGPack.GetSqlValue("SELECT CATCODE FROM " & cnAdminDb & "..CATEGORY WHERE CATNAME = '" & cmbCategory.Text & "'").ToString _
                 , strCompanyId)
                 strSql = " SELECT TRANNO,TRANDATE,IPCS,IGRSWT,INETWT,IAMOUNT,ITAX"
                 strSql += " ,TPCS,TGRSWT,TNETWT,TAMOUNT,TTAX,CATNAME,BATCHNO,CATCODE"
                 strSql += "  FROM TEMP_ISSVSTRAN"
             ElseIf IssRec = Type.Receipt Then
-                CheckReceipt(dtpFrom.Value.Date.ToString("yyyy-MM-dd"), dtpTo.Value.Date.ToString("yyyy-MM-dd"), _
+                CheckReceipt(dtpFrom.Value.Date.ToString("yyyy-MM-dd"), dtpTo.Value.Date.ToString("yyyy-MM-dd"),
                 objGPack.GetSqlValue("SELECT CATCODE FROM " & cnAdminDb & "..CATEGORY WHERE CATNAME = '" & cmbCategory.Text & "'").ToString _
                 , strCompanyId)
                 strSql = " SELECT TRANNO,TRANDATE,IPCS,IGRSWT,INETWT,IAMOUNT,ITAX"
                 strSql += " ,TPCS,TGRSWT,TNETWT,TAMOUNT,TTAX,CATNAME,BATCHNO,CATCODE"
                 strSql += "  FROM TEMP_RECVSTRAN"
+            ElseIf IssRec = Type.IssueReceipt Then
+                CheckIssue(dtpFrom.Value.Date.ToString("yyyy-MM-dd"), dtpTo.Value.Date.ToString("yyyy-MM-dd"),
+                objGPack.GetSqlValue("SELECT CATCODE FROM " & cnAdminDb & "..CATEGORY WHERE CATNAME = '" & cmbCategory.Text & "'").ToString _
+                , strCompanyId)
+                CheckReceipt(dtpFrom.Value.Date.ToString("yyyy-MM-dd"), dtpTo.Value.Date.ToString("yyyy-MM-dd"),
+                objGPack.GetSqlValue("SELECT CATCODE FROM " & cnAdminDb & "..CATEGORY WHERE CATNAME = '" & cmbCategory.Text & "'").ToString _
+                , strCompanyId)
+                strSql = ";with cte as("
+                strSql += vbCrLf + "SELECT BATCHNO,TRANDATE,SUM(IAMOUNT)IAMOUNT,SUM(ITAX)ITAX,SUM(TAMOUNT)ITAMOUNT,SUM(TTAX)ITTAX  FROM TEMP_ISSVSTRAN"
+                strSql += vbCrLf + "GROUP BY BATCHNO,TRANDATE"
+                strSql += vbCrLf + "),"
+                strSql += vbCrLf + "cte1 as("
+                strSql += vbCrLf + "SELECT BATCHNO,TRANDATE,SUM(IAMOUNT)RAMOUNT,SUM(TAMOUNT)RTAMOUNT  FROM TEMP_RECVSTRAN"
+                strSql += vbCrLf + "GROUP BY BATCHNO,TRANDATE"
+                strSql += vbCrLf + ")"
+                strSql += vbCrLf + "select cte.BATCHNO,cte.TRANDATE,"
+                strSql += vbCrLf + "cte.IAMOUNT,cte.ITAX,"
+                strSql += vbCrLf + "cte.ITAMOUNT,cte.ITTAX,"
+                strSql += vbCrLf + "(cte.IAMOUNT+cte.ITAX)-(cte.ITAMOUNT+cte.ITTAX) ISSDIFF,"
+                strSql += vbCrLf + "cte1.RAMOUNT,"
+                strSql += vbCrLf + "cte1.RTAMOUNT,"
+                strSql += vbCrLf + "(cte1.RAMOUNT-cte1.RTAMOUNT) PURDIFF"
+                strSql += vbCrLf + "from cte "
+                strSql += vbCrLf + "left join cte1 on cte.BATCHNO = cte1.batchno"
+                strSql += vbCrLf + "where 1=1"
+                If chkDiff.Checked Then strSql += vbCrLf + "and ((cte.IAMOUNT+cte.ITAX)-(cte.ITAMOUNT+cte.ITTAX) <> 0 or (cte1.RAMOUNT-cte1.RTAMOUNT) <> 0)"
             ElseIf IssRec = Type.Collect Then
-                If CmbCostName.Text <> "ALL" And CmbCostName.Text <> "" Then
+                    If CmbCostName.Text <> "ALL" And CmbCostName.Text <> "" Then
                     strSql = "SELECT COSTID FROM " & cnAdminDb & "..COSTCENTRE WHERE COSTNAME='" & CmbCostName.Text & "'"
                     CostId = objGPack.GetSqlValue(strSql, "COSTID", "").ToString.Trim
                 End If
-                CheckCollect(dtpFrom.Value.Date.ToString("yyyy-MM-dd"), _
+                CheckCollect(dtpFrom.Value.Date.ToString("yyyy-MM-dd"),
                             dtpTo.Value.Date.ToString("yyyy-MM-dd"), cmbCategory.Text, CostId, strCompanyId)
                 strSql = " SELECT * FROM TEMPTABLEDB..TEMP" & systemId & "DATACHECK "
                 strSql += " ORDER BY TRANDATE1,RESULT,ABS(COLLECTDIFF),NAME"
@@ -1462,6 +1491,76 @@ Public Class frmDataChecking
                     End With
                 End With
                 DataGridView1.DataSource = gridView.DataSource
+            ElseIf IssRec = Type.IssueReceipt Then
+                With gridView
+                    .Columns("BATCHNO").HeaderText = "BATCHNO"
+                    .Columns("TRANDATE").DefaultCellStyle.Format = "dd/MM/yyyy"
+
+                    .Columns("IAMOUNT").HeaderText = "AMOUNT"
+                    .Columns("ITAX").HeaderText = "TAX"
+                    .Columns("ITAMOUNT").HeaderText = "TRAN AMOUNT"
+                    .Columns("ITTAX").HeaderText = "TRAN TAX"
+                    .Columns("ISSDIFF").HeaderText = "ISSDIFF"
+
+                    .Columns("RAMOUNT").HeaderText = "AMOUNT"
+                    .Columns("RTAMOUNT").HeaderText = "TRAN AMOUNT"
+                    .Columns("PURDIFF").HeaderText = "PURDIFF"
+
+                    For i As Integer = 0 To .ColumnCount - 1
+                        If .Columns(i).ValueType.Name = GetType(String).Name Or .Columns(i).ValueType.Name = GetType(Date).Name Then
+                            .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+                        Else
+                            .Columns(i).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+                        End If
+                    Next
+
+                    For Each row As DataGridViewRow In .Rows
+                        If Not row.IsNewRow Then
+
+                            Dim issDiff As Decimal = 0D
+                            Dim purDiff As Decimal = 0D
+
+                            If Not IsDBNull(row.Cells("ISSDIFF").Value) Then
+                                Decimal.TryParse(row.Cells("ISSDIFF").Value.ToString(), issDiff)
+                            End If
+
+                            If Not IsDBNull(row.Cells("PURDIFF").Value) Then
+                                Decimal.TryParse(row.Cells("PURDIFF").Value.ToString(), purDiff)
+                            End If
+
+                            If issDiff <> 0 OrElse purDiff <> 0 Then
+                                row.DefaultCellStyle.BackColor = Color.LightPink
+                                row.DefaultCellStyle.ForeColor = Color.Black
+                            End If
+
+                        End If
+                    Next
+                End With
+
+                gridViewHeader.Enabled = False
+                Dim dtGridViewHeader As New DataTable
+                dtGridViewHeader.Columns.Add("KEYNO")
+                dtGridViewHeader.Columns.Add("BATCHNO")
+                dtGridViewHeader.Columns.Add("TRANDATE")
+                dtGridViewHeader.Columns.Add("ISSUE")
+                dtGridViewHeader.Columns.Add("RECEIPT")
+                gridViewHeader.DataSource = dtGridViewHeader
+                With gridViewHeader
+                    .Columns("KEYNO").HeaderText = ""
+                    .Columns("BATCHNO").HeaderText = ""
+                    .Columns("TRANDATE").HeaderText = ""
+                    .Columns("KEYNO").Width = gridView.Columns("KEYNO").Width
+                    .Columns("BATCHNO").Width = gridView.Columns("BATCHNO").Width
+                    .Columns("TRANDATE").Width = gridView.Columns("TRANDATE").Width
+                    .Columns("ISSUE").Width = gridView.Columns("IAMOUNT").Width +
+                                        gridView.Columns("ITAX").Width +
+                                        gridView.Columns("ITAMOUNT").Width +
+                                        gridView.Columns("ITTAX").Width +
+                                        gridView.Columns("ISSDIFF").Width
+                    .Columns("RECEIPT").Width = gridView.Columns("RAMOUNT").Width +
+                                        gridView.Columns("RTAMOUNT").Width +
+                                        gridView.Columns("PURDIFF").Width
+                End With
             Else
                 StyleGridView()
                 StyleGridViewHeader()
@@ -1679,6 +1778,7 @@ Public Class frmDataChecking
 
     Private Sub gridView_RowEnter(ByVal sender As Object, ByVal e As System.Windows.Forms.DataGridViewCellEventArgs) Handles gridView.RowEnter
         If Not gridView.RowCount > 0 Then Exit Sub
+        If Me.IssRec = Type.IssueReceipt Then Exit Sub
         If Not Me.IssRec = Type.Collect Then
             lblStatus.Text = gridView.Rows(e.RowIndex).Cells("CATNAME").Value.ToString + "  [BATCHNO:" + gridView.Rows(e.RowIndex).Cells("BATCHNO").Value.ToString + "]"
         Else

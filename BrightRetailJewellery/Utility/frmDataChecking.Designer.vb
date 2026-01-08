@@ -39,16 +39,18 @@ Partial Class frmDataChecking
         Me.btnDetail = New System.Windows.Forms.Button()
         Me.btnUpdate = New System.Windows.Forms.Button()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btnPrint = New System.Windows.Forms.Button()
+        Me.btnExcel = New System.Windows.Forms.Button()
         Me.CmbCostName = New System.Windows.Forms.ComboBox()
         Me.lblCostcenter = New System.Windows.Forms.Label()
         Me.btnAdjust = New System.Windows.Forms.Button()
         Me.Panel3 = New System.Windows.Forms.Panel()
-        Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.Panel4 = New System.Windows.Forms.Panel()
-        Me.btnExcel = New System.Windows.Forms.Button()
-        Me.btnPrint = New System.Windows.Forms.Button()
         Me.dtpTo = New BrighttechPack.DatePicker(Me.components)
         Me.dtpFrom = New BrighttechPack.DatePicker(Me.components)
+        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.Panel4 = New System.Windows.Forms.Panel()
+        Me.chkDiff = New System.Windows.Forms.CheckBox()
+        Me.BackgroundWorker1 = New System.ComponentModel.BackgroundWorker()
         CType(Me.gridView, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gridViewHeader, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.ContextMenuStrip1.SuspendLayout()
@@ -238,6 +240,7 @@ Partial Class frmDataChecking
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.chkDiff)
         Me.Panel1.Controls.Add(Me.btnPrint)
         Me.Panel1.Controls.Add(Me.btnExcel)
         Me.Panel1.Controls.Add(Me.CmbCostName)
@@ -264,6 +267,24 @@ Partial Class frmDataChecking
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1020, 110)
         Me.Panel1.TabIndex = 0
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Location = New System.Drawing.Point(314, 56)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(100, 30)
+        Me.btnPrint.TabIndex = 13
+        Me.btnPrint.Text = "&Print"
+        Me.btnPrint.UseVisualStyleBackColor = True
+        '
+        'btnExcel
+        '
+        Me.btnExcel.Location = New System.Drawing.Point(213, 56)
+        Me.btnExcel.Name = "btnExcel"
+        Me.btnExcel.Size = New System.Drawing.Size(100, 30)
+        Me.btnExcel.TabIndex = 12
+        Me.btnExcel.Text = "&Excel"
+        Me.btnExcel.UseVisualStyleBackColor = True
         '
         'CmbCostName
         '
@@ -304,42 +325,6 @@ Partial Class frmDataChecking
         Me.Panel3.Size = New System.Drawing.Size(1020, 19)
         Me.Panel3.TabIndex = 14
         '
-        'Panel2
-        '
-        Me.Panel2.Controls.Add(Me.Panel4)
-        Me.Panel2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Panel2.Location = New System.Drawing.Point(0, 110)
-        Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(1020, 520)
-        Me.Panel2.TabIndex = 18
-        '
-        'Panel4
-        '
-        Me.Panel4.Controls.Add(Me.gridView)
-        Me.Panel4.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Panel4.Location = New System.Drawing.Point(0, 0)
-        Me.Panel4.Name = "Panel4"
-        Me.Panel4.Size = New System.Drawing.Size(1020, 520)
-        Me.Panel4.TabIndex = 15
-        '
-        'btnExcel
-        '
-        Me.btnExcel.Location = New System.Drawing.Point(213, 56)
-        Me.btnExcel.Name = "btnExcel"
-        Me.btnExcel.Size = New System.Drawing.Size(100, 30)
-        Me.btnExcel.TabIndex = 12
-        Me.btnExcel.Text = "&Excel"
-        Me.btnExcel.UseVisualStyleBackColor = True
-        '
-        'btnPrint
-        '
-        Me.btnPrint.Location = New System.Drawing.Point(314, 56)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(100, 30)
-        Me.btnPrint.TabIndex = 13
-        Me.btnPrint.Text = "&Print"
-        Me.btnPrint.UseVisualStyleBackColor = True
-        '
         'dtpTo
         '
         Me.dtpTo.Location = New System.Drawing.Point(225, 9)
@@ -365,6 +350,34 @@ Partial Class frmDataChecking
         Me.dtpFrom.TabIndex = 1
         Me.dtpFrom.Text = "07/03/9998"
         Me.dtpFrom.Value = New Date(9998, 3, 7, 0, 0, 0, 0)
+        '
+        'Panel2
+        '
+        Me.Panel2.Controls.Add(Me.Panel4)
+        Me.Panel2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel2.Location = New System.Drawing.Point(0, 110)
+        Me.Panel2.Name = "Panel2"
+        Me.Panel2.Size = New System.Drawing.Size(1020, 520)
+        Me.Panel2.TabIndex = 18
+        '
+        'Panel4
+        '
+        Me.Panel4.Controls.Add(Me.gridView)
+        Me.Panel4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel4.Location = New System.Drawing.Point(0, 0)
+        Me.Panel4.Name = "Panel4"
+        Me.Panel4.Size = New System.Drawing.Size(1020, 520)
+        Me.Panel4.TabIndex = 15
+        '
+        'chkDiff
+        '
+        Me.chkDiff.AutoSize = True
+        Me.chkDiff.Location = New System.Drawing.Point(383, 36)
+        Me.chkDiff.Name = "chkDiff"
+        Me.chkDiff.Size = New System.Drawing.Size(115, 17)
+        Me.chkDiff.TabIndex = 20
+        Me.chkDiff.Text = "Only Difference"
+        Me.chkDiff.UseVisualStyleBackColor = True
         '
         'frmDataChecking
         '
@@ -423,4 +436,6 @@ Partial Class frmDataChecking
     Friend WithEvents lblCostcenter As System.Windows.Forms.Label
     Friend WithEvents btnPrint As Button
     Friend WithEvents btnExcel As Button
+    Friend WithEvents chkDiff As CheckBox
+    Friend WithEvents BackgroundWorker1 As System.ComponentModel.BackgroundWorker
 End Class

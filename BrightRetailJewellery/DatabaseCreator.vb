@@ -123731,6 +123731,7 @@ ByVal PurchaseTaxName As String
         strSql += vbCrLf + "  ,MCPIE NUMERIC(15,2) DEFAULT 0"
         strSql += vbCrLf + "  ,RATEFIXED VARCHAR(1) DEFAULT ''"
         strSql += vbCrLf + "  ,HSN VARCHAR(15)"
+        strSql += vbCrLf + "  ,FIN_PURDISCOUNT NUMERIC(15,2)"
         strSql += vbCrLf + "  )"
         cmd = New OleDbCommand(strSql, cn, tran)
         cmd.ExecuteNonQuery()
@@ -130687,7 +130688,7 @@ ByVal PurchaseTaxName As String
         AdmindbInsertValuesToSoftControl(compId + suffix, "DUP_BILL_NO", "DUPLICATE BILL NUMBER CHECK [Y]ES/[N]O", "T", "N", "B")
         AdmindbInsertValuesToSoftControl(compId + suffix, "FINDISCPUR", "FINAL DISCOUNT ON PURCHASE (ALT+F2)", "T", "N", "P")
         AdmindbInsertValuesToSoftControl(compId + suffix, "FINDISCPURMINSALWT", "FINAL DISCOUNT ON PURCHASE MINIMUM SALE WEIGHT", "D", "16", "P")
-
+        AdmindbInsertValuesToSoftControl(compId + suffix, "FINDISCPURMINPURWT", "FINAL DISCOUNT ON PURCHASE MINIMUM PURCHASE WEIGHT", "D", "16", "P")
 
         strSql = " UPDATE " & compId + suffix & "..SOFTCONTROL SET CTLNAME = 'PURCHASE RATE CALCULATION FROM PURCHASE GROSS VALUE [Y]ES/[N]O' WHERE CTLID = 'PUR_MRATECALC'"
         cmd = New OleDbCommand(strSql, cn, tran)

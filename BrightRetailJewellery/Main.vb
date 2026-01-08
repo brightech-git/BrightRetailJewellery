@@ -4935,4 +4935,8 @@ Public Class Main
         Dim obj As New BrighttechREPORT.frmReorderOrderReport
         funcShow(obj, "REORDER STOCK REPORT")
     End Sub
+
+    Private Sub IssueVsReceiptVsTransactionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles IssueVsReceiptVsTransactionToolStripMenuItem.Click
+        funcShow(New frmDataChecking(frmDataChecking.Type.IssueReceipt), "ISSUE VS RECEIPT VS TRANSATION DATA CHECKING")
+    End Sub
 End Class
