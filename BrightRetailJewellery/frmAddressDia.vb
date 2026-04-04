@@ -2358,7 +2358,10 @@ ACCODE_GEN: tempAcCode += 1
         defalutSourcePath = UCase(objGPack.GetSqlValue(strSql, "CTLTEXT", , tran))
         'ADDMOB_RESTRICT = IIf(GetAdmindbSoftValue("ADD_MOBILENO_RES", "N", ) = "Y", True, False)
         ADDMOB_RESTRICT = GetAdmindbSoftValue("ADD_MOBILENO_RES", "N", )
-        If ADDMOB_RESTRICT <> "N" Then txtAddressMobile.MaxLength = 10
+        If ADDMOB_RESTRICT <> "N" Then
+            txtAddressMobile.MaxLength = 10
+            txtMobile.MaxLength = 10
+        End If
         If AddressLock Then
             ADDRESSUPDATE = "N"
         Else

@@ -43,9 +43,10 @@ Public Class frmTagDetailUpdator
 
         cmbItem.Items.Clear()
         cmbItem.Items.Add("ALL")
-        strSql = " SELECT ITEMNAME FROM " & cnAdminDb & "..ITEMMAST WHERE DIASTONE = ''"
+        strSql = " SELECT ITEMNAME FROM " & cnAdminDb & "..ITEMMAST WHERE ISNULL(DIASTONE,'') = ''"
         strSql += GetItemQryFilteration("S")
         strSql += " AND ACTIVE = 'Y'"
+        strSql += " ORDER BY ITEMNAME"
         objGPack.FillCombo(strSql, cmbItem, False, False)
         cmbItem.Text = "ALL"
         strSql = " SELECT 'ALL' ITEMCTRNAME,0 ITEMCTRID,1 RESULT"

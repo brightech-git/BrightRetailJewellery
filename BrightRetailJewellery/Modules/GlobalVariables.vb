@@ -49,6 +49,7 @@ Module GlobalVariables
     Public cnPassword = ""
     Public cnCostName As String
     Public cnAdminDb As String
+
     Public tempdbname As String = "TEMPTABLEDB"
     Public cn As New OleDbConnection
     Public tran As OleDbTransaction = Nothing

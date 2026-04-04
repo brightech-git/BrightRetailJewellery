@@ -106,6 +106,7 @@ Public Class frmStockCheckLoading
                 .Resizable = DataGridViewTriState.False
             End With
 
+
             If chkWithDesigner.Checked Then
                 With .Columns("DESIGNER")
                     .Visible = True
@@ -329,6 +330,7 @@ Public Class frmStockCheckLoading
         strSql += vbCrLf + " ,ISNULL((SELECT ISNULL(SUBITEMNAME,'') FROM " & cnAdminDb & "..SUBITEMMAST WHERE SUBITEMID = T.SUBITEMID),'')AS SUBITEMNAME"
         strSql += vbCrLf + " ,ISNULL((SELECT ISNULL(ITEMCTRNAME,'') FROM " & cnAdminDb & "..ITEMCOUNTER WHERE ITEMCTRID = T.ITEMCTRID),'')AS COUNTERNAME"
         strSql += vbCrLf + " ,(SELECT ISNULL(NAME,'') FROM " & cnAdminDb & "..ITEMTYPE WHERE ITEMTYPEID = T.ITEMTYPEID)AS ITEMTYPENAME"
+        strSql += vbCrLf + " ,(SELECT ISNULL(SIZENAME,'') FROM " & cnAdminDb & "..ITEMSIZE WHERE SIZEID = T.SIZEID)AS SIZENAME"
         strSql += vbCrLf + " ,(SELECT ISNULL(DESIGNERNAME,'') FROM " & cnAdminDb & "..DESIGNER WHERE DESIGNERID = T.DESIGNERID)AS DESIGNER"
         strSql += vbCrLf + " ,APPROVAL"
         strSql += vbCrLf + " ,CHKTRAY"
@@ -342,6 +344,9 @@ Public Class frmStockCheckLoading
         End If
         If cmbItemType.Text <> "ALL" And Trim(cmbItemType.Text) <> "" Then
             strSql += vbCrLf + " AND T.ITEMTYPEID = (SELECT ITEMTYPEID FROM " & cnAdminDb & "..ITEMTYPE WHERE NAME = '" & cmbItemType.Text & "')"
+        End If
+        If cmbSIZENAME.Text <> "ALL" And Trim(cmbSIZENAME.Text) <> "" Then
+            strSql += vbCrLf + " AND T.SIZEID = (SELECT SIZEID FROM " & cnAdminDb & "..ITEMSIZE WHERE NAME = '" & cmbSIZENAME.Text & "')"
         End If
         If CmbMetal.Text <> "ALL" And Trim(CmbMetal.Text) <> "" Then
             strSql += vbCrLf + " AND T.ITEMID IN (SELECT ITEMID FROM " & cnAdminDb & "..ITEMMAST WHERE METALID = (SELECT METALID FROM " & cnAdminDb & "..METALMAST WHERE METALNAME='" & CmbMetal.Text & "'))"
@@ -384,7 +389,7 @@ Public Class frmStockCheckLoading
         cmd = New OleDbCommand(strSql, cn) : cmd.CommandTimeout = 1000
         cmd.ExecuteNonQuery()
 
-        strSql = vbCrLf + " SELECT ITEMID,TAGNO,PCS,GRSWT,NETWT,RECDATE,ITEMNAME,SUBITEMNAME,COUNTERNAME,ITEMTYPENAME,DESIGNER,APPROVAL,CONVERT(VARCHAR,CHKTRAY) CHKTRAY"
+        strSql = vbCrLf + " SELECT ITEMID,TAGNO,PCS,GRSWT,NETWT,RECDATE,ITEMNAME,SUBITEMNAME,COUNTERNAME,ITEMTYPENAME,SIZENAME,DESIGNER,APPROVAL,CONVERT(VARCHAR,CHKTRAY) CHKTRAY"
         strSql += vbCrLf + " ,PICFILENAME,RESULT,EXTRAWT FROM TEMP" & systemId & "STOCKCHECK "
         'strSql += vbcrlf + " UNION ALL"
         'strSql += vbcrlf + " SELECT NULL ITEMID,'MARKED' TAGNO,SUM(PCS) PCS,SUM(GRSWT) GRSWT,SUM(NETWT) NETWT"
@@ -712,7 +717,7 @@ Public Class frmStockCheckLoading
         strSql = " SELECT ''ITEMID,''TAGNO,''PCS,''GRSWT,''NETWT,'' RECDATE,''ITEMNAME,''SUBITEMNAME,''COUNTERNAME,''ITEMTYPENAME,''DESIGNER"
         strSql += vbCrLf + " ,''APPROVAL"
         strSql += vbCrLf + " ,''CHKTRAY"
-        strSql += vbCrLf + " ,''PICFILENAME,'' RESULT,''EXTRAWT"
+        strSql += vbCrLf + " ,''PICFILENAME,'' RESULT,''SIZENAME,''EXTRAWT"
         da = New OleDbDataAdapter(strSql, cn)
         dtLastView = New DataTable
         da.Fill(dtLastView)
@@ -798,6 +803,13 @@ Public Class frmStockCheckLoading
         objGPack.FillCombo(strSql, cmbDesignerName, False)
         cmbDesignerName.Text = "ALL"
         CmbCompany.Focus()
+
+        ''Load sizeName
+        cmbSIZENAME.Items.Clear()
+        strSql = " Select sizeName from " & cnAdminDb & "..itemsize order by sizeName"
+        cmbSIZENAME.Items.Add("ALL")
+        objGPack.FillCombo(strSql, cmbSIZENAME, False)
+        cmbSIZENAME.Text = "ALL"
 
         If STKCHKDEVICELOCK <> "" Then
             chkCheckingByScan.Enabled = False

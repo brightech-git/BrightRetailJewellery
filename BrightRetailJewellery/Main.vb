@@ -4939,4 +4939,13 @@ Public Class Main
     Private Sub IssueVsReceiptVsTransactionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles IssueVsReceiptVsTransactionToolStripMenuItem.Click
         funcShow(New frmDataChecking(frmDataChecking.Type.IssueReceipt), "ISSUE VS RECEIPT VS TRANSATION DATA CHECKING")
     End Sub
+
+    Private Sub DiscountRateUpdateToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DiscountRateUpdateToolStripMenuItem.Click
+        funcShow(frmDiscountRateMaster, "DISCOUNT RATE MASTER")
+    End Sub
+
+    Private Sub SalesReturnPartyToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SalesReturnPartyToolStripMenuItem.Click
+        Dim obj As New BrighttechREPORT.frmSaleReturnParty
+        funcShow(obj, "SALES RETURN PARTYWISE")
+    End Sub
 End Class

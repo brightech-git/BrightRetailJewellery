@@ -161,6 +161,7 @@ Partial Class Main
         Me.tstripPMRangeControl = New System.Windows.Forms.ToolStripMenuItem()
         Me.tStripRateEntry = New System.Windows.Forms.ToolStripMenuItem()
         Me.tStripRateMaster = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DiscountRateUpdateToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.tStripAccounts = New System.Windows.Forms.ToolStripMenuItem()
         Me.MaterialIssueToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.MaterialReceiptToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -606,6 +607,7 @@ Partial Class Main
         Me.tStripReceiptVsAccount = New System.Windows.Forms.ToolStripMenuItem()
         Me.CollectVsTransactionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.tStripDataCheckToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.IssueVsReceiptVsTransactionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.tStripGlobalDateChange = New System.Windows.Forms.ToolStripMenuItem()
         Me.tStripTagTransfer2CTag = New System.Windows.Forms.ToolStripMenuItem()
         Me.tStripSync = New System.Windows.Forms.ToolStripMenuItem()
@@ -738,12 +740,12 @@ Partial Class Main
         Me.receiveThread = New System.ComponentModel.BackgroundWorker()
         Me.GlobalDateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
-        Me.IssueVsReceiptVsTransactionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.StatusStrip1.SuspendLayout()
-        Me.MenuStrip1.SuspendLayout()
-        Me.tStripTitle.SuspendLayout()
-        Me.CompanyShortCut.SuspendLayout()
-        Me.SuspendLayout()
+        Me.SalesReturnPartyToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.StatusStrip1.SuspendLayout
+        Me.MenuStrip1.SuspendLayout
+        Me.tStripTitle.SuspendLayout
+        Me.CompanyShortCut.SuspendLayout
+        Me.SuspendLayout
         '
         'StatusStrip1
         '
@@ -2057,7 +2059,7 @@ Partial Class Main
         '
         'tStripRateEntry
         '
-        Me.tStripRateEntry.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripRateMaster})
+        Me.tStripRateEntry.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripRateMaster, Me.DiscountRateUpdateToolStripMenuItem})
         Me.tStripRateEntry.Name = "tStripRateEntry"
         Me.tStripRateEntry.Size = New System.Drawing.Size(72, 20)
         Me.tStripRateEntry.Text = "Rate &Entry"
@@ -2068,8 +2070,14 @@ Partial Class Main
         Me.tStripRateMaster.Name = "tStripRateMaster"
         Me.tStripRateMaster.ShortcutKeyDisplayString = "AGP-1"
         Me.tStripRateMaster.ShowShortcutKeys = False
-        Me.tStripRateMaster.Size = New System.Drawing.Size(131, 22)
+        Me.tStripRateMaster.Size = New System.Drawing.Size(188, 22)
         Me.tStripRateMaster.Text = "Rate Update"
+        '
+        'DiscountRateUpdateToolStripMenuItem
+        '
+        Me.DiscountRateUpdateToolStripMenuItem.Name = "DiscountRateUpdateToolStripMenuItem"
+        Me.DiscountRateUpdateToolStripMenuItem.Size = New System.Drawing.Size(188, 22)
+        Me.DiscountRateUpdateToolStripMenuItem.Text = "Discount Rate Update"
         '
         'tStripAccounts
         '
@@ -3283,7 +3291,7 @@ Partial Class Main
         '
         'tStripReports
         '
-        Me.tStripReports.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripAccReports, Me.tStripDailyReports, Me.tStripStockReports, Me.tStripOrderReports, Me.tStripApproval, Me.tStripEstimationRpt, Me.MISReportTStrip, Me.DailyTallyReportTStrip, Me.XmlGenerationToolStripMenuItem, Me.OtherReportsToolStripMenuItem, Me.AuditReportToolStripMenuItem, Me.ComplementsToolStripMenuItem, Me.GSTReportsToolStripMenuItem})
+        Me.tStripReports.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripAccReports, Me.tStripDailyReports, Me.tStripStockReports, Me.tStripOrderReports, Me.tStripApproval, Me.tStripEstimationRpt, Me.MISReportTStrip, Me.DailyTallyReportTStrip, Me.XmlGenerationToolStripMenuItem, Me.OtherReportsToolStripMenuItem, Me.AuditReportToolStripMenuItem, Me.ComplementsToolStripMenuItem, Me.GSTReportsToolStripMenuItem, Me.SalesReturnPartyToolStripMenuItem})
         Me.tStripReports.Name = "tStripReports"
         Me.tStripReports.Size = New System.Drawing.Size(59, 20)
         Me.tStripReports.Text = "Reports"
@@ -3294,7 +3302,7 @@ Partial Class Main
         Me.tStripAccReports.Name = "tStripAccReports"
         Me.tStripAccReports.ShortcutKeyDisplayString = "AGR-1"
         Me.tStripAccReports.ShowShortcutKeys = False
-        Me.tStripAccReports.Size = New System.Drawing.Size(178, 22)
+        Me.tStripAccReports.Size = New System.Drawing.Size(180, 22)
         Me.tStripAccReports.Text = "A/C Report"
         '
         'tStripTrailBalance
@@ -3748,7 +3756,7 @@ Partial Class Main
         Me.tStripDailyReports.Name = "tStripDailyReports"
         Me.tStripDailyReports.ShortcutKeyDisplayString = "AGR-2"
         Me.tStripDailyReports.ShowShortcutKeys = False
-        Me.tStripDailyReports.Size = New System.Drawing.Size(178, 22)
+        Me.tStripDailyReports.Size = New System.Drawing.Size(180, 22)
         Me.tStripDailyReports.Tag = "B"
         Me.tStripDailyReports.Text = "Daily Reports"
         '
@@ -4099,7 +4107,7 @@ Partial Class Main
         Me.tStripStockReports.Name = "tStripStockReports"
         Me.tStripStockReports.ShortcutKeyDisplayString = "AGR-3"
         Me.tStripStockReports.ShowShortcutKeys = False
-        Me.tStripStockReports.Size = New System.Drawing.Size(178, 22)
+        Me.tStripStockReports.Size = New System.Drawing.Size(180, 22)
         Me.tStripStockReports.Tag = "A"
         Me.tStripStockReports.Text = "Stock Reports"
         '
@@ -4915,7 +4923,7 @@ Partial Class Main
         Me.tStripOrderReports.Name = "tStripOrderReports"
         Me.tStripOrderReports.ShortcutKeyDisplayString = "AGR-4"
         Me.tStripOrderReports.ShowShortcutKeys = False
-        Me.tStripOrderReports.Size = New System.Drawing.Size(178, 22)
+        Me.tStripOrderReports.Size = New System.Drawing.Size(180, 22)
         Me.tStripOrderReports.Tag = "D"
         Me.tStripOrderReports.Text = "Order/Repair Reports"
         '
@@ -5003,7 +5011,7 @@ Partial Class Main
         Me.tStripApproval.Name = "tStripApproval"
         Me.tStripApproval.ShortcutKeyDisplayString = "AGR-5"
         Me.tStripApproval.ShowShortcutKeys = False
-        Me.tStripApproval.Size = New System.Drawing.Size(178, 22)
+        Me.tStripApproval.Size = New System.Drawing.Size(180, 22)
         Me.tStripApproval.Tag = "B"
         Me.tStripApproval.Text = "Approval"
         '
@@ -5033,7 +5041,7 @@ Partial Class Main
         Me.tStripEstimationRpt.Name = "tStripEstimationRpt"
         Me.tStripEstimationRpt.ShortcutKeyDisplayString = "AGR-6"
         Me.tStripEstimationRpt.ShowShortcutKeys = False
-        Me.tStripEstimationRpt.Size = New System.Drawing.Size(178, 22)
+        Me.tStripEstimationRpt.Size = New System.Drawing.Size(180, 22)
         Me.tStripEstimationRpt.Tag = "C"
         Me.tStripEstimationRpt.Text = "Estimation"
         '
@@ -5087,7 +5095,7 @@ Partial Class Main
         Me.MISReportTStrip.Name = "MISReportTStrip"
         Me.MISReportTStrip.ShortcutKeyDisplayString = "AGR-7"
         Me.MISReportTStrip.ShowShortcutKeys = False
-        Me.MISReportTStrip.Size = New System.Drawing.Size(178, 22)
+        Me.MISReportTStrip.Size = New System.Drawing.Size(180, 22)
         Me.MISReportTStrip.Tag = "B"
         Me.MISReportTStrip.Text = "MIS Report"
         '
@@ -5372,7 +5380,7 @@ Partial Class Main
         Me.DailyTallyReportTStrip.Name = "DailyTallyReportTStrip"
         Me.DailyTallyReportTStrip.ShortcutKeyDisplayString = "AGR-8"
         Me.DailyTallyReportTStrip.ShowShortcutKeys = False
-        Me.DailyTallyReportTStrip.Size = New System.Drawing.Size(178, 22)
+        Me.DailyTallyReportTStrip.Size = New System.Drawing.Size(180, 22)
         Me.DailyTallyReportTStrip.Tag = "B"
         Me.DailyTallyReportTStrip.Text = "Daily Tally Reports"
         '
@@ -5759,7 +5767,7 @@ Partial Class Main
         Me.XmlGenerationToolStripMenuItem.Name = "XmlGenerationToolStripMenuItem"
         Me.XmlGenerationToolStripMenuItem.ShortcutKeyDisplayString = "AGR-9"
         Me.XmlGenerationToolStripMenuItem.ShowShortcutKeys = False
-        Me.XmlGenerationToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.XmlGenerationToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.XmlGenerationToolStripMenuItem.Text = "Xml Generation"
         '
         'TallyExportXmlVoucherToolStripMenuItem
@@ -5797,7 +5805,7 @@ Partial Class Main
         Me.OtherReportsToolStripMenuItem.Name = "OtherReportsToolStripMenuItem"
         Me.OtherReportsToolStripMenuItem.ShortcutKeyDisplayString = "AGR-10"
         Me.OtherReportsToolStripMenuItem.ShowShortcutKeys = False
-        Me.OtherReportsToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.OtherReportsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.OtherReportsToolStripMenuItem.Text = "Other Reports"
         '
         'AuditReportToolStripMenuItem
@@ -5805,7 +5813,7 @@ Partial Class Main
         Me.AuditReportToolStripMenuItem.Name = "AuditReportToolStripMenuItem"
         Me.AuditReportToolStripMenuItem.ShortcutKeyDisplayString = "AGR-11"
         Me.AuditReportToolStripMenuItem.ShowShortcutKeys = False
-        Me.AuditReportToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.AuditReportToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.AuditReportToolStripMenuItem.Text = "Audit Report"
         '
         'ComplementsToolStripMenuItem
@@ -5814,7 +5822,7 @@ Partial Class Main
         Me.ComplementsToolStripMenuItem.Name = "ComplementsToolStripMenuItem"
         Me.ComplementsToolStripMenuItem.ShortcutKeyDisplayString = "AGR-12"
         Me.ComplementsToolStripMenuItem.ShowShortcutKeys = False
-        Me.ComplementsToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.ComplementsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ComplementsToolStripMenuItem.Text = "Complements"
         '
         'ComplementsToolStripMenuItem1
@@ -5832,7 +5840,7 @@ Partial Class Main
         Me.GSTReportsToolStripMenuItem.Name = "GSTReportsToolStripMenuItem"
         Me.GSTReportsToolStripMenuItem.ShortcutKeyDisplayString = "AGR-13"
         Me.GSTReportsToolStripMenuItem.ShowShortcutKeys = False
-        Me.GSTReportsToolStripMenuItem.Size = New System.Drawing.Size(178, 22)
+        Me.GSTReportsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.GSTReportsToolStripMenuItem.Text = "GST Reports"
         '
         'GSTPlusGSTR1ToolStripMenuItem
@@ -6106,6 +6114,12 @@ Partial Class Main
         Me.tStripDataCheckToolStripMenuItem.ShowShortcutKeys = False
         Me.tStripDataCheckToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
         Me.tStripDataCheckToolStripMenuItem.Text = "Data Consistent Check"
+        '
+        'IssueVsReceiptVsTransactionToolStripMenuItem
+        '
+        Me.IssueVsReceiptVsTransactionToolStripMenuItem.Name = "IssueVsReceiptVsTransactionToolStripMenuItem"
+        Me.IssueVsReceiptVsTransactionToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
+        Me.IssueVsReceiptVsTransactionToolStripMenuItem.Text = "Issue Vs Receipt Vs Transaction"
         '
         'tStripGlobalDateChange
         '
@@ -7208,11 +7222,11 @@ Partial Class Main
         Me.NotifyIcon1.Icon = CType(resources.GetObject("NotifyIcon1.Icon"), System.Drawing.Icon)
         Me.NotifyIcon1.Text = "NotifyIcon1"
         '
-        'IssueVsReceiptVsTransactionToolStripMenuItem
+        'SalesReturnPartyToolStripMenuItem
         '
-        Me.IssueVsReceiptVsTransactionToolStripMenuItem.Name = "IssueVsReceiptVsTransactionToolStripMenuItem"
-        Me.IssueVsReceiptVsTransactionToolStripMenuItem.Size = New System.Drawing.Size(276, 22)
-        Me.IssueVsReceiptVsTransactionToolStripMenuItem.Text = "Issue Vs Receipt Vs Transaction"
+        Me.SalesReturnPartyToolStripMenuItem.Name = "SalesReturnPartyToolStripMenuItem"
+        Me.SalesReturnPartyToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
+        Me.SalesReturnPartyToolStripMenuItem.Text = "Sales Return Partywise"
         '
         'Main
         '
@@ -7962,4 +7976,6 @@ Partial Class Main
     Friend WithEvents ToolStripMenuItem25 As ToolStripMenuItem
     Friend WithEvents ReorderReportToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents IssueVsReceiptVsTransactionToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents DiscountRateUpdateToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents SalesReturnPartyToolStripMenuItem As ToolStripMenuItem
 End Class

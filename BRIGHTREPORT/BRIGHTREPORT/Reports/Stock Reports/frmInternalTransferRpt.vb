@@ -143,8 +143,8 @@ Public Class frmInternalTransferRpt
             .Columns("METALNAME").Visible = False
             .Columns("PARTICULARR").Visible = False
             .Columns("KEYNO").Visible = False
-            .Columns("NOOFTAGS").Visible = chkWithNoofTags.Checked
-            .Columns("IPURVALUE").Visible = chkWithPurchaseValue.Checked
+            .Columns("NOOFTAGS").Visible = IIf(chkWithNoofTags.Checked, True, False)
+            .Columns("IPURVALUE").Visible = IIf(chkWithPurchaseValue.Checked, True, False)
             .Columns("PARTICULAR").Width = 130
             .Columns("ITRANDATE").Width = 80
             .Columns("ITRANDATE").HeaderText = "DATE"

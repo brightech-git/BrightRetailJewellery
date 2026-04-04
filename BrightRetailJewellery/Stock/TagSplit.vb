@@ -1,5 +1,7 @@
 Imports System.IO
 Imports System.Data.OleDb
+Imports System.Windows.Forms.VisualStyles.VisualStyleElement.Tab
+Imports System.Web.UI.WebControls
 
 Public Class TagSplit
     Dim strSql As String
@@ -15,6 +17,7 @@ Public Class TagSplit
     Dim dtTagStnDet As New DataTable
     Dim dtTagSplitDetails As New DataTable
     Dim dtTagSplitStoneDet As New DataTable
+    Dim dtMiscDetails As New DataTable
     Dim splittagno As Boolean = True
     Public objSoftKeys As New SoftKeys
     Dim objTag As New TagGeneration
@@ -38,6 +41,7 @@ Public Class TagSplit
     Dim TagSplitDefltItem As Boolean = IIf(GetAdmindbSoftValue("TAGSPLITDEFLTITEM", "N") = "Y", True, False)
     Dim CallBarcodeExe As Boolean = IIf(GetAdmindbSoftValue("CALLBARCODEEXE_TAGSPLIT", "N") = "Y", True, False)
     Dim TagPrefix_Item As Boolean = IIf(GetAdmindbSoftValue("TAGPREFIX_ITEM", "N") = "Y", True, False)
+    Dim ofrmItemTagSplitMiscCharge As frmItemTagSplitMiscCharge
 
     Private Sub TagSplit_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         Me.BackColor = SystemColors.InactiveCaption
@@ -67,6 +71,8 @@ Public Class TagSplit
             .Add("STNWT", GetType(Decimal))
             .Add("KEYNO", GetType(Integer))
             .Add("NEWTAGNO", GetType(String))
+            .Add("MISC", GetType(String))
+            .Add("MISCAMOUNT", GetType(String))
         End With
         dtTagSplitDetails.Columns("KEYNO").AutoIncrement = True
         dtTagSplitDetails.Columns("KEYNO").AutoIncrementStep = 1
@@ -106,6 +112,13 @@ Public Class TagSplit
         dtTagSplitStoneDetTot.Rows.Add()
         gridTagStonetotal.ColumnHeadersVisible = False
         gridTagStonetotal.DataSource = dtTagSplitStoneDetTot
+
+        With dtMiscDetails.Columns
+            .Add("MISC", GetType(String))
+            .Add("AMOUNT", GetType(Double))
+        End With
+        dtMiscDetails.AcceptChanges()
+
         StyleGridStone(gridTagStone)
         StyleGridStone(gridTagStonetotal)
         txtItemId.Focus()
@@ -498,6 +511,7 @@ Public Class TagSplit
         dtTagSplitDetails = New DataTable
         dtTagSplitStoneDet = New DataTable
         dtTempTagDet = New DataTable
+        dtMiscDetails = New DataTable
     End Function
     Private Sub TagSplit_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles Me.KeyPress
         If e.KeyChar = Chr(Keys.Enter) Then
@@ -1238,10 +1252,21 @@ TagReCheck:
             ro("LESSWT") = IIf(Val(txtLessWt_Wet.Text) <> 0, Format(Val(txtLessWt_Wet.Text), "0.000"), DBNull.Value)
             ro("STNPCS") = IIf(Val(txtStnpcs_Num.Text) <> 0, Val(txtStnpcs_Num.Text), DBNull.Value)
             ro("STNWT") = IIf(Val(txtStnWt_Wet.Text) <> 0, Format(Val(txtStnWt_Wet.Text), FormatNumberStyle(3)), DBNull.Value)
+
+            Dim itemId As Integer = dtTagDet.Rows(0)("ITEMID").ToString()
+            ofrmItemTagSplitMiscCharge = New frmItemTagSplitMiscCharge(txtTAGNO.Text, itemId)
+            ofrmItemTagSplitMiscCharge.ShowDialog()
+            If ofrmItemTagSplitMiscCharge.dtMiscDetails.Rows.Count > 0 Then
+                ro("MISC") = ofrmItemTagSplitMiscCharge.dtMiscDetails.Rows(0)("MISC").ToString
+                ro("MISCAMOUNT") = ofrmItemTagSplitMiscCharge.dtMiscDetails.Rows(0)("AMOUNT").ToString
+            End If
+
             dtTagSplitDetails.Rows.Add(ro)
             dtTagSplitDetails.AcceptChanges()
             gridMultiTag.CurrentCell = gridMultiTag.Rows(gridMultiTag.RowCount - 1).Cells(1)
             CalcGridtagTotal()
+
+
             txtPCS_Num.Text = ""
             txtGRSWT_Wet.Text = ""
             txtNETWT_Wet.Text = ""
@@ -1410,11 +1435,13 @@ AFTERINSERT:
                 strSql = "SELECT SUBITEMNAME FROM " & cnAdminDb & "..SUBITEMMAST  WHERE SUBITEMID IN (SELECT TOP 1 SUBITEMID FROM  " & cnAdminDb & "..ITEMTAG WHERE TAGNO = '" & txt_TagNo.Text.ToString & "')"
                 txtSUBITEm.Text = BrighttechPack.SearchDialog.Show("Search SubItem", strSql, cn, 0, 0, , DefItem, , False, True)
             Else
-                strSql = GetSubItemQry(New String() {"SUBITEMID ID", "DISPLAYORDER DISP", "SUBITEMNAME SUBITEM"}, itemId)
+                If dtTagDet.Rows.Count > 0 Then
+                    strSql = GetSubItemQryBySubItemName(New String() {"SUBITEMID ID", "DISPLAYORDER DISP", "SUBITEMNAME SUBITEM"}, itemId, dtTagDet.Rows(0)("SUBITEM").ToString())
+                Else
+                    strSql = GetSubItemQry(New String() {"SUBITEMID ID", "DISPLAYORDER DISP", "SUBITEMNAME SUBITEM"}, itemId)
+                End If
                 txtSUBITEm.Text = BrighttechPack.SearchDialog.Show("Search SubItem", strSql, cn, IIf(_SubItemOrderByName, 2, 1), 2, , DefItem, , False, True)
             End If
-
-
             Me.SelectNextControl(txtITEM, True, True, True, True)
         Else
             txtSUBITEm.Clear()
@@ -1462,6 +1489,8 @@ AFTERINSERT:
         Main.ShowHelpText("Press Insert Key to Help")
     End Sub
 
+
+
     Private Sub txtITEM_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles txtITEM.KeyDown
         If e.KeyCode = Keys.Insert Then
             LoadItemName()
@@ -1481,6 +1510,7 @@ AFTERINSERT:
             Else
                 LoaditemDetails()
             End If
+            txtTAGNO.Focus()
         End If
     End Sub
 
@@ -1692,6 +1722,32 @@ AFTERINSERT:
         If txtStONERowIndex.Text <> "" Then Exit Sub
         txtStPcs_NUM.Text = Val(IIf(Val(dtTagDet.Rows(0).Item("STNPCS").ToString) = 0, 0, dtTagDet.Rows(0).Item("STNPCS").ToString)) - StnPcs
         txtStWeight_WET.Text = Format(Val(IIf(Val(dtTagDet.Rows(0).Item("STNWT").ToString) = 0, 0, dtTagDet.Rows(0).Item("STNWT").ToString)) - StnWt, "0.000")
+        'Dim spcs As Integer = 0
+        'Dim swt As Decimal = 0
+        Dim samt As Double = 0
+        'If Val(dtTagStnDet.Rows(m).Item("STNPCS").ToString) > 1 Then
+        '    spcs = ((Val(dtTagStnDet.Rows(m).Item("STNPCS").ToString) / 100) * SplPer)
+        'Else
+        '    spcs = IIf(k = 0, Val(dtTagStnDet.Rows(m).Item("STNPCS").ToString), 0)
+        'End If
+        'swt = Math.Round(((Val(dtTagStnDet.Rows(m).Item("STNWT").ToString) / 100) * SplPer), 3)
+        'samt = Math.Round(((Val(dtTagStnDet.Rows(m).Item("STNAMT").ToString) / 100) * SplPer), 2)
+        'StnPcs += spcs
+        'Unit cal
+        'Format(Val(IIf(Val(dtTagStnDet.Rows(0).Item("STNAMT").ToString) = 0, 0, dtTagDet.Rows(0).Item("STNAMT").ToString)), "0.00")
+        'txtStAmount_Amt.Text = Format(Val(IIf(Val(dtTagStnDet.Rows(0).Item("STNAMT").ToString) = 0, 0, dtTagStnDet.Rows(0).Item("STNAMT").ToString)), "0.00")
+        'Suresh.R 2026-03-10
+        txtStRate_Amt.Text = Format(Val(IIf(Val(dtTagStnDet.Rows(0).Item("STNRATE").ToString) = 0, 0, dtTagStnDet.Rows(0).Item("STNRATE").ToString)), "0")
+        txtStAmount_Amt.Text = Format(Val(IIf(Val(dtTagStnDet.Rows(0).Item("STNAMT").ToString) = 0, 0, dtTagStnDet.Rows(0).Item("STNAMT").ToString)), "0.00")
+        cmbStUnit.Text = dtTagStnDet.Rows(0).Item("Unit").ToString
+        cmbStCalc.Text = dtTagStnDet.Rows(0).Item("CAL").ToString
+        txtStSubItem.Text = dtTagStnDet.Rows(0).Item("STNSUBITEMNAME").ToString
+        txtStRate_Amt.ReadOnly = True
+        txtStAmount_Amt.ReadOnly = True
+        txtStPcs_NUM.ReadOnly = True
+        txtStWeight_WET.ReadOnly = True
+        cmbStCalc.Enabled = False
+        cmbStUnit.Enabled = False
     End Sub
     Private Sub btnExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExit.Click, ExitToolStripMenuItem.Click
         Me.Close()
@@ -1733,6 +1789,7 @@ AFTERINSERT:
         Dim SNO As String
         Dim CompanyId As String
         Dim dtsave As New DataTable
+        lastGen.Text = "Last Generated tags : "
         strSql = " SELECT * FROM " & cnAdminDb & "..ITEMTAG AS T"
         strSql += " WHERE SNO='" & dtTagDet.Rows(0).Item("SNO").ToString & "' AND ISNULL(ISSDATE,'')=''"
         If Not cnCentStock Then strSql += " AND T.COMPANYID = '" & GetStockCompId() & "'"
@@ -1990,6 +2047,31 @@ AFTERINSERT:
                     strSql += " )"
                     'cmd = New OleDbCommand(strSql, cn, tran) : cmd.ExecuteNonQuery()
                     ExecQuery(SyncMode.Transaction, strSql, cn, tran, cnCostId)
+
+                    lastGen.Text += vbCrLf + IIf(newitemid <> 0, newitemid.ToString, dtsave.Rows(0).Item("ITEMID").ToString) + " - " + mtagno
+
+                    If gridMultiTag.Rows(I).Cells("MISC").Value IsNot Nothing AndAlso Not IsDBNull(gridMultiTag.Rows(I).Cells("MISC").Value) Then
+                        Dim miscSno As String = GetNewSno(TranSnoType.ITEMTAGMISCCHARCODE, tran, "GET_ADMINSNO_TRAN")
+                        Dim miscId As String = Nothing
+                        strSql = " SELECT MISCID FROM " & cnAdminDb & "..MISCCHARGES WHERE MISCNAME = '" & gridMultiTag.Rows(I).Cells("MISC").Value.ToString() & "'"
+                        miscId = Val(objGPack.GetSqlValue(strSql, "MISCID", , tran))
+                        strSql = " INSERT INTO " & cnAdminDb & "..ITEMTAGMISCCHAR"
+                        strSql += " ("
+                        strSql += " SNO,ITEMID,TAGNO,MISCID,AMOUNT,"
+                        strSql += " TAGSNO,COSTID,SYSTEMID,APPVER,COMPANYID)VALUES("
+                        strSql += " '" & miscSno & "'" 'SNO
+                        strSql += " ," & IIf(newitemid <> 0, newitemid, Val(dtsave.Rows(0).Item("ITEMID").ToString)) & "" 'ITEMID
+                        strSql += " ,'" & mtagno & "'" 'TAGNO
+                        strSql += " ," & miscId & "" 'MISCID
+                        strSql += " ," & Val(gridMultiTag.Rows(I).Cells("MISCAMOUNT").Value.ToString()) & "" 'AMOUNT
+                        strSql += " ,'" & TagSno & "'" 'TAGSNO
+                        strSql += " ,'" & dtsave.Rows(0).Item("COSTID").ToString & "'" 'COSTID
+                        strSql += " ,'" & systemId & "'" 'SYSTEMID
+                        strSql += " ,'" & VERSION & "'" 'APPVER
+                        strSql += " ,'" & GetStockCompId() & "'" ' COMPANYID
+                        strSql += " )"
+                        ExecQuery(SyncMode.Transaction, strSql, cn, tran, cnCostId)
+                    End If
 
                     If _HasPurchase Then
                         Dim dtPurItemtag As New DataTable
@@ -2277,6 +2359,7 @@ AFTERINSERT:
 
 
             tran.Commit()
+            lastGen.Visible = True
             tran = Nothing
             If tagnos <> "" Then tagnos = Mid(tagnos, 1, tagnos.Length - 1)
             MsgBox("Tag Splitted Successfully Completed", MsgBoxStyle.Information)
@@ -2374,6 +2457,7 @@ AFTERINSERT:
         InitializeComponent()
         ' Add any initialization after the InitializeComponent() call.
         objGPack.Validator_Object(Me)
+        lastGen.Text = "" : lastGen.Visible = False
     End Sub
 
     Private Sub txtStItem_GotFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtStItem.GotFocus
@@ -2509,6 +2593,7 @@ AFTERINSERT:
         End If
     End Sub
 
+
     Private Sub ChkAutoStudSP_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles ChkAutoSPlit.KeyPress
         If e.KeyChar = Chr(Keys.Enter) Then
             If ChkAutoSPlit.Checked = False Then
@@ -2542,7 +2627,6 @@ AFTERINSERT:
             End With
         End If
     End Sub
-
     Private Sub txtStItem_LostFocus(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtStItem.LostFocus
         Main.HideHelpText()
     End Sub
@@ -2612,13 +2696,12 @@ AFTERINSERT:
 
 
 
-    Private Sub txtITEM_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtITEM.TextChanged
-
-    End Sub
 
     Private Sub txt_TagNo_Leave(sender As Object, e As EventArgs) Handles txt_TagNo.Leave
         If dtTagDet.Rows.Count = 0 Then
             txt_TagNo_KeyPress(Me, New KeyPressEventArgs(Chr(Keys.Enter)))
         End If
     End Sub
+
+
 End Class

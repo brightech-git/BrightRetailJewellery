@@ -1,0 +1,32 @@
+--select BATCHNO,TRFNO,* from RECEIPT where TRANTYPE='SR' and refno=1146
+--select BATCHNO,* from RECEIPT where TRANTYPE='SR' and refno=1146
+--select sum(GRSWT),sum(PCS) from RECEIPT where TRANTYPE='SR' and refno=1146
+--select * from issue where TRFNO='BPT26509'
+
+;with cte as (
+select TRFNO,CATCODE,COSTID,sum(PCS) SRPCS,sum(GRSWT) SRGRSWT from RECEIPT where TRANTYPE='SR' and TRFNO is not null
+group by TRFNO,CATCODE,COSTID,TRFNO
+)
+,cte2 as(
+select cte.*,RECEIPT.COSTID RCOSTID,RECEIPT.PCS RPCS,RECEIPT.GRSWT RGRSWT,RECEIPT.SNO RECSNO  from bmgt2526..receipt
+join cte on cte.TRFNO = RECEIPT.TRFNO and cte.CATCODE = RECEIPT.CATCODE 
+where TRANTYPE='RIN'
+)
+,cte3 as(
+select cte2.*,LOTISSUE.PCS LIPCS,LOTISSUE.GRSWT LIGRSWT,LOTISSUE.LOTSNO from cte2
+left join bmgt2526..LOTISSUE on cte2.RECSNO = LOTISSUE.RECSNO 
+)
+,cte4 as(
+select cte3.*,ITEMLOT.PCS LPCS,ITEMLOT.GRSWT LGRSWT from cte3
+left join BMGADMINDB..ITEMLOT on ITEMLOT.SNO = cte3.LOTSNO 
+)
+select cte4.*,DESIGNER.DESIGNERID,DESIGNER.DESIGNERNAME,ITEMTAG.TPCS,ITEMTAG.TGRSWT from cte4
+left join (select LOTSNO,DESIGNERID,sum(PCS)TPCS,sum(GRSWT)TGRSWT from BMGADMINDB..ITEMTAG group by LOTSNO,DESIGNERID) ITEMTAG on ITEMTAG.LOTSNO = cte4.LOTSNO 
+inner join BMGADMINDB..DESIGNER on ITEMTAG.DESIGNERID = DESIGNER.DESIGNERID 
+
+--select costid,CATCODE,* from bmgt2526..receipt where TRFNO='BPT26509' and TRANTYPE='RIN'
+--select RECSNO,* from bmgt2526..LOTISSUE where RECSNO='BHBMG262542'
+--select * from BMGADMINDB..itemlot  where sno='BHBMG261474'
+--select * from BMGADMINDB..ITEMTAG  where lotsno='BHBMG261474'
+--select * from BMGADMINDB..DESIGNER 
+

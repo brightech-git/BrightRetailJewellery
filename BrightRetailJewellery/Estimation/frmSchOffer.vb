@@ -1,6 +1,7 @@
 Imports System.Data.OleDb
 Public Class frmSchOffer
     Dim strSql As String
+    Public Giftvalamt As Decimal
     Dim cmd As OleDbCommand
     Dim objEST As New frmEstimation1
     Dim chitMainDb As String = Nothing
@@ -1111,18 +1112,24 @@ Public Class frmSchOffer
             Gift = Val(DTEST.Rows(0).Item("GIFTVALUE"))
             ClosedBy = DTEST.Rows(0).Item("CLOSEDBY").ToString
             Deduction = Val(DTEST.Rows(0).Item("DEDUCTION")) - mratediffded
+            Giftvalamt = Val(DTEST.Rows(0).Item("GIFTVALUE"))
+
         End If
 
         'ReceivedAmount -= mratediffbonus
 
         Dim othadddedamt As Decimal = PrizeAmount + Gift - Deduction
         'Deduction = 0
-        ReceivedAmount += othadddedamt
+
+        'For Suresh.R 25-02-2026 
+        'ReceivedAmount += othadddedamt
+
         txtCHITCardAmount_AMT.Text = IIf(ReceivedAmount <> 0, Format(ReceivedAmount, "0.00"), Nothing)
         txtDed.Text = Deduction
         txtPrize.Text = PrizeAmount
         txtGift.Text = Gift
-        If wt = 0 Then wt = Math.Round((ReceivedAmount / rate), 3) Else wt += Math.Round(othadddedamt / rate, 3)
+        'If wt = 0 Then wt = Math.Round((ReceivedAmount / rate), 3) Else wt += Math.Round(othadddedamt / rate, 3)
+        If wt = 0 Then wt = Math.Round((ReceivedAmount / rate), 3)
         wt += RecPayWt
         If ClosedBy = "W" Then wt = Val(drac.Item(0).ToString)
         'FOR JMT AKSHAYA SCHEME
@@ -2064,7 +2071,8 @@ Public Class frmSchOffer
             mPartweightadj = False
             'lblWeightSchemeDetail.Text = ""
             'lblWeightSchemeDetail.Visible = False
-            txtCHITCardGrpCode.Focus()
+            'txtCHITCardGrpCode.Focus()
+            txtCHITSlipNo.Focus()
         Else
             If txtCHITCardWT_WET.ReadOnly = False And mPartweightadj = True Then
                 Exit Sub

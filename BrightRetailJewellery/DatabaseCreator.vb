@@ -56755,7 +56755,7 @@ QRYEXEC:
         strSql += vbCrLf + "IF NOT EXISTS( SELECT * FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME =@TABLENAME"
         strSql += vbCrLf + "AND  COLUMN_NAME = 'USERID')"
         strSql += vbCrLf + "BEGIN"
-        strSql += vbCrLf + "SELECT @QRY='ALTER TABLE '+ @TABLENAME +' ADD USERID INT' "
+        strSql += vbCrLf + "SELECT @QRY='ALTER TABLE ['+ @TABLENAME +'] ADD USERID INT' "
         strSql += vbCrLf + "PRINT @QRY"
         strSql += vbCrLf + "EXEC (@QRY)"
         strSql += vbCrLf + "END"
@@ -75224,7 +75224,8 @@ QRYEXEC:
         strSql += vbCrLf + " @CESS VARCHAR(20),"
         strSql += vbCrLf + " @CESSPER VARCHAR(10),"
         strSql += vbCrLf + " @CESSSNO VARCHAR(20),"
-        strSql += vbCrLf + " @HSNCODE VARCHAR(15)"
+        strSql += vbCrLf + " @HSNCODE VARCHAR(15),"
+        strSql += vbCrLf + " @FIN_PURDISCOUNT VARCHAR(20) = 0"
         strSql += vbCrLf + " ) "
         strSql += vbCrLf + " AS"
         strSql += vbCrLf + " BEGIN"
@@ -75267,7 +75268,7 @@ QRYEXEC:
         strSql += vbCrLf + " 	SELECT @QRY = @QRY + ',PURITY,TABLECODE,INCENTIVE,WEIGHTUNIT,CATCODE,OCATCODE,ACCODE,ALLOY,BATCHNO,REMARK1'"
         strSql += vbCrLf + " 	SELECT @QRY = @QRY + ',REMARK2,USERID,UPDATED,UPTIME,SYSTEMID,DISCOUNT,RUNNO,CASHID,TAX,SC,DUSTWT,MELTWT,PUREXCH,MAKE,STNAMT'"
         strSql += vbCrLf + " 	SELECT @QRY = @QRY + ',MISCAMT,METALID,STONEUNIT,APPVER,TOUCH,ESTSNO,OTHERAMT,FIN_DISCOUNT,RATEID,SETGRPID,TRANFLAG'"
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + ',ORDSTATE_ID,DISC_EMPID,STKTYPE,WT_ENTORDER,HSN) VALUES( '"
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + ',ORDSTATE_ID,DISC_EMPID,STKTYPE,WT_ENTORDER,HSN,FIN_PURDISCOUNT) VALUES( '"
         strSql += vbCrLf + " 	SELECT @QRY = @QRY + ''''+@SNO+''','''+ @PREFIX +''','+@TRANNO+','''+@TRANDATE+''','''+@TRANTYPE+''','+@PCS+','+@GRSWT+','"
         strSql += vbCrLf + " 	SELECT @QRY = @QRY + ''+@NETWT+','+@LESSWT+','+ @PUREWT +','''+@TAGNO+''','+@ITEMID+','+@SUBITEMID+','"
         strSql += vbCrLf + " 	SELECT @QRY = @QRY + ''+@WASTPER+','+@WASTAGE+','+@MCGRM+','+@MCHARGE+','+@AMOUNT+','+@RATE+','"
@@ -75283,7 +75284,7 @@ QRYEXEC:
         strSql += vbCrLf + " 	SELECT @QRY = @QRY + ''''+@MAKE+''','''+@STNAMT+''','''+@MISCAMT+''','''+@METALID+''','''+@STONEUNIT+''','"
         strSql += vbCrLf + " 	SELECT @QRY = @QRY + ''''+@APPVER+''','''+@TOUCH+''','''+@ESTSNO+''','+@OTHERAMT+','+@FIN_DISCOUNT+','"
         strSql += vbCrLf + " 	SELECT @QRY = @QRY + ''+@RATEID+','''+@SETGRPID+''','''+@TRANFLAG+''','''+@ORDSTATE_ID+''''"
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + ','''+@DISC_EMPID+''','''+@STKTYPE+''','''+@ENTORDER+''','''+@HSNCODE+''')'"
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + ','''+@DISC_EMPID+''','''+@STKTYPE+''','''+@ENTORDER+''','''+@HSNCODE+''','''+@FIN_PURDISCOUNT+''')'"
         strSql += vbCrLf + " 	PRINT @QRY"
         strSql += vbCrLf + " 	EXECUTE SP_EXECUTESQL @QRY    "
         strSql += vbCrLf + " 	IF @COSTID <> ''"
@@ -81385,6 +81386,7 @@ QRYEXEC:
     End Sub
 
     Private Sub funcSpAlterPkConstraint()
+        'Suresh.R as on 2026-04-01
         strSql = "SELECT @@MICROSOFTVERSION/POWER(2,24)"
         If GetSqlValue(strSql, 8, tran) <= 8 Then Exit Sub
         strSql = vbCrLf + " IF(SELECT 1 FROM SYSOBJECTS WHERE NAME='SP_ALTERPKCONSTRAINT')>0"
@@ -81465,6 +81467,9 @@ QRYEXEC:
         strSql += vbCrLf + " CLOSE CUR"
         strSql += vbCrLf + " DEALLOCATE CUR"
         strSql += vbCrLf + " END"
+        ''Suresh.R as on 2026-04-01
+
+
 
         'strSql = vbCrLf + " CREATE PROCEDURE SP_ALTERPKCONSTRAINT"
         'strSql += vbCrLf + " AS"
@@ -123993,6 +123998,7 @@ ByVal PurchaseTaxName As String
         strSql += vbCrLf + "  ,MCPIE NUMERIC(15,2) DEFAULT 0"
         strSql += vbCrLf + "  ,RATEFIXED VARCHAR(1) DEFAULT ''"
         strSql += vbCrLf + "  ,HSN VARCHAR(15)"
+        strSql += vbCrLf + "  ,FIN_PURDISCOUNT NUMERIC(15,2)"
         strSql += vbCrLf + "  )"
         cmd = New OleDbCommand(strSql, cn, tran)
         cmd.ExecuteNonQuery()
@@ -129937,7 +129943,7 @@ ByVal PurchaseTaxName As String
         AdmindbInsertValuesToSoftControl(compId + suffix, "PURCHUPD_TAGASTAGKEY", "PURCHASE UPLOAD TAGNO AS TAGKEY", "T", "N", "S")
         AdmindbInsertValuesToSoftControl(compId + suffix, "PURCHUPD_STYLENOASTAGKEY", "PURCHASE UPLOAD STYLENO AS TAGKEY", "T", "N", "S")
         AdmindbInsertValuesToSoftControl(compId + suffix, "PURCHUPD_SEPTAGNO", "PURCHASE UPLOAD SEP TAGNO FROM EXCEL", "T", "N", "S")
-        AdmindbInsertValuesToSoftControl(compId + suffix, "ROUNDOFF_PURAMT", "PURCHASE AMOUNT ROUND OFF IN ESTIMATION", "T", "N", "E")
+        AdmindbInsertValuesToSoftControl(compId + suffix, "ROUNDOFF_PURAMT", "PURCHASE AMOUNT ROUND OFF IN ESTIMATION (L)OW/(F)IFTY/(H)IGH/(N)O", "T", "N", "E")
         AdmindbInsertValuesToSoftControl(compId + suffix, "PREMAXPOINT_REDPERDAY", "MAXIMUM PRIVILEGE POINTS REDEEM PER DAY", "N", "0", "P")
         AdmindbInsertValuesToSoftControl(compId + suffix, "PREPOINT_VALIDITY", "PRIVILEGE POINTS VALIDITY IN DAY", "N", "0", "P")
         AdmindbInsertValuesToSoftControl(compId + suffix, "RPT_TRANDET_CURSOR", "TRANSACTION DETAILED REPORT CASH NOT NULL", "T", "N", "P")

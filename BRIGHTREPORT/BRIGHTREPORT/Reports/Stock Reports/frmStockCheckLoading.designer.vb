@@ -59,6 +59,7 @@ Partial Class frmStockCheckLoading
         Me.Label3 = New System.Windows.Forms.Label()
         Me.txtItemCode = New System.Windows.Forms.TextBox()
         Me.cmbItemName = New System.Windows.Forms.ComboBox()
+        Me.cmbSIZENAME = New System.Windows.Forms.ComboBox()
         Me.txtTrayNo = New System.Windows.Forms.TextBox()
         Me.cmbDesignerName = New System.Windows.Forms.ComboBox()
         Me.rbtMarked = New System.Windows.Forms.RadioButton()
@@ -202,6 +203,7 @@ Partial Class frmStockCheckLoading
         Me.pnlTop.Controls.Add(Me.Label3)
         Me.pnlTop.Controls.Add(Me.txtItemCode)
         Me.pnlTop.Controls.Add(Me.cmbItemName)
+        Me.pnlTop.Controls.Add(Me.cmbSIZENAME)
         Me.pnlTop.Controls.Add(Me.txtTrayNo)
         Me.pnlTop.Controls.Add(Me.cmbDesignerName)
         Me.pnlTop.Controls.Add(Me.rbtMarked)
@@ -507,6 +509,14 @@ Partial Class frmStockCheckLoading
         Me.cmbItemName.FormattingEnabled = True
         Me.cmbItemName.Location = New System.Drawing.Point(315, 16)
         Me.cmbItemName.Name = "cmbItemName"
+        Me.cmbItemName.Size = New System.Drawing.Size(342, 21)
+        Me.cmbItemName.TabIndex = 7
+
+        'cmbsizename
+        '
+        Me.cmbItemName.FormattingEnabled = True
+        Me.cmbItemName.Location = New System.Drawing.Point(315, 16)
+        Me.cmbItemName.Name = "cmbsizename"
         Me.cmbItemName.Size = New System.Drawing.Size(342, 21)
         Me.cmbItemName.TabIndex = 7
         '
@@ -862,6 +872,7 @@ Partial Class frmStockCheckLoading
     Friend WithEvents chkAsonDate As System.Windows.Forms.CheckBox
     Friend WithEvents cmbDesignerName As System.Windows.Forms.ComboBox
     Friend WithEvents cmbItemName As System.Windows.Forms.ComboBox
+    Friend WithEvents cmbSIZENAME As System.Windows.Forms.ComboBox
     Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Label1 As System.Windows.Forms.Label
     Friend WithEvents rbtMarked As System.Windows.Forms.RadioButton

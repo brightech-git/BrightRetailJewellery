@@ -19,23 +19,23 @@ Partial Class LotBulkIssueDia
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.cmbDesigner_MAN = New System.Windows.Forms.ComboBox
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.cmbCostCentre_Man = New System.Windows.Forms.ComboBox
-        Me.Label6 = New System.Windows.Forms.Label
-        Me.Label30 = New System.Windows.Forms.Label
-        Me.cmbItemCounter_MAN = New System.Windows.Forms.ComboBox
-        Me.btnOk = New System.Windows.Forms.Button
-        Me.btnCancel = New System.Windows.Forms.Button
-        Me.Label1 = New System.Windows.Forms.Label
-        Me.cmbEntryType = New System.Windows.Forms.ComboBox
-        Me.cmbSubItemName_Man = New System.Windows.Forms.ComboBox
-        Me.Label8 = New System.Windows.Forms.Label
-        Me.Label9 = New System.Windows.Forms.Label
-        Me.txtItemName = New System.Windows.Forms.TextBox
-        Me.txtItemCode_Num_Man = New System.Windows.Forms.TextBox
-        Me.chkIssToAssort = New System.Windows.Forms.CheckBox
-        Me.pnlItemCode = New System.Windows.Forms.Panel
+        Me.cmbDesigner_MAN = New System.Windows.Forms.ComboBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.cmbCostCentre_Man = New System.Windows.Forms.ComboBox()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label30 = New System.Windows.Forms.Label()
+        Me.cmbItemCounter_MAN = New System.Windows.Forms.ComboBox()
+        Me.btnOk = New System.Windows.Forms.Button()
+        Me.btnCancel = New System.Windows.Forms.Button()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.cmbEntryType = New System.Windows.Forms.ComboBox()
+        Me.cmbSubItemName_Man = New System.Windows.Forms.ComboBox()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.txtItemName = New System.Windows.Forms.TextBox()
+        Me.txtItemCode_Num_Man = New System.Windows.Forms.TextBox()
+        Me.chkIssToAssort = New System.Windows.Forms.CheckBox()
+        Me.pnlItemCode = New System.Windows.Forms.Panel()
         Me.pnlItemCode.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -116,7 +116,7 @@ Partial Class LotBulkIssueDia
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(10, 10)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(69, 13)
+        Me.Label1.Size = New System.Drawing.Size(68, 13)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "Entry Type"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -183,7 +183,7 @@ Partial Class LotBulkIssueDia
         Me.chkIssToAssort.AutoSize = True
         Me.chkIssToAssort.Location = New System.Drawing.Point(244, 9)
         Me.chkIssToAssort.Name = "chkIssToAssort"
-        Me.chkIssToAssort.Size = New System.Drawing.Size(166, 17)
+        Me.chkIssToAssort.Size = New System.Drawing.Size(165, 17)
         Me.chkIssToAssort.TabIndex = 2
         Me.chkIssToAssort.Text = "Issue To Assorted Items"
         Me.chkIssToAssort.UseVisualStyleBackColor = True

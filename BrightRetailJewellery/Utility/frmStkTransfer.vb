@@ -1741,17 +1741,7 @@ CheckItem:
         End If
     End Sub
 
-    Private Sub txtEstNo_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtEstNo.TextChanged
 
-    End Sub
-
-    Private Sub ChkwithImage_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
-    End Sub
-
-    Private Sub txtItemId_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtItemId.TextChanged
-
-    End Sub
 
     Private Sub txtSubItemName_OWN_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txtSubItemName_OWN.KeyPress
         If e.KeyChar = Chr(Keys.Enter) Then

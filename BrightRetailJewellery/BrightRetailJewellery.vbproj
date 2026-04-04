@@ -719,6 +719,12 @@
     <Compile Include="Bill\frmBviewadv.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Bill\frmChitGiftVoucher.designer.vb">
+      <DependentUpon>frmChitGiftVoucher.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Bill\frmChitGiftVoucher.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Bill\frmCompIssue.Designer.vb">
       <DependentUpon>frmCompIssue.vb</DependentUpon>
     </Compile>
@@ -1159,6 +1165,12 @@
       <DependentUpon>Explorer1.vb</DependentUpon>
     </Compile>
     <Compile Include="Explorer1.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDiscountRateMaster.designer.vb">
+      <DependentUpon>frmDiscountRateMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmDiscountRateMaster.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmShippingAddressDia.designer.vb">
@@ -1863,6 +1875,12 @@
       <DependentUpon>frmItemTagMiscCharge.vb</DependentUpon>
     </Compile>
     <Compile Include="Stock\frmItemTagMiscCharge.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Stock\frmItemTagSplitMiscCharge.designer.vb">
+      <DependentUpon>frmItemTagSplitMiscCharge.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Stock\frmItemTagSplitMiscCharge.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Stock\frmItemUpdation.Designer.vb">
@@ -3195,6 +3213,9 @@
       <DependentUpon>frmBviewadv.vb</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Bill\frmChitGiftVoucher.resx">
+      <DependentUpon>frmChitGiftVoucher.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Bill\frmCompIssue.resx">
       <DependentUpon>frmCompIssue.vb</DependentUpon>
     </EmbeddedResource>
@@ -3479,6 +3500,9 @@
     <EmbeddedResource Include="Explorer1.resx">
       <SubType>Designer</SubType>
       <DependentUpon>Explorer1.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDiscountRateMaster.resx">
+      <DependentUpon>frmDiscountRateMaster.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmShippingAddressDia.resx">
       <DependentUpon>frmShippingAddressDia.vb</DependentUpon>
@@ -3927,6 +3951,9 @@
     <EmbeddedResource Include="Stock\frmItemTagMiscCharge.resx">
       <DependentUpon>frmItemTagMiscCharge.vb</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Stock\frmItemTagSplitMiscCharge.resx">
+      <DependentUpon>frmItemTagSplitMiscCharge.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Stock\frmItemUpdation.resx">
       <DependentUpon>frmItemUpdation.vb</DependentUpon>

@@ -51,6 +51,7 @@ Public Class LotBulkIssueDia
     Private Sub LotBulkIssueDia_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         cmbEntryType.Text = "REGULAR"
         pnlItemCode.Enabled = chkIssToAssort.Checked
+        cmbDesigner_MAN.Enabled = True
         If pnlItemCode.Enabled = False Then
             txtItemCode_Num_Man.Text = ""
             cmbItemCounter_MAN.Text = ""
@@ -129,4 +130,6 @@ Public Class LotBulkIssueDia
             cmbSubItemName_Man.Text = ""
         End If
     End Sub
+
+
 End Class

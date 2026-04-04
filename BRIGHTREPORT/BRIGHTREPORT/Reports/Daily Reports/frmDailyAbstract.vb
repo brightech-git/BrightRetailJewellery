@@ -5418,19 +5418,19 @@ Public Class frmDailyAbstract
         StrSql += StrFilter
         StrSql += StrUseridFtr
         StrSql += vbCrLf + " AND FROMFLAG NOT IN ('','S','O','A')"
-        If Not chkMiscRecPaySummary.Checked Then StrSql += vbCrLf + " AND TRANTYPE <> 'T'"
+        If Not chkMiscRecPaySummary.Checked Then StrSql += vbCrLf + " AND TRANTYPE <> 'T' and FLAG<>'Z'"
         StrSql += vbCrLf + " UNION ALL"
         StrSql += vbCrLf + " SELECT 'REC' SEP,CASE WHEN SUBSTRING(RUNNO,6,1) IN ('O','R') THEN 'O' ELSE TRANTYPE END TRANTYPE,CASE WHEN RECPAY = 'R' THEN AMOUNT+ISNULL(GSTVAL,0) ELSE 0 END AS AMOUNT,BATCHNO"
         StrSql += vbCrLf + " FROM " & cnAdminDb & "..OUTSTANDING WHERE TRANDATE BETWEEN '" & dtpFrom.Value.ToString("yyyy-MM-dd") & "' AND '" & dtpTo.Value.ToString("yyyy-MM-dd") & "' AND RECPAY = 'R' AND ISNULL(CANCEL,'') = '' AND ISNULL(COMPANYID,'') IN (" & SelectedCompanyId & ")"
         StrSql += StrFilter
         StrSql += StrUseridFtr
         StrSql += vbCrLf + " AND FROMFLAG NOT IN ('','S','O','A')"
-        If Not chkMiscRecPaySummary.Checked Then StrSql += vbCrLf + " AND TRANTYPE <> 'T'"
+        If Not chkMiscRecPaySummary.Checked Then StrSql += vbCrLf + " AND TRANTYPE <> 'T' and FLAG<>'Z'"
         StrSql += vbCrLf + " UNION ALL"
         StrSql += vbCrLf + " SELECT 'PAY' SEP,CASE WHEN SUBSTRING(RUNNO,6,1) IN ('O','R') THEN 'O' ELSE TRANTYPE END TRANTYPE,CASE WHEN RECPAY = 'P' THEN AMOUNT+ISNULL(GSTVAL,0) ELSE 0 END AS AMOUNT,BATCHNO"
         StrSql += vbCrLf + " FROM " & cnAdminDb & "..OUTSTANDING WHERE TRANDATE BETWEEN '" & dtpFrom.Value.ToString("yyyy-MM-dd") & "' AND '" & dtpTo.Value.ToString("yyyy-MM-dd") & "' AND RECPAY = 'P' AND ISNULL(CANCEL,'') = '' AND ISNULL(COMPANYID,'') IN (" & SelectedCompanyId & ")"
         StrSql += vbCrLf + " AND FROMFLAG NOT IN ('','S','O','A')"
-        If Not chkMiscRecPaySummary.Checked Then StrSql += vbCrLf + " AND TRANTYPE <> 'T'"
+        If Not chkMiscRecPaySummary.Checked Then StrSql += vbCrLf + " AND TRANTYPE <> 'T' and FLAG<>'Z'"
         StrSql += StrFilter
         StrSql += StrUseridFtr
         Cmd = New OleDbCommand(StrSql, cn) : Cmd.CommandTimeout = 1000
@@ -6121,7 +6121,7 @@ Public Class frmDailyAbstract
         StrSql += vbCrLf + " AND COMPANYID IN (" & SelectedCompanyId & ")"
         StrSql += vbCrLf + " AND PAYMODE IN ('AR','GV','OR') AND O.RECPAY = 'R' "
         'StrSql += vbCrLf + " AND O.TRANTYPE IN ('A','GV')"
-        StrSql += vbCrLf + " AND O.TRANTYPE IN ('GV')"
+        StrSql += vbCrLf + " AND O.TRANTYPE IN ('GV') and O.FLAG<>'Z' "
         StrSql += vbCrLf + " AND NOT (SUBSTRING(O.RUNNO,6,20) LIKE 'O%' OR SUBSTRING(O.RUNNO,6,20) LIKE 'R%')"
         StrSql += StrFilter
         StrSql += StrUseridFtr

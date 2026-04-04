@@ -43,6 +43,7 @@ Public Class frmMaterialReceiptVsStock
         strSql += vbCrLf + "  ,@METALID='" & MetalId & "'"
         strSql += vbCrLf + "  ,@STARTDATE='" & Format(cnTranFromDate, "yyyy-MM-dd") & "'"
         strSql += vbCrLf + "  ,@TRANNO='" & IIf(chkSummary.Checked, "", txtTranNo_NUM.Text.ToString.Trim) & "'"
+        strSql += vbCrLf + "  ,@ACCODE='" & IIf(cmbAcname.SelectedValue = "ALL", "", cmbAcname.SelectedValue) & "'"
         dsGridView = New DataSet
         cmd = New OleDbCommand(strSql, cn)
         cmd.CommandTimeout = 1000
@@ -99,6 +100,18 @@ Public Class frmMaterialReceiptVsStock
         da = New OleDbDataAdapter(strSql, cn)
         da.Fill(dtMetal)
         BrighttechPack.GlobalMethods.FillCombo(ChkCmbMetal, dtMetal, "METALNAME")
+
+        strSql = " SELECT 'ALL' ACCODE, 'ALL' ACNAME"
+        strSql += " UNION ALL"
+        strSql += $" SELECT ACCODE, ACNAME FROM {cnAdminDb}..ACHEAD where ACTIVE = 'Y'"
+        Dim dtAc As New DataTable
+        da = New OleDbDataAdapter(strSql, cn)
+        da.Fill(dtAc)
+        cmbAcname.DataSource = Nothing
+        cmbAcname.DataSource = dtAc
+        cmbAcname.DisplayMember = "ACNAME"
+        cmbAcname.ValueMember = "ACCODE"
+
         btnNew_Click(Me, New EventArgs)
         dtpFrom.Focus()
         Prop_Gets()

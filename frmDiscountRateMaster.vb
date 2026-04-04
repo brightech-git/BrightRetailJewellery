@@ -1,5 +1,5 @@
 Imports System.Data.OleDb
-Public Class frmRateMaster
+Public Class frmDiscountRateMaster
     Dim strSql As String
     Dim da As OleDbDataAdapter
     Dim cmd As OleDbCommand
@@ -131,7 +131,7 @@ Public Class frmRateMaster
                 .MinimumWidth = 200
             Else
                 .Width = 200
-                .MinimumWidth = 230
+                .MinimumWidth = 265
             End If
             .HeaderText = "PURITY NAME"
             .Resizable = DataGridViewTriState.False
@@ -196,8 +196,8 @@ Public Class frmRateMaster
             End If
             .DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
             .DefaultCellStyle.Format = "0.00"
-            .MinimumWidth = 80
-            .Width = 80
+            .MinimumWidth = 60
+            .Width = 60
             .HeaderText = "RATE"
             .Resizable = DataGridViewTriState.False
         End With
@@ -368,13 +368,13 @@ Public Class frmRateMaster
         End If
     End Sub
 
-    Private Sub frmRateMaster_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
+    Private Sub frmDiscountRateMaster_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         If e.KeyCode = Keys.Escape Then
             Me.DialogResult = Windows.Forms.DialogResult.OK
         End If
     End Sub
 
-    Private Sub frmRateMaster_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles Me.KeyPress
+    Private Sub frmDiscountRateMaster_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles Me.KeyPress
         If e.KeyChar = Chr(Keys.Enter) Then
             If gridView.Focused Then
                 Exit Sub
@@ -383,7 +383,7 @@ Public Class frmRateMaster
         End If
     End Sub
 
-    Private Sub frmRateMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+    Private Sub frmDiscountRateMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         If RATEPURITY_SEP = True Then
             Authorize = BrighttechPack.Methods.GetRights(_DtUserRights, Me.Name, BrighttechPack.Methods.RightMode.Authorize, False)
             _Edit = BrighttechPack.Methods.GetRights(_DtUserRights, Me.Name, BrighttechPack.Methods.RightMode.Edit, False)

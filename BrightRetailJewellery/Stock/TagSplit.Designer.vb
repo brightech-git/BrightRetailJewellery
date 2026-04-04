@@ -89,6 +89,7 @@ Partial Class TagSplit
         Me.txtStRowIndex = New System.Windows.Forms.TextBox()
         Me.ChkAutoSPlit = New System.Windows.Forms.CheckBox()
         Me.Grouper2 = New CodeVendor.Controls.Grouper()
+        Me.lastGen = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -130,7 +131,7 @@ Partial Class TagSplit
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label1.Location = New System.Drawing.Point(188, 22)
+        Me.Label1.Location = New System.Drawing.Point(14, 51)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(51, 13)
         Me.Label1.TabIndex = 2
@@ -139,7 +140,7 @@ Partial Class TagSplit
         'txt_TagNo
         '
         Me.txt_TagNo.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txt_TagNo.Location = New System.Drawing.Point(245, 17)
+        Me.txt_TagNo.Location = New System.Drawing.Point(73, 46)
         Me.txt_TagNo.Name = "txt_TagNo"
         Me.txt_TagNo.Size = New System.Drawing.Size(110, 23)
         Me.txt_TagNo.TabIndex = 3
@@ -178,16 +179,16 @@ Partial Class TagSplit
         '
         'txtSUBITEm
         '
-        Me.txtSUBITEm.Location = New System.Drawing.Point(184, 89)
+        Me.txtSUBITEm.Location = New System.Drawing.Point(184, 103)
         Me.txtSUBITEm.Name = "txtSUBITEm"
         Me.txtSUBITEm.Size = New System.Drawing.Size(152, 21)
-        Me.txtSUBITEm.TabIndex = 12
+        Me.txtSUBITEm.TabIndex = 8
         '
         'Label4
         '
         Me.Label4.BackColor = System.Drawing.Color.Transparent
         Me.Label4.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label4.Location = New System.Drawing.Point(186, 70)
+        Me.Label4.Location = New System.Drawing.Point(186, 84)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(148, 16)
         Me.Label4.TabIndex = 11
@@ -197,18 +198,18 @@ Partial Class TagSplit
         'txtStnWt_Wet
         '
         Me.txtStnWt_Wet.BackColor = System.Drawing.SystemColors.Window
-        Me.txtStnWt_Wet.Location = New System.Drawing.Point(803, 89)
+        Me.txtStnWt_Wet.Location = New System.Drawing.Point(803, 103)
         Me.txtStnWt_Wet.Name = "txtStnWt_Wet"
         Me.txtStnWt_Wet.ReadOnly = True
         Me.txtStnWt_Wet.Size = New System.Drawing.Size(65, 21)
-        Me.txtStnWt_Wet.TabIndex = 26
+        Me.txtStnWt_Wet.TabIndex = 15
         Me.txtStnWt_Wet.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'Label3
         '
         Me.Label3.BackColor = System.Drawing.Color.Transparent
         Me.Label3.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label3.Location = New System.Drawing.Point(800, 70)
+        Me.Label3.Location = New System.Drawing.Point(800, 84)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(65, 16)
         Me.Label3.TabIndex = 25
@@ -218,55 +219,55 @@ Partial Class TagSplit
         'txtStnpcs_Num
         '
         Me.txtStnpcs_Num.BackColor = System.Drawing.SystemColors.Window
-        Me.txtStnpcs_Num.Location = New System.Drawing.Point(749, 89)
+        Me.txtStnpcs_Num.Location = New System.Drawing.Point(749, 103)
         Me.txtStnpcs_Num.Name = "txtStnpcs_Num"
         Me.txtStnpcs_Num.ReadOnly = True
         Me.txtStnpcs_Num.Size = New System.Drawing.Size(53, 21)
-        Me.txtStnpcs_Num.TabIndex = 24
+        Me.txtStnpcs_Num.TabIndex = 14
         Me.txtStnpcs_Num.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'txtLessWt_Wet
         '
         Me.txtLessWt_Wet.BackColor = System.Drawing.SystemColors.Window
-        Me.txtLessWt_Wet.Location = New System.Drawing.Point(666, 89)
+        Me.txtLessWt_Wet.Location = New System.Drawing.Point(666, 103)
         Me.txtLessWt_Wet.Name = "txtLessWt_Wet"
         Me.txtLessWt_Wet.ReadOnly = True
         Me.txtLessWt_Wet.Size = New System.Drawing.Size(82, 21)
-        Me.txtLessWt_Wet.TabIndex = 22
+        Me.txtLessWt_Wet.TabIndex = 13
         Me.txtLessWt_Wet.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'txtGRSWT_Wet
         '
-        Me.txtGRSWT_Wet.Location = New System.Drawing.Point(500, 89)
+        Me.txtGRSWT_Wet.Location = New System.Drawing.Point(500, 103)
         Me.txtGRSWT_Wet.Name = "txtGRSWT_Wet"
         Me.txtGRSWT_Wet.Size = New System.Drawing.Size(82, 21)
-        Me.txtGRSWT_Wet.TabIndex = 18
+        Me.txtGRSWT_Wet.TabIndex = 11
         Me.txtGRSWT_Wet.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'txtNETWT_Wet
         '
         Me.txtNETWT_Wet.BackColor = System.Drawing.SystemColors.Window
-        Me.txtNETWT_Wet.Location = New System.Drawing.Point(583, 89)
+        Me.txtNETWT_Wet.Location = New System.Drawing.Point(583, 103)
         Me.txtNETWT_Wet.Name = "txtNETWT_Wet"
         Me.txtNETWT_Wet.ReadOnly = True
         Me.txtNETWT_Wet.Size = New System.Drawing.Size(82, 21)
-        Me.txtNETWT_Wet.TabIndex = 20
+        Me.txtNETWT_Wet.TabIndex = 12
         Me.txtNETWT_Wet.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'txtPCS_Num
         '
-        Me.txtPCS_Num.Location = New System.Drawing.Point(455, 89)
+        Me.txtPCS_Num.Location = New System.Drawing.Point(455, 103)
         Me.txtPCS_Num.Name = "txtPCS_Num"
         Me.txtPCS_Num.Size = New System.Drawing.Size(44, 21)
-        Me.txtPCS_Num.TabIndex = 16
+        Me.txtPCS_Num.TabIndex = 10
         Me.txtPCS_Num.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'txtITEM
         '
-        Me.txtITEM.Location = New System.Drawing.Point(8, 89)
+        Me.txtITEM.Location = New System.Drawing.Point(8, 103)
         Me.txtITEM.Name = "txtITEM"
         Me.txtITEM.Size = New System.Drawing.Size(175, 21)
-        Me.txtITEM.TabIndex = 10
+        Me.txtITEM.TabIndex = 7
         '
         'gridMultiTag
         '
@@ -275,7 +276,7 @@ Partial Class TagSplit
         Me.gridMultiTag.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Sunken
         Me.gridMultiTag.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
         Me.gridMultiTag.ColumnHeadersVisible = False
-        Me.gridMultiTag.Location = New System.Drawing.Point(8, 112)
+        Me.gridMultiTag.Location = New System.Drawing.Point(8, 126)
         Me.gridMultiTag.Name = "gridMultiTag"
         Me.gridMultiTag.ReadOnly = True
         Me.gridMultiTag.RowHeadersVisible = False
@@ -295,7 +296,7 @@ Partial Class TagSplit
         Me.gridMultTagTotal.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
         Me.gridMultTagTotal.ColumnHeadersVisible = False
         Me.gridMultTagTotal.Enabled = False
-        Me.gridMultTagTotal.Location = New System.Drawing.Point(8, 235)
+        Me.gridMultTagTotal.Location = New System.Drawing.Point(8, 249)
         Me.gridMultTagTotal.Name = "gridMultTagTotal"
         Me.gridMultTagTotal.ReadOnly = True
         Me.gridMultTagTotal.RowHeadersVisible = False
@@ -307,7 +308,7 @@ Partial Class TagSplit
         '
         Me.lblItemName.BackColor = System.Drawing.Color.Transparent
         Me.lblItemName.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblItemName.Location = New System.Drawing.Point(11, 70)
+        Me.lblItemName.Location = New System.Drawing.Point(11, 84)
         Me.lblItemName.Name = "lblItemName"
         Me.lblItemName.Size = New System.Drawing.Size(169, 16)
         Me.lblItemName.TabIndex = 9
@@ -318,7 +319,7 @@ Partial Class TagSplit
         '
         Me.Label75.BackColor = System.Drawing.Color.Transparent
         Me.Label75.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label75.Location = New System.Drawing.Point(749, 70)
+        Me.Label75.Location = New System.Drawing.Point(749, 84)
         Me.Label75.Name = "Label75"
         Me.Label75.Size = New System.Drawing.Size(56, 16)
         Me.Label75.TabIndex = 23
@@ -329,7 +330,7 @@ Partial Class TagSplit
         '
         Me.Label74.BackColor = System.Drawing.Color.Transparent
         Me.Label74.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label74.Location = New System.Drawing.Point(666, 70)
+        Me.Label74.Location = New System.Drawing.Point(666, 84)
         Me.Label74.Name = "Label74"
         Me.Label74.Size = New System.Drawing.Size(81, 16)
         Me.Label74.TabIndex = 21
@@ -340,7 +341,7 @@ Partial Class TagSplit
         '
         Me.Label70.BackColor = System.Drawing.Color.Transparent
         Me.Label70.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label70.Location = New System.Drawing.Point(500, 70)
+        Me.Label70.Location = New System.Drawing.Point(500, 84)
         Me.Label70.Name = "Label70"
         Me.Label70.Size = New System.Drawing.Size(79, 16)
         Me.Label70.TabIndex = 17
@@ -351,7 +352,7 @@ Partial Class TagSplit
         '
         Me.Label73.BackColor = System.Drawing.Color.Transparent
         Me.Label73.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label73.Location = New System.Drawing.Point(584, 70)
+        Me.Label73.Location = New System.Drawing.Point(584, 84)
         Me.Label73.Name = "Label73"
         Me.Label73.Size = New System.Drawing.Size(77, 16)
         Me.Label73.TabIndex = 19
@@ -362,7 +363,7 @@ Partial Class TagSplit
         '
         Me.Label69.BackColor = System.Drawing.Color.Transparent
         Me.Label69.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label69.Location = New System.Drawing.Point(454, 70)
+        Me.Label69.Location = New System.Drawing.Point(454, 84)
         Me.Label69.Name = "Label69"
         Me.Label69.Size = New System.Drawing.Size(42, 16)
         Me.Label69.TabIndex = 15
@@ -373,7 +374,7 @@ Partial Class TagSplit
         '
         Me.Label68.BackColor = System.Drawing.Color.Transparent
         Me.Label68.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.Label68.Location = New System.Drawing.Point(336, 70)
+        Me.Label68.Location = New System.Drawing.Point(336, 84)
         Me.Label68.Name = "Label68"
         Me.Label68.Size = New System.Drawing.Size(113, 16)
         Me.Label68.TabIndex = 13
@@ -383,11 +384,11 @@ Partial Class TagSplit
         'txtTAGNO
         '
         Me.txtTAGNO.BackColor = System.Drawing.SystemColors.Window
-        Me.txtTAGNO.Location = New System.Drawing.Point(337, 89)
+        Me.txtTAGNO.Location = New System.Drawing.Point(337, 103)
         Me.txtTAGNO.Name = "txtTAGNO"
         Me.txtTAGNO.ReadOnly = True
         Me.txtTAGNO.Size = New System.Drawing.Size(117, 21)
-        Me.txtTAGNO.TabIndex = 14
+        Me.txtTAGNO.TabIndex = 9
         Me.txtTAGNO.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'gridViewTAG
@@ -395,25 +396,24 @@ Partial Class TagSplit
         Me.gridViewTAG.AllowUserToAddRows = False
         Me.gridViewTAG.AllowUserToDeleteRows = False
         Me.gridViewTAG.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.gridViewTAG.Location = New System.Drawing.Point(715, 12)
+        Me.gridViewTAG.Location = New System.Drawing.Point(208, 16)
         Me.gridViewTAG.Name = "gridViewTAG"
         Me.gridViewTAG.ReadOnly = True
         Me.gridViewTAG.ScrollBars = System.Windows.Forms.ScrollBars.Vertical
-        Me.gridViewTAG.Size = New System.Drawing.Size(136, 51)
+        Me.gridViewTAG.Size = New System.Drawing.Size(959, 53)
         Me.gridViewTAG.TabIndex = 8
-        Me.gridViewTAG.Visible = False
         '
         'ContextMenuStrip1
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.ExitToolStripMenuItem, Me.SaveToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(119, 70)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(118, 70)
         '
         'NewToolStripMenuItem
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
         Me.NewToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(118, 22)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.NewToolStripMenuItem.Text = "New"
         Me.NewToolStripMenuItem.Visible = False
         '
@@ -421,7 +421,7 @@ Partial Class TagSplit
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
         Me.ExitToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F12
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(118, 22)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         Me.ExitToolStripMenuItem.Visible = False
         '
@@ -429,7 +429,7 @@ Partial Class TagSplit
         '
         Me.SaveToolStripMenuItem.Name = "SaveToolStripMenuItem"
         Me.SaveToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F1
-        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(118, 22)
+        Me.SaveToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.SaveToolStripMenuItem.Text = "Save"
         Me.SaveToolStripMenuItem.Visible = False
         '
@@ -658,15 +658,15 @@ Partial Class TagSplit
         Me.pnlstuddedpcs_OWN.Controls.Add(Me.Label7)
         Me.pnlstuddedpcs_OWN.Controls.Add(Me.txtSplitPcs_NUM)
         Me.pnlstuddedpcs_OWN.Controls.Add(Me.Label6)
-        Me.pnlstuddedpcs_OWN.Location = New System.Drawing.Point(441, 13)
+        Me.pnlstuddedpcs_OWN.Location = New System.Drawing.Point(957, 87)
         Me.pnlstuddedpcs_OWN.Name = "pnlstuddedpcs_OWN"
-        Me.pnlstuddedpcs_OWN.Size = New System.Drawing.Size(252, 26)
+        Me.pnlstuddedpcs_OWN.Size = New System.Drawing.Size(210, 26)
         Me.pnlstuddedpcs_OWN.TabIndex = 5
         '
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(147, 6)
+        Me.Label7.Location = New System.Drawing.Point(125, 6)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(26, 13)
         Me.Label7.TabIndex = 2
@@ -674,9 +674,9 @@ Partial Class TagSplit
         '
         'txtSplitPcs_NUM
         '
-        Me.txtSplitPcs_NUM.Location = New System.Drawing.Point(76, 3)
+        Me.txtSplitPcs_NUM.Location = New System.Drawing.Point(73, 3)
         Me.txtSplitPcs_NUM.Name = "txtSplitPcs_NUM"
-        Me.txtSplitPcs_NUM.Size = New System.Drawing.Size(67, 21)
+        Me.txtSplitPcs_NUM.Size = New System.Drawing.Size(45, 21)
         Me.txtSplitPcs_NUM.TabIndex = 1
         '
         'Label6
@@ -750,7 +750,7 @@ Partial Class TagSplit
         Me.grpTagDetail_OWN.ShadowColor = System.Drawing.SystemColors.InactiveCaption
         Me.grpTagDetail_OWN.ShadowControl = False
         Me.grpTagDetail_OWN.ShadowThickness = 3
-        Me.grpTagDetail_OWN.Size = New System.Drawing.Size(875, 267)
+        Me.grpTagDetail_OWN.Size = New System.Drawing.Size(1175, 276)
         Me.grpTagDetail_OWN.TabIndex = 0
         '
         'pnlRatio_OWN
@@ -760,22 +760,22 @@ Partial Class TagSplit
         Me.pnlRatio_OWN.Controls.Add(Me.Label8)
         Me.pnlRatio_OWN.Controls.Add(Me.txtSpiltTag_NUM)
         Me.pnlRatio_OWN.Controls.Add(Me.Label9)
-        Me.pnlRatio_OWN.Location = New System.Drawing.Point(441, 37)
+        Me.pnlRatio_OWN.Location = New System.Drawing.Point(957, 111)
         Me.pnlRatio_OWN.Name = "pnlRatio_OWN"
-        Me.pnlRatio_OWN.Size = New System.Drawing.Size(252, 26)
+        Me.pnlRatio_OWN.Size = New System.Drawing.Size(210, 26)
         Me.pnlRatio_OWN.TabIndex = 7
         '
         'txtSplitRatio_NUM
         '
-        Me.txtSplitRatio_NUM.Location = New System.Drawing.Point(181, 3)
+        Me.txtSplitRatio_NUM.Location = New System.Drawing.Point(159, 3)
         Me.txtSplitRatio_NUM.Name = "txtSplitRatio_NUM"
-        Me.txtSplitRatio_NUM.Size = New System.Drawing.Size(68, 21)
+        Me.txtSplitRatio_NUM.Size = New System.Drawing.Size(46, 21)
         Me.txtSplitRatio_NUM.TabIndex = 3
         '
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(146, 7)
+        Me.Label8.Location = New System.Drawing.Point(124, 7)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(40, 13)
         Me.Label8.TabIndex = 2
@@ -783,9 +783,9 @@ Partial Class TagSplit
         '
         'txtSpiltTag_NUM
         '
-        Me.txtSpiltTag_NUM.Location = New System.Drawing.Point(75, 3)
+        Me.txtSpiltTag_NUM.Location = New System.Drawing.Point(72, 3)
         Me.txtSpiltTag_NUM.Name = "txtSpiltTag_NUM"
-        Me.txtSpiltTag_NUM.Size = New System.Drawing.Size(68, 21)
+        Me.txtSpiltTag_NUM.Size = New System.Drawing.Size(46, 21)
         Me.txtSpiltTag_NUM.TabIndex = 1
         '
         'Label9
@@ -800,7 +800,7 @@ Partial Class TagSplit
         'ChkRatio
         '
         Me.ChkRatio.AutoSize = True
-        Me.ChkRatio.Location = New System.Drawing.Point(360, 43)
+        Me.ChkRatio.Location = New System.Drawing.Point(876, 117)
         Me.ChkRatio.Name = "ChkRatio"
         Me.ChkRatio.Size = New System.Drawing.Size(89, 17)
         Me.ChkRatio.TabIndex = 6
@@ -809,7 +809,7 @@ Partial Class TagSplit
         '
         'txtStRowIndex
         '
-        Me.txtStRowIndex.Location = New System.Drawing.Point(697, 22)
+        Me.txtStRowIndex.Location = New System.Drawing.Point(190, 17)
         Me.txtStRowIndex.Name = "txtStRowIndex"
         Me.txtStRowIndex.Size = New System.Drawing.Size(12, 21)
         Me.txtStRowIndex.TabIndex = 21
@@ -818,7 +818,7 @@ Partial Class TagSplit
         'ChkAutoSPlit
         '
         Me.ChkAutoSPlit.AutoSize = True
-        Me.ChkAutoSPlit.Location = New System.Drawing.Point(360, 18)
+        Me.ChkAutoSPlit.Location = New System.Drawing.Point(876, 92)
         Me.ChkAutoSPlit.Name = "ChkAutoSPlit"
         Me.ChkAutoSPlit.Size = New System.Drawing.Size(81, 17)
         Me.ChkAutoSPlit.TabIndex = 4
@@ -832,6 +832,7 @@ Partial Class TagSplit
         Me.Grouper2.BackgroundGradientMode = CodeVendor.Controls.Grouper.GroupBoxGradientMode.None
         Me.Grouper2.BorderColor = System.Drawing.Color.Transparent
         Me.Grouper2.BorderThickness = 1.0!
+        Me.Grouper2.Controls.Add(Me.lastGen)
         Me.Grouper2.Controls.Add(Me.gridViewTagStone)
         Me.Grouper2.Controls.Add(Me.btnSave)
         Me.Grouper2.Controls.Add(Me.Label58)
@@ -862,7 +863,7 @@ Partial Class TagSplit
         Me.Grouper2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Grouper2.GroupImage = Nothing
         Me.Grouper2.GroupTitle = ""
-        Me.Grouper2.Location = New System.Drawing.Point(10, 267)
+        Me.Grouper2.Location = New System.Drawing.Point(10, 276)
         Me.Grouper2.Name = "Grouper2"
         Me.Grouper2.Padding = New System.Windows.Forms.Padding(20)
         Me.Grouper2.PaintGroupBox = False
@@ -870,8 +871,18 @@ Partial Class TagSplit
         Me.Grouper2.ShadowColor = System.Drawing.Color.DarkGray
         Me.Grouper2.ShadowControl = False
         Me.Grouper2.ShadowThickness = 3
-        Me.Grouper2.Size = New System.Drawing.Size(875, 230)
+        Me.Grouper2.Size = New System.Drawing.Size(1175, 244)
         Me.Grouper2.TabIndex = 1
+        '
+        'lastGen
+        '
+        Me.lastGen.AutoSize = True
+        Me.lastGen.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lastGen.Location = New System.Drawing.Point(873, 38)
+        Me.lastGen.Name = "lastGen"
+        Me.lastGen.Size = New System.Drawing.Size(19, 13)
+        Me.lastGen.TabIndex = 28
+        Me.lastGen.Text = "[]"
         '
         'Panel1
         '
@@ -883,23 +894,23 @@ Partial Class TagSplit
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(895, 507)
+        Me.Panel1.Size = New System.Drawing.Size(1195, 530)
         Me.Panel1.TabIndex = 3
         '
         'Panel2
         '
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Right
-        Me.Panel2.Location = New System.Drawing.Point(885, 0)
+        Me.Panel2.Location = New System.Drawing.Point(1185, 0)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(10, 497)
+        Me.Panel2.Size = New System.Drawing.Size(10, 520)
         Me.Panel2.TabIndex = 21
         '
         'Panel3
         '
         Me.Panel3.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel3.Location = New System.Drawing.Point(10, 497)
+        Me.Panel3.Location = New System.Drawing.Point(10, 520)
         Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(885, 10)
+        Me.Panel3.Size = New System.Drawing.Size(1185, 10)
         Me.Panel3.TabIndex = 20
         '
         'pnlLeft
@@ -907,7 +918,7 @@ Partial Class TagSplit
         Me.pnlLeft.Dock = System.Windows.Forms.DockStyle.Left
         Me.pnlLeft.Location = New System.Drawing.Point(0, 0)
         Me.pnlLeft.Name = "pnlLeft"
-        Me.pnlLeft.Size = New System.Drawing.Size(10, 507)
+        Me.pnlLeft.Size = New System.Drawing.Size(10, 530)
         Me.pnlLeft.TabIndex = 18
         '
         'TagSplit
@@ -915,7 +926,7 @@ Partial Class TagSplit
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.InactiveCaption
-        Me.ClientSize = New System.Drawing.Size(895, 507)
+        Me.ClientSize = New System.Drawing.Size(1195, 530)
         Me.ContextMenuStrip = Me.ContextMenuStrip1
         Me.ControlBox = False
         Me.Controls.Add(Me.Panel1)
@@ -1018,4 +1029,5 @@ Partial Class TagSplit
     Friend WithEvents Label8 As System.Windows.Forms.Label
     Friend WithEvents txtSpiltTag_NUM As System.Windows.Forms.TextBox
     Friend WithEvents Label9 As System.Windows.Forms.Label
+    Friend WithEvents lastGen As Label
 End Class

@@ -19,36 +19,38 @@ Partial Class frmMaterialReceiptVsStock
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
-        Me.pnlHeader = New System.Windows.Forms.Panel
-        Me.lblRecNo = New System.Windows.Forms.Label
-        Me.txtTranNo_NUM = New System.Windows.Forms.TextBox
-        Me.ChkCmbMetal = New BrighttechPack.CheckedComboBox
-        Me.Label2 = New System.Windows.Forms.Label
-        Me.btnPrint = New System.Windows.Forms.Button
-        Me.chkSummary = New System.Windows.Forms.CheckBox
-        Me.Label1 = New System.Windows.Forms.Label
+        Me.components = New System.ComponentModel.Container()
+        Me.pnlHeader = New System.Windows.Forms.Panel()
+        Me.lblRecNo = New System.Windows.Forms.Label()
+        Me.txtTranNo_NUM = New System.Windows.Forms.TextBox()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.ChkCmbMetal = New BrighttechPack.CheckedComboBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.btnPrint = New System.Windows.Forms.Button()
+        Me.chkSummary = New System.Windows.Forms.CheckBox()
+        Me.Label1 = New System.Windows.Forms.Label()
         Me.dtpFrom = New BrighttechPack.DatePicker(Me.components)
-        Me.chkCmbCostCentre = New BrighttechPack.CheckedComboBox
-        Me.lblTo = New System.Windows.Forms.Label
-        Me.btnView_Search = New System.Windows.Forms.Button
+        Me.chkCmbCostCentre = New BrighttechPack.CheckedComboBox()
+        Me.lblTo = New System.Windows.Forms.Label()
+        Me.btnView_Search = New System.Windows.Forms.Button()
         Me.dtpTo = New BrighttechPack.DatePicker(Me.components)
-        Me.LblCostcentre = New System.Windows.Forms.Label
-        Me.btnNew = New System.Windows.Forms.Button
-        Me.btnExit = New System.Windows.Forms.Button
-        Me.btnExport = New System.Windows.Forms.Button
-        Me.Panel2 = New System.Windows.Forms.Panel
-        Me.pnlGrid = New System.Windows.Forms.Panel
-        Me.gridView = New System.Windows.Forms.DataGridView
+        Me.LblCostcentre = New System.Windows.Forms.Label()
+        Me.btnNew = New System.Windows.Forms.Button()
+        Me.btnExit = New System.Windows.Forms.Button()
+        Me.btnExport = New System.Windows.Forms.Button()
+        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.pnlGrid = New System.Windows.Forms.Panel()
+        Me.gridView = New System.Windows.Forms.DataGridView()
         Me.cmbGridShortCut = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ResizeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.pnlGridTot = New System.Windows.Forms.Panel
-        Me.pnlGridHeading = New System.Windows.Forms.Panel
-        Me.gridHead = New System.Windows.Forms.DataGridView
-        Me.lblTitle = New System.Windows.Forms.Label
+        Me.ResizeToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.pnlGridTot = New System.Windows.Forms.Panel()
+        Me.pnlGridHeading = New System.Windows.Forms.Panel()
+        Me.gridHead = New System.Windows.Forms.DataGridView()
+        Me.lblTitle = New System.Windows.Forms.Label()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
-        Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem
+        Me.ExitToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.cmbAcname = New System.Windows.Forms.ComboBox()
         Me.pnlHeader.SuspendLayout()
         Me.Panel2.SuspendLayout()
         Me.pnlGrid.SuspendLayout()
@@ -61,8 +63,10 @@ Partial Class frmMaterialReceiptVsStock
         '
         'pnlHeader
         '
+        Me.pnlHeader.Controls.Add(Me.cmbAcname)
         Me.pnlHeader.Controls.Add(Me.lblRecNo)
         Me.pnlHeader.Controls.Add(Me.txtTranNo_NUM)
+        Me.pnlHeader.Controls.Add(Me.Label3)
         Me.pnlHeader.Controls.Add(Me.ChkCmbMetal)
         Me.pnlHeader.Controls.Add(Me.Label2)
         Me.pnlHeader.Controls.Add(Me.btnPrint)
@@ -99,6 +103,16 @@ Partial Class frmMaterialReceiptVsStock
         Me.txtTranNo_NUM.Size = New System.Drawing.Size(71, 21)
         Me.txtTranNo_NUM.TabIndex = 10
         Me.txtTranNo_NUM.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(598, 17)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(56, 13)
+        Me.Label3.TabIndex = 6
+        Me.Label3.Text = "ACNAME"
+        Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'ChkCmbMetal
         '
@@ -360,6 +374,14 @@ Partial Class frmMaterialReceiptVsStock
         Me.NewToolStripMenuItem.Text = "New"
         Me.NewToolStripMenuItem.Visible = False
         '
+        'cmbAcname
+        '
+        Me.cmbAcname.FormattingEnabled = True
+        Me.cmbAcname.Location = New System.Drawing.Point(660, 11)
+        Me.cmbAcname.Name = "cmbAcname"
+        Me.cmbAcname.Size = New System.Drawing.Size(196, 21)
+        Me.cmbAcname.TabIndex = 16
+        '
         'frmMaterialReceiptVsStock
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
@@ -415,4 +437,6 @@ Partial Class frmMaterialReceiptVsStock
     Friend WithEvents ChkCmbMetal As BrighttechPack.CheckedComboBox
     Friend WithEvents lblRecNo As System.Windows.Forms.Label
     Friend WithEvents txtTranNo_NUM As System.Windows.Forms.TextBox
+    Friend WithEvents Label3 As Label
+    Friend WithEvents cmbAcname As ComboBox
 End Class

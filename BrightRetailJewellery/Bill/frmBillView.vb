@@ -2302,8 +2302,8 @@ Public Class frmBillView
             strSql += vbCrLf + " ,(SELECT TOP 1 IDIMAGEFILE FROM " & cnAdminDb & "..PERSONALINFO WHERE SNO IN  "
             strSql += vbCrLf + " (SELECT PSNO FROM " & cnAdminDb & "..CUSTOMERINFO WHERE BATCHNO=I.BATCHNO))IDPCTFILE "
             strSql += vbCrLf + "  FROM TEMPTABLEDB..TEMP" & systemId & "ISSRECVIEW AS I "
-            strSql += vbCrLf + "  ORDER BY CONVERT(INT,SUBSTRING(BATCHNO," & (6 + cnCostId.Length).ToString & " ,LEN(BATCHNO))),RESULT"
-            'strsql += vbcrlf + "  ORDER BY BATCHNO,RESULT"
+            'strSql += vbCrLf + "  ORDER BY CONVERT(INT,SUBSTRING(BATCHNO," & (6 + cnCostId.Length).ToString & " ,LEN(BATCHNO))),RESULT"
+            strSql += vbCrLf + "  ORDER BY BATCHNO,RESULT"
 
             da = New OleDbDataAdapter(strSql, cn)
             da.Fill(dt)
@@ -3521,12 +3521,12 @@ Public Class frmBillView
                 If dt.Rows(0)(0).ToString = dtpBillDate.Text.ToString Then
                     MessageBox.Show("The Bill cannot be edited because Same date bill.", "Warning")
                 Else
-                    strSql = " select top 1 * from " & cnStockDb & "..ACCTRAN where PAYMODE in ('AA','DU') and BATCHNO = '" + gridFullView.CurrentRow.Cells("BATCHNO").Value.ToString + "' "
+                    strSql = " select top 1 * from " & cnStockDb & "..ACCTRAN where PAYMODE in ('AA','DU','SS','SR') and BATCHNO = '" + gridFullView.CurrentRow.Cells("BATCHNO").Value.ToString + "' "
                     da = New OleDbDataAdapter(strSql, cn)
                     dt = New DataTable
                     da.Fill(dt)
                     If dt.Rows.Count > 0 Then
-                        MessageBox.Show("This Bill cannot be edited because Credit or debit bill...", "Warning")
+                        MessageBox.Show("This Bill cannot be edited because it can be Credit or debit or chit adjusted bill...", "Warning")
                     Else
                         strSql = "select a.* from " & cnAdminDb & "..PERSONALINFO a"
                         strSql += vbCrLf + " inner join " & cnAdminDb & "..CUSTOMERINFO b on a.SNO = b.PSNO "

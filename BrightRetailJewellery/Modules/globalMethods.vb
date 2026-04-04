@@ -5065,6 +5065,25 @@ NextIteration:
         End If
         Return Str
     End Function
+    Public Function GetSubItemQryBySubItemName(ByVal SelectColumns() As String, Optional ByVal ItemId As Integer = 0, Optional ByVal subItem As String = "") As String
+        Dim SelCol As String = Nothing
+        For Each s As String In SelectColumns
+            SelCol += s & ","
+        Next
+        SelCol = Mid(SelCol, 1, SelCol.Length - 1)
+        Dim Str As String
+        Str = "SELECT " & SelCol & " FROM " & cnAdminDb & "..SUBITEMMAST"
+        Str += " WHERE ITEMID = " & ItemId
+        Str += " AND ACTIVE = 'Y'"
+        Str += $" AND SUBITEMNAME = '{subItem}'"
+        Str += " ORDER BY "
+        If _SubItemOrderByName Then
+            Str += " SUBITEMNAME"
+        Else
+            Str += " DISPLAYORDER,SUBITEMNAME"
+        End If
+        Return Str
+    End Function
 
     Public Function GetAcNameQryFilteration(Optional ByVal AliasName As String = Nothing) As String
         Dim Str As String = Nothing

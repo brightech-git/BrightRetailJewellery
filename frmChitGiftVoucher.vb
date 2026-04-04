@@ -1,6 +1,5 @@
 Imports System.Data.OleDb
-Public Class frmChitAdj
-    Public Giftvalamt As Double = 0
+Public Class frmChitGiftVoucher
     Dim strSql As String
     Dim cmd As OleDbCommand
 

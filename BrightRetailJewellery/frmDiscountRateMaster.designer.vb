@@ -1,9 +1,9 @@
-<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class frmRateMaster
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+Partial Class frmDiscountRateMaster
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         If disposing AndAlso components IsNot Nothing Then
             components.Dispose()
@@ -17,10 +17,9 @@ Partial Class frmRateMaster
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Me.gridView = New System.Windows.Forms.DataGridView()
         Me.btnUpdate = New System.Windows.Forms.Button()
         Me.btnExit = New System.Windows.Forms.Button()
         Me.Label1 = New System.Windows.Forms.Label()
@@ -37,36 +36,18 @@ Partial Class frmRateMaster
         Me.txtBullGRate_AMT = New System.Windows.Forms.TextBox()
         Me.dtpDate = New BrighttechPack.DatePicker(Me.components)
         Me.Panel2 = New System.Windows.Forms.Panel()
-        Me.btnView = New System.Windows.Forms.Button()
-        Me.gridViewHead = New System.Windows.Forms.DataGridView()
-        Me.gridviewhead1 = New System.Windows.Forms.DataGridView()
-        CType(Me.gridView, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.txtDisrate = New System.Windows.Forms.TextBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.cmbMetalName_Man = New System.Windows.Forms.ComboBox()
+        Me.Label3 = New System.Windows.Forms.Label()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
-        CType(Me.gridViewHead, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gridviewhead1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
-        '
-        'gridView
-        '
-        Me.gridView.AllowUserToAddRows = False
-        Me.gridView.AllowUserToDeleteRows = False
-        Me.gridView.BackgroundColor = System.Drawing.SystemColors.Control
-        Me.gridView.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.gridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.gridView.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gridView.GridColor = System.Drawing.SystemColors.ControlLight
-        Me.gridView.Location = New System.Drawing.Point(0, 66)
-        Me.gridView.MultiSelect = False
-        Me.gridView.Name = "gridView"
-        Me.gridView.RowHeadersVisible = False
-        Me.gridView.Size = New System.Drawing.Size(848, 314)
-        Me.gridView.TabIndex = 1
         '
         'btnUpdate
         '
-        Me.btnUpdate.Location = New System.Drawing.Point(173, 3)
+        Me.btnUpdate.Location = New System.Drawing.Point(220, 3)
         Me.btnUpdate.Name = "btnUpdate"
         Me.btnUpdate.Size = New System.Drawing.Size(100, 30)
         Me.btnUpdate.TabIndex = 0
@@ -75,7 +56,7 @@ Partial Class frmRateMaster
         '
         'btnExit
         '
-        Me.btnExit.Location = New System.Drawing.Point(385, 3)
+        Me.btnExit.Location = New System.Drawing.Point(353, 3)
         Me.btnExit.Name = "btnExit"
         Me.btnExit.Size = New System.Drawing.Size(100, 30)
         Me.btnExit.TabIndex = 2
@@ -135,7 +116,7 @@ Partial Class frmRateMaster
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(848, 30)
+        Me.Panel1.Size = New System.Drawing.Size(670, 30)
         Me.Panel1.TabIndex = 0
         '
         'lblBullPlat
@@ -214,95 +195,77 @@ Partial Class frmRateMaster
         'Panel2
         '
         Me.Panel2.BackColor = System.Drawing.Color.Transparent
-        Me.Panel2.Controls.Add(Me.btnView)
         Me.Panel2.Controls.Add(Me.btnUpdate)
         Me.Panel2.Controls.Add(Me.btnExit)
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel2.Location = New System.Drawing.Point(0, 380)
+        Me.Panel2.Location = New System.Drawing.Point(0, 334)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(848, 37)
+        Me.Panel2.Size = New System.Drawing.Size(670, 37)
         Me.Panel2.TabIndex = 2
         '
-        'btnView
+        'txtDisrate
         '
-        Me.btnView.Location = New System.Drawing.Point(279, 3)
-        Me.btnView.Name = "btnView"
-        Me.btnView.Size = New System.Drawing.Size(100, 30)
-        Me.btnView.TabIndex = 1
-        Me.btnView.Text = "Open [F2]"
-        Me.btnView.UseVisualStyleBackColor = True
+        Me.txtDisrate.Location = New System.Drawing.Point(327, 155)
+        Me.txtDisrate.Name = "txtDisrate"
+        Me.txtDisrate.Size = New System.Drawing.Size(115, 21)
+        Me.txtDisrate.TabIndex = 3
         '
-        'gridViewHead
+        'Label2
         '
-        Me.gridViewHead.AllowUserToAddRows = False
-        Me.gridViewHead.AllowUserToDeleteRows = False
-        Me.gridViewHead.AllowUserToResizeColumns = False
-        Me.gridViewHead.AllowUserToResizeRows = False
-        Me.gridViewHead.BackgroundColor = System.Drawing.SystemColors.ControlLightLight
-        Me.gridViewHead.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.gridViewHead.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.gridViewHead.Dock = System.Windows.Forms.DockStyle.Top
-        Me.gridViewHead.GridColor = System.Drawing.SystemColors.ControlLightLight
-        Me.gridViewHead.Location = New System.Drawing.Point(0, 30)
-        Me.gridViewHead.MultiSelect = False
-        Me.gridViewHead.Name = "gridViewHead"
-        Me.gridViewHead.ReadOnly = True
-        Me.gridViewHead.RowHeadersVisible = False
-        Me.gridViewHead.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.gridViewHead.Size = New System.Drawing.Size(848, 18)
-        Me.gridViewHead.StandardTab = True
-        Me.gridViewHead.TabIndex = 3
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(162, 158)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(120, 13)
+        Me.Label2.TabIndex = 2
+        Me.Label2.Text = "Enter Discount Rate"
+        Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
-        'gridviewhead1
+        'cmbMetalName_Man
         '
-        Me.gridviewhead1.AllowUserToAddRows = False
-        Me.gridviewhead1.AllowUserToDeleteRows = False
-        Me.gridviewhead1.AllowUserToResizeColumns = False
-        Me.gridviewhead1.AllowUserToResizeRows = False
-        Me.gridviewhead1.BackgroundColor = System.Drawing.SystemColors.ControlLightLight
-        Me.gridviewhead1.BorderStyle = System.Windows.Forms.BorderStyle.None
-        Me.gridviewhead1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
-        Me.gridviewhead1.Dock = System.Windows.Forms.DockStyle.Top
-        Me.gridviewhead1.Location = New System.Drawing.Point(0, 48)
-        Me.gridviewhead1.MultiSelect = False
-        Me.gridviewhead1.Name = "gridviewhead1"
-        Me.gridviewhead1.ReadOnly = True
-        Me.gridviewhead1.RowHeadersVisible = False
-        Me.gridviewhead1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.gridviewhead1.Size = New System.Drawing.Size(848, 18)
-        Me.gridviewhead1.StandardTab = True
-        Me.gridviewhead1.TabIndex = 4
+        Me.cmbMetalName_Man.FormattingEnabled = True
+        Me.cmbMetalName_Man.Location = New System.Drawing.Point(327, 115)
+        Me.cmbMetalName_Man.Name = "cmbMetalName_Man"
+        Me.cmbMetalName_Man.Size = New System.Drawing.Size(113, 21)
+        Me.cmbMetalName_Man.TabIndex = 4
         '
-        'frmRateMaster
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(162, 115)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(74, 13)
+        Me.Label3.TabIndex = 5
+        Me.Label3.Text = "Metal Name"
+        Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'frmDiscountRateMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CausesValidation = False
-        Me.ClientSize = New System.Drawing.Size(848, 417)
+        Me.ClientSize = New System.Drawing.Size(670, 371)
         Me.ContextMenuStrip = Me.ContextMenuStrip1
         Me.ControlBox = False
-        Me.Controls.Add(Me.gridView)
-        Me.Controls.Add(Me.gridviewhead1)
-        Me.Controls.Add(Me.gridViewHead)
+        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.cmbMetalName_Man)
+        Me.Controls.Add(Me.txtDisrate)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.Panel2)
+        Me.Controls.Add(Me.Label2)
         Me.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.KeyPreview = True
-        Me.Name = "frmRateMaster"
+        Me.Name = "frmDiscountRateMaster"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "RateMaster"
-        CType(Me.gridView, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ContextMenuStrip1.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.Panel2.ResumeLayout(False)
-        CType(Me.gridViewHead, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gridviewhead1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
+        Me.PerformLayout()
 
     End Sub
-    Friend WithEvents gridView As System.Windows.Forms.DataGridView
     Friend WithEvents btnUpdate As System.Windows.Forms.Button
     Friend WithEvents btnExit As System.Windows.Forms.Button
     Friend WithEvents Label1 As System.Windows.Forms.Label
@@ -312,7 +275,6 @@ Partial Class frmRateMaster
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents Panel2 As System.Windows.Forms.Panel
     Friend WithEvents dtpDate As BrighttechPack.DatePicker
-    Friend WithEvents btnView As System.Windows.Forms.Button
     Friend WithEvents OpenToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents lblBullGold As System.Windows.Forms.Label
     Friend WithEvents txtBullGRate_AMT As System.Windows.Forms.TextBox
@@ -320,6 +282,8 @@ Partial Class frmRateMaster
     Friend WithEvents txtBullSRate_AMT As System.Windows.Forms.TextBox
     Friend WithEvents lblBullPlat As Label
     Friend WithEvents txtBullPRate_AMT As TextBox
-    Friend WithEvents gridViewHead As DataGridView
-    Friend WithEvents gridviewhead1 As DataGridView
+    Friend WithEvents txtDisrate As TextBox
+    Friend WithEvents Label2 As Label
+    Friend WithEvents cmbMetalName_Man As ComboBox
+    Friend WithEvents Label3 As Label
 End Class

@@ -1,5 +1,5 @@
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class frmRateMaster
+Partial Class frmDiscountRateMaster
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
@@ -61,7 +61,7 @@ Partial Class frmRateMaster
         Me.gridView.MultiSelect = False
         Me.gridView.Name = "gridView"
         Me.gridView.RowHeadersVisible = False
-        Me.gridView.Size = New System.Drawing.Size(848, 314)
+        Me.gridView.Size = New System.Drawing.Size(670, 268)
         Me.gridView.TabIndex = 1
         '
         'btnUpdate
@@ -135,7 +135,7 @@ Partial Class frmRateMaster
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(848, 30)
+        Me.Panel1.Size = New System.Drawing.Size(670, 30)
         Me.Panel1.TabIndex = 0
         '
         'lblBullPlat
@@ -218,9 +218,9 @@ Partial Class frmRateMaster
         Me.Panel2.Controls.Add(Me.btnUpdate)
         Me.Panel2.Controls.Add(Me.btnExit)
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel2.Location = New System.Drawing.Point(0, 380)
+        Me.Panel2.Location = New System.Drawing.Point(0, 334)
         Me.Panel2.Name = "Panel2"
-        Me.Panel2.Size = New System.Drawing.Size(848, 37)
+        Me.Panel2.Size = New System.Drawing.Size(670, 37)
         Me.Panel2.TabIndex = 2
         '
         'btnView
@@ -249,7 +249,7 @@ Partial Class frmRateMaster
         Me.gridViewHead.ReadOnly = True
         Me.gridViewHead.RowHeadersVisible = False
         Me.gridViewHead.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.gridViewHead.Size = New System.Drawing.Size(848, 18)
+        Me.gridViewHead.Size = New System.Drawing.Size(670, 18)
         Me.gridViewHead.StandardTab = True
         Me.gridViewHead.TabIndex = 3
         '
@@ -269,16 +269,16 @@ Partial Class frmRateMaster
         Me.gridviewhead1.ReadOnly = True
         Me.gridviewhead1.RowHeadersVisible = False
         Me.gridviewhead1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
-        Me.gridviewhead1.Size = New System.Drawing.Size(848, 18)
+        Me.gridviewhead1.Size = New System.Drawing.Size(670, 18)
         Me.gridviewhead1.StandardTab = True
         Me.gridviewhead1.TabIndex = 4
         '
-        'frmRateMaster
+        'frmDiscountRateMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.CausesValidation = False
-        Me.ClientSize = New System.Drawing.Size(848, 417)
+        Me.ClientSize = New System.Drawing.Size(670, 371)
         Me.ContextMenuStrip = Me.ContextMenuStrip1
         Me.ControlBox = False
         Me.Controls.Add(Me.gridView)
@@ -289,7 +289,7 @@ Partial Class frmRateMaster
         Me.Font = New System.Drawing.Font("Verdana", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow
         Me.KeyPreview = True
-        Me.Name = "frmRateMaster"
+        Me.Name = "frmDiscountRateMaster"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "RateMaster"
         CType(Me.gridView, System.ComponentModel.ISupportInitialize).EndInit()
