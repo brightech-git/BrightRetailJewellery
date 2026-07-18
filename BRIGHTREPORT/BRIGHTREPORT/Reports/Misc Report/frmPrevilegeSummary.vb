@@ -1449,8 +1449,8 @@ Public Class frmPrevilegeSummary
     Private Sub btnSend_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSend.Click
         'If lstToMobileNo_OWN.Items.Count = 0 Then MsgBox("To Mobile No's Empty.", MsgBoxStyle.Information) : Exit Sub
         If PREV_RECORD Then
-            If funcDbChecker("AKSHAYASMSDB") = 0 Then MsgBox("AkshayaSms Database Not found for Send Sms.", MsgBoxStyle.Information) : Exit Sub
-            If funcTableChecker("AKSHAYASMSDB", "SMSDATA") = 0 Then MsgBox("SmsData Table Not found for Send Sms.", MsgBoxStyle.Information) : Exit Sub
+            If funcDbChecker("BRIGHTECHSMSDB") = 0 Then MsgBox("AkshayaSms Database Not found for Send Sms.", MsgBoxStyle.Information) : Exit Sub
+            If funcTableChecker("BRIGHTECHSMSDB", "SMSDATA") = 0 Then MsgBox("SmsData Table Not found for Send Sms.", MsgBoxStyle.Information) : Exit Sub
             Dim TEMP_SMS_PREV_SUM As String
             If txtMsg_OWN.Text.Trim <> "" Then SMS_PREV_SUM = txtMsg_OWN.Text
             If gridView.RowCount > 0 Then
@@ -1461,7 +1461,7 @@ Public Class frmPrevilegeSummary
                         TEMP_SMS_PREV_SUM = Replace(TEMP_SMS_PREV_SUM, "<BALPOINTS>", gridView.Rows(i).Cells("CLOSE_POINTS").Value.ToString)
                         TEMP_SMS_PREV_SUM = Replace(TEMP_SMS_PREV_SUM, "<BALPVALUE>", gridView.Rows(i).Cells("CLOSE_PVALUE").Value.ToString)
                         If gridView.Rows(i).Cells("MOBILE").Value.ToString <> "" Then
-                            strSql = " INSERT INTO AKSHAYASMSDB..SMSDATA ([MOBILENO],[MESSAGES],[STATUS]) "
+                            strSql = " INSERT INTO BRIGHTECHSMSDB..SMSDATA ([MOBILENO],[MESSAGES],[STATUS]) "
                             strSql += " VALUES('" & gridView.Rows(i).Cells("MOBILE").Value.ToString & "','" & TEMP_SMS_PREV_SUM & "','') "
                             cmd = New OleDbCommand(strSql, cn)
                             cmd.ExecuteNonQuery()
@@ -1472,8 +1472,8 @@ Public Class frmPrevilegeSummary
             Else
                 If (txtMsg_OWN.Text).Length = 0 Then MsgBox("Message Empty.", MsgBoxStyle.Information) : txtMsg_OWN.Focus() : Exit Sub
             If chksms.Checked Then
-                If funcDbChecker("AKSHAYASMSDB") = 0 Then MsgBox("AkshayaSms Database Not found for Send Sms.", MsgBoxStyle.Information) : Exit Sub
-                If funcTableChecker("AKSHAYASMSDB", "SMSDATA") = 0 Then MsgBox("SmsData Table Not found for Send Sms.", MsgBoxStyle.Information) : Exit Sub
+                If funcDbChecker("BRIGHTECHSMSDB") = 0 Then MsgBox("AkshayaSms Database Not found for Send Sms.", MsgBoxStyle.Information) : Exit Sub
+                If funcTableChecker("BRIGHTECHSMSDB", "SMSDATA") = 0 Then MsgBox("SmsData Table Not found for Send Sms.", MsgBoxStyle.Information) : Exit Sub
                 funcInsertAkshayaSmsTable()
             Else
                 MsgBox("Please Select SMSSEND Option.", MsgBoxStyle.Information) : Exit Sub
@@ -1493,7 +1493,7 @@ Public Class frmPrevilegeSummary
         For Each ro As DataRow In dv.ToTable.Rows
             mobileno = ro.Item("MOBILE").ToString
             If mobileno <> "" Then
-                strSql = "INSERT INTO AKSHAYASMSDB..SMSDATA(MOBILENO,MESSAGES,STATUS,UPDATED)VALUES('" & mobileno & "','" & txtMsg_OWN.Text & "','','" & Date.Now & "') "
+                strSql = "INSERT INTO BRIGHTECHSMSDB..SMSDATA(MOBILENO,MESSAGES,STATUS,UPDATED)VALUES('" & mobileno & "','" & txtMsg_OWN.Text & "','','" & Date.Now & "') "
                 cmd = New OleDbCommand(strSql, cn)
                 cmd.ExecuteNonQuery()
                 SmsFlag = True

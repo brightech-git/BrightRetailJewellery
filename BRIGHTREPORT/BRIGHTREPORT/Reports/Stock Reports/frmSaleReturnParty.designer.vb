@@ -302,8 +302,8 @@ Partial Class frmSaleReturnParty
         Me.dtpTo.Seperator = Global.Microsoft.VisualBasic.ChrW(47)
         Me.dtpTo.Size = New System.Drawing.Size(93, 21)
         Me.dtpTo.TabIndex = 11
-        Me.dtpTo.Text = "07/03/9998"
-        Me.dtpTo.Value = New Date(9998, 3, 7, 0, 0, 0, 0)
+        Me.dtpTo.Text = "07/01/1998"
+        Me.dtpTo.Value = New Date(1998, 1, 7, 0, 0, 0, 0)
         '
         'dtpFrom
         '
@@ -315,8 +315,8 @@ Partial Class frmSaleReturnParty
         Me.dtpFrom.Seperator = Global.Microsoft.VisualBasic.ChrW(47)
         Me.dtpFrom.Size = New System.Drawing.Size(93, 21)
         Me.dtpFrom.TabIndex = 9
-        Me.dtpFrom.Text = "07/03/9998"
-        Me.dtpFrom.Value = New Date(9998, 3, 7, 0, 0, 0, 0)
+        Me.dtpFrom.Text = "07/01/1998"
+        Me.dtpFrom.Value = New Date(1998, 1, 7, 0, 0, 0, 0)
         '
         'label10
         '

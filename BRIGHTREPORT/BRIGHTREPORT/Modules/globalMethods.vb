@@ -3746,9 +3746,9 @@ GETCTLVALUE:
     End Function
     Public Function SmsSend(ByVal Msg As String, ByVal Mobile As String) As Boolean
         If Msg <> "" And Mobile.Length = 10 Then
-            strSql = "SELECT COUNT(*)CNT FROM SYSDATABASES WHERE NAME='AKSHAYASMSDB'"
+            strSql = "SELECT COUNT(*)CNT FROM SYSDATABASES WHERE NAME='BRIGHTECHSMSDB'"
             If objGPack.GetSqlValue(strSql, "CNT", 0) > 0 Then
-                strSql = "INSERT INTO AKSHAYASMSDB..SMSDATA(MOBILENO,MESSAGES,STATUS,EXPIRYDATE,UPDATED)"
+                strSql = "INSERT INTO BRIGHTECHSMSDB..SMSDATA(MOBILENO,MESSAGES,STATUS,EXPIRYDATE,UPDATED)"
                 strSql += " VALUES"
                 strSql += " ("
                 strSql += " '" & Mobile.Trim & "',N'" & Msg & "','N'"

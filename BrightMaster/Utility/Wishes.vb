@@ -194,15 +194,15 @@
     End Sub
 
     Private Sub btnSend_Click(sender As Object, e As EventArgs) Handles btnSend.Click
-        StrSql = "SELECT COUNT(*)CNT FROM SYSDATABASES WHERE NAME = 'AKSHAYASMSDB'"
+        StrSql = "SELECT COUNT(*)CNT FROM SYSDATABASES WHERE NAME = 'BRIGHTECHSMSDB'"
         If Not Convert.ToInt16(GetSqlValue(cn, StrSql)) > 0 Then
-            MsgBox("AKSHAYASMSDB Not Found", MsgBoxStyle.Critical)
+            MsgBox("BRIGHTECHSMSDB Not Found", MsgBoxStyle.Critical)
             Exit Sub
         End If
 
-        StrSql = "SELECT COUNT(*)CNT FROM AKSHAYASMSDB..SYSOBJECTS WHERE NAME = 'SMSDATA'"
+        StrSql = "SELECT COUNT(*)CNT FROM BRIGHTECHSMSDB..SYSOBJECTS WHERE NAME = 'SMSDATA'"
         If Not Convert.ToInt16(GetSqlValue(cn, StrSql)) > 0 Then
-            MsgBox("AKSHAYASMSDB Not Found", MsgBoxStyle.Critical)
+            MsgBox("BRIGHTECHSMSDB Not Found", MsgBoxStyle.Critical)
             Exit Sub
         End If
 
@@ -215,7 +215,7 @@
                 Continue For
             End If
             StrSql += vbCrLf
-            StrSql += vbCrLf + " INSERT INTO AKSHAYASMSDB..SMSDATA"
+            StrSql += vbCrLf + " INSERT INTO BRIGHTECHSMSDB..SMSDATA"
             StrSql += vbCrLf + "            ([MOBILENO]"
             StrSql += vbCrLf + "            ,[MESSAGES]"
             StrSql += vbCrLf + "            ,[STATUS])"

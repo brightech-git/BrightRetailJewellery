@@ -3348,13 +3348,16 @@ Public Class frmBillView
                             da = New OleDbDataAdapter(strSql, cn)
                             Dim dtItem As New DataTable
                             da.Fill(dtItem)
+                            'StrBillPrefix = "" & StrCostId & mid(StrTransdb, 5, 2) & mid(StrTransdb, 7, 2) & "/"
 
                             If (dtComp.Rows.Count > 0 AndAlso dtBuyer.Rows.Count > 0 AndAlso dtItem.Rows.Count > 0 _
                                 AndAlso dtBuyer.Rows(0)("GSTNO") <> "") Then
                                 Dim eInvDirectBillResponse As EinvdirectBillResponse = oGSTBill.GenerateEinvoice(dtComp, dtBuyer, dtItem)
                                 If eInvDirectBillResponse.status_cd = 1 Then
-                                    strSql = $"insert into {cnStockDb}..EINVTRAN(BATCHNO,TRANTYPE,IRN,QRDATA)"
-                                    strSql += vbCrLf + $"values('{BatchNo}','SA','{eInvDirectBillResponse.data.Irn}','{eInvDirectBillResponse.data.SignedQRCode}')"
+                                    ''{eInvDirectBillResponse.data.AckDate}',
+                                    ',ACKDATE
+                                    strSql = $"insert into {cnStockDb}..EINVTRAN(BATCHNO,TRANTYPE,ACKNO,IRN,QRDATA)"
+                                    strSql += vbCrLf + $"values('{BatchNo}','SA','{eInvDirectBillResponse.data.AckNO}','{eInvDirectBillResponse.data.Irn}','{eInvDirectBillResponse.data.SignedQRCode}')"
                                     cmd = New OleDbCommand(strSql, cn)
                                     cmd.ExecuteNonQuery()
                                     MessageBox.Show($"IRN Generated : {eInvDirectBillResponse.data.Irn} sucessfully.")

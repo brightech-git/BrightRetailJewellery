@@ -1,4 +1,5 @@
 Imports System.Data.OleDb
+Imports System.Diagnostics.Eventing.Reader
 'CAL ID-602: CLIENT NAME- PRINCT: CORRECTION- CREDIT CARD COMMISSION SHOULD BE COME WITH COLLECTION : ALTER BY SATHYA
 Public Class frmDailyAbstract
     Dim Cmd As New OleDbCommand
@@ -7404,6 +7405,7 @@ Public Class frmDailyAbstract
                 StrSql += vbCrLf + " SELECT CATNAME,SUM(RECEIPT)RECEIPT ,SUM(PAYMENT)PAYMENT "
                 StrSql += vbCrLf + " INTO TEMPTABLEDB..TEMP" & systemId & "CHITCOLLECTION FROM ("
                 StrSql += vbCrLf + " SELECT  CASE "
+                StrSql += vbCrLf + " WHEN MODEPAY = 'P' THEN 'CREDIT PURCHASE ADJ SCHEME' "
                 StrSql += vbCrLf + " WHEN MODEPAY = 'C' THEN 'SCHEME CASH' "
                 StrSql += vbCrLf + " WHEN MODEPAY IN('Q','D') THEN 'CHEQUE' "
                 If OnlineAccode <> "" And FREEINS_BOUNS = False Then
@@ -7677,7 +7679,290 @@ Public Class frmDailyAbstract
                     Cmd.ExecuteNonQuery()
                 End If
             End If
+        Else
+            '----Suresh 2026-05-08
+            StrSql = " SELECT CTLTEXT FROM " & cnAdminDb & "..SOFTCONTROL WHERE CTLID = 'CHITDBPREFIX'"
+            If (Trim(objGPack.GetSqlValue(StrSql, , ""))) <> "" Then
+                StrSql = "  IF EXISTS(SELECT 1 FROM TEMPTABLEDB..SYSOBJECTS WHERE XTYPE = 'U' AND NAME = 'TEMP" & systemId & "CHITCOLLECTION') DROP TABLE TEMPTABLEDB..TEMP" & systemId & "CHITCOLLECTION "
+                StrSql += vbCrLf + " SELECT CATNAME,SUM(RECEIPT)RECEIPT ,SUM(PAYMENT)PAYMENT "
+                StrSql += vbCrLf + " INTO TEMPTABLEDB..TEMP" & systemId & "CHITCOLLECTION FROM ("
+                StrSql += vbCrLf + " SELECT  CASE "
+                StrSql += vbCrLf + " WHEN MODEPAY = 'P' THEN 'CREDIT PURCHASE ADJ SCHEME' "
+                StrSql += vbCrLf + " WHEN MODEPAY = 'C' THEN 'SCHEME CASH' "
+                StrSql += vbCrLf + " WHEN MODEPAY IN('Q','D') THEN 'CHEQUE' "
+                If OnlineAccode <> "" And FREEINS_BOUNS = False Then
+                    StrSql += vbCrLf + " WHEN MODEPAY = 'R' THEN CASE WHEN T.ACCODE IN ('" & OnlineAccode.Replace(",", "','") & "') THEN 'ONLINE' "
+                    StrSql += vbCrLf + " WHEN T.ACCODE IN (SELECT PURCHASECODE FROM " & cnChitCompanyid & "SAVINGS..SCHEME WHERE SCHEMEID IN "
+                    StrSql += vbCrLf + " (SELECT TOP 1 SCHEMEID FROM " & cnChitCompanyid & "SAVINGS..SCHEMEMAST WHERE GROUPCODE = T.GROUPCODE AND REGNO = T.REGNO AND COMPANYID IN"
+                    StrSql += vbCrLf + " (SELECT COMPANYID FROM " & cnChitCompanyid & "SAVINGS..COMPANY WHERE JCOMPID IN (" & SelectedCompanyId & ")))) THEN "
+                    StrSql += vbCrLf + " (SELECT NAME FROM " & cnChitCompanyid & "SAVINGS..CREDITCARD WHERE ACCOUNT=T.ACCODE)"
+                    StrSql += vbCrLf + " ELSE  'CREDITCARD' END"
+                ElseIf OnlineAccode <> "" And FREEINS_BOUNS = True Then
+                    StrSql += vbCrLf + " WHEN MODEPAY = 'R' THEN CASE  WHEN S.FREEINSCODE=T.CHQBANKCODE THEN 'BONUS' "
+                    StrSql += vbCrLf + " WHEN T.ACCODE IN ('" & OnlineAccode.Replace(",", "','") & "') THEN 'ONLINE' "
+                    StrSql += vbCrLf + " WHEN T.ACCODE IN (SELECT PURCHASECODE FROM " & cnChitCompanyid & "SAVINGS..SCHEME WHERE SCHEMEID IN "
+                    StrSql += vbCrLf + " (SELECT TOP 1 SCHEMEID FROM " & cnChitCompanyid & "SAVINGS..SCHEMEMAST WHERE GROUPCODE = T.GROUPCODE AND REGNO = T.REGNO AND COMPANYID IN"
+                    StrSql += vbCrLf + " (SELECT COMPANYID FROM " & cnChitCompanyid & "SAVINGS..COMPANY WHERE JCOMPID IN (" & SelectedCompanyId & ")))) THEN "
+                    StrSql += vbCrLf + " (SELECT NAME FROM " & cnChitCompanyid & "SAVINGS..CREDITCARD WHERE ACCOUNT=T.ACCODE)"
+                    StrSql += vbCrLf + " ELSE  'CREDITCARD' END"
+                ElseIf FREEINS_BOUNS = False Then
+                    StrSql += vbCrLf + " WHEN MODEPAY = 'R' THEN CASE"
+                    StrSql += vbCrLf + " WHEN T.ACCODE IN (SELECT PURCHASECODE FROM " & cnChitCompanyid & "SAVINGS..SCHEME WHERE SCHEMEID IN "
+                    StrSql += vbCrLf + " (SELECT TOP 1 SCHEMEID FROM " & cnChitCompanyid & "SAVINGS..SCHEMEMAST WHERE GROUPCODE = T.GROUPCODE AND REGNO = T.REGNO AND COMPANYID IN"
+                    StrSql += vbCrLf + " (SELECT COMPANYID FROM " & cnChitCompanyid & "SAVINGS..COMPANY WHERE JCOMPID IN (" & SelectedCompanyId & ")))) THEN "
+                    StrSql += vbCrLf + " (SELECT NAME FROM " & cnChitCompanyid & "SAVINGS..CREDITCARD WHERE ACCOUNT=T.ACCODE)"
+                    StrSql += vbCrLf + " ELSE  'CREDITCARD' END"
+                Else
+                    StrSql += vbCrLf + " WHEN MODEPAY = 'R' THEN CASE WHEN S.FREEINSCODE=T.CHQBANKCODE THEN 'BONUS' "
+                    StrSql += vbCrLf + " WHEN T.ACCODE IN (SELECT PURCHASECODE FROM " & cnChitCompanyid & "SAVINGS..SCHEME WHERE SCHEMEID IN "
+                    StrSql += vbCrLf + " (SELECT TOP 1 SCHEMEID FROM " & cnChitCompanyid & "SAVINGS..SCHEMEMAST WHERE GROUPCODE = T.GROUPCODE AND REGNO = T.REGNO AND COMPANYID IN"
+                    StrSql += vbCrLf + " (SELECT COMPANYID FROM " & cnChitCompanyid & "SAVINGS..COMPANY WHERE JCOMPID IN (" & SelectedCompanyId & ")))) THEN "
+                    StrSql += vbCrLf + " (SELECT NAME FROM " & cnChitCompanyid & "SAVINGS..CREDITCARD WHERE ACCOUNT=T.ACCODE)"
+                    StrSql += vbCrLf + " ELSE  'CREDITCARD' END"
+                End If
+                StrSql += vbCrLf + " WHEN MODEPAY = 'E' THEN 'ETRANSFER'"
+                StrSql += vbCrLf + " WHEN MODEPAY = 'O' THEN 'OTHERS'"
+                StrSql += vbCrLf + " END CATNAME,"
+                StrSql += vbCrLf + " SUM(AMOUNT) AS RECEIPT, 0 AS PAYMENT "
+                ''StrSql += vbCrLf + " INTO TEMPTABLEDB..TEMP" & systemId & "CHITCOLLECTION FROM " & cnChitTrandb & "..SCHEMECOLLECT AS T"
+                StrSql += vbCrLf + " FROM " & cnChitTrandb & "..SCHEMECOLLECT AS T"
+                If FREEINS_BOUNS Then
+                    StrSql += vbCrLf + " LEFT JOIN " & cnChitCompanyid & "SAVINGS..SCHEMEMAST SM ON T.GROUPCODE = SM.GROUPCODE And T.REGNO = SM.REGNO "
+                    StrSql += vbCrLf + " LEFT JOIN " & cnChitCompanyid & "SAVINGS..SCHEME S ON S.SCHEMEID=SM.SCHEMEID "
+                    StrSql += vbCrLf + " AND SM.COMPANYID IN"
+                    StrSql += vbCrLf + " (SELECT COMPANYID FROM " & cnChitCompanyid & "SAVINGS..COMPANY WHERE JCOMPID IN (" & SelectedCompanyId & "))"
+                End If
+                StrSql += vbCrLf + " WHERE MODEPAY = 'P' and RDATE BETWEEN '" & dtpFrom.Value.ToString("yyyy-MM-dd") & "' AND"
+                StrSql += vbCrLf + " '" & dtpTo.Value.ToString("yyyy-MM-dd") & "' AND "
+                StrSql += vbCrLf + " ISNULL(CANCEL,'') <> 'Y'"
+                If SCashCounterName <> "" Then StrSql += vbCrLf + " AND CASHCOUNTERID IN (SELECT CASHID FROM " & cnAdminDb & "..CASHCOUNTER WHERE CASHNAME IN (" & SCashCounterName & "))"
+                If HOMECOLLECTINBASE = True Then
+                    StrSql += StrCostFiltration
+                    If (StrCostFiltration1.Contains("INTERNET") And StrCostFiltration1.Split(",").Length > 1) Or StrCostFiltration1 = "" Then
+                        StrSql += "AND ISNULL(COSTID,'') NOT IN ('IN')"
+                    End If
+                Else
+                    StrSql += StrCostFiltration
+                End If
+                StrSql += vbCrLf + "  AND EXISTS (SELECT 1 FROM " & cnChitTrandb & "..SCHEMECOLLECT AS SC WHERE EXISTS (SELECT 1 FROM " & cnChitCompanyid & "SAVINGS..SCHEMEMAST WHERE GROUPCODE = SC.GROUPCODE AND REGNO = SC.REGNO AND COMPANYID IN"
+                StrSql += vbCrLf + "  (SELECT COMPANYID FROM " & cnChitCompanyid & "SAVINGS..COMPANY WHERE JCOMPID IN (" & SelectedCompanyId & ")))AND T.GROUPCODE = SC.GROUPCODE AND T.REGNO = SC.REGNO)"
+                StrSql += vbCrLf + " GROUP BY MODEPAY"
+                StrSql += vbCrLf + " ,ACCODE,T.GROUPCODE,T.REGNO "
+                If FREEINS_BOUNS Then
+                    StrSql += vbCrLf + " ,CHQBANKCODE,FREEINSCODE"
+                End If
+                StrSql += vbCrLf + " )X GROUP BY CATNAME"
+                StrSql += vbCrLf + " UNION ALL"
+                StrSql += vbCrLf + " SELECT CATNAME,SUM(RECEIPT)RECEIPT,SUM(PAYMENT)PAYMENT  FROM"
+                StrSql += vbCrLf + " (SELECT  'CC COMMISION' CATNAME,"
+                StrSql += vbCrLf + " (SELECT SUM(AMOUNT) FROM " & cnChitCompanyid & "SAVINGS..RECPAY WHERE T.ENTREFNO = EntRefNo) AS RECEIPT, 0 AS PAYMENT "
+                StrSql += vbCrLf + " FROM " & cnChitTrandb & "..SCHEMECOLLECT AS T"
+                StrSql += vbCrLf + " WHERE MODEPAY = 'P' and RDATE BETWEEN '" & dtpFrom.Value.ToString("yyyy-MM-dd") & "' AND"
+                StrSql += vbCrLf + " '" & dtpTo.Value.ToString("yyyy-MM-dd") & "' AND MODEPAY='R' AND "
+                StrSql += vbCrLf + " ISNULL(CANCEL,'') <> 'Y'"
+                If SCashCounterName <> "" Then StrSql += vbCrLf + " AND CASHCOUNTERID IN (SELECT CASHID FROM " & cnAdminDb & "..CASHCOUNTER WHERE CASHNAME IN (" & SCashCounterName & "))"
+                If HOMECOLLECTINBASE = True Then
+                    StrSql += StrCostFiltration
+                    If (StrCostFiltration1.Contains("INTERNET") And StrCostFiltration1.Split(",").Length > 1) Or StrCostFiltration1 = "" Then
+                        StrSql += "AND ISNULL(COSTID,'') NOT IN ('IN')"
+                    End If
+                Else
+                    StrSql += StrCostFiltration
+                End If
+                StrSql += vbCrLf + "  AND EXISTS (SELECT 1 FROM " & cnChitTrandb & "..SCHEMECOLLECT AS SC WHERE EXISTS (SELECT 1 FROM " & cnChitCompanyid & "SAVINGS..SCHEMEMAST WHERE GROUPCODE = SC.GROUPCODE AND REGNO = SC.REGNO AND COMPANYID IN"
+                StrSql += vbCrLf + "  (SELECT COMPANYID FROM " & cnChitCompanyid & "SAVINGS..COMPANY WHERE JCOMPID IN (" & SelectedCompanyId & ")))AND T.GROUPCODE = SC.GROUPCODE AND T.REGNO = SC.REGNO))X"
+                StrSql += vbCrLf + " group by X.CATNAME "
+                If HOMECOLLECTINBASE = True Then
+                    If (StrCostFiltration1.Contains("INTERNET") And StrCostFiltration1.Split(",").Length > 1) Or StrCostFiltration1 = "" Then
+                        StrSql += vbCrLf + " UNION ALL"
+                        StrSql += vbCrLf + " SELECT CATNAME,SUM(RECEIPT)RECEIPT,SUM(PAYMENT)PAYMENT  FROM"
+                        StrSql += vbCrLf + " ("
+                        StrSql += vbCrLf + " SELECT  'HOME COLLECTION' CATNAME,"
+                        StrSql += vbCrLf + " SUM(AMOUNT) AS RECEIPT, 0 AS PAYMENT,MODEPAY "
+                        StrSql += vbCrLf + " FROM " & cnChitTrandb & "..SCHEMECOLLECT AS T"
+                        StrSql += vbCrLf + " WHERE MODEPAY = 'P' and RDATE BETWEEN '" & dtpFrom.Value.ToString("yyyy-MM-dd") & "' AND"
+                        StrSql += vbCrLf + " '" & dtpTo.Value.ToString("yyyy-MM-dd") & "' "
+                        StrSql += vbCrLf + " AND MODEPAY IN ('R','C') "
+                        StrSql += vbCrLf + " AND ISNULL(CANCEL,'') <> 'Y'"
+                        If SCashCounterName <> "" Then StrSql += vbCrLf + " AND CASHCOUNTERID IN (SELECT CASHID FROM " & cnAdminDb & "..CASHCOUNTER WHERE CASHNAME IN (" & SCashCounterName & "))"
+                        StrSql += vbCrLf + "  AND COSTID IN ('IN') "
+                        If StrCostFiltration1 <> "" Then StrSql += vbCrLf + "  AND ISNULL(SUBSTRING(GROUPCODE,1,2),'') IN (SELECT COSTID FROM " & cnAdminDb & "..COSTCENTRE WHERE COSTNAME IN (" & StrCostFiltration1.Replace("'INTERNET',", "") & "))"
+                        StrSql += vbCrLf + "  AND EXISTS (SELECT 1 FROM " & cnChitTrandb & "..SCHEMECOLLECT AS SC WHERE EXISTS (SELECT 1 FROM " & cnChitCompanyid & "SAVINGS..SCHEMEMAST WHERE GROUPCODE = SC.GROUPCODE AND REGNO = SC.REGNO AND COMPANYID IN"
+                        StrSql += vbCrLf + "  (SELECT COMPANYID FROM " & cnChitCompanyid & "SAVINGS..COMPANY WHERE JCOMPID IN (" & SelectedCompanyId & ")))AND T.GROUPCODE = SC.GROUPCODE AND T.REGNO = SC.REGNO)"
+                        StrSql += vbCrLf + "  GROUP BY MODEPAY"
+                        StrSql += vbCrLf + " )X"
+                        StrSql += vbCrLf + " group by X.CATNAME,MODEPAY "
+                    End If
+                End If
+                Cmd = New OleDbCommand(StrSql, cn) : Cmd.CommandTimeout = 1000
+                Cmd.ExecuteNonQuery()
+
+                Dim HomeCollect As Double = 0
+                Dim HomeCount As Double = 0
+                If HOMECOLLECTINBASE = True Then
+                    If (StrCostFiltration1.Contains("INTERNET") And StrCostFiltration1.Split(",").Length > 1) Or StrCostFiltration1 = "" Then
+                        StrSql = vbCrLf + " SELECT CATNAME,SUM(RECEIPT)RECEIPT,SUM(PAYMENT)PAYMENT,SUM(RECEIPTCOUNT)RECEIPTCOUNT  FROM"
+                        StrSql += vbCrLf + " ("
+                        StrSql += vbCrLf + " SELECT  'HOME COLLECTION' CATNAME,"
+                        StrSql += vbCrLf + " SUM(AMOUNT) AS RECEIPT, 0 AS PAYMENT,MODEPAY,COUNT(*)RECEIPTCOUNT "
+                        StrSql += vbCrLf + " FROM " & cnChitTrandb & "..SCHEMECOLLECT AS T"
+                        StrSql += vbCrLf + " WHERE RDATE BETWEEN '" & dtpFrom.Value.ToString("yyyy-MM-dd") & "' AND"
+                        StrSql += vbCrLf + " '" & dtpTo.Value.ToString("yyyy-MM-dd") & "' "
+                        StrSql += vbCrLf + " AND MODEPAY IN ('R','C') "
+                        StrSql += vbCrLf + " AND ISNULL(CANCEL,'') <> 'Y'"
+                        If SCashCounterName <> "" Then StrSql += vbCrLf + " AND CASHCOUNTERID IN (SELECT CASHID FROM " & cnAdminDb & "..CASHCOUNTER WHERE CASHNAME IN (" & SCashCounterName & "))"
+                        StrSql += vbCrLf + "  AND COSTID IN ('IN') "
+                        If StrCostFiltration1 <> "" Then StrSql += vbCrLf + "  AND ISNULL(SUBSTRING(GROUPCODE,1,2),'') IN (SELECT COSTID FROM " & cnAdminDb & "..COSTCENTRE WHERE COSTNAME IN (" & StrCostFiltration1.Replace("'INTERNET',", "") & "))"
+                        StrSql += vbCrLf + "  AND EXISTS (SELECT 1 FROM " & cnChitTrandb & "..SCHEMECOLLECT AS SC WHERE EXISTS (SELECT 1 FROM " & cnChitCompanyid & "SAVINGS..SCHEMEMAST WHERE GROUPCODE = SC.GROUPCODE AND REGNO = SC.REGNO AND COMPANYID IN"
+                        StrSql += vbCrLf + "  (SELECT COMPANYID FROM " & cnChitCompanyid & "SAVINGS..COMPANY WHERE JCOMPID IN (" & SelectedCompanyId & ")))AND T.GROUPCODE = SC.GROUPCODE AND T.REGNO = SC.REGNO)"
+                        StrSql += vbCrLf + "  GROUP BY MODEPAY"
+                        StrSql += vbCrLf + " )X"
+                        StrSql += vbCrLf + " group by X.CATNAME,MODEPAY "
+                        Dim dr As DataRow = Nothing
+                        dr = GetSqlRow(StrSql, cn)
+                        If Not dr Is Nothing Then
+                            HomeCollect = Val(dr.Item("RECEIPT").ToString)
+                            HomeCount = Val(dr.Item("RECEIPTCOUNT").ToString)
+                        End If
+                    End If
+                End If
+
+                StrSql = "  IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMP" & systemId & "CHITCOLLECTION)>0 "
+                StrSql += vbCrLf + " BEGIN "
+                StrSql += vbCrLf + " INSERT INTO TEMPTABLEDB..TEMP" & systemId & "SASRPU(DESCRIPTION) VALUES('') "
+                StrSql += vbCrLf + " INSERT INTO TEMPTABLEDB..TEMP" & systemId & "SASRPU(DESCRIPTION,COLHEAD) "
+                'StrSql += VBCRLF + " VALUES('SCHEME COLLECTION ','T') "
+                If SCHEME_TO_ADVANCE_NAME_CHANGE <> "" Then
+                    StrSql += vbCrLf + " SELECT   '" & SCHEME_TO_ADVANCE_NAME_CHANGE & "[' +  CONVERT(VARCHAR,CONVERT(NUMERIC(15,2)," & HomeCollect & "+SUM(AMOUNT)+ISNULL(SUM(TAX),0))) + ']' AS PARTICULAR,'T' "
+                Else
+                    StrSql += vbCrLf + " SELECT 'SCHEME COLLECTION [' +  CONVERT(VARCHAR,CONVERT(NUMERIC(15,2)," & HomeCollect & "+SUM(AMOUNT)+ISNULL(SUM(TAX),0))) + ']' AS PARTICULAR,'T' "
+                End If
+
+                StrSql += vbCrLf + " FROM " & cnChitTrandb & "..SCHEMETRAN "
+                StrSql += vbCrLf + " WHERE RDATE BETWEEN '" & dtpFrom.Value.ToString("yyyy-MM-dd") & "' AND"
+                StrSql += vbCrLf + " '" & dtpTo.Value.ToString("yyyy-MM-dd") & "' AND "
+                StrSql += vbCrLf + " ISNULL(CANCEL,'') <> 'Y'"
+                If SCashCounterName <> "" Then
+                    StrSql += vbCrLf + " AND CASHCOUNTERID IN (SELECT CASHID FROM " & cnAdminDb & "..CASHCOUNTER "
+                    StrSql += vbCrLf + " WHERE CASHNAME IN (" & SCashCounterName & ")) "
+                End If
+                If HOMECOLLECTINBASE = True Then
+                    StrSql += StrCostFiltration
+                    If (StrCostFiltration1.Contains("INTERNET") And StrCostFiltration1.Split(",").Length > 1) Or StrCostFiltration1 = "" Then
+                        StrSql += " AND ISNULL(COSTID,'') NOT IN ('IN')"
+                    End If
+                Else
+                    StrSql += StrCostFiltration
+                End If
+                StrSql += vbCrLf + "  AND EXISTS (SELECT 1 FROM " & cnChitTrandb & "..SCHEMETRAN AS SC WHERE EXISTS (SELECT 1 FROM " & cnChitCompanyid & "SAVINGS..SCHEMEMAST WHERE GROUPCODE = SC.GROUPCODE AND REGNO = SC.REGNO AND COMPANYID IN"
+                StrSql += vbCrLf + "  (SELECT COMPANYID FROM " & cnChitCompanyid & "SAVINGS..COMPANY WHERE JCOMPID IN (" & SelectedCompanyId & "))) )"
+                StrSql += vbCrLf + " INSERT INTO TEMPTABLEDB..TEMP" & systemId & "SASRPU(DESCRIPTION) "
+                StrSql += vbCrLf + " SELECT PARTICULAR FROM "
+                StrSql += vbCrLf + " ("
+                StrSql += vbCrLf + " SELECT 'NEW : Rs '+ CASE WHEN SUM(AMOUNT) > 0 THEN CONVERT(VARCHAR,CONVERT(NUMERIC(15,2),SUM(AMOUNT))) + ' ('+CONVERT(VARCHAR,COUNT(*)) + ' NOs)' ELSE '' END AS PARTICULAR FROM " & cnChitTrandb & "..SCHEMETRAN "
+                StrSql += vbCrLf + " WHERE RDATE BETWEEN '" & dtpFrom.Value.ToString("yyyy-MM-dd") & "' AND "
+                StrSql += vbCrLf + " '" & dtpTo.Value.ToString("yyyy-MM-dd") & "' AND "
+                StrSql += vbCrLf + " ISNULL(CANCEL,'') <> 'Y'"
+                If SCashCounterName <> "" Then StrSql += vbCrLf + " AND CASHCOUNTERID IN (SELECT CASHID FROM " & cnAdminDb & "..CASHCOUNTER WHERE CASHNAME IN (" & SCashCounterName & "))"
+                If HOMECOLLECTINBASE = True Then
+                    StrSql += StrCostFiltration
+                    If (StrCostFiltration1.Contains("INTERNET") And StrCostFiltration1.Split(",").Length > 1) Or StrCostFiltration1 = "" Then
+                        StrSql += "AND ISNULL(COSTID,'') NOT IN ('IN')"
+                    End If
+                Else
+                    StrSql += StrCostFiltration
+                End If
+                StrSql += vbCrLf + "  AND EXISTS (SELECT 1 FROM " & cnChitTrandb & "..SCHEMETRAN AS SC WHERE EXISTS (SELECT 1 FROM " & cnChitCompanyid & "SAVINGS..SCHEMEMAST WHERE GROUPCODE = SC.GROUPCODE AND REGNO = SC.REGNO AND COMPANYID IN"
+                StrSql += vbCrLf + "  (SELECT COMPANYID FROM " & cnChitCompanyid & "SAVINGS..COMPANY WHERE JCOMPID IN (" & SelectedCompanyId & "))) )"
+                StrSql += vbCrLf + " AND INSTALLMENT = 1"
+                StrSql += vbCrLf + " UNION ALL"
+                StrSql += vbCrLf + " SELECT 'OTHER : Rs '+ CASE WHEN SUM(AMOUNT) > 0 THEN CONVERT(VARCHAR,ISNULL(CONVERT(NUMERIC(15,2)," & HomeCollect & "+SUM(AMOUNT)),'')) + ' ('+CONVERT(VARCHAR,ISNULL(COUNT(*),'')) + ' NOs)' ELSE '' END AS PARTICULAR FROM " & cnChitTrandb & "..SCHEMETRAN"
+                StrSql += vbCrLf + " WHERE RDATE BETWEEN '" & dtpFrom.Value.ToString("yyyy-MM-dd") & "' AND"
+                StrSql += vbCrLf + " '" & dtpTo.Value.ToString("yyyy-MM-dd") & "' AND "
+                StrSql += vbCrLf + " ISNULL(CANCEL,'') <> 'Y'"
+                If SCashCounterName <> "" Then StrSql += vbCrLf + " AND CASHCOUNTERID IN (SELECT CASHID FROM " & cnAdminDb & "..CASHCOUNTER WHERE CASHNAME IN (" & SCashCounterName & "))"
+                If HOMECOLLECTINBASE = True Then
+                    StrSql += StrCostFiltration
+                    If (StrCostFiltration1.Contains("INTERNET") And StrCostFiltration1.Split(",").Length > 1) Or StrCostFiltration1 = "" Then
+                        StrSql += "AND ISNULL(COSTID,'') NOT IN ('IN')"
+                    End If
+                Else
+                    StrSql += StrCostFiltration
+                End If
+                StrSql += vbCrLf + "  AND EXISTS (SELECT 1 FROM " & cnChitTrandb & "..SCHEMETRAN AS SC WHERE EXISTS (SELECT 1 FROM " & cnChitCompanyid & "SAVINGS..SCHEMEMAST WHERE GROUPCODE = SC.GROUPCODE AND REGNO = SC.REGNO AND COMPANYID IN"
+                StrSql += vbCrLf + "  (SELECT COMPANYID FROM " & cnChitCompanyid & "SAVINGS..COMPANY WHERE JCOMPID IN (" & SelectedCompanyId & "))) )"
+                StrSql += vbCrLf + " AND INSTALLMENT <> 1"
+                StrSql += vbCrLf + " UNION ALL"
+                StrSql += vbCrLf + " SELECT 'GST : Rs '+ CASE WHEN SUM(TAX) > 0 THEN CONVERT(VARCHAR,ISNULL(CONVERT(NUMERIC(15,2),SUM(TAX)),'')) + ' ('+CONVERT(VARCHAR," & HomeCount & "+ISNULL(COUNT(*),'')) + ' NOs)' ELSE '' END AS PARTICULAR FROM " & cnChitTrandb & "..SCHEMETRAN"
+                StrSql += vbCrLf + " WHERE RDATE BETWEEN '" & dtpFrom.Value.ToString("yyyy-MM-dd") & "' AND"
+                StrSql += vbCrLf + " '" & dtpTo.Value.ToString("yyyy-MM-dd") & "' AND "
+                StrSql += vbCrLf + " ISNULL(CANCEL,'') <> 'Y'"
+                If SCashCounterName <> "" Then StrSql += vbCrLf + " AND CASHCOUNTERID IN (SELECT CASHID FROM " & cnAdminDb & "..CASHCOUNTER WHERE CASHNAME IN (" & SCashCounterName & "))"
+                If HOMECOLLECTINBASE = True Then
+                    StrSql += StrCostFiltration
+                    If (StrCostFiltration1.Contains("INTERNET") And StrCostFiltration1.Split(",").Length > 1) Or StrCostFiltration1 = "" Then
+                    End If
+                Else
+                    StrSql += StrCostFiltration
+                End If
+                StrSql += vbCrLf + "  AND EXISTS (SELECT 1 FROM " & cnChitTrandb & "..SCHEMETRAN AS SC WHERE EXISTS (SELECT 1 FROM " & cnChitCompanyid & "SAVINGS..SCHEMEMAST WHERE GROUPCODE = SC.GROUPCODE AND REGNO = SC.REGNO AND COMPANYID IN"
+                StrSql += vbCrLf + "  (SELECT COMPANYID FROM " & cnChitCompanyid & "SAVINGS..COMPANY WHERE JCOMPID IN (" & SelectedCompanyId & "))) )"
+                StrSql += vbCrLf + " )C"
+                StrSql += vbCrLf + " INSERT INTO TEMPTABLEDB..TEMP" & systemId & "SASRPU"
+                StrSql += vbCrLf + " (DESCRIPTION,RECEIPT,PAYMENT) "
+                StrSql += vbCrLf + " SELECT '  ' + CATNAME CATNAME,  "
+                StrSql += vbCrLf + " CASE WHEN RECEIPT<> 0 THEN RECEIPT ELSE NULL END RECEIPT, "
+                StrSql += vbCrLf + " CASE WHEN PAYMENT<> 0 THEN PAYMENT  ELSE NULL END PAYMENT "
+                StrSql += vbCrLf + " FROM TEMPTABLEDB..TEMP" & systemId & "CHITCOLLECTION ORDER BY CATNAME "
+
+                StrSql += vbCrLf + " End"
+                Cmd = New OleDbCommand(StrSql, cn) : Cmd.CommandTimeout = 1000
+                Cmd.ExecuteNonQuery()
+
+                If RPT_SHOW_SCHEMEWISEDETAILS Then
+                    StrSql = "  IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMP" & systemId & "CHITCOLLECTION)>0 "
+                    StrSql += vbCrLf + " BEGIN "
+                    StrSql += vbCrLf + "  INSERT INTO TEMPTABLEDB..TEMP" & systemId & "SASRPU(DESCRIPTION) VALUES('') "
+                    StrSql += vbCrLf + "  INSERT INTO TEMPTABLEDB..TEMP" & systemId & "SASRPU(DESCRIPTION,COLHEAD) VALUES('SCHEME NAME','T') "
+                    StrSql += vbCrLf + "  INSERT INTO TEMPTABLEDB..TEMP" & systemId & "SASRPU(DESCRIPTION,RECGRSWT) "
+                    StrSql += vbCrLf + "  SELECT DISTINCT SCHNAME + ' : RS ' + CONVERT(varchar(20),SUM(AMT)) SCHNAME,SUM(WT)WT FROM ( "
+                    StrSql += vbCrLf + "  SELECT (SELECT SCHEMENAME FROM " & cnChitCompanyid & "SAVINGS..SCHEME WHERE SCHEMEID IN "
+                    StrSql += vbCrLf + "  (SELECT DISTINCT SCHEMEID FROM " & cnChitCompanyid & "SAVINGS..SCHEMEMAST WHERE GROUPCODE=C.GROUPCODE AND REGNO=C.REGNO))SCHNAME "
+                    StrSql += vbCrLf + "  ,CONVERT(NUMERIC(15,2),AMOUNT)AMT,CONVERT(NUMERIC(15,3),WEIGHT)WT "
+                    StrSql += vbCrLf + "  FROM " & cnChitTrandb & "..SCHEMETRAN C "
+                    StrSql += vbCrLf + "  WHERE RDATE BETWEEN '" & dtpFrom.Value.ToString("yyyy-MM-dd") & "' AND"
+                    StrSql += vbCrLf + "  '" & dtpTo.Value.ToString("yyyy-MM-dd") & "' AND "
+                    StrSql += vbCrLf + "  ISNULL(CANCEL,'') <> 'Y'"
+                    StrSql += vbCrLf + "  AND EXISTS (SELECT 1 FROM " & cnChitCompanyid & "SAVINGS..SCHEME WHERE SCHEMEID IN "
+                    StrSql += vbCrLf + "  (SELECT DISTINCT SCHEMEID FROM " & cnChitCompanyid & "SAVINGS..SCHEMEMAST WHERE GROUPCODE=C.GROUPCODE) AND WEIGHTLEDGER='Y')"
+                    If SCashCounterName <> "" Then
+                        StrSql += vbCrLf + "  AND CASHCOUNTERID IN (SELECT CASHID FROM " & cnAdminDb & "..CASHCOUNTER "
+                        StrSql += vbCrLf + "  WHERE CASHNAME IN (" & SCashCounterName & ")) "
+                    End If
+                    If HOMECOLLECTINBASE = True Then
+                        StrSql += StrCostFiltration
+                        If (StrCostFiltration1.Contains("INTERNET") And StrCostFiltration1.Split(",").Length > 1) Or StrCostFiltration1 = "" Then
+                            StrSql += "  AND ISNULL(COSTID,'') NOT IN ('IN')"
+                        End If
+                    Else
+                        StrSql += StrCostFiltration
+                    End If
+                    StrSql += vbCrLf + "  AND EXISTS (SELECT 1 FROM " & cnChitTrandb & "..SCHEMETRAN AS SC WHERE EXISTS (SELECT 1 FROM " & cnChitCompanyid & "SAVINGS..SCHEMEMAST WHERE GROUPCODE = SC.GROUPCODE AND REGNO = SC.REGNO AND COMPANYID IN"
+                    StrSql += vbCrLf + "  (SELECT COMPANYID FROM " & cnChitCompanyid & "SAVINGS..COMPANY WHERE JCOMPID IN (" & SelectedCompanyId & "))) ) ) X GROUP BY SCHNAME"
+                    StrSql += vbCrLf + "  INSERT INTO TEMPTABLEDB..TEMP" & systemId & "SASRPU(DESCRIPTION) VALUES('') "
+                    StrSql += vbCrLf + " END"
+                    Cmd = New OleDbCommand(StrSql, cn) : Cmd.CommandTimeout = 1000
+                    Cmd.ExecuteNonQuery()
+                End If
+
+                If SCHEME_TO_ADVANCE_NAME_CHANGE_CASH <> "" Then
+                    StrSql = vbCrLf + " UPDATE TEMPTABLEDB..TEMP" & systemId & "SASRPU SET DESCRIPTION='" & SCHEME_TO_ADVANCE_NAME_CHANGE_CASH & "' WHERE DESCRIPTION='  SCHEME CASH'"
+                    Cmd = New OleDbCommand(StrSql, cn) : Cmd.CommandTimeout = 1000
+                    Cmd.ExecuteNonQuery()
+                End If
+            End If
         End If
+
     End Sub
 
     Private Sub ProcChitCollection_07_FEB_2022()
@@ -8414,7 +8699,7 @@ Public Class frmDailyAbstract
                 StrSql += vbCrLf + " AND '" & dtpTo.Value.ToString("yyyy-MM-dd") & "' "
                 StrSql += vbCrLf + " AND I.ITEMID IN (SELECT ITEMID FROM " & cnAdminDb & "..ITEMMAST WHERE STOCKTYPE = 'T')"
                 StrSql += vbCrLf + " AND TRANTYPE <> 'AI'   "
-                StrSql += vbCrLf + " AND I.TAGNO <> ''"
+                StrSql += vbCrLf + " AND TRANTYPE NOT in  ('IPU','IIS') AND I.TAGNO <> ''"
                 StrSql += vbCrLf + " AND ISNULL(I.CANCEL,'') = ''   "
                 StrSql += vbCrLf + " AND I.COMPANYID IN (" & SelectedCompanyId & ")"
                 StrFilter = Replace(StrFilter, "SYSTEMID", "I.SYSTEMID")
@@ -8449,7 +8734,7 @@ Public Class frmDailyAbstract
             StrSql += vbCrLf + " AND '" & dtpTo.Value.ToString("yyyy-MM-dd") & "' "
             StrSql += vbCrLf + " AND I.ITEMID IN (SELECT ITEMID FROM " & cnAdminDb & "..ITEMMAST WHERE STOCKTYPE = 'T')"
             StrSql += vbCrLf + " AND I.TAGNO <> ''"
-            StrSql += vbCrLf + " AND I.TRANTYPE <> 'AI'"
+            StrSql += vbCrLf + " AND TRANTYPE NOT in  ('IPU','IIS') AND I.TRANTYPE <> 'AI'"
             StrSql += vbCrLf + " AND ISNULL(I.CANCEL,'') = ''   "
             StrSql += vbCrLf + " AND I.COMPANYID IN (" & SelectedCompanyId & ")"
             StrFilter = Replace(StrFilter, "SYSTEMID", "I.SYSTEMID")
@@ -8484,7 +8769,7 @@ Public Class frmDailyAbstract
                 StrSql += vbCrLf + " AND '" & dtpTo.Value.ToString("yyyy-MM-dd") & "' "
                 StrSql += vbCrLf + " AND I.ITEMID IN (SELECT ITEMID FROM " & cnAdminDb & "..ITEMMAST WHERE STOCKTYPE = 'T')"
                 StrSql += vbCrLf + " AND I.TAGNO <> ''"
-                StrSql += vbCrLf + " AND I.TRANTYPE <> 'AI'"
+                StrSql += vbCrLf + " AND TRANTYPE NOT in  ('IPU','IIS') AND I.TRANTYPE <> 'AI'"
                 StrSql += vbCrLf + " AND ISNULL(I.CANCEL,'') = ''   "
                 StrSql += vbCrLf + " AND I.COMPANYID IN (" & SelectedCompanyId & ")"
                 StrFilter = Replace(StrFilter, "SYSTEMID", "I.SYSTEMID")
@@ -9378,7 +9663,7 @@ Public Class frmDailyAbstract
         StrSql += vbCrLf + " FROM " & cnStockDb & "..ISSUE I "
         StrSql += vbCrLf + "  WHERE TRANDATE BETWEEN '" & dtpFrom.Value.ToString("yyyy-MM-dd") & "' AND "
         StrSql += vbCrLf + "  '" & dtpTo.Value.ToString("yyyy-MM-dd") & "' "
-        StrSql += vbCrLf + " AND ISNULL(CANCEL,'') = '' AND COMPANYID IN (" & SelectedCompanyId & ")"
+        StrSql += vbCrLf + " AND ISNULL(CANCEL,'') = ''AND  TRANTYPE in ('IPU','IIS') AND COMPANYID IN (" & SelectedCompanyId & ")"
         StrSql += vbCrLf + StrFilter
         StrSql += vbCrLf + StrUseridFtr
         StrSql += vbCrLf + "GROUP BY CATCODE,RATE"

@@ -61,9 +61,9 @@ Public Class frmSendSms
             Dim str(2) As String
             str = lstToMobileNo_OWN.Items(I).ToString().Split(":")
             If str.Length > 1 Then
-                Strsql = "INSERT INTO AKSHAYASMSDB..SMSDATA(MOBILENO,MESSAGES,STATUS,UPDATED)VALUES('" & str(0) & "',N'" & IIf(str(1) = "", "", str(1) & " ") & txtMsg_OWN.Text & "','','" & Date.Now & "') "
+                Strsql = "INSERT INTO BRIGHTECHSMSDB..SMSDATA(MOBILENO,MESSAGES,STATUS,UPDATED)VALUES('" & str(0) & "',N'" & IIf(str(1) = "", "", str(1) & " ") & txtMsg_OWN.Text & "','','" & Date.Now & "') "
             Else
-                Strsql = "INSERT INTO AKSHAYASMSDB..SMSDATA(MOBILENO,MESSAGES,STATUS,UPDATED)VALUES('" & str(0) & "',N'" & txtMsg_OWN.Text & "','','" & Date.Now & "') "
+                Strsql = "INSERT INTO BRIGHTECHSMSDB..SMSDATA(MOBILENO,MESSAGES,STATUS,UPDATED)VALUES('" & str(0) & "',N'" & txtMsg_OWN.Text & "','','" & Date.Now & "') "
             End If
             Cmd = New OleDbCommand(Strsql, cn)
             Cmd.ExecuteNonQuery()
@@ -117,8 +117,8 @@ Public Class frmSendSms
         SMSURL = GETSMSURL(IIf(rbtGeneral.Checked, True, False), True)
         If SMSURL = "Not Register" Then Exit Sub
         If rbtSmsTable.Checked Then
-            If funcDbChecker("AKSHAYASMSDB") = 0 Then MsgBox("BrighttechSms Database Not found for Send Sms.", MsgBoxStyle.Information) : Exit Sub
-            If funcTableChecker("AKSHAYASMSDB", "SMSDATA") = 0 Then MsgBox("SmsData Table Not found for Send Sms.", MsgBoxStyle.Information) : Exit Sub
+            If funcDbChecker("BRIGHTECHSMSDB") = 0 Then MsgBox("BrighttechSms Database Not found for Send Sms.", MsgBoxStyle.Information) : Exit Sub
+            If funcTableChecker("BRIGHTECHSMSDB", "SMSDATA") = 0 Then MsgBox("SmsData Table Not found for Send Sms.", MsgBoxStyle.Information) : Exit Sub
             funcInsertAkshayaSmsTable()
         Else
             If SMSURL Is Nothing Or SMSURL = "" Then MsgBox("SMSURL Not Set in Softcontrol.", MsgBoxStyle.Information) : Exit Sub

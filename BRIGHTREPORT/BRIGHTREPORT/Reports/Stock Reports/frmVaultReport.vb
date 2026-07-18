@@ -1315,12 +1315,12 @@ Public Class frmVaultReport
         '    SendMail(ConvertDataGridViewToHTML(gridView), "Vault Report " & dtpFrom.Value.Date.ToString("yyyy-MM-dd"))
         'End If
         If Not MsgBox("Do You want to Send SMS?", MsgBoxStyle.YesNo) = MsgBoxResult.Yes Then Exit Sub
-        strSql = " SELECT 1 FROM SYSDATABASES WHERE NAME='AKSHAYASMSDB'"
+        strSql = " SELECT 1 FROM SYSDATABASES WHERE NAME='BRIGHTECHSMSDB'"
         If Val(objGPack.GetSqlValue(strSql)) = 0 Then MsgBox("SMS DB not found ") : Exit Sub
-        strSql = " SELECT CHARACTER_MAXIMUM_LENGTH AS A FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_CATALOG='AKSHAYASMSDB' AND TABLE_NAME='SMSDATA' AND COLUMN_NAME='MESSAGES'"
+        strSql = " SELECT CHARACTER_MAXIMUM_LENGTH AS A FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_CATALOG='BRIGHTECHSMSDB' AND TABLE_NAME='SMSDATA' AND COLUMN_NAME='MESSAGES'"
         Dim strColLen As String = objGPack.GetSqlValue(strSql)
         If Val(strColLen & "") < 4000 Then
-            strSql = " ALTER TABLE AKSHAYASMSDB..SMSDATA ALTER COLUMN MESSAGES VARCHAR(4000)"
+            strSql = " ALTER TABLE BRIGHTECHSMSDB..SMSDATA ALTER COLUMN MESSAGES VARCHAR(4000)"
             cmd = New OleDbCommand(strSql, cn)
             cmd.ExecuteNonQuery()
         End If
@@ -1330,7 +1330,7 @@ Public Class frmVaultReport
             For i As Integer = 1 To SMS_To.Length
                 If SMS_To(i - 1).ToString = "" Then Continue For
                 'If Len(SMS_To(i - 1).ToString) <> 10 Then Continue For
-                strSql = vbCrLf + "  INSERT INTO AKSHAYASMSDB..SMSDATA (MOBILENO,MESSAGES,STATUS)"
+                strSql = vbCrLf + "  INSERT INTO BRIGHTECHSMSDB..SMSDATA (MOBILENO,MESSAGES,STATUS)"
                 strSql += vbCrLf + "  SELECT '" & SMS_To(i - 1).ToString & "','" & msgTxt & "','N'"
                 cmd = New OleDbCommand(strSql, cn)
                 cmd.ExecuteNonQuery()

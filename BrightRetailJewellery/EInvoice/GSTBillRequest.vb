@@ -1,30 +1,33 @@
 ﻿Imports System.Collections.Generic
+Imports java.sql
 Public Class GSTBillRequest
-        Public Property Version As String
-        Public Property TranDtls As EinvdirectTranDtlsResponse
-        Public Property DocDtls As EinvdirectDocDtlsResponse
-        Public Property SellerDtls As EinvdirectSellerDtlsResponse
-        Public Property BuyerDtls As EinvdirectBuyerDtlsResponse
-        Public Property DispDtls As EinvdirectDispDtlsResponse
-        Public Property ShipDtls As EinvdirectShipDtlsResponse
-        Public Property ItemList As List(Of ItemList)
-        Public Property ValDtls As EinvdirectValDtlsResponse
-    End Class
+    Public Property Version As String
+    Public Property TranDtls As EinvdirectTranDtlsResponse
+    Public Property DocDtls As EinvdirectDocDtlsResponse
+    Public Property SellerDtls As EinvdirectSellerDtlsResponse
+    Public Property BuyerDtls As EinvdirectBuyerDtlsResponse
+    Public Property DispDtls As EinvdirectDispDtlsResponse
+    Public Property ShipDtls As EinvdirectShipDtlsResponse
+    Public Property ItemList As List(Of ItemList)
+    Public Property ValDtls As EinvdirectValDtlsResponse
+End Class
 
-    Public Class EinvdirectBillResponse
-        Public Property data As EinvdirectbillTokenData
-        Public Property status_cd As String
-        Public Property status_desc As String
-    End Class
+Public Class EinvdirectBillResponse
+    Public Property data As EinvdirectbillTokenData
+    Public Property status_cd As String
+    Public Property status_desc As String
+End Class
 
-    Public Class EinvdirectbillTokenData
-        Public Property UserName As String
-        Public Property TokenExpiry As String
-        Public Property Sek As String
-        Public Property ClientId As String
-        Public Property AuthToken As String
-        Public Property Irn As String
-        Public Property SignedQRCode As String
+Public Class EinvdirectbillTokenData
+    Public Property UserName As String
+    Public Property TokenExpiry As String
+    Public Property Sek As String
+    Public Property ClientId As String
+    Public Property AuthToken As String
+    Public Property Irn As String
+    Public Property AckNO As String
+    Public Property AckDate As DateTime
+    Public Property SignedQRCode As String
         Public Property Status As String
     End Class
 
