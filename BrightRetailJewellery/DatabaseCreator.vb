@@ -130695,6 +130695,7 @@ ByVal PurchaseTaxName As String
         AdmindbInsertValuesToSoftControl(compId + suffix, "FINDISCPUR", "FINAL DISCOUNT ON PURCHASE (ALT+F2)", "T", "N", "P")
         AdmindbInsertValuesToSoftControl(compId + suffix, "FINDISCPURMINSALWT", "FINAL DISCOUNT ON PURCHASE MINIMUM SALE WEIGHT", "D", "16", "P")
         AdmindbInsertValuesToSoftControl(compId + suffix, "FINDISCPURMINPURWT", "FINAL DISCOUNT ON PURCHASE MINIMUM PURCHASE WEIGHT", "D", "16", "P")
+        AdmindbInsertValuesToSoftControl(compId + suffix, "STKDWNLDTHRESHDAYS", "STOCK DOWNLOAD THRESHOULD DAYS", "N", "", "S")
 
         strSql = " UPDATE " & compId + suffix & "..SOFTCONTROL SET CTLNAME = 'PURCHASE RATE CALCULATION FROM PURCHASE GROSS VALUE [Y]ES/[N]O' WHERE CTLID = 'PUR_MRATECALC'"
         cmd = New OleDbCommand(strSql, cn, tran)
@@ -145451,13 +145452,23 @@ CTAGTRANKEY:
             If DT.Rows.Count > 0 Then
                 For cnt As Integer = 0 To DT.Rows.Count - 1
                     strSql = DT.Rows(cnt).Item(0).ToString()
-                    cmd = New OleDbCommand(strSql, cn, tran)
-                    cmd.ExecuteNonQuery()
+                    Try
+                        cmd = New OleDbCommand(strSql, cn, tran)
+                        cmd.ExecuteNonQuery()
+                    Catch ex As Exception
+                        If ex.Message.Contains("IND_PURITEMTAG_TAGNO") Then
+                            cmd = New OleDbCommand("DROP INDEX IND_PURITEMTAG_TAGNO ON " & compId & "DMINDB..PURITEMTAG;", cn, tran)
+                            cmd.ExecuteNonQuery()
+
+                            strSql = DT.Rows(cnt).Item(0).ToString()
+                            cmd = New OleDbCommand(strSql, cn, tran)
+                            cmd.ExecuteNonQuery()
+                        End If
+                    End Try
                 Next
             End If
 
             DT = New DataTable
-
             strSql = vbCrLf + "  SELECT 'ALTER TABLE " & tranDbName & "..'+O.NAME+' ALTER COLUMN '+C.NAME+ ' NUMERIC(15,3)' "
             strSql += vbCrLf + " FROM " & tranDbName & "..SYSOBJECTS O INNER JOIN " & tranDbName & "..SYSCOLUMNS C ON  O.ID =C.ID "
             strSql += vbCrLf + " WHERE O.XTYPE='U' AND C.NAME LIKE '%TOUCH%' AND C.XTYPE=108 "
@@ -145985,7 +145996,7 @@ CTAGTRANKEY:
 
             strSql = " IF NOT(SELECT COUNT(*) FROM " & compId & "ADMINDB..SYSCOLUMNS WHERE NAME = 'PONUMBER' AND ID = OBJECT_ID('" & compId & "ADMINDB..ITEMLOT'))>0"
             strSql += vbCrLf + " BEGIN"
-            strSql = "ALTER TABLE " & compId & "ADMINDB..ITEMLOT ADD PONUMBER NVARCHAR(100)"
+            strSql += vbCrLf + " ALTER TABLE " & compId & "ADMINDB..ITEMLOT ADD PONUMBER NVARCHAR(100)"
             strSql += vbCrLf + " END"
             cmd = New OleDbCommand(strSql, cn, tran) : cmd.ExecuteNonQuery()
 

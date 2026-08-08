@@ -513,8 +513,15 @@ Public Class frmSalesReturnAbstractGST
         With gridView
             If .Columns.Contains("TAX") Then .Columns("TAX").HeaderText = "GST"
             If .Columns.Contains("TINNO") Then .Columns("TINNO").Visible = False
-            If .Columns.Contains("ITEMID") Then .Columns("ITEMID").Visible = False
-            If .Columns.Contains("ITEMNAME") Then .Columns("ITEMNAME").Visible = False
+            If ChkItem.Checked Then
+                If .Columns.Contains("ITEMID") Then .Columns("ITEMID").Visible = True
+                If .Columns.Contains("ITEMNAME") Then .Columns("ITEMNAME").Visible = True
+                If .Columns.Contains("TAGNO") Then .Columns("TAGNO").Visible = True
+            Else
+                If .Columns.Contains("ITEMID") Then .Columns("ITEMID").Visible = False
+                If .Columns.Contains("ITEMNAME") Then .Columns("ITEMNAME").Visible = False
+                If .Columns.Contains("TAGNO") Then .Columns("TAGNO").Visible = False
+            End If
             If .Columns.Contains("COSTNAME") Then .Columns("COSTNAME").Visible = False
             If .Columns.Contains("COSTID") Then .Columns("COSTID").Visible = False
             If .Columns.Contains("TRANTYPE") Then .Columns("TRANTYPE").Visible = False
@@ -525,7 +532,6 @@ Public Class frmSalesReturnAbstractGST
             If .Columns.Contains("EMPNAME") Then .Columns("EMPNAME").Visible = False
             If .Columns.Contains("COUNTRY") Then .Columns("COUNTRY").Visible = False
             If .Columns.Contains("PINCODE") Then .Columns("PINCODE").Visible = False
-            If .Columns.Contains("TAGNO") Then .Columns("TAGNO").Visible = False
             If chkwithstustone.Checked Then
                 If .Columns.Contains("STNGT") Then .Columns("STNGT").Visible = True
                 If .Columns.Contains("STNCT") Then .Columns("STNCT").Visible = True
@@ -615,7 +621,7 @@ Public Class frmSalesReturnAbstractGST
             If .Columns.Contains("DIAPCS3") Then .Columns("DIAPCS3").Visible = False
             If .Columns.Contains("DIAWT3") Then .Columns("DIAWT3").Visible = False
             If .Columns.Contains("DIARATE3") Then .Columns("DIARATE3").Visible = False
-            If .Columns.Contains("TAGNO") Then .Columns("TAGNO").Visible = False
+            'If .Columns.Contains("TAGNO") Then .Columns("TAGNO").Visible = False
             If .Columns.Contains("TAGTYPE") Then .Columns("TAGTYPE").Visible = False
             If .Columns.Contains("RATE") Then .Columns("RATE").Visible = False
 

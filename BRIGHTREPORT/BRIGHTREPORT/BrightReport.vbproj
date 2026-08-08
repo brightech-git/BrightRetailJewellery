@@ -713,6 +713,12 @@
     <Compile Include="Reports\Daily Reports\frmCostCentreWiseSales.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Reports\Daily Reports\frmCustomerTransactionReport.designer.vb">
+      <DependentUpon>frmCustomerTransactionReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\Daily Reports\frmCustomerTransactionReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Reports\Daily Reports\frmDailyAbstract.designer.vb">
       <DependentUpon>frmDailyAbstract.vb</DependentUpon>
     </Compile>
@@ -2388,6 +2394,9 @@
     <EmbeddedResource Include="Reports\Daily Reports\frmCostCentreWiseSales.resx">
       <DependentUpon>frmCostCentreWiseSales.vb</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Reports\Daily Reports\frmCustomerTransactionReport.resx">
+      <DependentUpon>frmCustomerTransactionReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Reports\Daily Reports\frmDailyAbstract.resx">
       <DependentUpon>frmDailyAbstract.vb</DependentUpon>

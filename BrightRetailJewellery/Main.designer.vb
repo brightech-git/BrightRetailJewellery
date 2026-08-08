@@ -741,6 +741,7 @@ Partial Class Main
         Me.receiveThread = New System.ComponentModel.BackgroundWorker()
         Me.GlobalDateTimer = New System.Windows.Forms.Timer(Me.components)
         Me.NotifyIcon1 = New System.Windows.Forms.NotifyIcon(Me.components)
+        Me.CustomerTransactionToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.StatusStrip1.SuspendLayout()
         Me.MenuStrip1.SuspendLayout()
         Me.tStripTitle.SuspendLayout()
@@ -3291,7 +3292,7 @@ Partial Class Main
         '
         'tStripReports
         '
-        Me.tStripReports.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripAccReports, Me.tStripDailyReports, Me.tStripStockReports, Me.tStripOrderReports, Me.tStripApproval, Me.tStripEstimationRpt, Me.MISReportTStrip, Me.DailyTallyReportTStrip, Me.XmlGenerationToolStripMenuItem, Me.OtherReportsToolStripMenuItem, Me.AuditReportToolStripMenuItem, Me.ComplementsToolStripMenuItem, Me.GSTReportsToolStripMenuItem, Me.SalesReturnPartyToolStripMenuItem})
+        Me.tStripReports.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tStripAccReports, Me.tStripDailyReports, Me.tStripStockReports, Me.tStripOrderReports, Me.tStripApproval, Me.tStripEstimationRpt, Me.MISReportTStrip, Me.DailyTallyReportTStrip, Me.XmlGenerationToolStripMenuItem, Me.OtherReportsToolStripMenuItem, Me.AuditReportToolStripMenuItem, Me.ComplementsToolStripMenuItem, Me.GSTReportsToolStripMenuItem, Me.SalesReturnPartyToolStripMenuItem, Me.CustomerTransactionToolStripMenuItem})
         Me.tStripReports.Name = "tStripReports"
         Me.tStripReports.Size = New System.Drawing.Size(59, 20)
         Me.tStripReports.Text = "Reports"
@@ -5938,7 +5939,7 @@ Partial Class Main
         Me.ReportsToolStripMenuItem.Name = "ReportsToolStripMenuItem"
         Me.ReportsToolStripMenuItem.ShortcutKeyDisplayString = "AGW-1"
         Me.ReportsToolStripMenuItem.ShowShortcutKeys = False
-        Me.ReportsToolStripMenuItem.Size = New System.Drawing.Size(107, 22)
+        Me.ReportsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ReportsToolStripMenuItem.Text = "Reports"
         '
         'RunningBalanceToolStripMenuItem
@@ -7228,6 +7229,12 @@ Partial Class Main
         Me.NotifyIcon1.Icon = CType(resources.GetObject("NotifyIcon1.Icon"), System.Drawing.Icon)
         Me.NotifyIcon1.Text = "NotifyIcon1"
         '
+        'CustomerTransactionToolStripMenuItem
+        '
+        Me.CustomerTransactionToolStripMenuItem.Name = "CustomerTransactionToolStripMenuItem"
+        Me.CustomerTransactionToolStripMenuItem.Size = New System.Drawing.Size(191, 22)
+        Me.CustomerTransactionToolStripMenuItem.Text = "Customer Transaction"
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
@@ -7978,4 +7985,5 @@ Partial Class Main
     Friend WithEvents IssueVsReceiptVsTransactionToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents DiscountRateUpdateToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents SalesReturnPartyToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents CustomerTransactionToolStripMenuItem As ToolStripMenuItem
 End Class

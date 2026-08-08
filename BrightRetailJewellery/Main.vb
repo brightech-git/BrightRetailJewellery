@@ -1,6 +1,7 @@
 Imports System.Data.OleDb
 Imports System.Management
 Imports System.IO
+Imports BrighttechREPORT
 
 Public Class Main
     '040113 VASANTH,FOR SHORT CUT KEY
@@ -1067,6 +1068,35 @@ Public Class Main
     End Function
 
     Private Sub tStripItemTag_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tStripItemTag.Click
+        Dim stkdwnlddays As Integer = GetAdmindbSoftValue("STKDWNLDTHRESHDAYS")
+        Dim strSql As String = ""
+        If stkdwnlddays > 0 Then
+            Dim costId As String = GetAdmindbSoftValue("COSTID")
+            Dim dt As New DataTable
+            strSql = $";with cte as("
+            strSql += vbCrLf + $"select COSTID,COUNT(tagno) TAGCOUNT from {cnAdminDb}..TITEMTAG"
+            strSql += vbCrLf + $"where ISNULL(issdate,'') = '' and COSTID <> '{costId}'"
+            strSql += vbCrLf + $"group by COSTID,transferdate"
+            strSql += vbCrLf + $"having DATEDIFF(day,transferdate,GETDATE()) > {stkdwnlddays}"
+            strSql += vbCrLf + $")"
+            strSql += vbCrLf + $"select cte.COSTID,costcentre.COSTNAME,sum(TAGCOUNT) TAGCOUNT"
+            strSql += vbCrLf + $"from cte"
+            strSql += vbCrLf + $"join {cnAdminDb}..costcentre on cte.COSTID = COSTCENTRE.COSTID"
+            strSql += vbCrLf + $"group by cte.COSTID,costcentre.COSTNAME"
+            strSql += vbCrLf + $"order by TAGCOUNT desc"
+            da = New OleDbDataAdapter(strSql, cn)
+            da.Fill(dt)
+            If dt.Rows.Count > 0 Then
+                strSql = $"Stock exceeds than threshold of {stkdwnlddays} days is still not downloaded"
+                For Each dr As DataRow In dt.Rows
+                    strSql += vbCrLf + $"{dr("COSTNAME")} - {dr("TAGCOUNT")} items"
+                Next
+                strSql += vbCrLf + $"Kinldy download it and proceed."
+                MessageBox.Show($"{strSql}", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+        End If
+
         If Not CheckGoldRate() Then Exit Sub
         funcShow(frmItemTag, "ITEM TAG")
     End Sub
@@ -4947,5 +4977,10 @@ Public Class Main
     Private Sub SalesReturnPartyToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SalesReturnPartyToolStripMenuItem.Click
         Dim obj As New BrighttechREPORT.frmSaleReturnParty
         funcShow(obj, "SALES RETURN PARTYWISE")
+    End Sub
+
+    Private Sub CustomerTransactionToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CustomerTransactionToolStripMenuItem.Click
+        Dim obj As New frmCustomerTransactionReport
+        funcShow(obj, "CUSTOMER TRANSACTION REPORT")
     End Sub
 End Class

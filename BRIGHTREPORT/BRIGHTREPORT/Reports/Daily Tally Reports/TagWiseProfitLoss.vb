@@ -359,8 +359,11 @@ Public Class TagWiseProfitLoss
             If .Columns.Contains("PURVALUE") Then .Columns("PURVALUE").Width = 120
             If .Columns.Contains("DIFFVALUE") Then .Columns("DIFFVALUE").Width = 120
             If .Columns.Contains("SALVALUE") Then .Columns("SALVALUE").DefaultCellStyle.Format = "0.00"
+            If .Columns.Contains("TOT_SALVAL") Then .Columns("TOT_SALVAL").DefaultCellStyle.Format = "0.00"
             If .Columns.Contains("PURVALUE") Then .Columns("PURVALUE").DefaultCellStyle.Format = "0.00"
+            If .Columns.Contains("TOT_PURVAL") Then .Columns("TOT_PURVAL").DefaultCellStyle.Format = "0.00"
             If .Columns.Contains("DIFFVALUE") Then .Columns("DIFFVALUE").DefaultCellStyle.Format = "0.00"
+            If .Columns.Contains("TOT_DIFF") Then .Columns("TOT_DIFF").DefaultCellStyle.Format = "0.00"
             If .Columns.Contains("PURSTNAMT") Then .Columns("PURSTNAMT").DefaultCellStyle.Format = "0.00"
             If .Columns.Contains("STNAMT") Then .Columns("STNAMT").DefaultCellStyle.Format = "0.00"
             If .Columns.Contains("SALEMC") Then .Columns("SALEMC").DefaultCellStyle.Format = "0.00"
@@ -376,7 +379,7 @@ Public Class TagWiseProfitLoss
 
 
             If .Columns.Contains("RESULT") Then .Columns("RESULT").Visible = False
-            For cnt As Integer = 20 To dgv.ColumnCount - 1
+            For cnt As Integer = 24 To dgv.ColumnCount - 1
                 .Columns(cnt).Visible = False
             Next
             If cmbGroupBy.Text = "NONE" Then
