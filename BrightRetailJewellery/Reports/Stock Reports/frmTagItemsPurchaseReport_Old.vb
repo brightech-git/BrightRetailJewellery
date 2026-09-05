@@ -96,7 +96,7 @@ Public Class frmTagItemsPurchaseReport_Old
             strSql += vbCrLf + " SELECT SNO  FROM " & cnAdminDb & "..ITEMLOT WHERE SNO IN("
             strSql += vbCrLf + " SELECT LOTSNO FROM " & cnAdminDb & "..ITEMTAG WHERE TAGNO=T.TAGNO ))))TRANNO"
         End If
-        
+
         strSql += vbCrLf + " ,T.STYLENO,T.PCS,T.GRSWT AS TAGGRSWT,(ISNULL(P.PURNETWT,0)+ISNULL(P.PURLESSWT,0)) AS PURGRSWT,T.NETWT AS TAGNETWT,P.PURNETWT PURNETWT"
         'strSql += vbCrLf + " ,ISNULL((SELECT PTAX FROM " & cnAdminDb & "..CATEGORY WHERE CATCODE = (SELECT CATCODE FROM " & cnAdminDb & "..ITEMMAST WHERE ITEMID = T.ITEMID)),0)PURTAX"
         strSql += vbCrLf + " ,T.TRANINVNO,T.SUPBILLNO"
@@ -1223,6 +1223,9 @@ Public Class frmTagItemsPurchaseReport_Old
             Exit Sub
         End If
         dtGrid.Columns("TAGIMAGE").SetOrdinal(2)
+        If dtGrid.Columns.Contains("ITEMID") Then
+            dtGrid.Columns("ITEMID").SetOrdinal(3)
+        End If
         objGridShower = New frmGridDispDia
         objGridShower.Name = Me.Name
         objGridShower.gridView.RowTemplate.Height = 21
@@ -1338,7 +1341,7 @@ Public Class frmTagItemsPurchaseReport_Old
             .Columns("ITEM").Visible = False
             .Columns("KEYNO").Visible = False
             .Columns("TAGVAL").Visible = False
-            .Columns("ITEMID").Visible = False
+            '.Columns("ITEMID").Visible = False
             .Columns("ORDERITEM").Visible = False
 
             .Columns("GRANDTOTAL").HeaderText = "PURVALUES"

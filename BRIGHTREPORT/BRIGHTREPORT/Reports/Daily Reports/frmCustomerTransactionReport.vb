@@ -240,6 +240,7 @@ Public Class frmCustomerTransactionReport
         strSql += vbCrLf + $",@TOTRANDATE    = NULL"
 
         cmd = New OleDb.OleDbCommand(strSql, cn)
+        cmd.CommandTimeout = 180
         da = New OleDbDataAdapter(cmd)
         dtSource = New DataTable
         da.Fill(dtSource)

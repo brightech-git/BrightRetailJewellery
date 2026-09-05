@@ -1068,35 +1068,6 @@ Public Class Main
     End Function
 
     Private Sub tStripItemTag_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tStripItemTag.Click
-        Dim stkdwnlddays As Integer = GetAdmindbSoftValue("STKDWNLDTHRESHDAYS")
-        Dim strSql As String = ""
-        If stkdwnlddays > 0 Then
-            Dim costId As String = GetAdmindbSoftValue("COSTID")
-            Dim dt As New DataTable
-            strSql = $";with cte as("
-            strSql += vbCrLf + $"select COSTID,COUNT(tagno) TAGCOUNT from {cnAdminDb}..TITEMTAG"
-            strSql += vbCrLf + $"where ISNULL(issdate,'') = '' and COSTID <> '{costId}'"
-            strSql += vbCrLf + $"group by COSTID,transferdate"
-            strSql += vbCrLf + $"having DATEDIFF(day,transferdate,GETDATE()) > {stkdwnlddays}"
-            strSql += vbCrLf + $")"
-            strSql += vbCrLf + $"select cte.COSTID,costcentre.COSTNAME,sum(TAGCOUNT) TAGCOUNT"
-            strSql += vbCrLf + $"from cte"
-            strSql += vbCrLf + $"join {cnAdminDb}..costcentre on cte.COSTID = COSTCENTRE.COSTID"
-            strSql += vbCrLf + $"group by cte.COSTID,costcentre.COSTNAME"
-            strSql += vbCrLf + $"order by TAGCOUNT desc"
-            da = New OleDbDataAdapter(strSql, cn)
-            da.Fill(dt)
-            If dt.Rows.Count > 0 Then
-                strSql = $"Stock exceeds than threshold of {stkdwnlddays} days is still not downloaded"
-                For Each dr As DataRow In dt.Rows
-                    strSql += vbCrLf + $"{dr("COSTNAME")} - {dr("TAGCOUNT")} items"
-                Next
-                strSql += vbCrLf + $"Kinldy download it and proceed."
-                MessageBox.Show($"{strSql}", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                Exit Sub
-            End If
-        End If
-
         If Not CheckGoldRate() Then Exit Sub
         funcShow(frmItemTag, "ITEM TAG")
     End Sub
@@ -1915,6 +1886,34 @@ Public Class Main
 
 
     Private Sub tStripTagTransfer_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles tStripTagTransfer.Click
+        Dim stkdwnlddays As Integer = GetAdmindbSoftValue("STKDWNLDTHRESHDAYS")
+        Dim strSql As String = ""
+        If stkdwnlddays > 0 Then
+            Dim costId As String = GetAdmindbSoftValue("COSTID")
+            Dim dt As New DataTable
+            strSql = $";with cte as("
+            strSql += vbCrLf + $"select COSTID,COUNT(tagno) TAGCOUNT from {cnAdminDb}..TITEMTAG"
+            strSql += vbCrLf + $"where ISNULL(issdate,'') = '' and COSTID <> '{costId}'"
+            strSql += vbCrLf + $"group by COSTID,transferdate"
+            strSql += vbCrLf + $"having DATEDIFF(day,transferdate,GETDATE()) >= {stkdwnlddays}"
+            strSql += vbCrLf + $")"
+            strSql += vbCrLf + $"select cte.COSTID,costcentre.COSTNAME,sum(TAGCOUNT) TAGCOUNT"
+            strSql += vbCrLf + $"from cte"
+            strSql += vbCrLf + $"join {cnAdminDb}..costcentre on cte.COSTID = COSTCENTRE.COSTID"
+            strSql += vbCrLf + $"group by cte.COSTID,costcentre.COSTNAME"
+            strSql += vbCrLf + $"order by TAGCOUNT desc"
+            da = New OleDbDataAdapter(strSql, cn)
+            da.Fill(dt)
+            If dt.Rows.Count > 0 Then
+                strSql = $"Stock exceeding the threshold from the last {stkdwnlddays} days has not been downloaded yet."
+                For Each dr As DataRow In dt.Rows
+                    strSql += vbCrLf + $"{dr("COSTNAME")} - {dr("TAGCOUNT")} items"
+                Next
+                strSql += vbCrLf + $"Kinldy download it and proceed."
+                MessageBox.Show($"{strSql}", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+        End If
         funcShow(frmTagTransfer, "TAG TRANSFER")
         'funcShow(frmStkTransfer, "STOCK TRANSFER")
     End Sub

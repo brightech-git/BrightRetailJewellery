@@ -234,7 +234,7 @@ Public Class frmTagItemsPurchaseReport
         strSql += vbCrLf + "  "
         strSql += vbCrLf + "  IF (SELECT TOP 1 1 FROM TEMPTABLEDB..SYSOBJECTS WHERE NAME = 'TEMPPURTAG') > 0 DROP TABLE TEMPTABLEDB..TEMPPURTAG"
         strSql += vbCrLf + "  SELECT "
-        strSql += vbCrLf + "  PARTICULAR, ITEMNAME, TAGNO, STYLENO, DESIGNERNAME, PURDATE"
+        strSql += vbCrLf + "  PARTICULAR, ITEMNAME, ITEMID, TAGNO, DESIGNERNAME, PURDATE"
         strSql += vbCrLf + "  ,TRANINVNO,SUPBILLNO,PURITY,PCS"
         strSql += vbCrLf + "  ,MODCAL"
         strSql += vbCrLf + "  ,Sum(GRSWT) as GRSWT "
@@ -247,7 +247,7 @@ Public Class frmTagItemsPurchaseReport
         strSql += vbCrLf + "  ,SUM(ISNULL(DIAVALUE,0))DIAVALUE"
         strSql += vbCrLf + "  ,SUM(ISNULL(MISVALUE,0))MISVALUE"
         strSql += vbCrLf + "  ,SUM(ISNULL(PURMC,0))PURMC,SUM(ISNULL(PURTAX,0))PURTAX"
-        strSql += vbCrLf + "  ,ISSAMOUNT,ISSDATE,SNO,ITEMID,TAGVAL,ITEMORDER,RESULT,COLHEAD"
+        strSql += vbCrLf + "  ,ISSAMOUNT,ISSDATE,SNO,STYLENO,TAGVAL,ITEMORDER,RESULT,COLHEAD"
         strSql += vbCrLf + "  INTO TEMPTABLEDB..TEMPPURTAG "
         strSql += vbCrLf + "  FROM TEMPTABLEDB..TEMPPURTAGVIEW"
         strSql += vbCrLf + "  GROUP BY"
@@ -476,7 +476,7 @@ Public Class frmTagItemsPurchaseReport
             .Columns("ITEMORDER").Visible = False
             .Columns("TRANINVNO").Visible = False
             .Columns("SNO").Visible = False
-            .Columns("ITEMID").Visible = False
+            '.Columns("ITEMID").Visible = False
             .Columns("TAGVAL").Visible = False
             .Columns("DESIGNERNAME").HeaderText = "DESIGNER"
             .Columns("PARTICULAR").Width = 175
