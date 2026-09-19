@@ -23,6 +23,10 @@
   ,@TOTRANDATE    DATE          = NULL /* extra filter on the finished result */  
   ,@WITHREPORTRESULT VARCHAR(1) = 'N'  /* 'Y' = also return the raw report set*/  
   ,@ITEMNAME      NVARCHAR(200) = ''   /* prefix match on item name (IITEMNAME) */  
+  ,@CARD          NUMERIC(18,2) = NULL /* exact match on CARD amount          */  
+  ,@CREDIT        NUMERIC(18,2) = NULL /* exact match on CREDIT amount        */  
+  ,@JND           NUMERIC(18,2) = NULL /* exact match on JND amount           */  
+  ,@ADVANCE       NUMERIC(18,2) = NULL /* exact match on ADVANCE amount       */  
   )       
   AS         
   BEGIN      
@@ -619,7 +623,7 @@ TNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,O.AMOUNT IAMOUNT'*/
           SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT HANDLOG,AMOUNT DISCOUNT,AMOUNT CHITCARD,AMOUNT GIFTVOUCHER,AMOUNT CREDIT,AMOUNT JND'      
           SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT TOTAL,BATCHNO'      
           SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(100),'''') CUSTOMER ,CONVERT(VARCHAR(250),'''') ADDRESS,CONVERT(VARCHAR(30),'''') PHONENO,CONVERT(VARCHAR(20),'''') PAN,CONVERT(VARCHAR(30),'''') GSTNO'      
-          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CANCEL,CONVERT(VARCHAR(100),'')EMPNAME,CONVERT(VARCHAR(100),'')USERNAME'      
+          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CANCEL,CONVERT(VARCHAR(100),'''') EMPNAME,CONVERT(VARCHAR(100),'''') USERNAME'      
           SELECT @STRQRY=@STRQRY + CHAR(13) + 'INTO TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT'      
           SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM  ISSUE WHERE 1<>1'      
           SELECT @STRQRY=@STRQRY + CHAR(13) + 'INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT'      
@@ -793,7 +797,7 @@ SUM(BALANCE),SUM(CASH),SUM(CARD),SUM(CHEQUE)'
              SELECT @STRQRY=@STRQRY + CHAR(13) + ','' ''RITEMNAME,0 RPCS,0.00 RGRSWT,0.00 RNETWT,0.00 RLESSWT,0.00 RSTNWT,0.00 RDIAWT,0 RPURITY,0.00 RWASTAGE,0.00 RMCHARGE,0 RSTNAMT,0 RDIAAMT'    
              SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 RAMOUNT,0 RSGST,0 RCGST,0 RIGST,0 RNETAMOUNT'      
              SELECT @STRQRY=@STRQRY + CHAR(13) + ',0.0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,(I.DISCOUNT+FIN_DISCOUNT) DISCOUNT,0 CHITCARD,0 JND,0 GIFTVOUCHER,0 CREDIT,0 TOTAL'      
-             SELECT @STRQRY=@STRQRY + CHAR(13) + ',I.BATCHNO,1 RESULT,PNAME CUSTOMER,ISNULL(DOORNO,'''') + ISNULL(ADDRESS1,'''') + ISNULL(ADDRESS2,'''') + '' '' + ISNULL(AREA,'''') + '' '' + ISNULL(CITY,'''') + '' '' + ISNULL(PINCODE,'''') ADDRESS,MOBILEPHONENO,P.PAN,P.GSTNO'      
+             SELECT @STRQRY=@STRQRY + CHAR(13) + ',I.BATCHNO,1 RESULT,PNAME CUSTOMER,ISNULL(DOORNO,'''') + ISNULL(ADDRESS1,'''') + ISNULL(ADDRESS2,'''') + '' '' + ISNULL(AREA,'''') + '' '' + ISNULL(CITY,'''') + '' '' + ISNULL(PINCODE,'''') ADDRESS,MOBILE PHONENO,P.PAN,P.GSTNO'      
              SELECT @STRQRY=@STRQRY + CHAR(13) + ',I.CANCEL,(SELECT EMPNAME FROM '+@ADMINDB+'..EMPMASTER WHERE EMPID=I.EMPID)EMPNAME,(SELECT USERNAME FROM '+@ADMINDB+'..USERMASTER WHERE USERID=I.USERID)USERNAME'      
              SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM   ISSUE AS I  '    
              SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON C.BATCHNO = I.BATCHNO '    
@@ -1224,6 +1228,10 @@ SUM(BALANCE),SUM(CASH),SUM(CARD),SUM(CHEQUE)'
                             + CHAR(13) + N'AND   (@P_ADDRESS  IS NULL OR ADDRESS  LIKE @P_ADDRESS )'    
                             + CHAR(13) + N'AND   (@P_BILLNO   IS NULL OR BILLNO   LIKE @P_BILLNO  )'    
                             + CHAR(13) + N'AND   (@P_ITEMNAME IS NULL OR IITEMNAME LIKE @P_ITEMNAME)'    
+                            + CHAR(13) + N'AND   (@P_CARD    IS NULL OR ISNULL(CARD  ,0) = @P_CARD  )'    
+                            + CHAR(13) + N'AND   (@P_CREDIT  IS NULL OR ISNULL(CREDIT,0) = @P_CREDIT)'    
+                            + CHAR(13) + N'AND   (@P_JND     IS NULL OR ISNULL(JND   ,0) = @P_JND   )'    
+                            + CHAR(13) + N'AND   (@P_ADVANCE IS NULL OR ISNULL(ADVANCE,0) = @P_ADVANCE)'    
                             + CHAR(13) + N'AND   (@P_FROMDATE IS NULL OR TRANDATE >= @P_FROMDATE)'    
                             + CHAR(13) + N'AND   (@P_TODATE   IS NULL OR TRANDATE <  DATEADD(DAY,1,@P_TODATE))'    
                             + CHAR(13) + N'ORDER BY SEP,BATCHNO,KEYNO'    
@@ -1233,7 +1241,9 @@ SUM(BALANCE),SUM(CASH),SUM(CARD),SUM(CHEQUE)'
                               ,@P_PAN      NVARCHAR(60) ,@P_GSTNO   NVARCHAR(60)    
                               ,@P_ADDRESS  NVARCHAR(510),@P_BILLNO  NVARCHAR(60)    
                               ,@P_FROMDATE DATE         ,@P_TODATE  DATE    
-                              ,@P_ITEMNAME NVARCHAR(210)'    
+                              ,@P_ITEMNAME NVARCHAR(210)    
+                              ,@P_CARD     NUMERIC(18,2),@P_CREDIT NUMERIC(18,2)    
+                              ,@P_JND      NUMERIC(18,2),@P_ADVANCE NUMERIC(18,2)'    
                             ,@P_CUSTOMER = @L_CUSTOMER    
                             ,@P_PHONENO  = @L_PHONENO    
                             ,@P_PAN      = @L_PAN    
@@ -1243,4 +1253,8 @@ SUM(BALANCE),SUM(CASH),SUM(CARD),SUM(CHEQUE)'
                             ,@P_FROMDATE = @FROMTRANDATE    
                             ,@P_TODATE   = @TOTRANDATE    
                             ,@P_ITEMNAME = @L_ITEMNAME    
+                            ,@P_CARD     = @CARD    
+                            ,@P_CREDIT   = @CREDIT    
+                            ,@P_JND      = @JND    
+                            ,@P_ADVANCE  = @ADVANCE    
   END   

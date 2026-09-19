@@ -210,6 +210,12 @@ Public Class frmCustomerTransactionReport
     End Sub
     Private Sub btnView_Search_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnView_Search.Click
         gridviewDetail.Visible = False
+        ' CARD / CREDIT / JND / ADVANCE are numeric filters - reject text before building the EXEC
+        If ",CARD,CREDIT,JND,ADVANCE,".Contains("," & cmbSearchKey.Text & ",") AndAlso txtSearch.Text.Trim <> "" AndAlso Not IsNumeric(txtSearch.Text.Trim) Then
+            MsgBox(cmbSearchKey.Text & " search needs a numeric amount...", MsgBoxStyle.Information)
+            txtSearch.Focus()
+            Exit Sub
+        End If
         If optAsOn.Checked Then
             strSql = $"EXEC {cnStockDb}..SP_RPT_BILLWISETRANSACTION_SEARCHASON"
             strSql += vbCrLf + $"@ASONDATE           = '{dtpFrom.Value.ToString("yyyy-MM-dd")}'"
@@ -239,6 +245,10 @@ Public Class frmCustomerTransactionReport
         strSql += vbCrLf + $",@FROMTRANDATE  = NULL"
         strSql += vbCrLf + $",@TOTRANDATE    = NULL"
         strSql += vbCrLf + $",@ITEMNAME  = '{IIf(cmbSearchKey.Text = "ITEMNAME", txtSearch.Text.Trim, "")}'"
+        strSql += vbCrLf + $",@CARD          = {SearchAmount("CARD")}"
+        strSql += vbCrLf + $",@CREDIT        = {SearchAmount("CREDIT")}"
+        strSql += vbCrLf + $",@JND           = {SearchAmount("JND")}"
+        strSql += vbCrLf + $",@ADVANCE       = {SearchAmount("ADVANCE")}"
 
         cmd = New OleDb.OleDbCommand(strSql, cn)
         cmd.CommandTimeout = 180
@@ -248,6 +258,7 @@ Public Class frmCustomerTransactionReport
         If dtSource.Rows.Count > 0 Then
             gridView.DataSource = Nothing
             gridView.DataSource = dtSource
+            FormatNumericColumns(gridView)
             tabMain.SelectedTab = tabView
 
             Dim tit As String
@@ -273,8 +284,41 @@ Public Class frmCustomerTransactionReport
         cmbSearchKey.Items.Add("ADDRESS")
         cmbSearchKey.Items.Add("BILLNO")
         cmbSearchKey.Items.Add("ITEMNAME")
+        cmbSearchKey.Items.Add("CARD")
+        cmbSearchKey.Items.Add("CREDIT")
+        cmbSearchKey.Items.Add("JND")
+        cmbSearchKey.Items.Add("ADVANCE")
         cmbSearchKey.Text = "MOBILENO"
     End Function
+
+    ' Unlike the text filters, an unselected amount filter must be NULL and not an
+    ' empty string - an empty string reaches the NUMERIC parameter as 0 and would
+    ' wrongly restrict the result to zero-amount rows.
+    Private Function SearchAmount(ByVal key As String) As String
+        If cmbSearchKey.Text <> key Then Return "NULL"
+        Dim s As String = txtSearch.Text.Trim
+        If s = "" OrElse Not IsNumeric(s) Then Return "NULL"
+        Return CDec(s).ToString("0.00", Globalization.CultureInfo.InvariantCulture)
+    End Function
+
+    ' The procedure returns every weight / rate / amount column as a numeric type,
+    ' so align on the bound column type rather than on a hard-coded name list - that
+    ' stays correct if the procedure's column list changes. Scale comes from the
+    ' column itself, so only the columns whose stored scale differs from what the
+    ' report should show need an explicit format.
+    Private Sub FormatNumericColumns(ByVal grid As DataGridView)
+        For Each col As DataGridViewColumn In grid.Columns
+            If col.ValueType Is Nothing Then Continue For
+            Select Case Type.GetTypeCode(col.ValueType)
+                Case TypeCode.Decimal, TypeCode.Double, TypeCode.Single, TypeCode.Int16, TypeCode.Int32, TypeCode.Int64, TypeCode.Byte, TypeCode.SByte, TypeCode.UInt16, TypeCode.UInt32, TypeCode.UInt64
+                    col.DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+                    col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight
+            End Select
+        Next
+
+        ' RATE is NUMERIC(15,4) in this database, so it renders as .0000 - show 2 decimals.
+        If grid.Columns.Contains("IRATE") Then grid.Columns("IRATE").DefaultCellStyle.Format = "0.00"
+    End Sub
 
     Private Sub frmItemWiseStock_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles Me.KeyPress
         If e.KeyChar = Chr(Keys.Escape) And tabMain.SelectedTab.Name = tabView.Name Then
