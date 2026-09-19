@@ -116581,6 +116581,2518 @@ QRYEXEC:
         cmd.ExecuteNonQuery()
     End Function
 
+    Function funcSP1_BillwiseTransactionReportSearch() As Integer
+        strSql = " IF(SELECT 1 FROM SYSOBJECTS WHERE NAME='SP_RPT_BILLWISETRANSACTION_SEARCH')>0"
+        strSql += vbCrLf + "  	DROP PROCEDURE SP_RPT_BILLWISETRANSACTION_SEARCH"
+        cmd = New OleDbCommand(strSql, cn, tran)
+        cmd.ExecuteNonQuery()
+        strSql = Nothing
+        strSql = "CREATE PROCEDURE SP_RPT_BILLWISETRANSACTION_SEARCH"
+        strSql += vbCrLf + " (      "
+        strSql += vbCrLf + "  @DATE  VARCHAR(12)/* -FROM DATE  */    "
+        strSql += vbCrLf + "  ,@TODATE  VARCHAR(12)/* -TO DATE  */       "
+        strSql += vbCrLf + "  ,@COSTCENTRE VARCHAR(50)/* -COST NAME FROM COSTCENTRE TABLE  */         "
+        strSql += vbCrLf + "  ,@NODEID VARCHAR(50)/* -NODEID FROM ISSUE AND RECEIPT TABLE  */        "
+        strSql += vbCrLf + "  ,@SYSTEMID VARCHAR(20)/* -GIVE THE SYSTEMID FOR TEMPORARY TABLES  */        "
+        strSql += vbCrLf + "  ,@COMPANYID VARCHAR(500)/*  GIVE THE COMPANYID*/      "
+        strSql += vbCrLf + "  ,@WITHORD VARCHAR(1)/*  ORDER DETAIL*/      "
+        strSql += vbCrLf + "  ,@WITHCANBILL VARCHAR(1)/*WITH CANCEL BILL*/      "
+        strSql += vbCrLf + "  ,@ADMINDB VARCHAR(10)/*WITH CANCEL BILL*/     "
+        strSql += vbCrLf + "  ,@METAL VARCHAR(50)     "
+        strSql += vbCrLf + "  ,@CASHID VARCHAR(50)     "
+        strSql += vbCrLf + "  ,@BILLNO VARCHAR(50)    "
+        strSql += vbCrLf + "  ,@WITHAPPROVAL VARCHAR(1)/*WITH APPROVAL ISSUE AND RECEIPT*/    "
+        strSql += vbCrLf + "  /* ---- parameters merged in from SP_SEARCH_CustomerTransation ------------ */  "
+        strSql += vbCrLf + "  ,@CUSTOMER      NVARCHAR(200) = ''   /* partial match on customer name      */  "
+        strSql += vbCrLf + "  ,@PHONENO       NVARCHAR(50)  = ''   /* partial match on mobile / phone     */  "
+        strSql += vbCrLf + "  ,@PAN           NVARCHAR(50)  = ''   /* partial match on PAN                */  "
+        strSql += vbCrLf + "  ,@GSTNO         NVARCHAR(50)  = ''   /* partial match on GST number         */  "
+        strSql += vbCrLf + "  ,@ADDRESS       NVARCHAR(500) = ''   /* partial match on address            */  "
+        strSql += vbCrLf + "  ,@SEARCHBILLNO  NVARCHAR(50)  = ''   /* partial match on bill no (result)   */  "
+        strSql += vbCrLf + "  ,@FROMTRANDATE  DATE          = NULL /* extra filter on the finished result */  "
+        strSql += vbCrLf + "  ,@TOTRANDATE    DATE          = NULL /* extra filter on the finished result */  "
+        strSql += vbCrLf + "  ,@WITHREPORTRESULT VARCHAR(1) = 'N'  /* 'Y' = also return the raw report set*/  "
+        strSql += vbCrLf + "  ,@ITEMNAME      NVARCHAR(200) = ''   /* prefix match on item name (IITEMNAME) */  "
+        strSql += vbCrLf + "  )       "
+        strSql += vbCrLf + "  AS         "
+        strSql += vbCrLf + "  BEGIN      "
+        strSql += vbCrLf + "          SET NOCOUNT ON;    "
+        strSql += vbCrLf + "          DECLARE @STRQRY VARCHAR(MAX)        "
+        strSql += vbCrLf + "          /*  used by the merged search block at the end of the procedure  */    "
+        strSql += vbCrLf + "          DECLARE @SEARCHSQL NVARCHAR(MAX)    "
+        strSql += vbCrLf + "          DECLARE @COLLIST   NVARCHAR(MAX)    "
+        strSql += vbCrLf + "          DECLARE @L_CUSTOMER NVARCHAR(210), @L_PHONENO NVARCHAR(60)    "
+        strSql += vbCrLf + "                 ,@L_PAN      NVARCHAR(60) , @L_GSTNO   NVARCHAR(60)    "
+        strSql += vbCrLf + "                 ,@L_ADDRESS  NVARCHAR(510), @L_BILLNO  NVARCHAR(60)    "
+        strSql += vbCrLf + "                 ,@L_ITEMNAME NVARCHAR(210)    "
+        strSql += vbCrLf + "          IF OBJECT_ID('TEMPDB..#COMPANY', 'U') IS NOT NULL DROP TABLE #COMPANY         "
+        strSql += vbCrLf + "          CREATE TABLE #COMPANY (COMPANYID VARCHAR(3))        "
+        strSql += vbCrLf + "          DECLARE @TCOMPANY VARCHAR(50)        "
+        strSql += vbCrLf + "          IF CHARINDEX(',',@COMPANYID)=0        "
+        strSql += vbCrLf + "          BEGIN       "
+        strSql += vbCrLf + "             INSERT INTO #COMPANY (COMPANYID) SELECT @COMPANYID       "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "          WHILE CHARINDEX(',',@COMPANYID)>0      "
+        strSql += vbCrLf + "          BEGIN        "
+        strSql += vbCrLf + "             SET @TCOMPANY=LEFT(@COMPANYID,CHARINDEX(',',@COMPANYID)-1)       "
+        strSql += vbCrLf + "             SET @COMPANYID=RIGHT(@COMPANYID,LEN(@COMPANYID)-CHARINDEX(',',@COMPANYID))      "
+        strSql += vbCrLf + "             IF @COMPANYID <>'' AND CHARINDEX(',',@COMPANYID)=0       "
+        strSql += vbCrLf + "             BEGIN        "
+        strSql += vbCrLf + "              SET @COMPANYID= @COMPANYID + ','      "
+        strSql += vbCrLf + "             END       "
+        strSql += vbCrLf + "             INSERT INTO #COMPANY (COMPANYID) SELECT @TCOMPANY      "
+        strSql += vbCrLf + "          END         "
+        strSql += vbCrLf + "        DECLARE @MINUSDISCOUNT AS VARCHAR(1)    "
+        strSql += vbCrLf + "          DECLARE @ORDERDETAIL VARCHAR(1)    "
+        strSql += vbCrLf + "        SELECT @MINUSDISCOUNT=CTLTEXT FROM " & cnAdminDb & "..SOFTCONTROL WHERE CTLID='MINUSDISCOUNT_BILLTRAN'    "
+        strSql += vbCrLf + "          SELECT @ORDERDETAIL=CTLTEXT FROM " & cnAdminDb & "..SOFTCONTROL WHERE CTLID='RPT_BILLWISE_ORDERDETAIL'    "
+        strSql += vbCrLf + "        SELECT @STRQRY=''        "
+        strSql += vbCrLf + "          SELECT @STRQRY=' IF (SELECT 1 FROM TEMPTABLEDB..SYSOBJECTS WHERE NAME = ''TEMP'+@SystemId+'FINAL'')>0'         "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'DROP TABLE TEMPTABLEDB..TEMP'+@SystemId+'FINAL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'CONVERT(VARCHAR(50),TRANNO) BILLNO,TRANDATE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(50),TRANTYPE)AS TRANTYPE,CONVERT(VARCHAR(50),TRANTYPE)AS TRANTYPE1,REMARK1 RUNNO,REMARK1 IITEMNAME,REMARK1 SUBITEMNAME,REMARK1 HSN'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR,TAGNO) ITAGNO,REMARK1 IITEMCTRNAME,CONVERT(VARCHAR(100),'''') TAGTYPE,CONVERT(VARCHAR(100),'''') CATEGORY,PCS IPCS'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',GRSWT IGRSWT,LESSWT ILESSWT,NETWT INETWT,GRSWT IADVWT,GRSWT IBALWT,GRSWT ISTNWT,GRSWT IDIAWT,CONVERT(NUMERIC(15,2),0) AS IWASTPER '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',WASTAGE IWASTAGE,MCHARGE IMCHARGE,STNAMT ISTNAMT,STNAMT IDIAAMT,MISCAMT IMISCAMT'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',TAX SGST,TAX CGST,TAX IGST,TAX GST'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT IAMOUNT'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',REMARK1 RITEMNAME,PCS RPCS'         "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',GRSWT RGRSWT,LESSWT RLESSWT,NETWT RNETWT,NETWT RSTNWT,NETWT RDIAWT,NULL RPURITY,WASTAGE RWASTAGE,MCHARGE RMCHARGE,RATE IRATE,PURITY AS IPURITY'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',STNAMT RSTNAMT,STNAMT RDIAAMT,AMOUNT RAMOUNT,TAX RSGST,TAX RCGST,TAX RIGST,AMOUNT RNETAMOUNT,AMOUNT BALANCE,AMOUNT CASH'         "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT CARD,AMOUNT CHEQUE,AMOUNT ROUNDOFF,AMOUNT ADVANCE'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT HANDLOG,AMOUNT DISCOUNT,AMOUNT DISCOUNT1,AMOUNT CHITCARD,AMOUNT GIFTVOUCHER,AMOUNT CREDIT,AMOUNT JND'         "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT TOTAL,BATCHNO,PCS RESULT,PCS SEP,CONVERT(VARCHAR(3),NULL)COLHEAD'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(100),'''') CUSTOMER '    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(250),'''') ADDRESS,CONVERT(VARCHAR(30),'''') PHONENO,CONVERT(VARCHAR(20),'''') PAN,CONVERT(VARCHAR(30),'''') GSTNO,CANCEL'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(100),'''') EMPNAME,CONVERT(VARCHAR(100),'''') USERNAME'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM  ISSUE WHERE 1<>1'      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          SELECT @STRQRY=' ALTER TABLE TEMPTABLEDB..TEMP'+@SystemId+'FINAL ADD KEYNO INT IDENTITY(0,1)'     "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' ALTER TABLE TEMPTABLEDB..TEMP'+@SystemId+'FINAL ALTER COLUMN CANCEL VARCHAR(10)'     "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          /* - INSERTING SALES AND PURCHASE */      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'BILLNO,TRANDATE,IITEMNAME,SUBITEMNAME,HSN,TRANTYPE,TRANTYPE1,RUNNO,ITAGNO,IITEMCTRNAME,TAGTYPE,CATEGORY,IPCS,IGRSWT,ILESSWT,INETWT,IADVWT,IBALWT,ISTNWT,IDIAWT,IWASTPER,IWASTAGE,IMCHARGE,IRATE,IPURITY,ISTNAMT,IDIAAMT,IMISCAMT'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SGST,CGST,IGST,GST,IAMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',RITEMNAME,RPCS,RGRSWT,RLESSWT,RNETWT,RSTNWT,RDIAWT,RPURITY,RWASTAGE,RMCHARGE,RSTNAMT,RDIAAMT,RAMOUNT,RSGST,RCGST,RIGST,RNETAMOUNT,BALANCE,CASH'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CARD,CHEQUE,ROUNDOFF,ADVANCE,HANDLOG,DISCOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CHITCARD,GIFTVOUCHER,CREDIT,JND,TOTAL,BATCHNO,RESULT,SEP,CUSTOMER,ADDRESS,PHONENO,PAN,GSTNO,CANCEL,EMPNAME,USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ')'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' SELECT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'BILLNO,TRANDATE,IITEMNAME,SUBITEMNAME,HSN,TRANTYPE,TRANTYPE1,RUNNO,ITAGNO,IITEMCTRNAME,TAGTYPE,CATEGORY,IPCS,IGRSWT,ILESSWT,INETWT,IADVWT,IBALWT,ISTNWT,IDIAWT,IWASTPER,IWASTAGE,IMCHARGE,IRATE,IPURITY,ISTNAMT,IDIAAMT,IMISCAMT'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SGST,CGST,IGST,GST,IAMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',RITEMNAME,RPCS,RGRSWT,RLESSWT,RNETWT,RSTNWT,RDIAWT,RPURITY,RWASTAGE,RMCHARGE,RSTNAMT,RDIAAMT,RAMOUNT,RSGST,RCGST,RIGST,RNETAMOUNT,0 BALANCE,CASH'      "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + ',CARD,CHEQUE,ROUNDOFF,ADVANCE,HANDLOG,DISCOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CHITCARD,GIFTVOUCHER,CREDIT,JND,TOTAL,BATCHNO,RESULT,1 SEP,CUSTOMER,ADDRESS,PHONENO,PAN,GSTNO,CANCEL,EMPNAME,USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'CONVERT(VARCHAR,I.TRANNO) AS BILLNO,I.TRANDATE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT ITEMNAME FROM   '+@ADMINDB+'..ITEMMAST WHERE ITEMID =I.ITEMID) AS IITEMNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUBITEMNAME FROM   '+@ADMINDB+'..SUBITEMMAST WHERE SUBITEMID =I.SUBITEMID) AS SUBITEMNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT HSN FROM   '+@ADMINDB+'..ITEMMAST WHERE ITEMID =I.ITEMID) AS HSN'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN I.TRANTYPE = ''SA'' THEN ''SALES'' WHEN I.TRANTYPE = ''RD'' THEN ''REPAIR DELIVERY'' WHEN I.TRANTYPE = ''OD'' THEN ''ORDER DELIVERY'' END AS TRANTYPE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',I.TRANTYPE AS TRANTYPE1'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT TOP 1 SUBSTRING(RUNNO,6,20) FROM   '+@ADMINDB+'..OUTSTANDING WHERE BATCHNO=I.BATCHNO ) AS RUNNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR,TAGNO) AS ITAGNO,(SELECT ITEMCTRNAME FROM   '+@ADMINDB+'..ITEMCOUNTER WHERE ITEMCTRID =I.ITEMCTRID) AS IITEMCTRNAME'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SNAME FROM '+@ADMINDB+'..ITEMTYPE WHERE ITEMTYPEID IN(SELECT ITEMTYPEID FROM '+@ADMINDB+'..ITEMTAG WHERE TAGNO = I.TAGNO AND ITEMID= I.ITEMID ))TAGTYPE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT CATNAME FROM   '+@ADMINDB+'..CATEGORY WHERE CATCODE =I.CATCODE) AS CATEGORY'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',PCS AS IPCS,I.GRSWT AS IGRSWT,LESSWT AS ILESSWT,NETWT AS INETWT '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN I.TRANTYPE=''OD'' THEN (SELECT SUM(GRSWT) FROM '+@ADMINDB+'..OUTSTANDING WHERE BATCHNO=I.BATCHNO) ELSE 0 END AS IADVWT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN I.TRANTYPE=''OD'' THEN (I.GRSWT-ISNULL((SELECT SUM(GRSWT) FROM '+@ADMINDB+'..OUTSTANDING WHERE BATCHNO=I.BATCHNO),0)) ELSE 0 END IBALWT'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNWT) FROM ISSSTONE WHERE ISSSNO=I.SNO AND BATCHNO=I.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''T''))ISTNWT'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNWT) FROM ISSSTONE WHERE ISSSNO=I.SNO AND BATCHNO=I.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''D''))IDIAWT'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',ISNULL(CONVERT(NUMERIC(15,2),(WASTAGE/CASE WHEN I.GRSWT <> 0  THEN I.GRSWT ELSE 1 END)*100),0) AS IWASTPER'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',WASTAGE AS IWASTAGE,MCHARGE AS IMCHARGE,RATE IRATE,PURITY IPURITY '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNAMT) FROM ISSSTONE WHERE ISSSNO=I.SNO AND BATCHNO=I.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''T''))ISTNAMT'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNAMT) FROM ISSSTONE WHERE ISSSNO=I.SNO AND BATCHNO=I.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''D''))IDIAAMT'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,MISCAMT IMISCAMT'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=I.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TAXID=''SG'' AND TRANTYPE=I.TRANTYPE) AS SGST'    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=I.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TAXID=''CG'' AND TRANTYPE=I.TRANTYPE) AS CGST'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=I.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TAXID=''IG'' AND TRANTYPE=I.TRANTYPE) AS IGST'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=I.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TRANTYPE=I.TRANTYPE) AS GST'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT+I.TAX AS IAMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' ''RITEMNAME,0 RPCS,0.00 RGRSWT,0.00 RNETWT,0.00 RLESSWT,0.00 RSTNWT,0.00 RDIAWT,0 RPURITY,0.00 RWASTAGE,0.00 RMCHARGE,0 RSTNAMT,0 RDIAAMT'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 RAMOUNT,0 RSGST,0 RCGST,0 RIGST,0 RNETAMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0.0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,(I.DISCOUNT+FIN_DISCOUNT) DISCOUNT,0 CHITCARD,0 JND,0 GIFTVOUCHER,0 CREDIT,0 TOTAL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',I.BATCHNO,1 RESULT,PNAME CUSTOMER,ISNULL(DOORNO,'''') + ISNULL(ADDRESS1,'''') + ISNULL(ADDRESS2,'''') + '' '' + ISNULL(AREA,'''') + '' '' + ISNULL(CITY,'''') + '' '' + ISNULL(PINCODE,'''') ADDRESS,MOBILE PHONENO,P.PAN,P.GSTNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',I.CANCEL,(SELECT EMPNAME FROM '+@ADMINDB+'..EMPMASTER WHERE EMPID=I.EMPID)EMPNAME,(SELECT USERNAME FROM '+@ADMINDB+'..USERMASTER WHERE USERID=I.USERID)USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM   ISSUE AS I  '    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON C.BATCHNO = I.BATCHNO '    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE (I.TRANTYPE IN (''SA'',''RD'') OR (I.TRANTYPE =''OD'' AND I.GRSWT >0)) '      "
+        strSql += vbCrLf + "          IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(I.CANCEL,'''')='''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.TRANDATE BETWEEN '''+@DATE+''' AND '''+@TODATE+''''      "
+        strSql += vbCrLf + "          IF @BILLNO <> '' SELECT @STRQRY=@STRQRY + CHAR(13) + ' AND I.TRANNO = '''+@BILLNO+''' '       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.COMPANYID IN (SELECT COMPANYID FROM #COMPANY) '      "
+        strSql += vbCrLf + "          IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''      "
+        strSql += vbCrLf + "          BEGIN      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.COSTID =(SELECT COSTID FROM  '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'      "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "          IF @NODEID <> 'ALL' And @NODEID <> ''      "
+        strSql += vbCrLf + "          BEGIN       "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.SYSTEMID ='''+@NODEID+''''      "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "        IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "        IF @METAL <> 'ALL' AND @METAL <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.ITEMID IN (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID IN ('''+@METAL+''') )'      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'UNION ALL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'CONVERT(VARCHAR,R.TRANNO) BILLNO,R.TRANDATE,'' ''ITEMNAME,'' '' SUBITEMNAME,'' ''HSN'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN R.TRANTYPE = ''PU''THEN ''PURCHASE'' WHEN R.TRANTYPE = ''SR''THEN ''SALE RETURN'' END AS TRANTYPE '    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',R.TRANTYPE AS TRANTYPE1,'' ''RUNNO'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' ''TAGNO,'' '' IITEMCTRNAME'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SNAME FROM '+@ADMINDB+'..ITEMTYPE WHERE ITEMTYPEID IN(SELECT ITEMTYPEID FROM '+@ADMINDB+'..ITEMTAG WHERE TAGNO = R.TAGNO AND ITEMID= R.ITEMID ))TAGTYPE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT CATNAME FROM   '+@ADMINDB+'..CATEGORY WHERE CATCODE =R.CATCODE) AS CATEGORY'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 PCS,0.00 GRSWT,0.00 ILESSWT,0.00 NETWT,0.00 IADVWT,0.00 IBALWT,0.00 ISTNWT,0.00 IDIAWT,0 WASTPER,0.00 WASTAGE,0.00 MCHARGE,0 IRATE,0 IPURITY,0 ISTNAMT,0 IDIAAMT,0 IMISCAMT'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 AS SGST,0 AS CGST,0 AS IGST,0 AS GST,0 AMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT ITEMNAME FROM  '+@ADMINDB+'..ITEMMAST WHERE ITEMID =R.ITEMID) AS RITEMNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',PCS AS RPCS,R.GRSWT AS RGRSWT,LESSWT AS RLESSWT,0.00 RNETWT '    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNWT) FROM RECEIPTSTONE WHERE ISSSNO=R.SNO AND BATCHNO=R.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''T''))RSTNWT'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNWT) FROM RECEIPTSTONE WHERE ISSSNO=R.SNO AND BATCHNO=R.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''D''))RDIAWT'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',PURITY RPURITY,R.WASTAGE AS RWASTAGE,R.MCHARGE AS RMCHARGE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNAMT) FROM RECEIPTSTONE WHERE ISSSNO=R.SNO AND BATCHNO=R.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''T''))RSTNAMT'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNAMT) FROM RECEIPTSTONE WHERE ISSSNO=R.SNO AND BATCHNO=R.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''D''))RDIAAMT'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',R.AMOUNT AS RAMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=R.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TAXID=''SG'' AND TRANTYPE=R.TRANTYPE) AS SGST'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=R.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TAXID=''CG'' AND TRANTYPE=R.TRANTYPE) AS CGST'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=R.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TAXID=''IG'' AND TRANTYPE=R.TRANTYPE) AS IGST'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',R.AMOUNT+R.TAX AS RNETAMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT,0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,0 TOTAL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',R.BATCHNO,2 RESULT,PNAME CUSTOMER,ISNULL(DOORNO,'''') + ISNULL(ADDRESS1,'''') + ISNULL(ADDRESS2,'''') + '' '' + ISNULL(AREA,'''') + '' '' + ISNULL(CITY,'''') + '' '' + ISNULL(PINCODE,'''') ADDRESS,MOBILE PHONENO,P.PAN,P.GSTNO,R.CANCEL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT EMPNAME FROM '+@ADMINDB+'..EMPMASTER WHERE EMPID=R.EMPID)EMPNAME,(SELECT USERNAME FROM '+@ADMINDB+'..USERMASTER WHERE USERID=R.USERID)USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM   RECEIPT AS R  LEFT OUTER JOIN  '+@ADMINDB+'..CUSTOMERINFO AS C ON C.BATCHNO = R.BATCHNO LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE R.TRANTYPE in (''PU'',''SR'')'      "
+        strSql += vbCrLf + "          IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(R.CANCEL,'''')='''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.TRANDATE BETWEEN '''+@DATE+''' AND '''+@TODATE+''''       "
+        strSql += vbCrLf + "          IF @BILLNO <> '' SELECT @STRQRY=@STRQRY + CHAR(13) + ' AND R.TRANNO = '''+@BILLNO+''' '       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'      "
+        strSql += vbCrLf + "          IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''      "
+        strSql += vbCrLf + "          BEGIN      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.COSTID =(SELECT COSTID FROM  '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'      "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "          IF @NODEID <> 'ALL' And @NODEID <> ''       "
+        strSql += vbCrLf + "          BEGIN      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.SYSTEMID ='''+@NODEID+''''      "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "        IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "        IF @METAL <> 'ALL' AND @METAL <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.ITEMID IN ( SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID IN ('''+@METAL+''') )'      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ')Y ORDER BY BATCHNO,RESULT'      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "          /*  RECEIPT */      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' IF(SELECT 1 FROM TEMPTABLEDB..SYSOBJECTS WHERE NAME=''TEMP'+@SystemId+'RECEIPT'')>0'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'DROP TABLE TEMPTABLEDB..TEMP'+@SystemId+'RECEIPT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' SELECT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ''RECEIPT'' BILLNO,TRANDATE'/*CONVERT(VARCHAR(12),TRANDATE,103)TRANDATE*/    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,CONVERT(VARCHAR(50),PAYMODE)AS TRANTYPE,REMARK1 AS RUNNO'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,REMARK1 IITEMNAME,REMARK1 SUBITEMNAME,REMARK1 ITAGNO,PCS IPCS,GRSWT IGRSWT,NETWT INETWT,0 IWASTPER,CONVERT(NUMERIC(12,2),0.00) AS IWASTAGE,CONVERT(NUMERIC(12,2),0.00) AS IMCHARGE,0 IRATE,0 IPURITY,CONVERT(NUMERIC(15,3),0) ISTNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,AMOUNT IAMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',REMARK2 RITEMNAME,PCS RPCS,GRSWT RGRSWT,NETWT RNETWT,0 RPURITY,CONVERT(NUMERIC(12,2),0.00) RWASTAGE,CONVERT(NUMERIC(12,2),0.00) RMCHARGE,CONVERT(NUMERIC(15,3),0) RSTNAMT,AMOUNT RAMOUNT,AMOUNT BALANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT CASH,AMOUNT CARD,AMOUNT CHEQUE,AMOUNT ROUNDOFF,AMOUNT ADVANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT HANDLOG,AMOUNT DISCOUNT,AMOUNT CHITCARD,AMOUNT GIFTVOUCHER,AMOUNT CREDIT,AMOUNT JND'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT TOTAL,BATCHNO,PCS RESULT,PCS SEP'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(100),'''') CUSTOMER ,CONVERT(VARCHAR(250),'''') ADDRESS,CONVERT(VARCHAR(30),'''') PHONENO,CONVERT(VARCHAR(20),'''') PAN,CONVERT(VARCHAR(30),'''') GSTNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(1),NULL) CANCEL,CONVERT(VARCHAR(100),'''') EMPNAME,CONVERT(VARCHAR(100),'''') USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(250),NULL) REMARK'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'INTO TEMPTABLEDB..TEMP'+@SystemId+'RECEIPT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM  ACCTRAN WHERE 1<>1   '      "
+        strSql += vbCrLf + "          IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(CANCEL,'''')='''''      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "          SELECT @STRQRY= ' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'RECEIPT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '''RECEIPT'' BILLNO,NULL TRANDATE,'' '' TRANTYPE,'' '' AS RUNNO,'' ''IITEMNAME,'' ''SUBITEMNAME,'' '' TAGNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 IPCS,0 IGRSWT,0 INETWT,0 IWASTPER,0 IWASTAGE,0 IMCHARGE,0 IRATE,0 IPURITY,0 ISTNAMT,0 IMISCAMT,0 IAMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' ''RITEMNAME,0 RPCS,0.00 RGRSWT,0.00 RNETWT,0 RPURITY,0.00 RWASTAGE,0.00 RMCHARGE,0 RSTNAMT,0 RAMOUNT,0 BALANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT,0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,0 TOTAL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' ''BATCHNO,1 RESULT,2 SEP,'''' CUSTOMER,'''' ADDRESS,'''' PHONENO,'''' PAN,'''' GSTNO,'''' CANCEL,'''' EMPNAME,'''' USERNAME,'''' REMARK'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE 1=1'      "
+        strSql += vbCrLf + "          PRINT @STRQRY       "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          /*  INSERTING RECEIPT DATA */      "
+        strSql += vbCrLf + "          SELECT @STRQRY= ' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'RECEIPT'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' CONVERT(VARCHAR,A.TRANNO) BILLNO'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.TRANDATE '/*,CONVERT(VARCHAR(12),A.TRANDATE,103)TRANDATE*/    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN A.PAYMODE = ''DR'' THEN ''DUE RECEIPT'' WHEN A.PAYMODE = ''AR''THEN ''ADVANCE RECEIPT'''    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHEN A.PAYMODE = ''MR''THEN ''OTHER RECEIPT'' END AS TRANTYPE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUBSTRING(O.RUNNO,6,20) AS RUNNO,'' ''IITEMNAME,'' ''SUBITEMNAME,'' '' TAGNO'     "
+        strSql += vbCrLf + "          /*SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.PCS IPCS,A.GRSWT IGRSWT,A.NETWT INETWT,ISNULL(I.WASTPER,0) IWASTPER,ISNULL(I.WASTAGE,0) IWASTAGE,ISNULL(I.MCHARGE,0) IMCHARGE,ISNULL(I.RATE,0) IRATE,ISNULL(I.PURITY,0) IPURITY,CONVERT(NUMERIC(15,3),0) IS"
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + "TNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,O.AMOUNT IAMOUNT'*/       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.PCS IPCS,A.GRSWT IGRSWT,A.NETWT INETWT,'''' IWASTPER,/*ISNULL(SUM(I.WASTAGE),0)*/ 0 IWASTAGE,/*ISNULL(SUM(I.MCHARGE),0)*/ 0 IMCHARGE,ISNULL(AVG(O.RATE),0) IRATE,0 IPURITY,CONVERT(NUMERIC(15,3),0) ISTNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,O.AMOUNT IAMOUNT'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' ''RITEMNAME,0 RPCS,0.00 RGRSWT,0.00 RNETWT,0 RPURITY,0.00 RWASTAGE,0.00 RMCHARGE,CONVERT(NUMERIC(15,3),0) RSTNAMT,0 RAMOUNT,0 BALANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT,0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,0 TOTAL'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.BATCHNO,1 RESULT,3 SEP ,PNAME CUSTOMER,ISNULL(DOORNO,'''') + ISNULL(ADDRESS1,'''') + ISNULL(ADDRESS2,'''') + '' '' + ISNULL(AREA,'''') + '' '' + ISNULL(CITY,'''') + '' '' + ISNULL(PINCODE,'''') ADDRESS,MOBILE PHONENO,P.PAN,P.GSTNO'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',ISNULL(A.CANCEL,'''') CANCEL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT EMPNAME FROM '+@ADMINDB+'..EMPMASTER WHERE EMPID=O.EMPID)EMPNAME,(SELECT USERNAME FROM '+@ADMINDB+'..USERMASTER WHERE USERID=O.USERID)USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',UPPER(A.REMARK1)REMARK '    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM  ACCTRAN AS A '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..OUTSTANDING AS O ON O.BATCHNO=A.BATCHNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON  C.BATCHNO = A.BATCHNO '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO '     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT JOIN ISSUE AS I ON A.BATCHNO=I.BATCHNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE A.PAYMODE IN (''DR'',''AR'',''MR'')  AND O.RECPAY =''R'' '       "
+        strSql += vbCrLf + "          IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(A.CANCEL,'''')='''''    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.TRANDATE BETWEEN '''+@DATE+''' AND '''+@TODATE+''''     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'      "
+        strSql += vbCrLf + "          IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''     "
+        strSql += vbCrLf + "          BEGIN       "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.COSTID =(SELECT COSTID FROM   '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'     "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "          IF @NODEID <> 'ALL' And @NODEID <> ''    "
+        strSql += vbCrLf + "          BEGIN       "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.SYSTEMID ='''+@NODEID+''''     "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "        IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "        IF @METAL <> 'ALL' AND @METAL <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.ITEMID IN ( SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID IN('''+@METAL+''') )'      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "        SELECT @STRQRY=@STRQRY + CHAR(13) + '   GROUP BY  A.TRANNO,A.TRANDATE , A.PAYMODE ,O.RUNNO,A.PCS ,A.GRSWT ,A.NETWT ,O.AMOUNT '    "
+        strSql += vbCrLf + "        SELECT @STRQRY=@STRQRY + CHAR(13) + '  , A.BATCHNO,PNAME ,DOORNO ,ADDRESS1,ADDRESS2,AREA,CITY,PINCODE ,MOBILE ,P.PAN,P.GSTNO,O.EMPID,O.USERID,A.REMARK1,A.CANCEL'    "
+        strSql += vbCrLf + "         PRINT @STRQRY         "
+        strSql += vbCrLf + "         EXEC (@STRQRY)      "
+        strSql += vbCrLf + "    /*  INSERTING GIFT RECEIPT DATA */      "
+        strSql += vbCrLf + "     SELECT @STRQRY= ' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'RECEIPT'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' CONVERT(VARCHAR,A.TRANNO) BILLNO'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.TRANDATE '/*,CONVERT(VARCHAR(12),A.TRANDATE,103)TRANDATE*/    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',''GIFT RECEIPT''AS TRANTYPE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUBSTRING(O.RUNNO,6,20) AS RUNNO,'' ''IITEMNAME,'' ''SUBITEMNAME,'' '' TAGNO'     "
+        strSql += vbCrLf + "          /*SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.PCS IPCS,A.GRSWT IGRSWT,A.NETWT INETWT,ISNULL(I.WASTPER,0) IWASTPER,ISNULL(I.WASTAGE,0) IWASTAGE,ISNULL(I.MCHARGE,0) IMCHARGE,ISNULL(I.RATE,0) IRATE,ISNULL(I.PURITY,0) IPURITY,CONVERT(NUMERIC(15,3),0) IS"
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + "TNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,O.AMOUNT IAMOUNT'*/       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.PCS IPCS,A.GRSWT IGRSWT,A.NETWT INETWT,'''' IWASTPER,/*ISNULL(SUM(I.WASTAGE),0)*/ 0 IWASTAGE,/*ISNULL(SUM(I.MCHARGE),0)*/ 0 IMCHARGE,ISNULL(AVG(O.RATE),0) IRATE,0 IPURITY,CONVERT(NUMERIC(15,3),0) ISTNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,O.AMOUNT IAMOUNT'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' ''RITEMNAME,0 RPCS,0.00 RGRSWT,0.00 RNETWT,0 RPURITY,0.00 RWASTAGE,0.00 RMCHARGE,CONVERT(NUMERIC(15,3),0) RSTNAMT,0 RAMOUNT,0 BALANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT,0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,0 TOTAL'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.BATCHNO,1 RESULT,3 SEP ,PNAME CUSTOMER,ISNULL(DOORNO,'''') + ISNULL(ADDRESS1,'''') + ISNULL(ADDRESS2,'''') + '' '' + ISNULL(AREA,'''') + '' '' + ISNULL(CITY,'''') + '' '' + ISNULL(PINCODE,'''') ADDRESS,MOBILE PHONENO,P.PAN,P.GSTNO'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',ISNULL(A.CANCEL,'''') CANCEL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT EMPNAME FROM '+@ADMINDB+'..EMPMASTER WHERE EMPID=O.EMPID)EMPNAME,(SELECT USERNAME FROM '+@ADMINDB+'..USERMASTER WHERE USERID=O.USERID)USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',UPPER(A.REMARK1)REMARK '    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM  ACCTRAN AS A '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..OUTSTANDING AS O ON O.BATCHNO=A.BATCHNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON  C.BATCHNO = A.BATCHNO '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO '     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE A.PAYMODE IN (''GV'')  AND O.RECPAY =''R'' '       "
+        strSql += vbCrLf + "          IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(A.CANCEL,'''')='''''    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.TRANDATE BETWEEN '''+@DATE+''' AND '''+@TODATE+''''     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' AND A.BATCHNO NOT IN (SELECT DISTINCT BATCHNO FROM ISSUE WHERE BATCHNO =A.BATCHNO)'    "
+        strSql += vbCrLf + "          IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''     "
+        strSql += vbCrLf + "          BEGIN       "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.COSTID =(SELECT COSTID FROM   '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'     "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "          IF @NODEID <> 'ALL' And @NODEID <> ''    "
+        strSql += vbCrLf + "          BEGIN       "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.SYSTEMID ='''+@NODEID+''''     "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "        IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND O.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "        SELECT @STRQRY=@STRQRY + CHAR(13) + '   GROUP BY  A.TRANNO,A.TRANDATE , A.PAYMODE ,O.RUNNO,A.PCS ,A.GRSWT ,A.NETWT ,O.AMOUNT '    "
+        strSql += vbCrLf + "        SELECT @STRQRY=@STRQRY + CHAR(13) + '  , A.BATCHNO,PNAME ,DOORNO ,ADDRESS1,ADDRESS2,AREA,CITY,PINCODE ,MOBILE ,P.PAN,P.GSTNO,O.EMPID,O.USERID,A.REMARK1,A.CANCEL'    "
+        strSql += vbCrLf + "          PRINT @STRQRY         "
+        strSql += vbCrLf + "          EXEC (@STRQRY)        "
+        strSql += vbCrLf + "          /*  INSERTING RECEIPT DATA */      "
+        strSql += vbCrLf + "          SELECT @STRQRY= ' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'RECEIPT'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'CONVERT(VARCHAR,A.TRANNO) BILLNO,A.TRANDATE'/*CONVERT(VARCHAR(12),A.TRANDATE,103)*/    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',''FURTHER ADVANCE'' AS TRANTYPE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUBSTRING(O.RUNNO,6,20) AS RUNNO,'' ''IITEMNAME,'' ''SUBITEMNAME,'' '' TAGNO'     "
+        strSql += vbCrLf + "          /*SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.PCS IPCS,A.GRSWT IGRSWT,A.NETWT INETWT,ISNULL(I.WASTPER,0) IWASTPER,ISNULL(I.WASTAGE,0) IWASTAGE,ISNULL(I.MCHARGE,0) IMCHARGE,ISNULL(I.RATE,0) IRATE,ISNULL(I.PURITY,0) IPURITY,CONVERT(NUMERIC(15,3),0) IS"
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + "TNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,O.AMOUNT IAMOUNT'*/       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.PCS IPCS,A.GRSWT IGRSWT,A.NETWT INETWT,'''' IWASTPER,/*ISNULL(SUM(I.WASTAGE),0)*/ 0 IWASTAGE,/*ISNULL(SUM(I.MCHARGE),0)*/ 0 IMCHARGE,ISNULL(AVG(O.RATE),0) IRATE,0 IPURITY,CONVERT(NUMERIC(15,3),0) ISTNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,O.AMOUNT IAMOUNT'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' ''RITEMNAME,0 RPCS,0.00 RGRSWT,0.00 RNETWT,0 RPURITY,0.00 RWASTAGE,0.00 RMCHARGE,CONVERT(NUMERIC(15,3),0) RSTNAMT,0 RAMOUNT,0 BALANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT,0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,0 TOTAL'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.BATCHNO,1 RESULT,3 SEP ,PNAME CUSTOMER,ISNULL(DOORNO,'''') + ISNULL(ADDRESS1,'''') + ISNULL(ADDRESS2,'''') + '' '' + ISNULL(AREA,'''') + '' '' + ISNULL(CITY,'''') + '' '' + ISNULL(PINCODE,'''') ADDRESS,MOBILE PHONENO,P.PAN,P.GSTNO'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',ISNULL(O.CANCEL,'''') CANCEL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT EMPNAME FROM '+@ADMINDB+'..EMPMASTER WHERE EMPID=O.EMPID)EMPNAME,(SELECT USERNAME FROM '+@ADMINDB+'..USERMASTER WHERE USERID=O.USERID)USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',UPPER(A.REMARK1)REMARK '    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM  ACCTRAN AS A '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..OUTSTANDING AS O ON O.BATCHNO=A.BATCHNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON  C.BATCHNO = A.BATCHNO '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO '     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT JOIN ISSUE AS I ON A.BATCHNO=I.BATCHNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE A.PAYMODE IN (''AR'',''OR'',''MR'') AND O.RECPAY =''R'' AND O.FLAG = ''F'' '       "
+        strSql += vbCrLf + "          IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(A.CANCEL,'''')='''''    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.TRANDATE BETWEEN '''+@DATE+''' AND '''+@TODATE+''''     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'      "
+        strSql += vbCrLf + "          IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''     "
+        strSql += vbCrLf + "          BEGIN       "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.COSTID =(SELECT COSTID FROM   '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'     "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "          IF @NODEID <> 'ALL' And @NODEID <> ''    "
+        strSql += vbCrLf + "          BEGIN       "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.SYSTEMID ='''+@NODEID+''''     "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "          IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "          BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "          END    "
+        strSql += vbCrLf + "          IF @METAL <> 'ALL' AND @METAL <> ''    "
+        strSql += vbCrLf + "          BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.ITEMID IN ( SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID IN('''+@METAL+''') )'      "
+        strSql += vbCrLf + "          END    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '   GROUP BY  A.TRANNO,A.TRANDATE , A.PAYMODE ,O.RUNNO,A.PCS ,A.GRSWT ,A.NETWT ,O.AMOUNT '    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '  , A.BATCHNO,PNAME ,DOORNO ,ADDRESS1,ADDRESS2,AREA,CITY,PINCODE ,MOBILE ,P.PAN,P.GSTNO,O.EMPID,O.USERID,A.REMARK1,O.CANCEL'    "
+        strSql += vbCrLf + "          PRINT @STRQRY         "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          /*  TRUNCATE THE TABLE AT NO DATAS IN TEMPORARY TABLE */     "
+        strSql += vbCrLf + "          SELECT @STRQRY=' IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMP'+@SystemId+'RECEIPT) < 2'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'TRUNCATE TABLE TEMPTABLEDB..TEMP'+@SystemId+'RECEIPT'     "
+        strSql += vbCrLf + "          /* print @STRQRY */     "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          /*  RECPAY */     "
+        strSql += vbCrLf + "          SELECT @STRQRY=' IF(SELECT 1 FROM TEMPTABLEDB..SYSOBJECTS WHERE NAME=''TEMP'+@SystemId+'RECPAY'')>0'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'DROP TABLE TEMPTABLEDB..TEMP'+@SystemId+'RECPAY'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' CONVERT(VARCHAR,TRANNO) BILLNO,TRANDATE'/*CONVERT(VARCHAR(12),TRANDATE,103)TRANDATE*/    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,CONVERT(VARCHAR(50),PAYMODE)AS TRANTYPE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',REMARK1 AS RUNNO,REMARK1 IITEMNAME,REMARK1 SUBITEMNAME,REMARK1 ITAGNO,PCS IPCS,GRSWT IGRSWT,NETWT INETWT,0 IWASTPER,0.00 IWASTAGE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0.00 IMCHARGE,0 IRATE,0 IPURITY,CONVERT(NUMERIC(15,3),0) ISTNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,AMOUNT IAMOUNT'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',REMARK2 RITEMNAME,PCS RPCS,GRSWT RGRSWT,NETWT RNETWT,0 RPURITY,CONVERT(NUMERIC(15,3),0) RWASTAGE,CONVERT(NUMERIC(15,3),0) RMCHARGE,CONVERT(NUMERIC(15,3),0) RSTNAMT,AMOUNT RAMOUNT,AMOUNT BALANCE'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT CASH,AMOUNT CARD,AMOUNT CHEQUE,AMOUNT ROUNDOFF,AMOUNT ADVANCE'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT HANDLOG,AMOUNT DISCOUNT,AMOUNT CHITCARD,AMOUNT JND,AMOUNT GIFTVOUCHER,AMOUNT CREDIT'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT TOTAL,BATCHNO,PCS RESULT,PCS SEP'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(100),'''') CUSTOMER ,CONVERT(VARCHAR(250),'''') ADDRESS,CONVERT(VARCHAR(30),'''') PHONENO,CONVERT(VARCHAR(20),'''') PAN,CONVERT(VARCHAR(30),'''') GSTNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(1),NULL) CANCEL,CONVERT(VARCHAR(100),'''') EMPNAME,CONVERT(VARCHAR(100),'''') USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(250),NULL) REMARK '    "
+        strSql += vbCrLf + "       SELECT @STRQRY=@STRQRY + CHAR(13) + 'INTO TEMPTABLEDB..TEMP'+@SystemId+'RECPAY'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM  ACCTRAN WHERE 1<>1  '     "
+        strSql += vbCrLf + "          IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(CANCEL,'''')='''''      "
+        strSql += vbCrLf + "          PRINT @STRQRY       "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          SELECT @STRQRY=' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'RECPAY'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '''PAYMENT'' BILLNO,NULL TRANDATE,'' '' TRANTYPE,'' '' AS RUNNO,'' ''IITEMNAME,'' ''SUBITEMNAME,'' '' TAGNO'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 IPCS,0 IGRSWT,0 INETWT,0 IWASTPER,0 IWASTAGE,0 IMCHARGE,0 IRATE,0 IPURITY,0 ISTNAMT,0 IMISCAMT,0 IAMOUNT'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' ''RITEMNAME,0 RPCS,0.00 RGRSWT,0.00 RNETWT,0 RPURITY,0.00 RWASTAGE,0.00 RMCHARGE,0 ISTNAMT,0 RAMOUNT,0 BALANCE'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT,0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,0 TOTAL'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' '' BATCHNO,1 RESULT,4 SEP,'''' CUSTOMER,'''' ADDRESS,'''' PHONENO,'''' PAN,'''' GSTNO,CONVERT(VARCHAR(1),NULL) CANCEL,'''' EMPNAME,'''' USERNAME,'''' REMARK'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE 1=1'      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          /*  INSERTING RECPAY DATA */      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'RECPAY'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'CONVERT(VARCHAR,A.TRANNO) BILLNO,NULL TRANDATE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN PAYMODE = ''DP'' THEN ''DUE REPAY'' WHEN PAYMODE = ''AP'' THEN ''ADVANCE REPAY'' WHEN PAYMODE = ''MP'' THEN ''OTHER PAYMENT'' END AS TRANTYPE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,A.REFNO AS RUNNO,'' ''IITEMNAME,'' ''SUBITEMNAME,'' '' TAGNO'             SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,0 IPCS,0.00 IGRSWT,0.00 INETWT,0 IWASTPER,0.00 IWASTAGE,0.00 IMCHARGE,0 IRATE,0 IPURITY,CONVERT(NUMERIC(15,3),0) ISTNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,0 IAMOUNT'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,'' ''RITEMNAME,A.PCS RPCS,A.GRSWT RGRSWT,A.NETWT RNETWT,0 RPURITY,ISNULL(R.WASTAGE,0) RWASTAGE,ISNULL(R.MCHARGE,0) RMCHARGE,CONVERT(NUMERIC(15,3),0) RSTNAMT,A.AMOUNT RAMOUNT,0 BALANCE'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT,0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,0 TOTAL'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,A.BATCHNO,1 RESULT,5 SEP'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',PNAME CUSTOMER,ISNULL(DOORNO,'''') + ISNULL(ADDRESS1,'''') + ISNULL(ADDRESS2,'''') + '' '' + ISNULL(AREA,'''') + '' '' + ISNULL(CITY,'''') + '' '' + ISNULL(PINCODE,'''') ADDRESS,MOBILE PHONENO,P.PAN,P.GSTNO'"
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + "        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',R.CANCEL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT EMPNAME FROM '+@ADMINDB+'..EMPMASTER WHERE EMPID=R.EMPID)EMPNAME,(SELECT USERNAME FROM '+@ADMINDB+'..USERMASTER WHERE USERID=R.USERID)USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',UPPER(A.REMARK1) REMARK'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM  ACCTRAN AS A '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON C.BATCHNO = A.BATCHNO '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT JOIN RECEIPT AS R ON A.BATCHNO=R.BATCHNO '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE PAYMODE IN (''DP'',''AP'',''MP'')  '      "
+        strSql += vbCrLf + "          IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(A.CANCEL,'''')='''''     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.TRANDATE BETWEEN '''+@DATE+''' AND '''+@TODATE+''''     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'      "
+        strSql += vbCrLf + "          IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''     "
+        strSql += vbCrLf + "          BEGIN       "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.COSTID =(SELECT COSTID FROM   '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'     "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "          IF @NODEID <> 'ALL' And @NODEID <> ''     "
+        strSql += vbCrLf + "          BEGIN       "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.SYSTEMID ='''+@NODEID+''''     "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "        IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "        IF @METAL <> 'ALL' AND @METAL <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + '/*AND R.ITEMID IN ( SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID IN('''+@METAL+''')) */'      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "          /*  INSERTING GIFT PAYMENT DATA */       "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + 'UNION ALL'      "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + 'CONVERT(VARCHAR,A.TRANNO) BILLNO,NULL TRANDATE'    "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN PAYMODE = ''GV'' THEN ''GIFT REPAY'' END AS TRANTYPE'    "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,A.REFNO AS RUNNO,'' ''IITEMNAME,'' ''SUBITEMNAME,'' '' TAGNO'     "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,0 IPCS,0.00 IGRSWT,0.00 INETWT,0 IWASTPER,0.00 IWASTAGE,0.00 IMCHARGE,0 IRATE,0 IPURITY,CONVERT(NUMERIC(15,3),0) ISTNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,0 IAMOUNT'     "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,'' ''RITEMNAME,0 RPCS,0.00 RGRSWT,0.00 RNETWT,0 RPURITY,0.00 RWASTAGE,0.00 RMCHARGE,CONVERT(NUMERIC(15,3),0) RSTNAMT,A.AMOUNT RAMOUNT,0 BALANCE'     "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT,0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,0 TOTAL'     "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,A.BATCHNO,1 RESULT,5 SEP'      "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + ',PNAME CUSTOMER,ISNULL(DOORNO,'''') + ISNULL(ADDRESS1,'''') + ISNULL(ADDRESS2,'''') + '' '' + ISNULL(AREA,'''') + '' '' + ISNULL(CITY,'''') + '' '' + ISNULL(PINCODE,'''') ADDRESS,MOBILE PHONENO,P.PAN,P.GSTNO'      "
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.CANCEL'      "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT TOP 1 EMPNAME FROM '+@ADMINDB+'..EMPMASTER WHERE EMPID=A.EMPID)EMPNAME,(SELECT TOP 1 USERNAME FROM '+@ADMINDB+'..USERMASTER WHERE USERID=A.USERID)USERNAME'      "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + ',UPPER(A.REMARK1) REMARK'    "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM  '+@ADMINDB+'..OUTSTANDING AS A '      "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON C.BATCHNO = A.BATCHNO '      "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO'     "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE PAYMODE IN (''GV'')  AND A.RECPAY=''P''  '      "
+        strSql += vbCrLf + "    IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(A.CANCEL,'''')='''''     "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.TRANDATE BETWEEN '''+@DATE+''' AND '''+@TODATE+''''     "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'      "
+        strSql += vbCrLf + "    IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''     "
+        strSql += vbCrLf + "    BEGIN       "
+        strSql += vbCrLf + "   SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.COSTID =(SELECT COSTID FROM   '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'     "
+        strSql += vbCrLf + "    END       "
+        strSql += vbCrLf + "    IF @NODEID <> 'ALL' And @NODEID <> ''     "
+        strSql += vbCrLf + "    BEGIN       "
+        strSql += vbCrLf + "   SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.SYSTEMID ='''+@NODEID+''''     "
+        strSql += vbCrLf + "    END       "
+        strSql += vbCrLf + "    IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "    BEGIN    "
+        strSql += vbCrLf + "   SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND O.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "    END    "
+        strSql += vbCrLf + "          PRINT @STRQRY                EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          /*  TRUNCATE THE TABLE AT NO DATAS IN TEMPORARY TABLE */     "
+        strSql += vbCrLf + "          SELECT @STRQRY=' IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMP'+@SystemId+'RECPAY) < 2'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'TRUNCATE TABLE TEMPTABLEDB..TEMP'+@SystemId+'RECPAY'     "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          /*  ORDER RECEIPT*/     "
+        strSql += vbCrLf + "          SELECT @STRQRY=' IF(SELECT 1 FROM TEMPTABLEDB..SYSOBJECTS WHERE NAME=''TEMP'+@SystemId+'ORDER'')>0'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'DROP TABLE TEMPTABLEDB..TEMP'+@SystemId+'ORDER'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'CONVERT(VARCHAR,ORNO) BILLNO,CONVERT(VARCHAR(12),NULL) TRANDATE,CONVERT(VARCHAR(50),ORTYPE) AS TRANTYPE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',DESCRIPT AS RUNNO,DESCRIPT IITEMNAME,DESCRIPT SUBITEMNAME,DESCRIPT ITAGNO,PCS IPCS,GRSWT IGRSWT,NETWT INETWT,WASTPER IWASTPER'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',WAST IWASTAGE,MC IMCHARGE,RATE IRATE,0 IPURITY,CONVERT(NUMERIC(15,3),0) ISTNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,ORVALUE IAMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',DESCRIPT RITEMNAME,PCS RPCS,GRSWT RGRSWT,NETWT RNETWT,0 RPURITY,WAST RWASTAGE,MC RMCHARGE,CONVERT(NUMERIC(15,3),0) RSTNAMT,ORVALUE RAMOUNT,ORVALUE BALANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',ORVALUE CASH,ORVALUE CARD,ORVALUE CHEQUE,ORVALUE ROUNDOFF,ORVALUE ADVANCE'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',ORVALUE HANDLOG,ORVALUE DISCOUNT,ORVALUE CHITCARD,ORVALUE JND,ORVALUE GIFTVOUCHER,ORVALUE CREDIT'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',ORVALUE TOTAL,BATCHNO,PCS RESULT,PCS SEP'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(100),'''') CUSTOMER '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(250),'''') ADDRESS,CONVERT(VARCHAR(30),'''') PHONENO,CONVERT(VARCHAR(20),'''') PAN,CONVERT(VARCHAR(30),'''') GSTNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CANCEL,CONVERT(VARCHAR(100),'''') EMPNAME,CONVERT(VARCHAR(100),'''') USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(250),NULL) REMARK '    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'INTO TEMPTABLEDB..TEMP'+@SystemId+'ORDER'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM  '+@ADMINDB+'..ORMAST WHERE 1<>1 '      "
+        strSql += vbCrLf + "          PRINT @STRQRY       "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          SELECT @STRQRY= CHAR(13) + 'ALTER TABLE TEMPTABLEDB..TEMP'+@SystemId+'ORDER ALTER COLUMN CANCEL VARCHAR(1)NULL'       "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          SELECT @STRQRY=' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'ORDER'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '''ORDER RECEIPT'' BILLNO,NULL TRANDATE,'' '' AS TRANTYPE,'' '' AS RUNNO,'' ''IITEMNAME,'' ''SUBITEMNAME,'' '' TAGNO'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 IPCS,0 IGRSWT,0 INETWT,0 IWASTPER,0 IWASTAGE,0 IMCHARGE,0 IRATE,0 IPURITY,0 ISTNAMT,0 IMISCAMT,0 IAMOUNT'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' ''RITEMNAME,0 RPCS,0.00 RGRSWT,0.00 RNETWT,0 RPURITY,0.00 RWASTAGE,0.00 RMCHARGE,0 ISTNAMT,0 RAMOUNT,0 BALANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT,0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,0 TOTAL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' '' BATCHNO,1 RESULT,6 SEP,'''' CUSTOMER,'''' ADDRESS,'''' PHONENO,'''' PAN,'''' GSTNO,'''' CANCEL,'''' EMPNAME,'''' USERNAME,'''' REAMRK'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE 1=1'      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "          /*  INSERTING RECPAY DATA */      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'ORDER'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'CONVERT(VARCHAR,SUBSTRING(O.ORNO,6,LEN(O.ORNO))) BILLNO,ORDATE TRANDATE' /*CONVERT(VARCHAR(12),ORDATE,103)*/    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN O.ORTYPE = ''O'' THEN ''ORDER RECEIPT''WHEN O.ORTYPE = ''R'' THEN ''REPAIR'' END AS TRANTYPE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' '' AS RUNNO,I.ITEMNAME AS IITEMNAME'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUBITEMNAME FROM '+ @ADMINDB +'..SUBITEMMAST AS SI WHERE O.SUBITEMID=SI.SUBITEMID) AS SUBITEMNAME'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' '' TAGNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,0 IPCS,0.00 IGRSWT,0.00 INETWT,0 IWASTPER,0.00 IWASTAGE,0.00 IMCHARGE,0 IRATE,0 IPURITY,CONVERT(NUMERIC(15,3),0) ISTNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,0 IAMOUNT'      "
+        strSql += vbCrLf + "      IF @ORDERDETAIL = 'Y'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,'' ''RITEMNAME,O.PCS RPCS,O.GRSWT RGRSWT,O.NETWT RNETWT,0 RPURITY,ISNULL(O.WAST,0) RWASTAGE,ISNULL(O.MC,0) RMCHARGE,CONVERT(NUMERIC(15,3),0) RSTNAMT,O.ORVALUE RAMOUNT,0 BALANCE'      "
+        strSql += vbCrLf + "      IF @ORDERDETAIL = 'N'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,'' ''RITEMNAME,0 RPCS,0.00 RGRSWT,0.00 RNETWT,0 RPURITY,0.00 RWASTAGE,0.00 RMCHARGE,CONVERT(NUMERIC(15,3),0) RSTNAMT,0.00 RAMOUNT,0 BALANCE'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT,0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,0 TOTAL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,O.BATCHNO,1 RESULT,7 SEP'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',PNAME CUSTOMER,ISNULL(DOORNO,'''') + ISNULL(ADDRESS1,'''') + ISNULL(ADDRESS2,'''') + '' '' + ISNULL(AREA,'''') + '' '' + ISNULL(CITY,'''') + '' '' + ISNULL(PINCODE,'''') ADDRESS,MOBILE PHONENO,P.PAN,P.GSTNO'"
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + "      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.CANCEL'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT EMPNAME FROM '+@ADMINDB+'..EMPMASTER WHERE EMPID=A.EMPID)EMPNAME,(SELECT USERNAME FROM '+@ADMINDB+'..USERMASTER WHERE USERID=A.USERID)USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',UPPER(O.DESCRIPT) REMARK'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM  '+@ADMINDB+'..ORMAST AS O '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON C.BATCHNO = O.BATCHNO '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT JOIN '+@ADMINDB+'..OUTSTANDING AS A  ON A.BATCHNO=O.BATCHNO '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT JOIN '+@ADMINDB+'..ITEMMAST AS I ON O.ITEMID=I.ITEMID'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE O.ORTYPE IN (''O'',''R'')  '      "
+        strSql += vbCrLf + "          IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(O.CANCEL,'''')='''' AND ISNULL(O.ORDCANCEL,'''')='''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND O.ORDATE BETWEEN '''+@DATE+''' AND '''+@TODATE+''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND O.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'      "
+        strSql += vbCrLf + "          IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''      "
+        strSql += vbCrLf + "          BEGIN      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND O.COSTID =(SELECT COSTID FROM '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'      "
+        strSql += vbCrLf + "          END      "
+        strSql += vbCrLf + "        IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND O.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "        IF @METAL <> 'ALL' AND @METAL <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.METALID IN ('''+@METAL+''')  '      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "      PRINT @MINUSDISCOUNT    "
+        strSql += vbCrLf + "      IF @MINUSDISCOUNT='Y'    "
+        strSql += vbCrLf + "      BEGIN    "
+        strSql += vbCrLf + "       SELECT @STRQRY='UPDATE TEMPTABLEDB..TEMP'+@SystemId+'FINAL SET DISCOUNT=0 WHERE DISCOUNT<0'            "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "      END    "
+        strSql += vbCrLf + "          /*  TRUNCATE THE TABLE AT NO DATAS IN TEMPORARY TABLE */      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMP'+@SystemId+'ORDER) < 2'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'TRUNCATE TABLE TEMPTABLEDB..TEMP'+@SystemId+'ORDER'      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          /*    "
+        strSql += vbCrLf + "              SELECT @STRQRY=' ALTER TABLE TEMPTABLEDB..TEMP'+@SystemId+'FINAL ALTER COLUMN TRANDATE VARCHAR(12)'    "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          */    "
+        strSql += vbCrLf + "          /*  UNION ALL BETWEEN TEMPORARY TABLES RECIPT AND RECPAY */      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' ALTER TABLE TEMPTABLEDB..TEMP'+@SystemId+'FINAL ADD NARRATION VARCHAR(500)'      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' BILLNO,TRANDATE,TRANTYPE,RUNNO,IITEMNAME,SUBITEMNAME,ITAGNO,IPCS,IGRSWT,INETWT,IWASTPER,IWASTAGE,IMCHARGE,IRATE,IPURITY,ISTNAMT,IMISCAMT,IAMOUNT,RITEMNAME,RPCS'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,RGRSWT,RNETWT,RPURITY,RWASTAGE,RMCHARGE,RSTNAMT,RAMOUNT,BALANCE,CASH,CARD,CHEQUE,ROUNDOFF,ADVANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,HANDLOG,DISCOUNT,CHITCARD,GIFTVOUCHER,CREDIT,JND,TOTAL,BATCHNO,RESULT,SEP,CUSTOMER,ADDRESS,PHONENO,PAN,GSTNO,CANCEL,EMPNAME,USERNAME,NARRATION,RNETAMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' )'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT *,RAMOUNT FROM TEMPTABLEDB..TEMP'+@SystemId+'RECEIPT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'UNION ALL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT *,RAMOUNT  FROM TEMPTABLEDB..TEMP'+@SystemId+'RECPAY'      "
+        strSql += vbCrLf + "          IF @WITHORD='Y'      "
+        strSql += vbCrLf + "          BEGIN      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'UNION ALL'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT *,RAMOUNT FROM TEMPTABLEDB..TEMP'+@SystemId+'ORDER'      "
+        strSql += vbCrLf + "          END      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'ORDER BY SEP,BATCHNO,RESULT'      "
+        strSql += vbCrLf + "          PRINT @STRQRY       "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          /*  PAYMENT */      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL )>0'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'BEGIN'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'IF (SELECT 1 FROM TEMPTABLEDB..SYSOBJECTS WHERE NAME = ''TEMP'+@SystemId+'PAYMENT'')>0'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'DROP TABLE TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AMOUNT CASH'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT CARD,AMOUNT CHEQUE,AMOUNT ROUNDOFF,AMOUNT ADVANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT HANDLOG,AMOUNT DISCOUNT,AMOUNT CHITCARD,AMOUNT GIFTVOUCHER,AMOUNT CREDIT,AMOUNT JND'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT TOTAL,BATCHNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(100),'''') CUSTOMER ,CONVERT(VARCHAR(250),'''') ADDRESS,CONVERT(VARCHAR(30),'''') PHONENO,CONVERT(VARCHAR(20),'''') PAN,CONVERT(VARCHAR(30),'''') GSTNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CANCEL,CONVERT(VARCHAR(100),'')EMPNAME,CONVERT(VARCHAR(100),'')USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'INTO TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM  ISSUE WHERE 1<>1'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'CASH,CARD,CHEQUE,ROUNDOFF,ADVANCE,HANDLOG,DISCOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CHITCARD,GIFTVOUCHER,CREDIT,JND,TOTAL,BATCHNO,CUSTOMER,ADDRESS,PHONENO,PAN,GSTNO,CANCEL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' )'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'ISNULL(SUM(CASHAMOUNT),0) AS CASH,ISNULL(SUM(CARD),0) AS CARD,ISNULL(SUM(CHEQUE),0) CHEQUE,ISNULL(SUM(ROUNDOFF),0) ROUNDOFF'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',ISNULL(SUM(ADVANCE),0) ADVANCE,ISNULL(SUM(HANDLOG),0) HANDLOG,ISNULL(SUM(DISCOUNT),0) DISCOUNT,ISNULL(SUM(CHITCARD),0) CHITCARD,ISNULL(SUM(GIFTVOUCHER),0) GIFTVOUCHER,ISNULL(SUM(CREDIT),0) CREDIT,ISNULL(SUM(JND),0) JND'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(ISNULL(SUM(CASHAMOUNT),0)+ISNULL(SUM(CARD),0)+ISNULL(SUM(CHEQUE),0)+ISNULL(SUM(ROUNDOFF),0)+ISNULL(SUM(ADVANCE),0)+ISNULL(SUM(HANDLOG),0)+ISNULL(SUM(DISCOUNT),0)+ISNULL(SUM(CHITCARD),0)+ISNULL(SUM(GIFTVOUCHER),0)+ISNULL(SUM(CREDIT),0)) TOTAL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',X.BATCHNO,PNAME CUSTOMER,ISNULL(DOORNO,'''') + ISNULL(ADDRESS1,'''') + ISNULL(ADDRESS2,'''') + '' '' + ISNULL(AREA,'''') + '' '' + ISNULL(CITY,'''') + '' '' + ISNULL(PINCODE,'''') ADDRESS,MOBILE PHONENO,P.PAN,P.GSTNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',X.CANCEL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SUM(CASE WHEN PAYMODE=''CA'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''CA'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS CASHAMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''CC'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''CC'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS CARD'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''CH'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''CH'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS CHEQUE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''RO'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''RO'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS ROUNDOFF'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''AA'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''AA'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS ADVANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''HC'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''HC'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS HANDLOG'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''DI'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''DI'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS DISCOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE IN(''SS'',''CG'',''CB'',''CZ'',''CD'',''HB'',''HD'',''HP'',''CT'') AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE IN(''SS'',''CG'',''CB'',''CZ'',''CD'',''HB'',''HD'',''HP'',''CT'') AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS CHITCARD'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''GV'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''GV'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS GIFTVOUCHER'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN PAYMODE=''DU'' THEN (SELECT SUM(CASE WHEN TRANMODE=''D'' THEN AMOUNT ELSE -1*AMOUNT END) FROM ACCTRAN WHERE PAYMODE=''DU'' AND TRANDATE=A.TRANDATE AND TRANNO=A.TRANNO AND BATCHNO NOT IN (SELECT BATCHNO FROM '+@ADMINDB+'..ITEMDETAIL) )END CREDIT '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN PAYMODE=''DU'' THEN (SELECT SUM(CASE WHEN TRANMODE=''D'' THEN AMOUNT ELSE -1*AMOUNT END) FROM ACCTRAN WHERE PAYMODE=''DU'' AND BATCHNO=A.BATCHNO AND BATCHNO IN (SELECT BATCHNO FROM '+@ADMINDB+'..ITEMDETAIL) )END JND '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.BATCHNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.CANCEL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM ACCTRAN A'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE A.BATCHNO IN (SELECT BATCHNO FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE TRANTYPE<>''GIFT RECEIPT'') '      "
+        strSql += vbCrLf + "          IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(A.CANCEL,'''')='''' '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'GROUP BY A.TRANNO,A.TRANDATE,A.BATCHNO,PAYMODE,A.TRANMODE,A.CANCEL'    "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + 'UNION ALL'      "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SUM(CASE WHEN PAYMODE=''CA'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''CA'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS CASHAMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''CC'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''CC'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS CARD'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''CH'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''CH'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS CHEQUE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''RO'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''RO'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS ROUNDOFF'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''AA'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''AA'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS ADVANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''HC'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''HC'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS HANDLOG'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''DI'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''DI'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS DISCOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE IN(''SS'',''CG'',''CB'',''CZ'',''CD'',''HB'',''HD'',''HP'',''CT'') AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE IN(''SS'',''CG'',''CB'',''CZ'',''CD'',''HB'',''HD'',''HP'',''CT'') AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS CHITCARD'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 AS GIFTVOUCHER'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN PAYMODE=''DU'' THEN (SELECT SUM(CASE WHEN TRANMODE=''D'' THEN AMOUNT ELSE -1*AMOUNT END) FROM ACCTRAN WHERE PAYMODE=''DU'' AND TRANDATE=A.TRANDATE AND TRANNO=A.TRANNO AND BATCHNO NOT IN (SELECT BATCHNO FROM '+@ADMINDB+'..ITEMDETAIL) )END CREDIT '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN PAYMODE=''DU'' THEN (SELECT SUM(CASE WHEN TRANMODE=''D'' THEN AMOUNT ELSE -1*AMOUNT END) FROM ACCTRAN WHERE PAYMODE=''DU'' AND BATCHNO=A.BATCHNO AND BATCHNO IN (SELECT BATCHNO FROM '+@ADMINDB+'..ITEMDETAIL) )END JND '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.BATCHNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.CANCEL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM ACCTRAN A'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE A.BATCHNO IN (SELECT BATCHNO FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE TRANTYPE=''GIFT RECEIPT'') '      "
+        strSql += vbCrLf + "          IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(A.CANCEL,'''')='''' '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'GROUP BY A.TRANNO,A.TRANDATE,A.BATCHNO,PAYMODE,A.TRANMODE,A.CANCEL'    "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + ')X '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON C.BATCHNO = X.BATCHNO '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'GROUP BY X.BATCHNO,P.PNAME,P.DOORNO,P.ADDRESS1,P.ADDRESS2,P.AREA,P.CITY,P.PINCODE,P.MOBILE,X.CANCEL,P.PAN,P.GSTNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'END'      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "          /*  UPDATING PAYMENT  */        "
+        strSql += vbCrLf + "          /* OLD SELECT @STRQRY=' IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL )>0'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'BEGIN'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'UPDATE TEMPTABLEDB..TEMP'+@SystemId+'FINAL SET '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'BALANCE =ISNULL((SELECT SUM(IAMOUNT) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE BATCHNO = T.BATCHNO AND RESULT <> 3 ),0)-ISNULL((SELECT SUM(RAMOUNT) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE BATCHNO "
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + "= T.BATCHNO AND RESULT <> 3 ),0)'         "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASH=(SELECT CASH FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'         "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CARD=(SELECT CARD FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CHEQUE=(SELECT CHEQUE FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',ROUNDOFF=(SELECT ROUNDOFF FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',ADVANCE=(SELECT ADVANCE FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',HANDLOG=(SELECT HANDLOG FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',DISCOUNT1=(SELECT DISCOUNT FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO)'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CHITCARD=(SELECT CHITCARD FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',GIFTVOUCHER=(SELECT GIFTVOUCHER FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CREDIT=(SELECT CREDIT FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',JND=(SELECT JND FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',TOTAL=(SELECT TOTAL FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO  )'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CANCEL=(SELECT TOP 1 CANCEL FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',RESULT =3'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL AS T'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE KEYNO=(SELECT TOP 1 KEYNO FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE BATCHNO=T.BATCHNO ORDER BY KEYNO ASC) AND ISNULL(BATCHNO,'''') <> '''''        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '('       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'COLHEAD,BILLNO,IPCS,IGRSWT,IWASTAGE,IMCHARGE,ISTNAMT,IMISCAMT,IAMOUNT,RPCS,RGRSWT,RWASTAGE,RMCHARGE,RSTNAMT,RAMOUNT,BALANCE,CASH,CARD,CHEQUE,ROUNDOFF,ADVANCE,HANDLOG,DISCOUNT,CHITCARD,GIFTVOUCHER,CREDIT,TOTAL"
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + ",JND,BATCHNO,SEP,CUSTOMER,ADDRESS,PHONENO)'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT ''S'' COLHEAD,''SUB TOTAL'' BILLNO,SUM(IPCS),SUM(IGRSWT),SUM(IWASTAGE),SUM(IMCHARGE),SUM(ISTNAMT),SUM(IMISCAMT),SUM(IAMOUNT),SUM(RPCS),SUM(RGRSWT),SUM(RWASTAGE),SUM(RMCHARGE),SUM(RSTNAMT),SUM(RAMOUNT),"
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + "SUM(BALANCE),SUM(CASH),SUM(CARD),SUM(CHEQUE)'    "
+        strSql += vbCrLf + "       SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(ROUNDOFF),SUM(ADVANCE),SUM(HANDLOG),SUM(DISCOUNT),SUM(CHITCARD),SUM(GIFTVOUCHER),SUM(CREDIT),SUM(TOTAL),SUM(JND),BATCHNO,SEP,'''' CUSTOMER,'''' ADDRESS,'''' PHONENO'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE ISNULL(BATCHNO,'''')<>''''  AND ISNULL(CANCEL,'''')<>''Y'' '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'GROUP BY BATCHNO,SEP'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'END'      "
+        strSql += vbCrLf + "          PRINT @STRQRY    "
+        strSql += vbCrLf + "          EXEC (@STRQRY) OLD*/    "
+        strSql += vbCrLf + "     /*APPROVAL*/     "
+        strSql += vbCrLf + "     IF @WITHAPPROVAL ='Y'    "
+        strSql += vbCrLf + "     BEGIN    "
+        strSql += vbCrLf + "      SELECT @STRQRY=' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL'     "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'BILLNO,TRANDATE,IITEMNAME,SUBITEMNAME,HSN,TRANTYPE,TRANTYPE1,RUNNO,ITAGNO,IITEMCTRNAME,TAGTYPE,CATEGORY,IPCS,IGRSWT,ILESSWT,INETWT,IADVWT,IBALWT,ISTNWT,IDIAWT,IWASTPER,IWASTAGE,IMCHARGE,IRATE,IPURITY,ISTNAMT,IDIAAMT,IMISCAMT'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',SGST,CGST,IGST,GST,IAMOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',RITEMNAME,RPCS,RGRSWT,RLESSWT,RNETWT,RSTNWT,RDIAWT,RPURITY,RWASTAGE,RMCHARGE,RSTNAMT,RDIAAMT,RAMOUNT,RSGST,RCGST,RIGST,RNETAMOUNT,BALANCE,CASH'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',CARD,CHEQUE,ROUNDOFF,ADVANCE,HANDLOG,DISCOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',CHITCARD,GIFTVOUCHER,CREDIT,JND,TOTAL,BATCHNO,RESULT,SEP,CUSTOMER,ADDRESS,PHONENO,PAN,GSTNO,CANCEL,EMPNAME,USERNAME'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ')'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' ''APPROVAL'' BILLNO,NULL TRANDATE,'''' IITEMNAME,'''' SUBITEMNAME,'''' HSN,'''' TRANTYPE,'''' TRANTYPE1,'''' RUNNO,'''' ITAGNO,'''' IITEMCTRNAME,'''' TAGTYPE,'''' CATEGORY'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 IPCS,0 IGRSWT,0 ILESSWT,0 INETWT,0 IADVWT,0 IBALWT,0 ISTNWT,0 IDIAWT,0 IWASTPER,0 IWASTAGE,0 IMCHARGE,0 IRATE,0 IPURITY,0 ISTNAMT,0 IDIAAMT,0 IMISCAMT'    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 SGST,0 CGST,0 IGST,0 GST,0 IAMOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ','''' RITEMNAME,0 RPCS,0 RGRSWT,0 RLESSWT,0 RNETWT,0 RSTNWT,0 RDIAWT,0 RPURITY,0 RWASTAGE,0 RMCHARGE,0 RSTNAMT,0 RDIAAMT,0 RAMOUNT,0 RSGST,0 RCGST,0 RIGST,0 RNETAMOUNT,0 BALANCE,0 CASH'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,0 TOTAL,'''' BATCHNO,1 RESULT,8 SEP,'''' CUSTOMER,'''' ADDRESS,'''' PHONENO,'''' PAN,'''' GSTNO,'''' CANCEL,'''' EMPNAME,'''' USERNAME'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE 1=1'      "
+        strSql += vbCrLf + "             PRINT @STRQRY      "
+        strSql += vbCrLf + "             EXEC (@STRQRY)    "
+        strSql += vbCrLf + "      SELECT @STRQRY=' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'BILLNO,TRANDATE,IITEMNAME,SUBITEMNAME,HSN,TRANTYPE,TRANTYPE1,RUNNO,ITAGNO,IITEMCTRNAME,TAGTYPE,CATEGORY,IPCS,IGRSWT,ILESSWT,INETWT,IADVWT,IBALWT,ISTNWT,IDIAWT,IWASTPER,IWASTAGE,IMCHARGE,IRATE,IPURITY,ISTNAMT,IDIAAMT,IMISCAMT'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',SGST,CGST,IGST,GST,IAMOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',RITEMNAME,RPCS,RGRSWT,RLESSWT,RNETWT,RSTNWT,RDIAWT,RPURITY,RWASTAGE,RMCHARGE,RSTNAMT,RDIAAMT,RAMOUNT,RSGST,RCGST,RIGST,RNETAMOUNT,BALANCE,CASH'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',CARD,CHEQUE,ROUNDOFF,ADVANCE,HANDLOG,DISCOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',CHITCARD,GIFTVOUCHER,CREDIT,JND,TOTAL,BATCHNO,RESULT,SEP,CUSTOMER,ADDRESS,PHONENO,PAN,GSTNO,CANCEL,EMPNAME,USERNAME'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ')'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ' SELECT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'BILLNO,TRANDATE,CATEGORY IITEMNAME,'''' SUBITEMNAME,'''' HSN,TRANTYPE,TRANTYPE1,'''' RUNNO,'''' ITAGNO,'''' IITEMCTRNAME,'''' TAGTYPE,CATEGORY'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(IPCS) IPCS,SUM(IGRSWT) IGRSWT,SUM(ILESSWT)  ILESSWT,SUM(INETWT) INETWT,SUM(IADVWT) IADVWT,SUM(IBALWT) IBALWT,SUM(ISTNWT) ISTNWT,SUM(IDIAWT) IDIAWT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(IWASTPER) IWASTPER,SUM(IWASTAGE) IWASTAGE,SUM(IMCHARGE) IMCHARGE,0 IRATE,0 IPURITY,SUM(ISTNAMT) ISTNAMT,SUM(IDIAAMT) IDIAAMT,SUM(IMISCAMT) IMISCAMT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(SGST) SGST,SUM(CGST) CGST,SUM(IGST) IGST,SUM(GST) GST,SUM(IAMOUNT) IAMOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ','''' RITEMNAME,SUM(RPCS) RPCS,SUM(RGRSWT) RGRSWT,SUM(RLESSWT) RLESSWT,SUM(RNETWT) RNETWT,SUM(RSTNWT) RSTNWT,SUM(RDIAWT) RDIAWT,'''' RPURITY'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(RWASTAGE) RWASTAGE,SUM(RMCHARGE) RMCHARGE,SUM(RSTNAMT) RSTNAMT,SUM(RDIAAMT) RDIAAMT,SUM(RAMOUNT) RAMOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(RSGST) RSGST,SUM(RCGST) RCGST,SUM(RIGST) RIGST,SUM(RNETAMOUNT) RNETAMOUNT,0 BALANCE'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,SUM(TOTAL) TOTAL,BATCHNO,3 RESULT,8 SEP,CUSTOMER,ADDRESS,PHONENO,PAN,GSTNO,CANCEL,EMPNAME,USERNAME'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'CONVERT(VARCHAR,I.TRANNO) AS BILLNO,I.TRANDATE'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT ITEMNAME FROM   '+@ADMINDB+'..ITEMMAST WHERE ITEMID =I.ITEMID) AS IITEMNAME'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUBITEMNAME FROM   '+@ADMINDB+'..SUBITEMMAST WHERE SUBITEMID =I.SUBITEMID) AS SUBITEMNAME'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT HSN FROM   '+@ADMINDB+'..ITEMMAST WHERE ITEMID =I.ITEMID) AS HSN'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',''APP ISS'' AS TRANTYPE'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',I.TRANTYPE AS TRANTYPE1'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT TOP 1 SUBSTRING(RUNNO,6,20) FROM   '+@ADMINDB+'..OUTSTANDING WHERE BATCHNO=I.BATCHNO ) AS RUNNO'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR,TAGNO) AS ITAGNO,(SELECT ITEMCTRNAME FROM   '+@ADMINDB+'..ITEMCOUNTER WHERE ITEMCTRID =I.ITEMCTRID) AS IITEMCTRNAME'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SNAME FROM '+@ADMINDB+'..ITEMTYPE WHERE ITEMTYPEID IN(SELECT ITEMTYPEID FROM '+@ADMINDB+'..ITEMTAG WHERE TAGNO = I.TAGNO AND ITEMID= I.ITEMID ))TAGTYPE'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT CATNAME FROM   '+@ADMINDB+'..CATEGORY WHERE CATCODE =I.CATCODE) AS CATEGORY'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',PCS AS IPCS,I.GRSWT AS IGRSWT,LESSWT AS ILESSWT,NETWT AS INETWT '      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN I.TRANTYPE=''OD'' THEN (SELECT SUM(GRSWT) FROM '+@ADMINDB+'..OUTSTANDING WHERE BATCHNO=I.BATCHNO) ELSE 0 END AS IADVWT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN I.TRANTYPE=''OD'' THEN (I.GRSWT-ISNULL((SELECT SUM(GRSWT) FROM '+@ADMINDB+'..OUTSTANDING WHERE BATCHNO=I.BATCHNO),0)) ELSE 0 END IBALWT'      "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNWT) FROM ISSSTONE WHERE ISSSNO=I.SNO AND BATCHNO=I.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''T''))ISTNWT'    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNWT) FROM ISSSTONE WHERE ISSSNO=I.SNO AND BATCHNO=I.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''D''))IDIAWT'    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ',ISNULL(CONVERT(NUMERIC(15,2),(WASTAGE/CASE WHEN I.GRSWT <> 0  THEN I.GRSWT ELSE 1 END)*100),0) AS IWASTPER'      "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ',WASTAGE AS IWASTAGE,MCHARGE AS IMCHARGE,RATE IRATE,PURITY IPURITY '    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNAMT) FROM ISSSTONE WHERE ISSSNO=I.SNO AND BATCHNO=I.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''T''))ISTNAMT'    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNAMT) FROM ISSSTONE WHERE ISSSNO=I.SNO AND BATCHNO=I.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''D''))IDIAAMT'    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,MISCAMT IMISCAMT'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=I.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TAXID=''SG'' AND TRANTYPE=I.TRANTYPE) AS SGST'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=I.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TAXID=''CG'' AND TRANTYPE=I.TRANTYPE) AS CGST'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=I.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TAXID=''IG'' AND TRANTYPE=I.TRANTYPE) AS IGST'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=I.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TRANTYPE=I.TRANTYPE) AS GST'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT+I.TAX AS IAMOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ','' ''RITEMNAME,0 RPCS,0.00 RGRSWT,0.00 RNETWT,0.00 RLESSWT,0.00 RSTNWT,0.00 RDIAWT,0 RPURITY,0.00 RWASTAGE,0.00 RMCHARGE,0 RSTNAMT,0 RDIAAMT'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 RAMOUNT,0 RSGST,0 RCGST,0 RIGST,0 RNETAMOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',0.0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,(I.DISCOUNT+FIN_DISCOUNT) DISCOUNT,0 CHITCARD,0 JND,0 GIFTVOUCHER,0 CREDIT,0 TOTAL'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',I.BATCHNO,1 RESULT,PNAME CUSTOMER,ISNULL(DOORNO,'''') + ISNULL(ADDRESS1,'''') + ISNULL(ADDRESS2,'''') + '' '' + ISNULL(AREA,'''') + '' '' + ISNULL(CITY,'''') + '' '' + ISNULL(PINCODE,'''') ADDRESS,MOBILEPHONENO,P.PAN,P.GSTNO'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',I.CANCEL,(SELECT EMPNAME FROM '+@ADMINDB+'..EMPMASTER WHERE EMPID=I.EMPID)EMPNAME,(SELECT USERNAME FROM '+@ADMINDB+'..USERMASTER WHERE USERID=I.USERID)USERNAME'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM   ISSUE AS I  '    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON C.BATCHNO = I.BATCHNO '    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO '      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE (I.TRANTYPE IN (''AI'')) '      "
+        strSql += vbCrLf + "             IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(I.CANCEL,'''')='''''      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.TRANDATE BETWEEN '''+@DATE+''' AND '''+@TODATE+''''      "
+        strSql += vbCrLf + "             IF @BILLNO <> '' SELECT @STRQRY=@STRQRY + CHAR(13) + ' AND I.TRANNO = '''+@BILLNO+''' '       "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.COMPANYID IN (SELECT COMPANYID FROM #COMPANY) '      "
+        strSql += vbCrLf + "             IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''      "
+        strSql += vbCrLf + "             BEGIN      "
+        strSql += vbCrLf + "              SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.COSTID =(SELECT COSTID FROM  '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'      "
+        strSql += vbCrLf + "             END       "
+        strSql += vbCrLf + "             IF @NODEID <> 'ALL' And @NODEID <> ''      "
+        strSql += vbCrLf + "             BEGIN       "
+        strSql += vbCrLf + "              SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.SYSTEMID ='''+@NODEID+''''      "
+        strSql += vbCrLf + "             END       "
+        strSql += vbCrLf + "         IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "         BEGIN    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "         END    "
+        strSql += vbCrLf + "         IF @METAL <> 'ALL' AND @METAL <> ''    "
+        strSql += vbCrLf + "         BEGIN    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.ITEMID IN (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID IN ('''+@METAL+''') )'      "
+        strSql += vbCrLf + "         END    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'UNION ALL'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'CONVERT(VARCHAR,R.TRANNO) BILLNO,R.TRANDATE,'' ''ITEMNAME,'' '' SUBITEMNAME,'' ''HSN'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',''APP REC'' AS TRANTYPE '    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',R.TRANTYPE AS TRANTYPE1,'' ''RUNNO'        "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ','' ''TAGNO,'' '' IITEMCTRNAME'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SNAME FROM '+@ADMINDB+'..ITEMTYPE WHERE ITEMTYPEID IN(SELECT ITEMTYPEID FROM '+@ADMINDB+'..ITEMTAG WHERE TAGNO = R.TAGNO AND ITEMID= R.ITEMID ))TAGTYPE'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT CATNAME FROM   '+@ADMINDB+'..CATEGORY WHERE CATCODE =R.CATCODE) AS CATEGORY'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 PCS,0.00 GRSWT,0.00 ILESSWT,0.00 NETWT,0.00 IADVWT,0.00 IBALWT,0.00 ISTNWT,0.00 IDIAWT,0 WASTPER,0.00 WASTAGE,0.00 MCHARGE,0 IRATE,0 IPURITY,0 ISTNAMT,0 IDIAAMT,0 IMISCAMT'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 AS SGST,0 AS CGST,0 AS IGST,0 AS GST,0 AMOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT ITEMNAME FROM  '+@ADMINDB+'..ITEMMAST WHERE ITEMID =R.ITEMID) AS RITEMNAME'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',PCS AS RPCS,R.GRSWT AS RGRSWT,LESSWT AS RLESSWT,0.00 RNETWT '    "
+        strSql += vbCrLf + "           SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNWT) FROM RECEIPTSTONE WHERE ISSSNO=R.SNO AND BATCHNO=R.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''T''))RSTNWT'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNWT) FROM RECEIPTSTONE WHERE ISSSNO=R.SNO AND BATCHNO=R.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''D''))RDIAWT'    "
+        strSql += vbCrLf + "            SELECT @STRQRY=@STRQRY + CHAR(13) + ',PURITY RPURITY,R.WASTAGE AS RWASTAGE,R.MCHARGE AS RMCHARGE'    "
+        strSql += vbCrLf + "           SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNAMT) FROM RECEIPTSTONE WHERE ISSSNO=R.SNO AND BATCHNO=R.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "           SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''T''))RSTNAMT'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNAMT) FROM RECEIPTSTONE WHERE ISSSNO=R.SNO AND BATCHNO=R.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "           SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''D''))RDIAAMT'    "
+        strSql += vbCrLf + "           SELECT @STRQRY=@STRQRY + CHAR(13) + ',R.AMOUNT AS RAMOUNT'      "
+        strSql += vbCrLf + "           SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=R.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TAXID=''SG'' AND TRANTYPE=R.TRANTYPE) AS SGST'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=R.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TAXID=''CG'' AND TRANTYPE=R.TRANTYPE) AS CGST'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=R.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TAXID=''IG'' AND TRANTYPE=R.TRANTYPE) AS IGST'     "
+        strSql += vbCrLf + "           SELECT @STRQRY=@STRQRY + CHAR(13) + ',R.AMOUNT+R.TAX AS RNETAMOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT,0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,0 TOTAL'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',R.BATCHNO,2 RESULT,PNAME CUSTOMER,ISNULL(DOORNO,'''') + ISNULL(ADDRESS1,'''') + ISNULL(ADDRESS2,'''') + '' '' + ISNULL(AREA,'''') + '' '' + ISNULL(CITY,'''') + '' '' + ISNULL(PINCODE,'''') ADDRESS,MOBILE PHONENO,P.PAN,P.GSTNO,R.CANCEL'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT EMPNAME FROM '+@ADMINDB+'..EMPMASTER WHERE EMPID=R.EMPID)EMPNAME,(SELECT USERNAME FROM '+@ADMINDB+'..USERMASTER WHERE USERID=R.USERID)USERNAME'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM   RECEIPT AS R  LEFT OUTER JOIN  '+@ADMINDB+'..CUSTOMERINFO AS C ON C.BATCHNO = R.BATCHNO LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO '      "
+        strSql += vbCrLf + "            SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE R.TRANTYPE in (''AR'')'      "
+        strSql += vbCrLf + "             IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(R.CANCEL,'''')='''''      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.TRANDATE BETWEEN '''+@DATE+''' AND '''+@TODATE+''''       "
+        strSql += vbCrLf + "             IF @BILLNO <> '' SELECT @STRQRY=@STRQRY + CHAR(13) + ' AND R.TRANNO = '''+@BILLNO+''' '       "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'      "
+        strSql += vbCrLf + "             IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''      "
+        strSql += vbCrLf + "             BEGIN      "
+        strSql += vbCrLf + "              SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.COSTID =(SELECT COSTID FROM  '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'      "
+        strSql += vbCrLf + "             END       "
+        strSql += vbCrLf + "             IF @NODEID <> 'ALL' And @NODEID <> ''       "
+        strSql += vbCrLf + "             BEGIN      "
+        strSql += vbCrLf + "              SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.SYSTEMID ='''+@NODEID+''''      "
+        strSql += vbCrLf + "             END       "
+        strSql += vbCrLf + "         IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "         BEGIN    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "         END    "
+        strSql += vbCrLf + "         IF @METAL <> 'ALL' AND @METAL <> ''    "
+        strSql += vbCrLf + "         BEGIN    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.ITEMID IN ( SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID IN ('''+@METAL+''') )'      "
+        strSql += vbCrLf + "         END    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ' )Y '    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' GROUP BY CATEGORY,BILLNO,TRANDATE,TRANTYPE,TRANTYPE1,CUSTOMER,ADDRESS,PHONENO,PAN,GSTNO,CANCEL,EMPNAME,USERNAME,BATCHNO,RESULT '    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' ORDER BY BATCHNO,RESULT'      "
+        strSql += vbCrLf + "             PRINT @STRQRY      "
+        strSql += vbCrLf + "             EXEC (@STRQRY)      "
+        strSql += vbCrLf + "     END    "
+        strSql += vbCrLf + "     /*END APPROVAL*/    "
+        strSql += vbCrLf + "              /*nEWLY */     "
+        strSql += vbCrLf + "          SELECT @STRQRY=' IF (SELECT 1 FROM TEMPTABLEDB..SYSOBJECTS WHERE NAME = ''TEMP'+@SystemId+'KEYNO'')>0 DROP TABLE TEMPTABLEDB..TEMP'+@SystemId+'KEYNO '         "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT  KEYNO , BATCHNO INTO TEMPTABLEDB..TEMP'+@SystemId+'KEYNO  FROM   TEMPTABLEDB..TEMP'+@SystemId+'FINAL'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE BATCHNO  IN (SELECT DISTINCT BATCHNO FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE TRANTYPE1 IN (''SR'',''PU'',''AI'',''AR'')) '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND TRANTYPE1 NOT IN (''SR'',''PU'',''AI'',''AR'')'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(COLHEAD,'''') <> ''S'' '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'GROUP BY BATCHNO,KEYNO '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'HAVING SUM(IAMOUNT - RAMOUNT)  >0 '    "
+        strSql += vbCrLf + "              PRINT @STRQRY      "
+        strSql += vbCrLf + "              EXEC (@STRQRY)     "
+        strSql += vbCrLf + "              SELECT @STRQRY=' IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL )>0'       "
+        strSql += vbCrLf + "              SELECT @STRQRY=@STRQRY + CHAR(13) + 'BEGIN'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'UPDATE TEMPTABLEDB..TEMP'+@SystemId+'FINAL SET '      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'BALANCE =ISNULL((SELECT SUM(IAMOUNT) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE BATCHNO = T.BATCHNO AND RESULT <> 3 ),0)-ISNULL((SELECT SUM(RNETAMOUNT) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE BATCHNO = T.BATCHNO AND RESULT <> 3),0)'         "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASH=(SELECT CASH FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'         "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',CARD=(SELECT CARD FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',CHEQUE=(SELECT CHEQUE FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',ROUNDOFF=(SELECT ROUNDOFF FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',ADVANCE=(SELECT ADVANCE FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',HANDLOG=(SELECT HANDLOG FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',DISCOUNT1=(SELECT DISCOUNT FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO)'       "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',CHITCARD=(SELECT CHITCARD FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',GIFTVOUCHER=(SELECT GIFTVOUCHER FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO AND T.TRANTYPE<>''GIFT RECEIPT'')'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',CREDIT=(SELECT CREDIT FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',JND=(SELECT JND FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',TOTAL=(SELECT TOTAL FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO) '       "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',CANCEL=(SELECT TOP 1 CANCEL FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'       "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',RESULT =3'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL AS T'       "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE KEYNO= (SELECT TOP 1 KEYNO FROM TEMPTABLEDB..TEMP'+@SystemId+'KEYNO WHERE BATCHNO=T.BATCHNO ORDER BY KEYNO DESC) AND ISNULL(BATCHNO,'''') <> '''''        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'UPDATE TEMPTABLEDB..TEMP'+@SystemId+'FINAL SET '      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'BALANCE =ISNULL((SELECT SUM(IAMOUNT) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE BATCHNO = T.BATCHNO AND RESULT <> 3),0)-ISNULL((SELECT SUM(RNETAMOUNT) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE BATCHNO = T.BATCHNO AND RESULT <> 3),0)'         "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASH=(SELECT CASH FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'         "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',CARD=(SELECT CARD FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',CHEQUE=(SELECT CHEQUE FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',ROUNDOFF=(SELECT ROUNDOFF FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',ADVANCE=(SELECT ADVANCE FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',HANDLOG=(SELECT HANDLOG FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',DISCOUNT1=(SELECT DISCOUNT FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO)'       "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',CHITCARD=(SELECT CHITCARD FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',GIFTVOUCHER=(SELECT GIFTVOUCHER FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO AND T.TRANTYPE<>''GIFT RECEIPT'')'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',CREDIT=(SELECT CREDIT FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',JND=(SELECT JND FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',TOTAL=(SELECT TOTAL FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO  )'       "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',CANCEL=(SELECT TOP 1 CANCEL FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'       "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',RESULT =3'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL AS T'       "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE KEYNO= (SELECT TOP 1 KEYNO FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE BATCHNO=T.BATCHNO ORDER BY KEYNO DESC) AND BATCHNO NOT IN (SELECT DISTINCT BATCHNO FROM TEMPTABLEDB..TEMP'+@SYSTEMID+'KEYNO) AND ISNULL(BATCHNO,'''') <> '''''       "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL '      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + '('       "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'COLHEAD,BILLNO,IPCS,IGRSWT,INETWT,IWASTAGE,IMCHARGE,ISTNAMT,IMISCAMT,IAMOUNT,RPCS,RGRSWT,RWASTAGE,RMCHARGE,RSTNAMT,RAMOUNT,BALANCE,CASH,CARD,CHEQUE,ROUNDOFF,ADVANCE,HANDLOG,DISCOUNT,CHITCARD,GIFTVOUCHER,CREDIT,TOTAL,JND,BATCHNO,SEP,CUSTOMER,ADDRESS,PHONENO)'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT ''S'' COLHEAD,''SUB TOTAL'' BILLNO,SUM(IPCS),SUM(IGRSWT),SUM(INETWT),SUM(IWASTAGE),SUM(IMCHARGE),SUM(ISTNAMT),SUM(IMISCAMT),SUM(IAMOUNT),SUM(RPCS),SUM(RGRSWT),SUM(RWASTAGE),SUM(RMCHARGE),SUM(RSTNAMT),SUM(RAMOUNT),SUM(BALANCE),SUM(CASH),SUM(CARD),SUM(CHEQUE)'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(ROUNDOFF),SUM(ADVANCE),SUM(HANDLOG),SUM(DISCOUNT),SUM(CHITCARD),SUM(GIFTVOUCHER),SUM(CREDIT),SUM(TOTAL),SUM(JND),BATCHNO,SEP,'''' CUSTOMER,'''' ADDRESS,'''' PHONENO'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL '      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE ISNULL(BATCHNO,'''')<>''''  AND ISNULL(CANCEL,'''')<>''Y'' '      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'GROUP BY BATCHNO,SEP'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'END'      "
+        strSql += vbCrLf + "     PRINT @STRQRY      "
+        strSql += vbCrLf + "     EXEC (@STRQRY)     "
+        strSql += vbCrLf + "              /*NEWLY */     "
+        strSql += vbCrLf + "          SELECT @STRQRY=' IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL )>0'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'BEGIN'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) +' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'COLHEAD,BILLNO,IPCS,IGRSWT,INETWT,IMCHARGE,IMISCAMT,IWASTAGE,ISTNAMT,SEP)'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT ''G''COLHEAD,''NON TAG TOTAL'' BILLNO,SUM(PCS)IPCS,SUM(GRSWT)IGRSWT,SUM(NETWT)INETWT,sum(MCHARGE)IMCHARGE,SUM(MISCAMT)IMISCAMT,SUM(WASTAGE)IWASTAGE,SUM(STNAMT)ISTNAMT,8'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM   ISSUE AS I  LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON C.BATCHNO = I.BATCHNO LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE (TRANTYPE IN (''SA'',''RD'') OR (TRANTYPE =''OD'' AND GRSWT >0))'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(I.CANCEL,'''')='''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.TRANDATE BETWEEN '''+ @DATE +''' AND '''+ @TODATE +''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.ITEMID IN('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE STOCKTYPE=''N'' )'      "
+        strSql += vbCrLf + "          IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''      "
+        strSql += vbCrLf + "          BEGIN      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.COSTID =(SELECT COSTID FROM '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'      "
+        strSql += vbCrLf + "          END      "
+        strSql += vbCrLf + "        IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "        IF @METAL <> 'ALL' AND @METAL <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.ITEMID IN ( SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID IN('''+@METAL+''')) '      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) +' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'COLHEAD,BILLNO,IPCS,IGRSWT,INETWT,IMCHARGE,IMISCAMT,IWASTAGE,ISTNAMT,SEP)'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT ''G''COLHEAD,''TAG TOTAL'' BILLNO,SUM(PCS)IPCS,SUM(GRSWT)IGRSWT,SUM(NETWT)INETWT,sum(MCHARGE)IMCHARGE,SUM(MISCAMT)IMISCAMT,SUM(WASTAGE)IWASTAGE,SUM(STNAMT)ISTNAMT,9'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM   ISSUE AS I  LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON C.BATCHNO = I.BATCHNO LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE (TRANTYPE IN (''SA'',''RD'') OR (TRANTYPE =''OD'' AND GRSWT >0))'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(I.CANCEL,'''')='''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.TRANDATE BETWEEN '''+ @DATE +''' AND '''+ @TODATE +''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.ITEMID IN('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE STOCKTYPE=''T'' )  AND ISNULL(I.TAGNO,'''')<>'''''      "
+        strSql += vbCrLf + "          IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''      "
+        strSql += vbCrLf + "          BEGIN      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.COSTID =(SELECT COSTID FROM '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'      "
+        strSql += vbCrLf + "          END     "
+        strSql += vbCrLf + "        IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "        IF @METAL <> 'ALL' AND @METAL <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.ITEMID IN ( SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID IN('''+@METAL+''')) '      "
+        strSql += vbCrLf + "        END     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'COLHEAD,BILLNO,IPCS,IGRSWT,INETWT,IMCHARGE,IMISCAMT,IWASTAGE,ISTNAMT,SEP)'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT ''G''COLHEAD,''HOME SALES TOTAL'' BILLNO,SUM(PCS)IPCS,SUM(GRSWT)IGRSWT,SUM(NETWT)INETWT,sum(MCHARGE)IMCHARGE,SUM(MISCAMT)IMISCAMT,SUM(WASTAGE)IWASTAGE,SUM(STNAMT)ISTNAMT,9.5'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM   ISSUE AS I  LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON C.BATCHNO = I.BATCHNO LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE (TRANTYPE IN (''SA'',''RD'') OR (TRANTYPE =''OD'' AND GRSWT >0))'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(I.CANCEL,'''')='''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.TRANDATE BETWEEN '''+ @DATE +''' AND '''+ @TODATE +''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.ITEMID IN('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE STOCKTYPE=''T'') AND ISNULL(I.TAGNO,'''')='''''      "
+        strSql += vbCrLf + "          IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''      "
+        strSql += vbCrLf + "          BEGIN      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.COSTID =(SELECT COSTID FROM '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'      "
+        strSql += vbCrLf + "          END      "
+        strSql += vbCrLf + "        IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "        IF @METAL <> 'ALL' AND @METAL <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.ITEMID IN ( SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID IN('''+@METAL+''')) '    "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'END'      "
+        strSql += vbCrLf + "     PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "    IF 1=1    "
+        strSql += vbCrLf + "    BEGIN    "
+        strSql += vbCrLf + "     PRINT ''    "
+        strSql += vbCrLf + "     SELECT @STRQRY = ''    "
+        strSql += vbCrLf + "     SELECT @STRQRY=' IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL )>0'       "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'BEGIN'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'COLHEAD,BILLNO,SEP,BALANCE,CASH,CARD,CHEQUE,IAMOUNT,RESULT)'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' SELECT '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ''G''COLHEAD'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,''CHIT COLLECTION TOTAL'' BILLNO'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,9.59'     "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,(SUM(ISNULL(CASH,0))+ SUM(ISNULL(CARD,0))+SUM(ISNULL(CHEQUE,0)))BALANCE '     "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,SUM(CASH) CASH'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,SUM(CARD) CARD'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,SUM(CHEQUE) CHEQUE'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,SUM(AMOUNT) AMOUNT'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,9.59'     "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' FROM '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ( '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' SELECT CASE WHEN PAYMODE =''CA'' THEN SUM(CASE WHEN TRANMODE =''D'' THEN AMOUNT ELSE -1*AMOUNT END) END CASH'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,CASE WHEN PAYMODE =''CC'' THEN SUM(CASE WHEN TRANMODE =''D'' THEN AMOUNT ELSE -1*AMOUNT END) END CARD'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,CASE WHEN PAYMODE =''CH'' THEN SUM(CASE WHEN TRANMODE =''D'' THEN AMOUNT ELSE -1*AMOUNT END) END CHEQUE'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,SUM(AMOUNT) AMOUNT,''CHIT'' CTYPE'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' FROM ACCTRAN AS I  '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' WHERE I.TRANDATE BETWEEN '''+ @DATE +''' AND '''+ @TODATE +''''      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' AND ISNULL(I.CANCEL,'''')='''''      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' AND I.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'       "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' AND FROMFLAG=''C'' '    "
+        strSql += vbCrLf + "     IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''      "
+        strSql += vbCrLf + "     BEGIN      "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' AND I.COSTID =(SELECT COSTID FROM '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'      "
+        strSql += vbCrLf + "     END      "
+        strSql += vbCrLf + "     IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "     BEGIN    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' AND I.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "     END    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' GROUP BY PAYMODE'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' )X GROUP BY CTYPE HAVING ISNULL(SUM(AMOUNT),0)<>0 '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'END'      "
+        strSql += vbCrLf + "     PRINT @STRQRY      "
+        strSql += vbCrLf + "     EXEC (@STRQRY)     "
+        strSql += vbCrLf + "    END     "
+        strSql += vbCrLf + "    /*CHQ RECPAY*/    "
+        strSql += vbCrLf + "     SELECT @STRQRY=' IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL )>0'       "
+        strSql += vbCrLf + " SELECT @STRQRY=@STRQRY + CHAR(13) + 'BEGIN'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) +' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' COLHEAD,BILLNO,CHEQUE,SEP)'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' SELECT ''G''COLHEAD,''CHEQUE''+ CASE WHEN TRANMODE=''D'' THEN '' RECEIPT'' ELSE '' PAYMENT'' END BILLNO'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,SUM(ISNULL(AMOUNT,0))AMOUNT,10 SEP'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' FROM ACCTRAN A'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' WHERE A.BATCHNO IN (SELECT BATCHNO FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL) '      "
+        strSql += vbCrLf + "          IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + ' AND ISNULL(A.CANCEL,'''')='''' AND PAYMODE=''CH'' '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' AND A.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'     "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' GROUP BY TRANMODE ORDER BY TRANMODE'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'END'     "
+        strSql += vbCrLf + "     PRINT @STRQRY      "
+        strSql += vbCrLf + "     EXEC (@STRQRY)     "
+        strSql += vbCrLf + "     /*CHQ RECPAY*/    "
+        strSql += vbCrLf + "     SELECT @STRQRY=' IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL )>0'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'BEGIN'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'COLHEAD,BILLNO,IPCS,IGRSWT,INETWT,IWASTAGE,IMCHARGE,ISTNAMT,IMISCAMT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SGST,CGST,IGST,GST,IAMOUNT,RPCS,RGRSWT,RLESSWT,RNETWT,RWASTAGE,RMCHARGE,RSTNAMT,RAMOUNT,RSGST,RCGST,RIGST,RNETAMOUNT,BALANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASH,CARD,CHEQUE,ROUNDOFF,ADVANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',HANDLOG,DISCOUNT,DISCOUNT1,CHITCARD,GIFTVOUCHER,CREDIT,TOTAL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SEP,CUSTOMER,ADDRESS,PHONENO)'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT ''G'' COLHEAD,''TOTAL'' BILLNO,SUM(IPCS),SUM(IGRSWT),SUM(INETWT)'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(IWASTAGE),SUM(IMCHARGE),SUM(ISTNAMT),SUM(IMISCAMT)'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(SGST),SUM(CGST),SUM(IGST),SUM(GST)'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(IAMOUNT)'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(RPCS),SUM(RGRSWT),SUM(RLESSWT),SUM(RNETWT),SUM(RWASTAGE),SUM(RMCHARGE),SUM(RSTNAMT)'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(RAMOUNT),SUM(RSGST),SUM(RCGST),SUM(RIGST),SUM(RNETAMOUNT),SUM(BALANCE),SUM(CASH),SUM(CARD),SUM(CHEQUE)'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(ROUNDOFF),SUM(ADVANCE),SUM(HANDLOG),SUM(DISCOUNT),SUM(DISCOUNT1),SUM(CHITCARD)'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(GIFTVOUCHER),SUM(CREDIT),SUM(TOTAL),11 SEP,'''' CUSTOMER'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','''' ADDRESS,'''' PHONENO'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE BILLNO NOT IN(''SUB TOTAL'',''TAG TOTAL'',''NON TAG TOTAL'',''HOME SALES TOTAL'''      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,''CHEQUE RECEIPT'',''CHEQUE PAYMENT'')'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(CANCEL,'''')<>''Y'''    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'END'      "
+        strSql += vbCrLf + "          /*  MERGED: the raw report result set is only returned on request,     */    "
+        strSql += vbCrLf + "          /*  so that by default this procedure hands back a single result set.  */    "
+        strSql += vbCrLf + "          IF @WITHREPORTRESULT = 'Y'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT * FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL'      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' ALTER TABLE TEMPTABLEDB..TEMP'+@SystemId+'FINAL ADD STATUS VARCHAR(15)'      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "          SELECT @STRQRY='UPDATE   TEMPTABLEDB..TEMP'+@SystemId+'FINAL  SET STATUS=''CANCEL'' WHERE CANCEL=''Y'''      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' UPDATE TF SET NARRATION=(SELECT TOP 1 NARRATION FROM '+@ADMINDB+'..ITEMTAG  IT WHERE IT.TAGNO=TF.ITAGNO )'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL TF WHERE ISNULL(TF.ITAGNO,'''')<>'''' '      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' DELETE  FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE ISNULL(IPCS,'''')='''' AND ISNULL(CONVERT(VARCHAR(15),IGRSWT),'''')='''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND BILLNO=''NON TAG TOTAL'''      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' DELETE  FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE ISNULL(IPCS,'''')='''' AND ISNULL(CONVERT(VARCHAR(15),IGRSWT),'''')='''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND BILLNO=''TAG TOTAL'''      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' DELETE  FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE ISNULL(IPCS,'''')='''' AND ISNULL(CONVERT(VARCHAR(15),IGRSWT),'''')='''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND BILLNO=''HOME SALES TOTAL'''      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "          /* ===================================================================== */  "
+        strSql += vbCrLf + "          /*  MERGED FROM SP_SEARCH_CustomerTransation                             */  "
+        strSql += vbCrLf + "          /*  TEMP<@SystemId>FINAL is now complete (STATUS / NARRATION added and    */  "
+        strSql += vbCrLf + "          /*  the empty TAG / NON TAG / HOME SALES total rows removed), so the      */  "
+        strSql += vbCrLf + "          /*  search layer can be applied on top of it.                            */  "
+        strSql += vbCrLf + "          /* ===================================================================== */  "
+        strSql += vbCrLf + "          /*  ---- drop the previous search output table ------------------------- */  "
+        strSql += vbCrLf + "          SELECT @SEARCHSQL = N'IF OBJECT_ID(''TEMPTABLEDB..TEMP' + @SystemId + N'FINAL2'') IS NOT NULL'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'DROP TABLE TEMPTABLEDB..TEMP' + @SystemId + N'FINAL2'    "
+        strSql += vbCrLf + "          PRINT @SEARCHSQL    "
+        strSql += vbCrLf + "          EXEC sp_executesql @SEARCHSQL    "
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + "          /*  ---- column list: 0 is shown as NULL so the report stays readable --- */  "
+        strSql += vbCrLf + "          SELECT @COLLIST = N'  "
+        strSql += vbCrLf + " BILLNO,TRANDATE  "
+        strSql += vbCrLf + ",TRANTYPE  "
+        strSql += vbCrLf + ",RUNNO  "
+        strSql += vbCrLf + ",CATEGORY,IITEMNAME  "
+        strSql += vbCrLf + ",ITAGNO,IITEMCTRNAME  "
+        strSql += vbCrLf + ",CASE WHEN IPCS <> 0 THEN IPCS ELSE NULL END IPCS  "
+        strSql += vbCrLf + ",CASE WHEN IGRSWT <> 0 THEN IGRSWT ELSE NULL END IGRSWT  "
+        strSql += vbCrLf + ",CASE WHEN ILESSWT <> 0 THEN ILESSWT ELSE NULL END ILESSWT  "
+        strSql += vbCrLf + ",CASE WHEN INETWT <> 0 THEN INETWT ELSE NULL END INETWT  "
+        strSql += vbCrLf + ",CASE WHEN IADVWT <> 0 THEN IADVWT ELSE NULL END IADVWT  "
+        strSql += vbCrLf + ",CASE WHEN IBALWT <> 0 THEN IBALWT ELSE NULL END IBALWT  "
+        strSql += vbCrLf + ",CASE WHEN ISTNWT <> 0 THEN ISTNWT ELSE NULL END ISTNWT  "
+        strSql += vbCrLf + ",CASE WHEN IDIAWT <> 0 THEN IDIAWT ELSE NULL END IDIAWT  "
+        strSql += vbCrLf + ",CASE WHEN IWASTPER <> 0 THEN IWASTPER ELSE NULL END IWASTPER  "
+        strSql += vbCrLf + ",CASE WHEN IWASTAGE <> 0 THEN IWASTAGE ELSE NULL END IWASTAGE  "
+        strSql += vbCrLf + ",CASE WHEN IMCHARGE <> 0 THEN IMCHARGE ELSE NULL END IMCHARGE  "
+        strSql += vbCrLf + ",CASE WHEN IRATE <> 0 THEN IRATE ELSE NULL END IRATE  "
+        strSql += vbCrLf + ",CASE WHEN IPURITY <> 0 THEN IPURITY ELSE NULL END IPURITY  "
+        strSql += vbCrLf + ",CASE WHEN ISTNAMT <> 0 THEN ISTNAMT ELSE NULL END ISTNAMT  "
+        strSql += vbCrLf + ",CASE WHEN IDIAAMT <> 0 THEN IDIAAMT ELSE NULL END IDIAAMT  "
+        strSql += vbCrLf + ",CASE WHEN IMISCAMT <> 0 THEN IMISCAMT ELSE NULL END IMISCAMT  "
+        strSql += vbCrLf + ",CASE WHEN IAMOUNT <> 0 THEN IAMOUNT ELSE NULL END IAMOUNT  "
+        strSql += vbCrLf + ",RITEMNAME  "
+        strSql += vbCrLf + ",CASE WHEN RPCS <> 0 THEN RPCS ELSE NULL END RPCS  "
+        strSql += vbCrLf + ",CASE WHEN RGRSWT <> 0 THEN RGRSWT ELSE NULL END RGRSWT  "
+        strSql += vbCrLf + ",CASE WHEN RLESSWT <> 0 THEN RLESSWT ELSE NULL END RLESSWT  "
+        strSql += vbCrLf + ",CASE WHEN RNETWT <> 0 THEN RNETWT ELSE NULL END RNETWT  "
+        strSql += vbCrLf + ",CASE WHEN RSTNWT <> 0 THEN RSTNWT ELSE NULL END RSTNWT  "
+        strSql += vbCrLf + ",CASE WHEN RDIAWT <> 0 THEN RDIAWT ELSE NULL END RDIAWT  "
+        strSql += vbCrLf + ",CASE WHEN RPURITY <> 0 THEN RPURITY ELSE NULL END RPURITY  "
+        strSql += vbCrLf + ",CASE WHEN RWASTAGE <> 0 THEN RWASTAGE ELSE NULL END RWASTAGE  "
+        strSql += vbCrLf + ",CASE WHEN RMCHARGE <> 0 THEN RMCHARGE ELSE NULL END RMCHARGE  "
+        strSql += vbCrLf + ",CASE WHEN RSTNAMT <> 0 THEN RSTNAMT ELSE NULL END RSTNAMT  "
+        strSql += vbCrLf + ",CASE WHEN RDIAAMT <> 0 THEN RDIAAMT ELSE NULL END RDIAAMT  "
+        strSql += vbCrLf + ",CASE WHEN RAMOUNT <> 0 THEN RAMOUNT ELSE NULL END RAMOUNT  "
+        strSql += vbCrLf + ",CASE WHEN RSGST <> 0 THEN RSGST ELSE NULL END RSGST  "
+        strSql += vbCrLf + ",CASE WHEN RCGST <> 0 THEN RCGST ELSE NULL END RCGST  "
+        strSql += vbCrLf + ",CASE WHEN RIGST <> 0 THEN RIGST ELSE NULL END RIGST  "
+        strSql += vbCrLf + ",CASE WHEN RNETAMOUNT <> 0 THEN RNETAMOUNT ELSE NULL END RNETAMOUNT  "
+        strSql += vbCrLf + ",CASE WHEN BALANCE <> 0 THEN BALANCE ELSE NULL END BALANCE  "
+        strSql += vbCrLf + ",CASE WHEN CASH <> 0 THEN CASH ELSE NULL END CASH  "
+        strSql += vbCrLf + ",CASE WHEN CARD <> 0 THEN CARD ELSE NULL END CARD  "
+        strSql += vbCrLf + ",CASE WHEN CHEQUE <> 0 THEN CHEQUE ELSE NULL END CHEQUE  "
+        strSql += vbCrLf + ",CASE WHEN ROUNDOFF <> 0 THEN ROUNDOFF ELSE NULL END ROUNDOFF  "
+        strSql += vbCrLf + ",CASE WHEN ADVANCE <> 0 THEN ADVANCE ELSE NULL END ADVANCE  "
+        strSql += vbCrLf + ",CASE WHEN HANDLOG <> 0 THEN HANDLOG ELSE NULL END HANDLOG  "
+        strSql += vbCrLf + ",CASE WHEN DISCOUNT <> 0 THEN DISCOUNT ELSE NULL END DISCOUNT  "
+        strSql += vbCrLf + ",CASE WHEN DISCOUNT1 <> 0 THEN DISCOUNT1 ELSE NULL END DISCOUNT1  "
+        strSql += vbCrLf + ",CASE WHEN CHITCARD <> 0 THEN CHITCARD ELSE NULL END CHITCARD  "
+        strSql += vbCrLf + ",CASE WHEN GIFTVOUCHER <> 0 THEN GIFTVOUCHER ELSE NULL END GIFTVOUCHER  "
+        strSql += vbCrLf + ",CASE WHEN CREDIT <> 0 THEN CREDIT ELSE NULL END CREDIT  "
+        strSql += vbCrLf + ",CASE WHEN JND <> 0 THEN JND ELSE NULL END JND  "
+        strSql += vbCrLf + ",CASE WHEN TOTAL <> 0 THEN TOTAL ELSE NULL END TOTAL  "
+        strSql += vbCrLf + ",CUSTOMER,ADDRESS,PHONENO,PAN,GSTNO,EMPNAME,USERNAME,NARRATION,STATUS,BATCHNO,TAGTYPE  "
+        strSql += vbCrLf + ",RESULT,SEP,KEYNO'    "
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + "          /*  ---- build TEMP<@SystemId>FINAL2 ---------------------------------- */  "
+        strSql += vbCrLf + "          SELECT @SEARCHSQL = N'SELECT' + @COLLIST    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'INTO TEMPTABLEDB..TEMP' + @SystemId + N'FINAL2'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'FROM TEMPTABLEDB..TEMP' + @SystemId + N'FINAL'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'WHERE BILLNO <> @P_SUBTOTAL'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'ORDER BY SEP,BATCHNO,KEYNO'    "
+        strSql += vbCrLf + "          PRINT @SEARCHSQL    "
+        strSql += vbCrLf + "          EXEC sp_executesql @SEARCHSQL    "
+        strSql += vbCrLf + "                            ,N'@P_SUBTOTAL VARCHAR(20)'    "
+        strSql += vbCrLf + "                            ,@P_SUBTOTAL = 'SUB TOTAL'    "
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + "          /*  ---- turn the blank search arguments into NULL / LIKE patterns ---- */  "
+        strSql += vbCrLf + "          /*  doing this in static T-SQL keeps the dynamic statement free of any  */  "
+        strSql += vbCrLf + "          /*  embedded literals and lets the values travel as real parameters     */  "
+        strSql += vbCrLf + "          SELECT @L_CUSTOMER = CASE WHEN ISNULL(@CUSTOMER    ,'') = '' THEN NULL ELSE '%' + @CUSTOMER     + '%' END    "
+        strSql += vbCrLf + "                ,@L_PHONENO  = CASE WHEN ISNULL(@PHONENO     ,'') = '' THEN NULL ELSE '%' + @PHONENO      + '%' END    "
+        strSql += vbCrLf + "                ,@L_PAN      = CASE WHEN ISNULL(@PAN         ,'') = '' THEN NULL ELSE '%' + @PAN          + '%' END    "
+        strSql += vbCrLf + "                ,@L_GSTNO    = CASE WHEN ISNULL(@GSTNO       ,'') = '' THEN NULL ELSE '%' + @GSTNO        + '%' END    "
+        strSql += vbCrLf + "                ,@L_ADDRESS  = CASE WHEN ISNULL(@ADDRESS     ,'') = '' THEN NULL ELSE '%' + @ADDRESS      + '%' END    "
+        strSql += vbCrLf + "                ,@L_BILLNO   = CASE WHEN ISNULL(@SEARCHBILLNO,'') = '' THEN NULL ELSE '%' + @SEARCHBILLNO + '%' END    "
+        strSql += vbCrLf + "                ,@L_ITEMNAME = CASE WHEN ISNULL(@ITEMNAME    ,'') = '' THEN NULL ELSE LTRIM(RTRIM(@ITEMNAME)) + '%' END    "
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + "          /*  ---- return the filtered result set -------------------------------- */  "
+        strSql += vbCrLf + "          SELECT @SEARCHSQL = N'SELECT *'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'FROM TEMPTABLEDB..TEMP' + @SystemId + N'FINAL2'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'WHERE (@P_CUSTOMER IS NULL OR CUSTOMER LIKE @P_CUSTOMER)'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'AND   (@P_PHONENO  IS NULL OR PHONENO  LIKE @P_PHONENO )'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'AND   (@P_PAN      IS NULL OR PAN      LIKE @P_PAN     )'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'AND   (@P_GSTNO    IS NULL OR GSTNO    LIKE @P_GSTNO   )'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'AND   (@P_ADDRESS  IS NULL OR ADDRESS  LIKE @P_ADDRESS )'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'AND   (@P_BILLNO   IS NULL OR BILLNO   LIKE @P_BILLNO  )'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'AND   (@P_ITEMNAME IS NULL OR IITEMNAME LIKE @P_ITEMNAME)'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'AND   (@P_FROMDATE IS NULL OR TRANDATE >= @P_FROMDATE)'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'AND   (@P_TODATE   IS NULL OR TRANDATE <  DATEADD(DAY,1,@P_TODATE))'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'ORDER BY SEP,BATCHNO,KEYNO'    "
+        strSql += vbCrLf + "          PRINT @SEARCHSQL    "
+        strSql += vbCrLf + "          EXEC sp_executesql @SEARCHSQL    "
+        strSql += vbCrLf + "                            ,N'@P_CUSTOMER NVARCHAR(210),@P_PHONENO NVARCHAR(60)    "
+        strSql += vbCrLf + "                              ,@P_PAN      NVARCHAR(60) ,@P_GSTNO   NVARCHAR(60)    "
+        strSql += vbCrLf + "                              ,@P_ADDRESS  NVARCHAR(510),@P_BILLNO  NVARCHAR(60)    "
+        strSql += vbCrLf + "                              ,@P_FROMDATE DATE         ,@P_TODATE  DATE    "
+        strSql += vbCrLf + "                              ,@P_ITEMNAME NVARCHAR(210)'    "
+        strSql += vbCrLf + "                            ,@P_CUSTOMER = @L_CUSTOMER    "
+        strSql += vbCrLf + "                            ,@P_PHONENO  = @L_PHONENO    "
+        strSql += vbCrLf + "                            ,@P_PAN      = @L_PAN    "
+        strSql += vbCrLf + "                            ,@P_GSTNO    = @L_GSTNO    "
+        strSql += vbCrLf + "                            ,@P_ADDRESS  = @L_ADDRESS    "
+        strSql += vbCrLf + "                            ,@P_BILLNO   = @L_BILLNO    "
+        strSql += vbCrLf + "                            ,@P_FROMDATE = @FROMTRANDATE    "
+        strSql += vbCrLf + "                            ,@P_TODATE   = @TOTRANDATE    "
+        strSql += vbCrLf + "                            ,@P_ITEMNAME = @L_ITEMNAME    "
+        strSql += vbCrLf + "  END   "
+        cmd = New OleDbCommand(strSql, cn, tran)
+        cmd.ExecuteNonQuery()
+    End Function
+
+    Function funcSP1_BillwiseTransactionReportSearchAson() As Integer
+        strSql = " IF(SELECT 1 FROM SYSOBJECTS WHERE NAME='SP_RPT_BILLWISETRANSACTION_SEARCHASON')>0"
+        strSql += vbCrLf + "  	DROP PROCEDURE SP_RPT_BILLWISETRANSACTION_SEARCHASON"
+        cmd = New OleDbCommand(strSql, cn, tran)
+        cmd.ExecuteNonQuery()
+        strSql = Nothing
+        strSql = "CREATE PROCEDURE SP_RPT_BILLWISETRANSACTION_SEARCHASON"
+        strSql += vbCrLf + " (      "
+        strSql += vbCrLf + "  @ASONDATE  VARCHAR(12)/* -AS ON DATE (records with TRANDATE/ORDATE <= this date are returned) */    "
+        strSql += vbCrLf + "  ,@COSTCENTRE VARCHAR(50)/* -COST NAME FROM COSTCENTRE TABLE  */         "
+        strSql += vbCrLf + "  ,@NODEID VARCHAR(50)/* -NODEID FROM ISSUE AND RECEIPT TABLE  */        "
+        strSql += vbCrLf + "  ,@SYSTEMID VARCHAR(20)/* -GIVE THE SYSTEMID FOR TEMPORARY TABLES  */        "
+        strSql += vbCrLf + "  ,@COMPANYID VARCHAR(500)/*  GIVE THE COMPANYID*/      "
+        strSql += vbCrLf + "  ,@WITHORD VARCHAR(1)/*  ORDER DETAIL*/      "
+        strSql += vbCrLf + "  ,@WITHCANBILL VARCHAR(1)/*WITH CANCEL BILL*/      "
+        strSql += vbCrLf + "  ,@ADMINDB VARCHAR(10)/*WITH CANCEL BILL*/     "
+        strSql += vbCrLf + "  ,@METAL VARCHAR(50)     "
+        strSql += vbCrLf + "  ,@CASHID VARCHAR(50)     "
+        strSql += vbCrLf + "  ,@BILLNO VARCHAR(50)    "
+        strSql += vbCrLf + "  ,@WITHAPPROVAL VARCHAR(1)/*WITH APPROVAL ISSUE AND RECEIPT*/    "
+        strSql += vbCrLf + "  /* ---- parameters merged in from SP_SEARCH_CustomerTransation ------------ */  "
+        strSql += vbCrLf + "  ,@CUSTOMER      NVARCHAR(200) = ''   /* partial match on customer name      */  "
+        strSql += vbCrLf + "  ,@PHONENO       NVARCHAR(50)  = ''   /* partial match on mobile / phone     */  "
+        strSql += vbCrLf + "  ,@PAN           NVARCHAR(50)  = ''   /* partial match on PAN                */  "
+        strSql += vbCrLf + "  ,@GSTNO         NVARCHAR(50)  = ''   /* partial match on GST number         */  "
+        strSql += vbCrLf + "  ,@ADDRESS       NVARCHAR(500) = ''   /* partial match on address            */  "
+        strSql += vbCrLf + "  ,@SEARCHBILLNO  NVARCHAR(50)  = ''   /* partial match on bill no (result)   */  "
+        strSql += vbCrLf + "  ,@FROMTRANDATE  DATE          = NULL /* extra filter on the finished result */  "
+        strSql += vbCrLf + "  ,@TOTRANDATE    DATE          = NULL /* extra filter on the finished result */  "
+        strSql += vbCrLf + "  ,@WITHREPORTRESULT VARCHAR(1) = 'N'  /* 'Y' = also return the raw report set*/  "
+        strSql += vbCrLf + "  ,@ITEMNAME      NVARCHAR(200) = ''   /* prefix match on item name (IITEMNAME) */  "
+        strSql += vbCrLf + "  )       "
+        strSql += vbCrLf + "  AS         "
+        strSql += vbCrLf + "  BEGIN      "
+        strSql += vbCrLf + "          SET NOCOUNT ON;    "
+        strSql += vbCrLf + "          DECLARE @STRQRY VARCHAR(MAX)        "
+        strSql += vbCrLf + "          /*  used by the merged search block at the end of the procedure  */    "
+        strSql += vbCrLf + "          DECLARE @SEARCHSQL NVARCHAR(MAX)    "
+        strSql += vbCrLf + "          DECLARE @COLLIST   NVARCHAR(MAX)    "
+        strSql += vbCrLf + "          DECLARE @L_CUSTOMER NVARCHAR(210), @L_PHONENO NVARCHAR(60)    "
+        strSql += vbCrLf + "                 ,@L_PAN      NVARCHAR(60) , @L_GSTNO   NVARCHAR(60)    "
+        strSql += vbCrLf + "                 ,@L_ADDRESS  NVARCHAR(510), @L_BILLNO  NVARCHAR(60)    "
+        strSql += vbCrLf + "                 ,@L_ITEMNAME NVARCHAR(210)    "
+        strSql += vbCrLf + "          IF OBJECT_ID('TEMPDB..#COMPANY', 'U') IS NOT NULL DROP TABLE #COMPANY         "
+        strSql += vbCrLf + "          CREATE TABLE #COMPANY (COMPANYID VARCHAR(3))        "
+        strSql += vbCrLf + "          DECLARE @TCOMPANY VARCHAR(50)        "
+        strSql += vbCrLf + "          IF CHARINDEX(',',@COMPANYID)=0        "
+        strSql += vbCrLf + "          BEGIN       "
+        strSql += vbCrLf + "             INSERT INTO #COMPANY (COMPANYID) SELECT @COMPANYID       "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "          WHILE CHARINDEX(',',@COMPANYID)>0      "
+        strSql += vbCrLf + "          BEGIN        "
+        strSql += vbCrLf + "             SET @TCOMPANY=LEFT(@COMPANYID,CHARINDEX(',',@COMPANYID)-1)       "
+        strSql += vbCrLf + "             SET @COMPANYID=RIGHT(@COMPANYID,LEN(@COMPANYID)-CHARINDEX(',',@COMPANYID))      "
+        strSql += vbCrLf + "             IF @COMPANYID <>'' AND CHARINDEX(',',@COMPANYID)=0       "
+        strSql += vbCrLf + "             BEGIN        "
+        strSql += vbCrLf + "              SET @COMPANYID= @COMPANYID + ','      "
+        strSql += vbCrLf + "             END       "
+        strSql += vbCrLf + "             INSERT INTO #COMPANY (COMPANYID) SELECT @TCOMPANY      "
+        strSql += vbCrLf + "          END         "
+        strSql += vbCrLf + "        DECLARE @MINUSDISCOUNT AS VARCHAR(1)    "
+        strSql += vbCrLf + "          DECLARE @ORDERDETAIL VARCHAR(1)    "
+        strSql += vbCrLf + "        SELECT @MINUSDISCOUNT=CTLTEXT FROM " & cnAdminDb & "..SOFTCONTROL WHERE CTLID='MINUSDISCOUNT_BILLTRAN'    "
+        strSql += vbCrLf + "          SELECT @ORDERDETAIL=CTLTEXT FROM " & cnAdminDb & "..SOFTCONTROL WHERE CTLID='RPT_BILLWISE_ORDERDETAIL'    "
+        strSql += vbCrLf + "        SELECT @STRQRY=''        "
+        strSql += vbCrLf + "          SELECT @STRQRY=' IF (SELECT 1 FROM TEMPTABLEDB..SYSOBJECTS WHERE NAME = ''TEMP'+@SystemId+'FINAL'')>0'         "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'DROP TABLE TEMPTABLEDB..TEMP'+@SystemId+'FINAL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'CONVERT(VARCHAR(50),TRANNO) BILLNO,TRANDATE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(50),TRANTYPE)AS TRANTYPE,CONVERT(VARCHAR(50),TRANTYPE)AS TRANTYPE1,REMARK1 RUNNO,REMARK1 IITEMNAME,REMARK1 SUBITEMNAME,REMARK1 HSN'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR,TAGNO) ITAGNO,REMARK1 IITEMCTRNAME,CONVERT(VARCHAR(100),'''') TAGTYPE,CONVERT(VARCHAR(100),'''') CATEGORY,PCS IPCS'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',GRSWT IGRSWT,LESSWT ILESSWT,NETWT INETWT,GRSWT IADVWT,GRSWT IBALWT,GRSWT ISTNWT,GRSWT IDIAWT,CONVERT(NUMERIC(15,2),0) AS IWASTPER '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',WASTAGE IWASTAGE,MCHARGE IMCHARGE,STNAMT ISTNAMT,STNAMT IDIAAMT,MISCAMT IMISCAMT'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',TAX SGST,TAX CGST,TAX IGST,TAX GST'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT IAMOUNT'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',REMARK1 RITEMNAME,PCS RPCS'         "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',GRSWT RGRSWT,LESSWT RLESSWT,NETWT RNETWT,NETWT RSTNWT,NETWT RDIAWT,NULL RPURITY,WASTAGE RWASTAGE,MCHARGE RMCHARGE,RATE IRATE,PURITY AS IPURITY'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',STNAMT RSTNAMT,STNAMT RDIAAMT,AMOUNT RAMOUNT,TAX RSGST,TAX RCGST,TAX RIGST,AMOUNT RNETAMOUNT,AMOUNT BALANCE,AMOUNT CASH'         "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT CARD,AMOUNT CHEQUE,AMOUNT ROUNDOFF,AMOUNT ADVANCE'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT HANDLOG,AMOUNT DISCOUNT,AMOUNT DISCOUNT1,AMOUNT CHITCARD,AMOUNT GIFTVOUCHER,AMOUNT CREDIT,AMOUNT JND'         "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT TOTAL,BATCHNO,PCS RESULT,PCS SEP,CONVERT(VARCHAR(3),NULL)COLHEAD'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(100),'''') CUSTOMER '    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(250),'''') ADDRESS,CONVERT(VARCHAR(30),'''') PHONENO,CONVERT(VARCHAR(20),'''') PAN,CONVERT(VARCHAR(30),'''') GSTNO,CANCEL'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(100),'''') EMPNAME,CONVERT(VARCHAR(100),'''') USERNAME'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM  ISSUE WHERE 1<>1'      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          SELECT @STRQRY=' ALTER TABLE TEMPTABLEDB..TEMP'+@SystemId+'FINAL ADD KEYNO INT IDENTITY(0,1)'     "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' ALTER TABLE TEMPTABLEDB..TEMP'+@SystemId+'FINAL ALTER COLUMN CANCEL VARCHAR(10)'     "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          /* - INSERTING SALES AND PURCHASE */      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'BILLNO,TRANDATE,IITEMNAME,SUBITEMNAME,HSN,TRANTYPE,TRANTYPE1,RUNNO,ITAGNO,IITEMCTRNAME,TAGTYPE,CATEGORY,IPCS,IGRSWT,ILESSWT,INETWT,IADVWT,IBALWT,ISTNWT,IDIAWT,IWASTPER,IWASTAGE,IMCHARGE,IRATE,IPURITY,ISTNAMT,IDIAAMT,IMISCAMT'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SGST,CGST,IGST,GST,IAMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',RITEMNAME,RPCS,RGRSWT,RLESSWT,RNETWT,RSTNWT,RDIAWT,RPURITY,RWASTAGE,RMCHARGE,RSTNAMT,RDIAAMT,RAMOUNT,RSGST,RCGST,RIGST,RNETAMOUNT,BALANCE,CASH'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CARD,CHEQUE,ROUNDOFF,ADVANCE,HANDLOG,DISCOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CHITCARD,GIFTVOUCHER,CREDIT,JND,TOTAL,BATCHNO,RESULT,SEP,CUSTOMER,ADDRESS,PHONENO,PAN,GSTNO,CANCEL,EMPNAME,USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ')'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' SELECT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'BILLNO,TRANDATE,IITEMNAME,SUBITEMNAME,HSN,TRANTYPE,TRANTYPE1,RUNNO,ITAGNO,IITEMCTRNAME,TAGTYPE,CATEGORY,IPCS,IGRSWT,ILESSWT,INETWT,IADVWT,IBALWT,ISTNWT,IDIAWT,IWASTPER,IWASTAGE,IMCHARGE,IRATE,IPURITY,ISTNAMT,IDIAAMT,IMISCAMT'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SGST,CGST,IGST,GST,IAMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',RITEMNAME,RPCS,RGRSWT,RLESSWT,RNETWT,RSTNWT,RDIAWT,RPURITY,RWASTAGE,RMCHARGE,RSTNAMT,RDIAAMT,RAMOUNT,RSGST,RCGST,RIGST,RNETAMOUNT,0 BALANCE,CASH'      "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + ',CARD,CHEQUE,ROUNDOFF,ADVANCE,HANDLOG,DISCOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CHITCARD,GIFTVOUCHER,CREDIT,JND,TOTAL,BATCHNO,RESULT,1 SEP,CUSTOMER,ADDRESS,PHONENO,PAN,GSTNO,CANCEL,EMPNAME,USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'CONVERT(VARCHAR,I.TRANNO) AS BILLNO,I.TRANDATE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT ITEMNAME FROM   '+@ADMINDB+'..ITEMMAST WHERE ITEMID =I.ITEMID) AS IITEMNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUBITEMNAME FROM   '+@ADMINDB+'..SUBITEMMAST WHERE SUBITEMID =I.SUBITEMID) AS SUBITEMNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT HSN FROM   '+@ADMINDB+'..ITEMMAST WHERE ITEMID =I.ITEMID) AS HSN'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN I.TRANTYPE = ''SA'' THEN ''SALES'' WHEN I.TRANTYPE = ''RD'' THEN ''REPAIR DELIVERY'' WHEN I.TRANTYPE = ''OD'' THEN ''ORDER DELIVERY'' END AS TRANTYPE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',I.TRANTYPE AS TRANTYPE1'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT TOP 1 SUBSTRING(RUNNO,6,20) FROM   '+@ADMINDB+'..OUTSTANDING WHERE BATCHNO=I.BATCHNO ) AS RUNNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR,TAGNO) AS ITAGNO,(SELECT ITEMCTRNAME FROM   '+@ADMINDB+'..ITEMCOUNTER WHERE ITEMCTRID =I.ITEMCTRID) AS IITEMCTRNAME'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SNAME FROM '+@ADMINDB+'..ITEMTYPE WHERE ITEMTYPEID IN(SELECT ITEMTYPEID FROM '+@ADMINDB+'..ITEMTAG WHERE TAGNO = I.TAGNO AND ITEMID= I.ITEMID ))TAGTYPE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT CATNAME FROM   '+@ADMINDB+'..CATEGORY WHERE CATCODE =I.CATCODE) AS CATEGORY'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',PCS AS IPCS,I.GRSWT AS IGRSWT,LESSWT AS ILESSWT,NETWT AS INETWT '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN I.TRANTYPE=''OD'' THEN (SELECT SUM(GRSWT) FROM '+@ADMINDB+'..OUTSTANDING WHERE BATCHNO=I.BATCHNO) ELSE 0 END AS IADVWT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN I.TRANTYPE=''OD'' THEN (I.GRSWT-ISNULL((SELECT SUM(GRSWT) FROM '+@ADMINDB+'..OUTSTANDING WHERE BATCHNO=I.BATCHNO),0)) ELSE 0 END IBALWT'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNWT) FROM ISSSTONE WHERE ISSSNO=I.SNO AND BATCHNO=I.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''T''))ISTNWT'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNWT) FROM ISSSTONE WHERE ISSSNO=I.SNO AND BATCHNO=I.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''D''))IDIAWT'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',ISNULL(CONVERT(NUMERIC(15,2),(WASTAGE/CASE WHEN I.GRSWT <> 0  THEN I.GRSWT ELSE 1 END)*100),0) AS IWASTPER'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',WASTAGE AS IWASTAGE,MCHARGE AS IMCHARGE,RATE IRATE,PURITY IPURITY '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNAMT) FROM ISSSTONE WHERE ISSSNO=I.SNO AND BATCHNO=I.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''T''))ISTNAMT'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNAMT) FROM ISSSTONE WHERE ISSSNO=I.SNO AND BATCHNO=I.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''D''))IDIAAMT'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,MISCAMT IMISCAMT'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=I.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TAXID=''SG'' AND TRANTYPE=I.TRANTYPE) AS SGST'    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=I.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TAXID=''CG'' AND TRANTYPE=I.TRANTYPE) AS CGST'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=I.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TAXID=''IG'' AND TRANTYPE=I.TRANTYPE) AS IGST'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=I.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TRANTYPE=I.TRANTYPE) AS GST'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT+I.TAX AS IAMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' ''RITEMNAME,0 RPCS,0.00 RGRSWT,0.00 RNETWT,0.00 RLESSWT,0.00 RSTNWT,0.00 RDIAWT,0 RPURITY,0.00 RWASTAGE,0.00 RMCHARGE,0 RSTNAMT,0 RDIAAMT'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 RAMOUNT,0 RSGST,0 RCGST,0 RIGST,0 RNETAMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0.0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,(I.DISCOUNT+FIN_DISCOUNT) DISCOUNT,0 CHITCARD,0 JND,0 GIFTVOUCHER,0 CREDIT,0 TOTAL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',I.BATCHNO,1 RESULT,PNAME CUSTOMER,ISNULL(DOORNO,'''') + ISNULL(ADDRESS1,'''') + ISNULL(ADDRESS2,'''') + '' '' + ISNULL(AREA,'''') + '' '' + ISNULL(CITY,'''') + '' '' + ISNULL(PINCODE,'''') ADDRESS,MOBILE PHONENO,P.PAN,P.GSTNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',I.CANCEL,(SELECT EMPNAME FROM '+@ADMINDB+'..EMPMASTER WHERE EMPID=I.EMPID)EMPNAME,(SELECT USERNAME FROM '+@ADMINDB+'..USERMASTER WHERE USERID=I.USERID)USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM   ISSUE AS I  '    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON C.BATCHNO = I.BATCHNO '    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE (I.TRANTYPE IN (''SA'',''RD'') OR (I.TRANTYPE =''OD'' AND I.GRSWT >0)) '      "
+        strSql += vbCrLf + "          IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(I.CANCEL,'''')='''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.TRANDATE <= '''+ @ASONDATE +''''      "
+        strSql += vbCrLf + "          IF @BILLNO <> '' SELECT @STRQRY=@STRQRY + CHAR(13) + ' AND I.TRANNO = '''+@BILLNO+''' '       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.COMPANYID IN (SELECT COMPANYID FROM #COMPANY) '      "
+        strSql += vbCrLf + "          IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''      "
+        strSql += vbCrLf + "          BEGIN      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.COSTID =(SELECT COSTID FROM  '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'      "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "          IF @NODEID <> 'ALL' And @NODEID <> ''      "
+        strSql += vbCrLf + "          BEGIN       "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.SYSTEMID ='''+@NODEID+''''      "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "        IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "        IF @METAL <> 'ALL' AND @METAL <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.ITEMID IN (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID IN ('''+@METAL+''') )'      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'UNION ALL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'CONVERT(VARCHAR,R.TRANNO) BILLNO,R.TRANDATE,'' ''ITEMNAME,'' '' SUBITEMNAME,'' ''HSN'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN R.TRANTYPE = ''PU''THEN ''PURCHASE'' WHEN R.TRANTYPE = ''SR''THEN ''SALE RETURN'' END AS TRANTYPE '    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',R.TRANTYPE AS TRANTYPE1,'' ''RUNNO'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' ''TAGNO,'' '' IITEMCTRNAME'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SNAME FROM '+@ADMINDB+'..ITEMTYPE WHERE ITEMTYPEID IN(SELECT ITEMTYPEID FROM '+@ADMINDB+'..ITEMTAG WHERE TAGNO = R.TAGNO AND ITEMID= R.ITEMID ))TAGTYPE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT CATNAME FROM   '+@ADMINDB+'..CATEGORY WHERE CATCODE =R.CATCODE) AS CATEGORY'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 PCS,0.00 GRSWT,0.00 ILESSWT,0.00 NETWT,0.00 IADVWT,0.00 IBALWT,0.00 ISTNWT,0.00 IDIAWT,0 WASTPER,0.00 WASTAGE,0.00 MCHARGE,0 IRATE,0 IPURITY,0 ISTNAMT,0 IDIAAMT,0 IMISCAMT'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 AS SGST,0 AS CGST,0 AS IGST,0 AS GST,0 AMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT ITEMNAME FROM  '+@ADMINDB+'..ITEMMAST WHERE ITEMID =R.ITEMID) AS RITEMNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',PCS AS RPCS,R.GRSWT AS RGRSWT,LESSWT AS RLESSWT,0.00 RNETWT '    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNWT) FROM RECEIPTSTONE WHERE ISSSNO=R.SNO AND BATCHNO=R.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''T''))RSTNWT'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNWT) FROM RECEIPTSTONE WHERE ISSSNO=R.SNO AND BATCHNO=R.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''D''))RDIAWT'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',PURITY RPURITY,R.WASTAGE AS RWASTAGE,R.MCHARGE AS RMCHARGE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNAMT) FROM RECEIPTSTONE WHERE ISSSNO=R.SNO AND BATCHNO=R.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''T''))RSTNAMT'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNAMT) FROM RECEIPTSTONE WHERE ISSSNO=R.SNO AND BATCHNO=R.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''D''))RDIAAMT'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',R.AMOUNT AS RAMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=R.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TAXID=''SG'' AND TRANTYPE=R.TRANTYPE) AS SGST'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=R.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TAXID=''CG'' AND TRANTYPE=R.TRANTYPE) AS CGST'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=R.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TAXID=''IG'' AND TRANTYPE=R.TRANTYPE) AS IGST'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',R.AMOUNT+R.TAX AS RNETAMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT,0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,0 TOTAL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',R.BATCHNO,2 RESULT,PNAME CUSTOMER,ISNULL(DOORNO,'''') + ISNULL(ADDRESS1,'''') + ISNULL(ADDRESS2,'''') + '' '' + ISNULL(AREA,'''') + '' '' + ISNULL(CITY,'''') + '' '' + ISNULL(PINCODE,'''') ADDRESS,MOBILE PHONENO,P.PAN,P.GSTNO,R.CANCEL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT EMPNAME FROM '+@ADMINDB+'..EMPMASTER WHERE EMPID=R.EMPID)EMPNAME,(SELECT USERNAME FROM '+@ADMINDB+'..USERMASTER WHERE USERID=R.USERID)USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM   RECEIPT AS R  LEFT OUTER JOIN  '+@ADMINDB+'..CUSTOMERINFO AS C ON C.BATCHNO = R.BATCHNO LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE R.TRANTYPE in (''PU'',''SR'')'      "
+        strSql += vbCrLf + "          IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(R.CANCEL,'''')='''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.TRANDATE <= '''+ @ASONDATE +''''       "
+        strSql += vbCrLf + "          IF @BILLNO <> '' SELECT @STRQRY=@STRQRY + CHAR(13) + ' AND R.TRANNO = '''+@BILLNO+''' '       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'      "
+        strSql += vbCrLf + "          IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''      "
+        strSql += vbCrLf + "          BEGIN      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.COSTID =(SELECT COSTID FROM  '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'      "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "          IF @NODEID <> 'ALL' And @NODEID <> ''       "
+        strSql += vbCrLf + "          BEGIN      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.SYSTEMID ='''+@NODEID+''''      "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "        IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "        IF @METAL <> 'ALL' AND @METAL <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.ITEMID IN ( SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID IN ('''+@METAL+''') )'      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ')Y ORDER BY BATCHNO,RESULT'      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "          /*  RECEIPT */      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' IF(SELECT 1 FROM TEMPTABLEDB..SYSOBJECTS WHERE NAME=''TEMP'+@SystemId+'RECEIPT'')>0'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'DROP TABLE TEMPTABLEDB..TEMP'+@SystemId+'RECEIPT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' SELECT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ''RECEIPT'' BILLNO,TRANDATE'/*CONVERT(VARCHAR(12),TRANDATE,103)TRANDATE*/    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,CONVERT(VARCHAR(50),PAYMODE)AS TRANTYPE,REMARK1 AS RUNNO'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,REMARK1 IITEMNAME,REMARK1 SUBITEMNAME,REMARK1 ITAGNO,PCS IPCS,GRSWT IGRSWT,NETWT INETWT,0 IWASTPER,CONVERT(NUMERIC(12,2),0.00) AS IWASTAGE,CONVERT(NUMERIC(12,2),0.00) AS IMCHARGE,0 IRATE,0 IPURITY,CONVERT(NUMERIC(15,3),0) ISTNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,AMOUNT IAMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',REMARK2 RITEMNAME,PCS RPCS,GRSWT RGRSWT,NETWT RNETWT,0 RPURITY,CONVERT(NUMERIC(12,2),0.00) RWASTAGE,CONVERT(NUMERIC(12,2),0.00) RMCHARGE,CONVERT(NUMERIC(15,3),0) RSTNAMT,AMOUNT RAMOUNT,AMOUNT BALANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT CASH,AMOUNT CARD,AMOUNT CHEQUE,AMOUNT ROUNDOFF,AMOUNT ADVANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT HANDLOG,AMOUNT DISCOUNT,AMOUNT CHITCARD,AMOUNT GIFTVOUCHER,AMOUNT CREDIT,AMOUNT JND'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT TOTAL,BATCHNO,PCS RESULT,PCS SEP'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(100),'''') CUSTOMER ,CONVERT(VARCHAR(250),'''') ADDRESS,CONVERT(VARCHAR(30),'''') PHONENO,CONVERT(VARCHAR(20),'''') PAN,CONVERT(VARCHAR(30),'''') GSTNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(1),NULL) CANCEL,CONVERT(VARCHAR(100),'''') EMPNAME,CONVERT(VARCHAR(100),'''') USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(250),NULL) REMARK'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'INTO TEMPTABLEDB..TEMP'+@SystemId+'RECEIPT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM  ACCTRAN WHERE 1<>1   '      "
+        strSql += vbCrLf + "          IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(CANCEL,'''')='''''      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "          SELECT @STRQRY= ' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'RECEIPT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '''RECEIPT'' BILLNO,NULL TRANDATE,'' '' TRANTYPE,'' '' AS RUNNO,'' ''IITEMNAME,'' ''SUBITEMNAME,'' '' TAGNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 IPCS,0 IGRSWT,0 INETWT,0 IWASTPER,0 IWASTAGE,0 IMCHARGE,0 IRATE,0 IPURITY,0 ISTNAMT,0 IMISCAMT,0 IAMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' ''RITEMNAME,0 RPCS,0.00 RGRSWT,0.00 RNETWT,0 RPURITY,0.00 RWASTAGE,0.00 RMCHARGE,0 RSTNAMT,0 RAMOUNT,0 BALANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT,0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,0 TOTAL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' ''BATCHNO,1 RESULT,2 SEP,'''' CUSTOMER,'''' ADDRESS,'''' PHONENO,'''' PAN,'''' GSTNO,'''' CANCEL,'''' EMPNAME,'''' USERNAME,'''' REMARK'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE 1=1'      "
+        strSql += vbCrLf + "          PRINT @STRQRY       "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          /*  INSERTING RECEIPT DATA */      "
+        strSql += vbCrLf + "          SELECT @STRQRY= ' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'RECEIPT'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' CONVERT(VARCHAR,A.TRANNO) BILLNO'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.TRANDATE '/*,CONVERT(VARCHAR(12),A.TRANDATE,103)TRANDATE*/    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN A.PAYMODE = ''DR'' THEN ''DUE RECEIPT'' WHEN A.PAYMODE = ''AR''THEN ''ADVANCE RECEIPT'''    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHEN A.PAYMODE = ''MR''THEN ''OTHER RECEIPT'' END AS TRANTYPE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUBSTRING(O.RUNNO,6,20) AS RUNNO,'' ''IITEMNAME,'' ''SUBITEMNAME,'' '' TAGNO'     "
+        strSql += vbCrLf + "          /*SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.PCS IPCS,A.GRSWT IGRSWT,A.NETWT INETWT,ISNULL(I.WASTPER,0) IWASTPER,ISNULL(I.WASTAGE,0) IWASTAGE,ISNULL(I.MCHARGE,0) IMCHARGE,ISNULL(I.RATE,0) IRATE,ISNULL(I.PURITY,0) IPURITY,CONVERT(NUMERIC(15,3),0) IS"
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + "TNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,O.AMOUNT IAMOUNT'*/       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.PCS IPCS,A.GRSWT IGRSWT,A.NETWT INETWT,'''' IWASTPER,/*ISNULL(SUM(I.WASTAGE),0)*/ 0 IWASTAGE,/*ISNULL(SUM(I.MCHARGE),0)*/ 0 IMCHARGE,ISNULL(AVG(O.RATE),0) IRATE,0 IPURITY,CONVERT(NUMERIC(15,3),0) ISTNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,O.AMOUNT IAMOUNT'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' ''RITEMNAME,0 RPCS,0.00 RGRSWT,0.00 RNETWT,0 RPURITY,0.00 RWASTAGE,0.00 RMCHARGE,CONVERT(NUMERIC(15,3),0) RSTNAMT,0 RAMOUNT,0 BALANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT,0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,0 TOTAL'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.BATCHNO,1 RESULT,3 SEP ,PNAME CUSTOMER,ISNULL(DOORNO,'''') + ISNULL(ADDRESS1,'''') + ISNULL(ADDRESS2,'''') + '' '' + ISNULL(AREA,'''') + '' '' + ISNULL(CITY,'''') + '' '' + ISNULL(PINCODE,'''') ADDRESS,MOBILE PHONENO,P.PAN,P.GSTNO'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',ISNULL(A.CANCEL,'''') CANCEL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT EMPNAME FROM '+@ADMINDB+'..EMPMASTER WHERE EMPID=O.EMPID)EMPNAME,(SELECT USERNAME FROM '+@ADMINDB+'..USERMASTER WHERE USERID=O.USERID)USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',UPPER(A.REMARK1)REMARK '    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM  ACCTRAN AS A '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..OUTSTANDING AS O ON O.BATCHNO=A.BATCHNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON  C.BATCHNO = A.BATCHNO '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO '     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT JOIN ISSUE AS I ON A.BATCHNO=I.BATCHNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE A.PAYMODE IN (''DR'',''AR'',''MR'')  AND O.RECPAY =''R'' '       "
+        strSql += vbCrLf + "          IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(A.CANCEL,'''')='''''    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.TRANDATE <= '''+ @ASONDATE +''''     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'      "
+        strSql += vbCrLf + "          IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''     "
+        strSql += vbCrLf + "          BEGIN       "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.COSTID =(SELECT COSTID FROM   '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'     "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "          IF @NODEID <> 'ALL' And @NODEID <> ''    "
+        strSql += vbCrLf + "          BEGIN       "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.SYSTEMID ='''+@NODEID+''''     "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "        IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "        IF @METAL <> 'ALL' AND @METAL <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.ITEMID IN ( SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID IN('''+@METAL+''') )'      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "        SELECT @STRQRY=@STRQRY + CHAR(13) + '   GROUP BY  A.TRANNO,A.TRANDATE , A.PAYMODE ,O.RUNNO,A.PCS ,A.GRSWT ,A.NETWT ,O.AMOUNT '    "
+        strSql += vbCrLf + "        SELECT @STRQRY=@STRQRY + CHAR(13) + '  , A.BATCHNO,PNAME ,DOORNO ,ADDRESS1,ADDRESS2,AREA,CITY,PINCODE ,MOBILE ,P.PAN,P.GSTNO,O.EMPID,O.USERID,A.REMARK1,A.CANCEL'    "
+        strSql += vbCrLf + "         PRINT @STRQRY         "
+        strSql += vbCrLf + "         EXEC (@STRQRY)      "
+        strSql += vbCrLf + "    /*  INSERTING GIFT RECEIPT DATA */      "
+        strSql += vbCrLf + "     SELECT @STRQRY= ' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'RECEIPT'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' CONVERT(VARCHAR,A.TRANNO) BILLNO'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.TRANDATE '/*,CONVERT(VARCHAR(12),A.TRANDATE,103)TRANDATE*/    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',''GIFT RECEIPT''AS TRANTYPE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUBSTRING(O.RUNNO,6,20) AS RUNNO,'' ''IITEMNAME,'' ''SUBITEMNAME,'' '' TAGNO'     "
+        strSql += vbCrLf + "          /*SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.PCS IPCS,A.GRSWT IGRSWT,A.NETWT INETWT,ISNULL(I.WASTPER,0) IWASTPER,ISNULL(I.WASTAGE,0) IWASTAGE,ISNULL(I.MCHARGE,0) IMCHARGE,ISNULL(I.RATE,0) IRATE,ISNULL(I.PURITY,0) IPURITY,CONVERT(NUMERIC(15,3),0) IS"
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + "TNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,O.AMOUNT IAMOUNT'*/       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.PCS IPCS,A.GRSWT IGRSWT,A.NETWT INETWT,'''' IWASTPER,/*ISNULL(SUM(I.WASTAGE),0)*/ 0 IWASTAGE,/*ISNULL(SUM(I.MCHARGE),0)*/ 0 IMCHARGE,ISNULL(AVG(O.RATE),0) IRATE,0 IPURITY,CONVERT(NUMERIC(15,3),0) ISTNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,O.AMOUNT IAMOUNT'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' ''RITEMNAME,0 RPCS,0.00 RGRSWT,0.00 RNETWT,0 RPURITY,0.00 RWASTAGE,0.00 RMCHARGE,CONVERT(NUMERIC(15,3),0) RSTNAMT,0 RAMOUNT,0 BALANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT,0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,0 TOTAL'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.BATCHNO,1 RESULT,3 SEP ,PNAME CUSTOMER,ISNULL(DOORNO,'''') + ISNULL(ADDRESS1,'''') + ISNULL(ADDRESS2,'''') + '' '' + ISNULL(AREA,'''') + '' '' + ISNULL(CITY,'''') + '' '' + ISNULL(PINCODE,'''') ADDRESS,MOBILE PHONENO,P.PAN,P.GSTNO'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',ISNULL(A.CANCEL,'''') CANCEL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT EMPNAME FROM '+@ADMINDB+'..EMPMASTER WHERE EMPID=O.EMPID)EMPNAME,(SELECT USERNAME FROM '+@ADMINDB+'..USERMASTER WHERE USERID=O.USERID)USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',UPPER(A.REMARK1)REMARK '    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM  ACCTRAN AS A '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..OUTSTANDING AS O ON O.BATCHNO=A.BATCHNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON  C.BATCHNO = A.BATCHNO '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO '     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE A.PAYMODE IN (''GV'')  AND O.RECPAY =''R'' '       "
+        strSql += vbCrLf + "          IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(A.CANCEL,'''')='''''    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.TRANDATE <= '''+ @ASONDATE +''''     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' AND A.BATCHNO NOT IN (SELECT DISTINCT BATCHNO FROM ISSUE WHERE BATCHNO =A.BATCHNO)'    "
+        strSql += vbCrLf + "          IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''     "
+        strSql += vbCrLf + "          BEGIN       "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.COSTID =(SELECT COSTID FROM   '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'     "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "          IF @NODEID <> 'ALL' And @NODEID <> ''    "
+        strSql += vbCrLf + "          BEGIN       "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.SYSTEMID ='''+@NODEID+''''     "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "        IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND O.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "        SELECT @STRQRY=@STRQRY + CHAR(13) + '   GROUP BY  A.TRANNO,A.TRANDATE , A.PAYMODE ,O.RUNNO,A.PCS ,A.GRSWT ,A.NETWT ,O.AMOUNT '    "
+        strSql += vbCrLf + "        SELECT @STRQRY=@STRQRY + CHAR(13) + '  , A.BATCHNO,PNAME ,DOORNO ,ADDRESS1,ADDRESS2,AREA,CITY,PINCODE ,MOBILE ,P.PAN,P.GSTNO,O.EMPID,O.USERID,A.REMARK1,A.CANCEL'    "
+        strSql += vbCrLf + "          PRINT @STRQRY         "
+        strSql += vbCrLf + "          EXEC (@STRQRY)        "
+        strSql += vbCrLf + "          /*  INSERTING RECEIPT DATA */      "
+        strSql += vbCrLf + "          SELECT @STRQRY= ' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'RECEIPT'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'CONVERT(VARCHAR,A.TRANNO) BILLNO,A.TRANDATE'/*CONVERT(VARCHAR(12),A.TRANDATE,103)*/    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',''FURTHER ADVANCE'' AS TRANTYPE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUBSTRING(O.RUNNO,6,20) AS RUNNO,'' ''IITEMNAME,'' ''SUBITEMNAME,'' '' TAGNO'     "
+        strSql += vbCrLf + "          /*SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.PCS IPCS,A.GRSWT IGRSWT,A.NETWT INETWT,ISNULL(I.WASTPER,0) IWASTPER,ISNULL(I.WASTAGE,0) IWASTAGE,ISNULL(I.MCHARGE,0) IMCHARGE,ISNULL(I.RATE,0) IRATE,ISNULL(I.PURITY,0) IPURITY,CONVERT(NUMERIC(15,3),0) IS"
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + "TNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,O.AMOUNT IAMOUNT'*/       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.PCS IPCS,A.GRSWT IGRSWT,A.NETWT INETWT,'''' IWASTPER,/*ISNULL(SUM(I.WASTAGE),0)*/ 0 IWASTAGE,/*ISNULL(SUM(I.MCHARGE),0)*/ 0 IMCHARGE,ISNULL(AVG(O.RATE),0) IRATE,0 IPURITY,CONVERT(NUMERIC(15,3),0) ISTNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,O.AMOUNT IAMOUNT'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' ''RITEMNAME,0 RPCS,0.00 RGRSWT,0.00 RNETWT,0 RPURITY,0.00 RWASTAGE,0.00 RMCHARGE,CONVERT(NUMERIC(15,3),0) RSTNAMT,0 RAMOUNT,0 BALANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT,0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,0 TOTAL'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.BATCHNO,1 RESULT,3 SEP ,PNAME CUSTOMER,ISNULL(DOORNO,'''') + ISNULL(ADDRESS1,'''') + ISNULL(ADDRESS2,'''') + '' '' + ISNULL(AREA,'''') + '' '' + ISNULL(CITY,'''') + '' '' + ISNULL(PINCODE,'''') ADDRESS,MOBILE PHONENO,P.PAN,P.GSTNO'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',ISNULL(O.CANCEL,'''') CANCEL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT EMPNAME FROM '+@ADMINDB+'..EMPMASTER WHERE EMPID=O.EMPID)EMPNAME,(SELECT USERNAME FROM '+@ADMINDB+'..USERMASTER WHERE USERID=O.USERID)USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',UPPER(A.REMARK1)REMARK '    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM  ACCTRAN AS A '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..OUTSTANDING AS O ON O.BATCHNO=A.BATCHNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON  C.BATCHNO = A.BATCHNO '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO '     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT JOIN ISSUE AS I ON A.BATCHNO=I.BATCHNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE A.PAYMODE IN (''AR'',''OR'',''MR'') AND O.RECPAY =''R'' AND O.FLAG = ''F'' '       "
+        strSql += vbCrLf + "          IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(A.CANCEL,'''')='''''    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.TRANDATE <= '''+ @ASONDATE +''''     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'      "
+        strSql += vbCrLf + "          IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''     "
+        strSql += vbCrLf + "          BEGIN       "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.COSTID =(SELECT COSTID FROM   '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'     "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "          IF @NODEID <> 'ALL' And @NODEID <> ''    "
+        strSql += vbCrLf + "          BEGIN       "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.SYSTEMID ='''+@NODEID+''''     "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "          IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "          BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "          END    "
+        strSql += vbCrLf + "          IF @METAL <> 'ALL' AND @METAL <> ''    "
+        strSql += vbCrLf + "          BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.ITEMID IN ( SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID IN('''+@METAL+''') )'      "
+        strSql += vbCrLf + "          END    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '   GROUP BY  A.TRANNO,A.TRANDATE , A.PAYMODE ,O.RUNNO,A.PCS ,A.GRSWT ,A.NETWT ,O.AMOUNT '    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '  , A.BATCHNO,PNAME ,DOORNO ,ADDRESS1,ADDRESS2,AREA,CITY,PINCODE ,MOBILE ,P.PAN,P.GSTNO,O.EMPID,O.USERID,A.REMARK1,O.CANCEL'    "
+        strSql += vbCrLf + "          PRINT @STRQRY         "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          /*  TRUNCATE THE TABLE AT NO DATAS IN TEMPORARY TABLE */     "
+        strSql += vbCrLf + "          SELECT @STRQRY=' IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMP'+@SystemId+'RECEIPT) < 2'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'TRUNCATE TABLE TEMPTABLEDB..TEMP'+@SystemId+'RECEIPT'     "
+        strSql += vbCrLf + "          /* print @STRQRY */     "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          /*  RECPAY */     "
+        strSql += vbCrLf + "          SELECT @STRQRY=' IF(SELECT 1 FROM TEMPTABLEDB..SYSOBJECTS WHERE NAME=''TEMP'+@SystemId+'RECPAY'')>0'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'DROP TABLE TEMPTABLEDB..TEMP'+@SystemId+'RECPAY'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' CONVERT(VARCHAR,TRANNO) BILLNO,TRANDATE'/*CONVERT(VARCHAR(12),TRANDATE,103)TRANDATE*/    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,CONVERT(VARCHAR(50),PAYMODE)AS TRANTYPE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',REMARK1 AS RUNNO,REMARK1 IITEMNAME,REMARK1 SUBITEMNAME,REMARK1 ITAGNO,PCS IPCS,GRSWT IGRSWT,NETWT INETWT,0 IWASTPER,0.00 IWASTAGE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0.00 IMCHARGE,0 IRATE,0 IPURITY,CONVERT(NUMERIC(15,3),0) ISTNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,AMOUNT IAMOUNT'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',REMARK2 RITEMNAME,PCS RPCS,GRSWT RGRSWT,NETWT RNETWT,0 RPURITY,CONVERT(NUMERIC(15,3),0) RWASTAGE,CONVERT(NUMERIC(15,3),0) RMCHARGE,CONVERT(NUMERIC(15,3),0) RSTNAMT,AMOUNT RAMOUNT,AMOUNT BALANCE'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT CASH,AMOUNT CARD,AMOUNT CHEQUE,AMOUNT ROUNDOFF,AMOUNT ADVANCE'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT HANDLOG,AMOUNT DISCOUNT,AMOUNT CHITCARD,AMOUNT JND,AMOUNT GIFTVOUCHER,AMOUNT CREDIT'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT TOTAL,BATCHNO,PCS RESULT,PCS SEP'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(100),'''') CUSTOMER ,CONVERT(VARCHAR(250),'''') ADDRESS,CONVERT(VARCHAR(30),'''') PHONENO,CONVERT(VARCHAR(20),'''') PAN,CONVERT(VARCHAR(30),'''') GSTNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(1),NULL) CANCEL,CONVERT(VARCHAR(100),'''') EMPNAME,CONVERT(VARCHAR(100),'''') USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(250),NULL) REMARK '    "
+        strSql += vbCrLf + "       SELECT @STRQRY=@STRQRY + CHAR(13) + 'INTO TEMPTABLEDB..TEMP'+@SystemId+'RECPAY'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM  ACCTRAN WHERE 1<>1  '     "
+        strSql += vbCrLf + "          IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(CANCEL,'''')='''''      "
+        strSql += vbCrLf + "          PRINT @STRQRY       "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          SELECT @STRQRY=' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'RECPAY'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '''PAYMENT'' BILLNO,NULL TRANDATE,'' '' TRANTYPE,'' '' AS RUNNO,'' ''IITEMNAME,'' ''SUBITEMNAME,'' '' TAGNO'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 IPCS,0 IGRSWT,0 INETWT,0 IWASTPER,0 IWASTAGE,0 IMCHARGE,0 IRATE,0 IPURITY,0 ISTNAMT,0 IMISCAMT,0 IAMOUNT'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' ''RITEMNAME,0 RPCS,0.00 RGRSWT,0.00 RNETWT,0 RPURITY,0.00 RWASTAGE,0.00 RMCHARGE,0 ISTNAMT,0 RAMOUNT,0 BALANCE'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT,0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,0 TOTAL'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' '' BATCHNO,1 RESULT,4 SEP,'''' CUSTOMER,'''' ADDRESS,'''' PHONENO,'''' PAN,'''' GSTNO,CONVERT(VARCHAR(1),NULL) CANCEL,'''' EMPNAME,'''' USERNAME,'''' REMARK'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE 1=1'      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          /*  INSERTING RECPAY DATA */      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'RECPAY'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'CONVERT(VARCHAR,A.TRANNO) BILLNO,NULL TRANDATE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN PAYMODE = ''DP'' THEN ''DUE REPAY'' WHEN PAYMODE = ''AP'' THEN ''ADVANCE REPAY'' WHEN PAYMODE = ''MP'' THEN ''OTHER PAYMENT'' END AS TRANTYPE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,A.REFNO AS RUNNO,'' ''IITEMNAME,'' ''SUBITEMNAME,'' '' TAGNO'             SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,0 IPCS,0.00 IGRSWT,0.00 INETWT,0 IWASTPER,0.00 IWASTAGE,0.00 IMCHARGE,0 IRATE,0 IPURITY,CONVERT(NUMERIC(15,3),0) ISTNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,0 IAMOUNT'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,'' ''RITEMNAME,A.PCS RPCS,A.GRSWT RGRSWT,A.NETWT RNETWT,0 RPURITY,ISNULL(R.WASTAGE,0) RWASTAGE,ISNULL(R.MCHARGE,0) RMCHARGE,CONVERT(NUMERIC(15,3),0) RSTNAMT,A.AMOUNT RAMOUNT,0 BALANCE'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT,0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,0 TOTAL'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,A.BATCHNO,1 RESULT,5 SEP'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',PNAME CUSTOMER,ISNULL(DOORNO,'''') + ISNULL(ADDRESS1,'''') + ISNULL(ADDRESS2,'''') + '' '' + ISNULL(AREA,'''') + '' '' + ISNULL(CITY,'''') + '' '' + ISNULL(PINCODE,'''') ADDRESS,MOBILE PHONENO,P.PAN,P.GSTNO'"
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + "        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',R.CANCEL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT EMPNAME FROM '+@ADMINDB+'..EMPMASTER WHERE EMPID=R.EMPID)EMPNAME,(SELECT USERNAME FROM '+@ADMINDB+'..USERMASTER WHERE USERID=R.USERID)USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',UPPER(A.REMARK1) REMARK'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM  ACCTRAN AS A '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON C.BATCHNO = A.BATCHNO '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT JOIN RECEIPT AS R ON A.BATCHNO=R.BATCHNO '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE PAYMODE IN (''DP'',''AP'',''MP'')  '      "
+        strSql += vbCrLf + "          IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(A.CANCEL,'''')='''''     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.TRANDATE <= '''+ @ASONDATE +''''     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'      "
+        strSql += vbCrLf + "          IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''     "
+        strSql += vbCrLf + "          BEGIN       "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.COSTID =(SELECT COSTID FROM   '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'     "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "          IF @NODEID <> 'ALL' And @NODEID <> ''     "
+        strSql += vbCrLf + "          BEGIN       "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.SYSTEMID ='''+@NODEID+''''     "
+        strSql += vbCrLf + "          END       "
+        strSql += vbCrLf + "        IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "        IF @METAL <> 'ALL' AND @METAL <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + '/*AND R.ITEMID IN ( SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID IN('''+@METAL+''')) */'      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "          /*  INSERTING GIFT PAYMENT DATA */       "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + 'UNION ALL'      "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + 'CONVERT(VARCHAR,A.TRANNO) BILLNO,NULL TRANDATE'    "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN PAYMODE = ''GV'' THEN ''GIFT REPAY'' END AS TRANTYPE'    "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,A.REFNO AS RUNNO,'' ''IITEMNAME,'' ''SUBITEMNAME,'' '' TAGNO'     "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,0 IPCS,0.00 IGRSWT,0.00 INETWT,0 IWASTPER,0.00 IWASTAGE,0.00 IMCHARGE,0 IRATE,0 IPURITY,CONVERT(NUMERIC(15,3),0) ISTNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,0 IAMOUNT'     "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,'' ''RITEMNAME,0 RPCS,0.00 RGRSWT,0.00 RNETWT,0 RPURITY,0.00 RWASTAGE,0.00 RMCHARGE,CONVERT(NUMERIC(15,3),0) RSTNAMT,A.AMOUNT RAMOUNT,0 BALANCE'     "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT,0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,0 TOTAL'     "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,A.BATCHNO,1 RESULT,5 SEP'      "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + ',PNAME CUSTOMER,ISNULL(DOORNO,'''') + ISNULL(ADDRESS1,'''') + ISNULL(ADDRESS2,'''') + '' '' + ISNULL(AREA,'''') + '' '' + ISNULL(CITY,'''') + '' '' + ISNULL(PINCODE,'''') ADDRESS,MOBILE PHONENO,P.PAN,P.GSTNO'      "
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.CANCEL'      "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT TOP 1 EMPNAME FROM '+@ADMINDB+'..EMPMASTER WHERE EMPID=A.EMPID)EMPNAME,(SELECT TOP 1 USERNAME FROM '+@ADMINDB+'..USERMASTER WHERE USERID=A.USERID)USERNAME'      "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + ',UPPER(A.REMARK1) REMARK'    "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM  '+@ADMINDB+'..OUTSTANDING AS A '      "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON C.BATCHNO = A.BATCHNO '      "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO'     "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE PAYMODE IN (''GV'')  AND A.RECPAY=''P''  '      "
+        strSql += vbCrLf + "    IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(A.CANCEL,'''')='''''     "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.TRANDATE <= '''+ @ASONDATE +''''     "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'      "
+        strSql += vbCrLf + "    IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''     "
+        strSql += vbCrLf + "    BEGIN       "
+        strSql += vbCrLf + "   SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.COSTID =(SELECT COSTID FROM   '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'     "
+        strSql += vbCrLf + "    END       "
+        strSql += vbCrLf + "    IF @NODEID <> 'ALL' And @NODEID <> ''     "
+        strSql += vbCrLf + "    BEGIN       "
+        strSql += vbCrLf + "   SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.SYSTEMID ='''+@NODEID+''''     "
+        strSql += vbCrLf + "    END       "
+        strSql += vbCrLf + "    IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "    BEGIN    "
+        strSql += vbCrLf + "   SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND O.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "    END    "
+        strSql += vbCrLf + "          PRINT @STRQRY                EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          /*  TRUNCATE THE TABLE AT NO DATAS IN TEMPORARY TABLE */     "
+        strSql += vbCrLf + "          SELECT @STRQRY=' IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMP'+@SystemId+'RECPAY) < 2'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'TRUNCATE TABLE TEMPTABLEDB..TEMP'+@SystemId+'RECPAY'     "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          /*  ORDER RECEIPT*/     "
+        strSql += vbCrLf + "          SELECT @STRQRY=' IF(SELECT 1 FROM TEMPTABLEDB..SYSOBJECTS WHERE NAME=''TEMP'+@SystemId+'ORDER'')>0'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'DROP TABLE TEMPTABLEDB..TEMP'+@SystemId+'ORDER'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'CONVERT(VARCHAR,ORNO) BILLNO,CONVERT(VARCHAR(12),NULL) TRANDATE,CONVERT(VARCHAR(50),ORTYPE) AS TRANTYPE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',DESCRIPT AS RUNNO,DESCRIPT IITEMNAME,DESCRIPT SUBITEMNAME,DESCRIPT ITAGNO,PCS IPCS,GRSWT IGRSWT,NETWT INETWT,WASTPER IWASTPER'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',WAST IWASTAGE,MC IMCHARGE,RATE IRATE,0 IPURITY,CONVERT(NUMERIC(15,3),0) ISTNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,ORVALUE IAMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',DESCRIPT RITEMNAME,PCS RPCS,GRSWT RGRSWT,NETWT RNETWT,0 RPURITY,WAST RWASTAGE,MC RMCHARGE,CONVERT(NUMERIC(15,3),0) RSTNAMT,ORVALUE RAMOUNT,ORVALUE BALANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',ORVALUE CASH,ORVALUE CARD,ORVALUE CHEQUE,ORVALUE ROUNDOFF,ORVALUE ADVANCE'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',ORVALUE HANDLOG,ORVALUE DISCOUNT,ORVALUE CHITCARD,ORVALUE JND,ORVALUE GIFTVOUCHER,ORVALUE CREDIT'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',ORVALUE TOTAL,BATCHNO,PCS RESULT,PCS SEP'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(100),'''') CUSTOMER '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(250),'''') ADDRESS,CONVERT(VARCHAR(30),'''') PHONENO,CONVERT(VARCHAR(20),'''') PAN,CONVERT(VARCHAR(30),'''') GSTNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CANCEL,CONVERT(VARCHAR(100),'''') EMPNAME,CONVERT(VARCHAR(100),'''') USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(250),NULL) REMARK '    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'INTO TEMPTABLEDB..TEMP'+@SystemId+'ORDER'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM  '+@ADMINDB+'..ORMAST WHERE 1<>1 '      "
+        strSql += vbCrLf + "          PRINT @STRQRY       "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          SELECT @STRQRY= CHAR(13) + 'ALTER TABLE TEMPTABLEDB..TEMP'+@SystemId+'ORDER ALTER COLUMN CANCEL VARCHAR(1)NULL'       "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          SELECT @STRQRY=' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'ORDER'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '''ORDER RECEIPT'' BILLNO,NULL TRANDATE,'' '' AS TRANTYPE,'' '' AS RUNNO,'' ''IITEMNAME,'' ''SUBITEMNAME,'' '' TAGNO'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 IPCS,0 IGRSWT,0 INETWT,0 IWASTPER,0 IWASTAGE,0 IMCHARGE,0 IRATE,0 IPURITY,0 ISTNAMT,0 IMISCAMT,0 IAMOUNT'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' ''RITEMNAME,0 RPCS,0.00 RGRSWT,0.00 RNETWT,0 RPURITY,0.00 RWASTAGE,0.00 RMCHARGE,0 ISTNAMT,0 RAMOUNT,0 BALANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT,0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,0 TOTAL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' '' BATCHNO,1 RESULT,6 SEP,'''' CUSTOMER,'''' ADDRESS,'''' PHONENO,'''' PAN,'''' GSTNO,'''' CANCEL,'''' EMPNAME,'''' USERNAME,'''' REAMRK'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE 1=1'      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "          /*  INSERTING RECPAY DATA */      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'ORDER'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'CONVERT(VARCHAR,SUBSTRING(O.ORNO,6,LEN(O.ORNO))) BILLNO,ORDATE TRANDATE' /*CONVERT(VARCHAR(12),ORDATE,103)*/    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN O.ORTYPE = ''O'' THEN ''ORDER RECEIPT''WHEN O.ORTYPE = ''R'' THEN ''REPAIR'' END AS TRANTYPE'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' '' AS RUNNO,I.ITEMNAME AS IITEMNAME'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUBITEMNAME FROM '+ @ADMINDB +'..SUBITEMMAST AS SI WHERE O.SUBITEMID=SI.SUBITEMID) AS SUBITEMNAME'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','' '' TAGNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,0 IPCS,0.00 IGRSWT,0.00 INETWT,0 IWASTPER,0.00 IWASTAGE,0.00 IMCHARGE,0 IRATE,0 IPURITY,CONVERT(NUMERIC(15,3),0) ISTNAMT,CONVERT(NUMERIC(15,3),0) IMISCAMT,0 IAMOUNT'      "
+        strSql += vbCrLf + "      IF @ORDERDETAIL = 'Y'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,'' ''RITEMNAME,O.PCS RPCS,O.GRSWT RGRSWT,O.NETWT RNETWT,0 RPURITY,ISNULL(O.WAST,0) RWASTAGE,ISNULL(O.MC,0) RMCHARGE,CONVERT(NUMERIC(15,3),0) RSTNAMT,O.ORVALUE RAMOUNT,0 BALANCE'      "
+        strSql += vbCrLf + "      IF @ORDERDETAIL = 'N'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,'' ''RITEMNAME,0 RPCS,0.00 RGRSWT,0.00 RNETWT,0 RPURITY,0.00 RWASTAGE,0.00 RMCHARGE,CONVERT(NUMERIC(15,3),0) RSTNAMT,0.00 RAMOUNT,0 BALANCE'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT,0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,0 TOTAL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,O.BATCHNO,1 RESULT,7 SEP'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',PNAME CUSTOMER,ISNULL(DOORNO,'''') + ISNULL(ADDRESS1,'''') + ISNULL(ADDRESS2,'''') + '' '' + ISNULL(AREA,'''') + '' '' + ISNULL(CITY,'''') + '' '' + ISNULL(PINCODE,'''') ADDRESS,MOBILE PHONENO,P.PAN,P.GSTNO'"
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + "      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.CANCEL'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT EMPNAME FROM '+@ADMINDB+'..EMPMASTER WHERE EMPID=A.EMPID)EMPNAME,(SELECT USERNAME FROM '+@ADMINDB+'..USERMASTER WHERE USERID=A.USERID)USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',UPPER(O.DESCRIPT) REMARK'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM  '+@ADMINDB+'..ORMAST AS O '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON C.BATCHNO = O.BATCHNO '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT JOIN '+@ADMINDB+'..OUTSTANDING AS A  ON A.BATCHNO=O.BATCHNO '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT JOIN '+@ADMINDB+'..ITEMMAST AS I ON O.ITEMID=I.ITEMID'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE O.ORTYPE IN (''O'',''R'')  '      "
+        strSql += vbCrLf + "          IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(O.CANCEL,'''')='''' AND ISNULL(O.ORDCANCEL,'''')='''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND O.ORDATE <= '''+ @ASONDATE +''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND O.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'      "
+        strSql += vbCrLf + "          IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''      "
+        strSql += vbCrLf + "          BEGIN      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND O.COSTID =(SELECT COSTID FROM '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'      "
+        strSql += vbCrLf + "          END      "
+        strSql += vbCrLf + "        IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND O.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "        IF @METAL <> 'ALL' AND @METAL <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.METALID IN ('''+@METAL+''')  '      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "      PRINT @MINUSDISCOUNT    "
+        strSql += vbCrLf + "      IF @MINUSDISCOUNT='Y'    "
+        strSql += vbCrLf + "      BEGIN    "
+        strSql += vbCrLf + "       SELECT @STRQRY='UPDATE TEMPTABLEDB..TEMP'+@SystemId+'FINAL SET DISCOUNT=0 WHERE DISCOUNT<0'            "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "      END    "
+        strSql += vbCrLf + "          /*  TRUNCATE THE TABLE AT NO DATAS IN TEMPORARY TABLE */      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMP'+@SystemId+'ORDER) < 2'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'TRUNCATE TABLE TEMPTABLEDB..TEMP'+@SystemId+'ORDER'      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          /*    "
+        strSql += vbCrLf + "              SELECT @STRQRY=' ALTER TABLE TEMPTABLEDB..TEMP'+@SystemId+'FINAL ALTER COLUMN TRANDATE VARCHAR(12)'    "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          */    "
+        strSql += vbCrLf + "          /*  UNION ALL BETWEEN TEMPORARY TABLES RECIPT AND RECPAY */      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' ALTER TABLE TEMPTABLEDB..TEMP'+@SystemId+'FINAL ADD NARRATION VARCHAR(500)'      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' BILLNO,TRANDATE,TRANTYPE,RUNNO,IITEMNAME,SUBITEMNAME,ITAGNO,IPCS,IGRSWT,INETWT,IWASTPER,IWASTAGE,IMCHARGE,IRATE,IPURITY,ISTNAMT,IMISCAMT,IAMOUNT,RITEMNAME,RPCS'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,RGRSWT,RNETWT,RPURITY,RWASTAGE,RMCHARGE,RSTNAMT,RAMOUNT,BALANCE,CASH,CARD,CHEQUE,ROUNDOFF,ADVANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,HANDLOG,DISCOUNT,CHITCARD,GIFTVOUCHER,CREDIT,JND,TOTAL,BATCHNO,RESULT,SEP,CUSTOMER,ADDRESS,PHONENO,PAN,GSTNO,CANCEL,EMPNAME,USERNAME,NARRATION,RNETAMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' )'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT *,RAMOUNT FROM TEMPTABLEDB..TEMP'+@SystemId+'RECEIPT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'UNION ALL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT *,RAMOUNT  FROM TEMPTABLEDB..TEMP'+@SystemId+'RECPAY'      "
+        strSql += vbCrLf + "          IF @WITHORD='Y'      "
+        strSql += vbCrLf + "          BEGIN      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'UNION ALL'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT *,RAMOUNT FROM TEMPTABLEDB..TEMP'+@SystemId+'ORDER'      "
+        strSql += vbCrLf + "          END      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'ORDER BY SEP,BATCHNO,RESULT'      "
+        strSql += vbCrLf + "          PRINT @STRQRY       "
+        strSql += vbCrLf + "          EXEC (@STRQRY)    "
+        strSql += vbCrLf + "          /*  PAYMENT */      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL )>0'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'BEGIN'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'IF (SELECT 1 FROM TEMPTABLEDB..SYSOBJECTS WHERE NAME = ''TEMP'+@SystemId+'PAYMENT'')>0'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'DROP TABLE TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AMOUNT CASH'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT CARD,AMOUNT CHEQUE,AMOUNT ROUNDOFF,AMOUNT ADVANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT HANDLOG,AMOUNT DISCOUNT,AMOUNT CHITCARD,AMOUNT GIFTVOUCHER,AMOUNT CREDIT,AMOUNT JND'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT TOTAL,BATCHNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR(100),'''') CUSTOMER ,CONVERT(VARCHAR(250),'''') ADDRESS,CONVERT(VARCHAR(30),'''') PHONENO,CONVERT(VARCHAR(20),'''') PAN,CONVERT(VARCHAR(30),'''') GSTNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CANCEL,CONVERT(VARCHAR(100),'')EMPNAME,CONVERT(VARCHAR(100),'')USERNAME'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'INTO TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM  ISSUE WHERE 1<>1'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'CASH,CARD,CHEQUE,ROUNDOFF,ADVANCE,HANDLOG,DISCOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CHITCARD,GIFTVOUCHER,CREDIT,JND,TOTAL,BATCHNO,CUSTOMER,ADDRESS,PHONENO,PAN,GSTNO,CANCEL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' )'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'ISNULL(SUM(CASHAMOUNT),0) AS CASH,ISNULL(SUM(CARD),0) AS CARD,ISNULL(SUM(CHEQUE),0) CHEQUE,ISNULL(SUM(ROUNDOFF),0) ROUNDOFF'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',ISNULL(SUM(ADVANCE),0) ADVANCE,ISNULL(SUM(HANDLOG),0) HANDLOG,ISNULL(SUM(DISCOUNT),0) DISCOUNT,ISNULL(SUM(CHITCARD),0) CHITCARD,ISNULL(SUM(GIFTVOUCHER),0) GIFTVOUCHER,ISNULL(SUM(CREDIT),0) CREDIT,ISNULL(SUM(JND),0) JND'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',(ISNULL(SUM(CASHAMOUNT),0)+ISNULL(SUM(CARD),0)+ISNULL(SUM(CHEQUE),0)+ISNULL(SUM(ROUNDOFF),0)+ISNULL(SUM(ADVANCE),0)+ISNULL(SUM(HANDLOG),0)+ISNULL(SUM(DISCOUNT),0)+ISNULL(SUM(CHITCARD),0)+ISNULL(SUM(GIFTVOUCHER),0)+ISNULL(SUM(CREDIT),0)) TOTAL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',X.BATCHNO,PNAME CUSTOMER,ISNULL(DOORNO,'''') + ISNULL(ADDRESS1,'''') + ISNULL(ADDRESS2,'''') + '' '' + ISNULL(AREA,'''') + '' '' + ISNULL(CITY,'''') + '' '' + ISNULL(PINCODE,'''') ADDRESS,MOBILE PHONENO,P.PAN,P.GSTNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',X.CANCEL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SUM(CASE WHEN PAYMODE=''CA'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''CA'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS CASHAMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''CC'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''CC'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS CARD'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''CH'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''CH'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS CHEQUE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''RO'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''RO'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS ROUNDOFF'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''AA'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''AA'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS ADVANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''HC'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''HC'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS HANDLOG'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''DI'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''DI'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS DISCOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE IN(''SS'',''CG'',''CB'',''CZ'',''CD'',''HB'',''HD'',''HP'',''CT'') AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE IN(''SS'',''CG'',''CB'',''CZ'',''CD'',''HB'',''HD'',''HP'',''CT'') AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS CHITCARD'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''GV'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''GV'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS GIFTVOUCHER'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN PAYMODE=''DU'' THEN (SELECT SUM(CASE WHEN TRANMODE=''D'' THEN AMOUNT ELSE -1*AMOUNT END) FROM ACCTRAN WHERE PAYMODE=''DU'' AND TRANDATE=A.TRANDATE AND TRANNO=A.TRANNO AND BATCHNO NOT IN (SELECT BATCHNO FROM '+@ADMINDB+'..ITEMDETAIL) )END CREDIT '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN PAYMODE=''DU'' THEN (SELECT SUM(CASE WHEN TRANMODE=''D'' THEN AMOUNT ELSE -1*AMOUNT END) FROM ACCTRAN WHERE PAYMODE=''DU'' AND BATCHNO=A.BATCHNO AND BATCHNO IN (SELECT BATCHNO FROM '+@ADMINDB+'..ITEMDETAIL) )END JND '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.BATCHNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.CANCEL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM ACCTRAN A'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE A.BATCHNO IN (SELECT BATCHNO FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE TRANTYPE<>''GIFT RECEIPT'') '      "
+        strSql += vbCrLf + "          IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(A.CANCEL,'''')='''' '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'GROUP BY A.TRANNO,A.TRANDATE,A.BATCHNO,PAYMODE,A.TRANMODE,A.CANCEL'    "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + 'UNION ALL'      "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SUM(CASE WHEN PAYMODE=''CA'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''CA'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS CASHAMOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''CC'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''CC'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS CARD'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''CH'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''CH'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS CHEQUE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''RO'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''RO'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS ROUNDOFF'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''AA'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''AA'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS ADVANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''HC'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''HC'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS HANDLOG'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE=''DI'' AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE=''DI'' AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS DISCOUNT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(CASE WHEN PAYMODE IN(''SS'',''CG'',''CB'',''CZ'',''CD'',''HB'',''HD'',''HP'',''CT'') AND TRANMODE=''D'' THEN A.AMOUNT WHEN PAYMODE IN(''SS'',''CG'',''CB'',''CZ'',''CD'',''HB'',''HD'',''HP'',''CT'') AND TRANMODE=''C'' THEN -1*A.AMOUNT ELSE 0 END) AS CHITCARD'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 AS GIFTVOUCHER'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN PAYMODE=''DU'' THEN (SELECT SUM(CASE WHEN TRANMODE=''D'' THEN AMOUNT ELSE -1*AMOUNT END) FROM ACCTRAN WHERE PAYMODE=''DU'' AND TRANDATE=A.TRANDATE AND TRANNO=A.TRANNO AND BATCHNO NOT IN (SELECT BATCHNO FROM '+@ADMINDB+'..ITEMDETAIL) )END CREDIT '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN PAYMODE=''DU'' THEN (SELECT SUM(CASE WHEN TRANMODE=''D'' THEN AMOUNT ELSE -1*AMOUNT END) FROM ACCTRAN WHERE PAYMODE=''DU'' AND BATCHNO=A.BATCHNO AND BATCHNO IN (SELECT BATCHNO FROM '+@ADMINDB+'..ITEMDETAIL) )END JND '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.BATCHNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',A.CANCEL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM ACCTRAN A'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE A.BATCHNO IN (SELECT BATCHNO FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE TRANTYPE=''GIFT RECEIPT'') '      "
+        strSql += vbCrLf + "          IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(A.CANCEL,'''')='''' '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND A.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'GROUP BY A.TRANNO,A.TRANDATE,A.BATCHNO,PAYMODE,A.TRANMODE,A.CANCEL'    "
+        strSql += vbCrLf + "    SELECT @STRQRY=@STRQRY + CHAR(13) + ')X '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON C.BATCHNO = X.BATCHNO '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'GROUP BY X.BATCHNO,P.PNAME,P.DOORNO,P.ADDRESS1,P.ADDRESS2,P.AREA,P.CITY,P.PINCODE,P.MOBILE,X.CANCEL,P.PAN,P.GSTNO'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'END'      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "          /*  UPDATING PAYMENT  */        "
+        strSql += vbCrLf + "          /* OLD SELECT @STRQRY=' IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL )>0'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'BEGIN'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'UPDATE TEMPTABLEDB..TEMP'+@SystemId+'FINAL SET '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'BALANCE =ISNULL((SELECT SUM(IAMOUNT) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE BATCHNO = T.BATCHNO AND RESULT <> 3 ),0)-ISNULL((SELECT SUM(RAMOUNT) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE BATCHNO "
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + "= T.BATCHNO AND RESULT <> 3 ),0)'         "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASH=(SELECT CASH FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'         "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CARD=(SELECT CARD FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CHEQUE=(SELECT CHEQUE FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',ROUNDOFF=(SELECT ROUNDOFF FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',ADVANCE=(SELECT ADVANCE FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',HANDLOG=(SELECT HANDLOG FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',DISCOUNT1=(SELECT DISCOUNT FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO)'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CHITCARD=(SELECT CHITCARD FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',GIFTVOUCHER=(SELECT GIFTVOUCHER FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CREDIT=(SELECT CREDIT FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',JND=(SELECT JND FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',TOTAL=(SELECT TOTAL FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO  )'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CANCEL=(SELECT TOP 1 CANCEL FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',RESULT =3'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL AS T'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE KEYNO=(SELECT TOP 1 KEYNO FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE BATCHNO=T.BATCHNO ORDER BY KEYNO ASC) AND ISNULL(BATCHNO,'''') <> '''''        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '('       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'COLHEAD,BILLNO,IPCS,IGRSWT,IWASTAGE,IMCHARGE,ISTNAMT,IMISCAMT,IAMOUNT,RPCS,RGRSWT,RWASTAGE,RMCHARGE,RSTNAMT,RAMOUNT,BALANCE,CASH,CARD,CHEQUE,ROUNDOFF,ADVANCE,HANDLOG,DISCOUNT,CHITCARD,GIFTVOUCHER,CREDIT,TOTAL"
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + ",JND,BATCHNO,SEP,CUSTOMER,ADDRESS,PHONENO)'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT ''S'' COLHEAD,''SUB TOTAL'' BILLNO,SUM(IPCS),SUM(IGRSWT),SUM(IWASTAGE),SUM(IMCHARGE),SUM(ISTNAMT),SUM(IMISCAMT),SUM(IAMOUNT),SUM(RPCS),SUM(RGRSWT),SUM(RWASTAGE),SUM(RMCHARGE),SUM(RSTNAMT),SUM(RAMOUNT),"
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + "SUM(BALANCE),SUM(CASH),SUM(CARD),SUM(CHEQUE)'    "
+        strSql += vbCrLf + "       SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(ROUNDOFF),SUM(ADVANCE),SUM(HANDLOG),SUM(DISCOUNT),SUM(CHITCARD),SUM(GIFTVOUCHER),SUM(CREDIT),SUM(TOTAL),SUM(JND),BATCHNO,SEP,'''' CUSTOMER,'''' ADDRESS,'''' PHONENO'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE ISNULL(BATCHNO,'''')<>''''  AND ISNULL(CANCEL,'''')<>''Y'' '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'GROUP BY BATCHNO,SEP'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'END'      "
+        strSql += vbCrLf + "          PRINT @STRQRY    "
+        strSql += vbCrLf + "          EXEC (@STRQRY) OLD*/    "
+        strSql += vbCrLf + "     /*APPROVAL*/     "
+        strSql += vbCrLf + "     IF @WITHAPPROVAL ='Y'    "
+        strSql += vbCrLf + "     BEGIN    "
+        strSql += vbCrLf + "      SELECT @STRQRY=' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL'     "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'BILLNO,TRANDATE,IITEMNAME,SUBITEMNAME,HSN,TRANTYPE,TRANTYPE1,RUNNO,ITAGNO,IITEMCTRNAME,TAGTYPE,CATEGORY,IPCS,IGRSWT,ILESSWT,INETWT,IADVWT,IBALWT,ISTNWT,IDIAWT,IWASTPER,IWASTAGE,IMCHARGE,IRATE,IPURITY,ISTNAMT,IDIAAMT,IMISCAMT'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',SGST,CGST,IGST,GST,IAMOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',RITEMNAME,RPCS,RGRSWT,RLESSWT,RNETWT,RSTNWT,RDIAWT,RPURITY,RWASTAGE,RMCHARGE,RSTNAMT,RDIAAMT,RAMOUNT,RSGST,RCGST,RIGST,RNETAMOUNT,BALANCE,CASH'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',CARD,CHEQUE,ROUNDOFF,ADVANCE,HANDLOG,DISCOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',CHITCARD,GIFTVOUCHER,CREDIT,JND,TOTAL,BATCHNO,RESULT,SEP,CUSTOMER,ADDRESS,PHONENO,PAN,GSTNO,CANCEL,EMPNAME,USERNAME'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ')'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' ''APPROVAL'' BILLNO,NULL TRANDATE,'''' IITEMNAME,'''' SUBITEMNAME,'''' HSN,'''' TRANTYPE,'''' TRANTYPE1,'''' RUNNO,'''' ITAGNO,'''' IITEMCTRNAME,'''' TAGTYPE,'''' CATEGORY'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 IPCS,0 IGRSWT,0 ILESSWT,0 INETWT,0 IADVWT,0 IBALWT,0 ISTNWT,0 IDIAWT,0 IWASTPER,0 IWASTAGE,0 IMCHARGE,0 IRATE,0 IPURITY,0 ISTNAMT,0 IDIAAMT,0 IMISCAMT'    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 SGST,0 CGST,0 IGST,0 GST,0 IAMOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ','''' RITEMNAME,0 RPCS,0 RGRSWT,0 RLESSWT,0 RNETWT,0 RSTNWT,0 RDIAWT,0 RPURITY,0 RWASTAGE,0 RMCHARGE,0 RSTNAMT,0 RDIAAMT,0 RAMOUNT,0 RSGST,0 RCGST,0 RIGST,0 RNETAMOUNT,0 BALANCE,0 CASH'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,0 TOTAL,'''' BATCHNO,1 RESULT,8 SEP,'''' CUSTOMER,'''' ADDRESS,'''' PHONENO,'''' PAN,'''' GSTNO,'''' CANCEL,'''' EMPNAME,'''' USERNAME'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE 1=1'      "
+        strSql += vbCrLf + "             PRINT @STRQRY      "
+        strSql += vbCrLf + "             EXEC (@STRQRY)    "
+        strSql += vbCrLf + "      SELECT @STRQRY=' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'BILLNO,TRANDATE,IITEMNAME,SUBITEMNAME,HSN,TRANTYPE,TRANTYPE1,RUNNO,ITAGNO,IITEMCTRNAME,TAGTYPE,CATEGORY,IPCS,IGRSWT,ILESSWT,INETWT,IADVWT,IBALWT,ISTNWT,IDIAWT,IWASTPER,IWASTAGE,IMCHARGE,IRATE,IPURITY,ISTNAMT,IDIAAMT,IMISCAMT'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',SGST,CGST,IGST,GST,IAMOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',RITEMNAME,RPCS,RGRSWT,RLESSWT,RNETWT,RSTNWT,RDIAWT,RPURITY,RWASTAGE,RMCHARGE,RSTNAMT,RDIAAMT,RAMOUNT,RSGST,RCGST,RIGST,RNETAMOUNT,BALANCE,CASH'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',CARD,CHEQUE,ROUNDOFF,ADVANCE,HANDLOG,DISCOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',CHITCARD,GIFTVOUCHER,CREDIT,JND,TOTAL,BATCHNO,RESULT,SEP,CUSTOMER,ADDRESS,PHONENO,PAN,GSTNO,CANCEL,EMPNAME,USERNAME'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ')'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ' SELECT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'BILLNO,TRANDATE,CATEGORY IITEMNAME,'''' SUBITEMNAME,'''' HSN,TRANTYPE,TRANTYPE1,'''' RUNNO,'''' ITAGNO,'''' IITEMCTRNAME,'''' TAGTYPE,CATEGORY'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(IPCS) IPCS,SUM(IGRSWT) IGRSWT,SUM(ILESSWT)  ILESSWT,SUM(INETWT) INETWT,SUM(IADVWT) IADVWT,SUM(IBALWT) IBALWT,SUM(ISTNWT) ISTNWT,SUM(IDIAWT) IDIAWT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(IWASTPER) IWASTPER,SUM(IWASTAGE) IWASTAGE,SUM(IMCHARGE) IMCHARGE,0 IRATE,0 IPURITY,SUM(ISTNAMT) ISTNAMT,SUM(IDIAAMT) IDIAAMT,SUM(IMISCAMT) IMISCAMT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(SGST) SGST,SUM(CGST) CGST,SUM(IGST) IGST,SUM(GST) GST,SUM(IAMOUNT) IAMOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ','''' RITEMNAME,SUM(RPCS) RPCS,SUM(RGRSWT) RGRSWT,SUM(RLESSWT) RLESSWT,SUM(RNETWT) RNETWT,SUM(RSTNWT) RSTNWT,SUM(RDIAWT) RDIAWT,'''' RPURITY'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(RWASTAGE) RWASTAGE,SUM(RMCHARGE) RMCHARGE,SUM(RSTNAMT) RSTNAMT,SUM(RDIAAMT) RDIAAMT,SUM(RAMOUNT) RAMOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(RSGST) RSGST,SUM(RCGST) RCGST,SUM(RIGST) RIGST,SUM(RNETAMOUNT) RNETAMOUNT,0 BALANCE'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,SUM(TOTAL) TOTAL,BATCHNO,3 RESULT,8 SEP,CUSTOMER,ADDRESS,PHONENO,PAN,GSTNO,CANCEL,EMPNAME,USERNAME'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'CONVERT(VARCHAR,I.TRANNO) AS BILLNO,I.TRANDATE'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT ITEMNAME FROM   '+@ADMINDB+'..ITEMMAST WHERE ITEMID =I.ITEMID) AS IITEMNAME'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUBITEMNAME FROM   '+@ADMINDB+'..SUBITEMMAST WHERE SUBITEMID =I.SUBITEMID) AS SUBITEMNAME'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT HSN FROM   '+@ADMINDB+'..ITEMMAST WHERE ITEMID =I.ITEMID) AS HSN'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',''APP ISS'' AS TRANTYPE'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',I.TRANTYPE AS TRANTYPE1'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT TOP 1 SUBSTRING(RUNNO,6,20) FROM   '+@ADMINDB+'..OUTSTANDING WHERE BATCHNO=I.BATCHNO ) AS RUNNO'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',CONVERT(VARCHAR,TAGNO) AS ITAGNO,(SELECT ITEMCTRNAME FROM   '+@ADMINDB+'..ITEMCOUNTER WHERE ITEMCTRID =I.ITEMCTRID) AS IITEMCTRNAME'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SNAME FROM '+@ADMINDB+'..ITEMTYPE WHERE ITEMTYPEID IN(SELECT ITEMTYPEID FROM '+@ADMINDB+'..ITEMTAG WHERE TAGNO = I.TAGNO AND ITEMID= I.ITEMID ))TAGTYPE'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT CATNAME FROM   '+@ADMINDB+'..CATEGORY WHERE CATCODE =I.CATCODE) AS CATEGORY'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',PCS AS IPCS,I.GRSWT AS IGRSWT,LESSWT AS ILESSWT,NETWT AS INETWT '      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN I.TRANTYPE=''OD'' THEN (SELECT SUM(GRSWT) FROM '+@ADMINDB+'..OUTSTANDING WHERE BATCHNO=I.BATCHNO) ELSE 0 END AS IADVWT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASE WHEN I.TRANTYPE=''OD'' THEN (I.GRSWT-ISNULL((SELECT SUM(GRSWT) FROM '+@ADMINDB+'..OUTSTANDING WHERE BATCHNO=I.BATCHNO),0)) ELSE 0 END IBALWT'      "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNWT) FROM ISSSTONE WHERE ISSSNO=I.SNO AND BATCHNO=I.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''T''))ISTNWT'    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNWT) FROM ISSSTONE WHERE ISSSNO=I.SNO AND BATCHNO=I.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''D''))IDIAWT'    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ',ISNULL(CONVERT(NUMERIC(15,2),(WASTAGE/CASE WHEN I.GRSWT <> 0  THEN I.GRSWT ELSE 1 END)*100),0) AS IWASTPER'      "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ',WASTAGE AS IWASTAGE,MCHARGE AS IMCHARGE,RATE IRATE,PURITY IPURITY '    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNAMT) FROM ISSSTONE WHERE ISSSNO=I.SNO AND BATCHNO=I.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''T''))ISTNAMT'    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNAMT) FROM ISSSTONE WHERE ISSSNO=I.SNO AND BATCHNO=I.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''D''))IDIAAMT'    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,MISCAMT IMISCAMT'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=I.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TAXID=''SG'' AND TRANTYPE=I.TRANTYPE) AS SGST'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=I.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TAXID=''CG'' AND TRANTYPE=I.TRANTYPE) AS CGST'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=I.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TAXID=''IG'' AND TRANTYPE=I.TRANTYPE) AS IGST'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=I.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TRANTYPE=I.TRANTYPE) AS GST'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',AMOUNT+I.TAX AS IAMOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ','' ''RITEMNAME,0 RPCS,0.00 RGRSWT,0.00 RNETWT,0.00 RLESSWT,0.00 RSTNWT,0.00 RDIAWT,0 RPURITY,0.00 RWASTAGE,0.00 RMCHARGE,0 RSTNAMT,0 RDIAAMT'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 RAMOUNT,0 RSGST,0 RCGST,0 RIGST,0 RNETAMOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',0.0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,(I.DISCOUNT+FIN_DISCOUNT) DISCOUNT,0 CHITCARD,0 JND,0 GIFTVOUCHER,0 CREDIT,0 TOTAL'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',I.BATCHNO,1 RESULT,PNAME CUSTOMER,ISNULL(DOORNO,'''') + ISNULL(ADDRESS1,'''') + ISNULL(ADDRESS2,'''') + '' '' + ISNULL(AREA,'''') + '' '' + ISNULL(CITY,'''') + '' '' + ISNULL(PINCODE,'''') ADDRESS,MOBILEPHONENO,P.PAN,P.GSTNO'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',I.CANCEL,(SELECT EMPNAME FROM '+@ADMINDB+'..EMPMASTER WHERE EMPID=I.EMPID)EMPNAME,(SELECT USERNAME FROM '+@ADMINDB+'..USERMASTER WHERE USERID=I.USERID)USERNAME'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM   ISSUE AS I  '    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON C.BATCHNO = I.BATCHNO '    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO '      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE (I.TRANTYPE IN (''AI'')) '      "
+        strSql += vbCrLf + "             IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(I.CANCEL,'''')='''''      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.TRANDATE <= '''+ @ASONDATE +''''      "
+        strSql += vbCrLf + "             IF @BILLNO <> '' SELECT @STRQRY=@STRQRY + CHAR(13) + ' AND I.TRANNO = '''+@BILLNO+''' '       "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.COMPANYID IN (SELECT COMPANYID FROM #COMPANY) '      "
+        strSql += vbCrLf + "             IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''      "
+        strSql += vbCrLf + "             BEGIN      "
+        strSql += vbCrLf + "              SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.COSTID =(SELECT COSTID FROM  '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'      "
+        strSql += vbCrLf + "             END       "
+        strSql += vbCrLf + "             IF @NODEID <> 'ALL' And @NODEID <> ''      "
+        strSql += vbCrLf + "             BEGIN       "
+        strSql += vbCrLf + "              SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.SYSTEMID ='''+@NODEID+''''      "
+        strSql += vbCrLf + "             END       "
+        strSql += vbCrLf + "         IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "         BEGIN    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "         END    "
+        strSql += vbCrLf + "         IF @METAL <> 'ALL' AND @METAL <> ''    "
+        strSql += vbCrLf + "         BEGIN    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.ITEMID IN (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID IN ('''+@METAL+''') )'      "
+        strSql += vbCrLf + "         END    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'UNION ALL'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'CONVERT(VARCHAR,R.TRANNO) BILLNO,R.TRANDATE,'' ''ITEMNAME,'' '' SUBITEMNAME,'' ''HSN'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',''APP REC'' AS TRANTYPE '    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',R.TRANTYPE AS TRANTYPE1,'' ''RUNNO'        "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ','' ''TAGNO,'' '' IITEMCTRNAME'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SNAME FROM '+@ADMINDB+'..ITEMTYPE WHERE ITEMTYPEID IN(SELECT ITEMTYPEID FROM '+@ADMINDB+'..ITEMTAG WHERE TAGNO = R.TAGNO AND ITEMID= R.ITEMID ))TAGTYPE'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT CATNAME FROM   '+@ADMINDB+'..CATEGORY WHERE CATCODE =R.CATCODE) AS CATEGORY'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 PCS,0.00 GRSWT,0.00 ILESSWT,0.00 NETWT,0.00 IADVWT,0.00 IBALWT,0.00 ISTNWT,0.00 IDIAWT,0 WASTPER,0.00 WASTAGE,0.00 MCHARGE,0 IRATE,0 IPURITY,0 ISTNAMT,0 IDIAAMT,0 IMISCAMT'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 AS SGST,0 AS CGST,0 AS IGST,0 AS GST,0 AMOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT ITEMNAME FROM  '+@ADMINDB+'..ITEMMAST WHERE ITEMID =R.ITEMID) AS RITEMNAME'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',PCS AS RPCS,R.GRSWT AS RGRSWT,LESSWT AS RLESSWT,0.00 RNETWT '    "
+        strSql += vbCrLf + "           SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNWT) FROM RECEIPTSTONE WHERE ISSSNO=R.SNO AND BATCHNO=R.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''T''))RSTNWT'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNWT) FROM RECEIPTSTONE WHERE ISSSNO=R.SNO AND BATCHNO=R.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''D''))RDIAWT'    "
+        strSql += vbCrLf + "            SELECT @STRQRY=@STRQRY + CHAR(13) + ',PURITY RPURITY,R.WASTAGE AS RWASTAGE,R.MCHARGE AS RMCHARGE'    "
+        strSql += vbCrLf + "           SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNAMT) FROM RECEIPTSTONE WHERE ISSSNO=R.SNO AND BATCHNO=R.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "           SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''T''))RSTNAMT'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(STNAMT) FROM RECEIPTSTONE WHERE ISSSNO=R.SNO AND BATCHNO=R.BATCHNO AND STNITEMID IN '    "
+        strSql += vbCrLf + "           SELECT @STRQRY=@STRQRY + CHAR(13) + ' (SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID=''D''))RDIAAMT'    "
+        strSql += vbCrLf + "           SELECT @STRQRY=@STRQRY + CHAR(13) + ',R.AMOUNT AS RAMOUNT'      "
+        strSql += vbCrLf + "           SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=R.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TAXID=''SG'' AND TRANTYPE=R.TRANTYPE) AS SGST'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=R.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TAXID=''CG'' AND TRANTYPE=R.TRANTYPE) AS CGST'    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT SUM(TAXAMOUNT) FROM TAXTRAN WHERE ISSSNO=R.SNO AND ISNULL(STUDDED,''N'')<>''Y'' AND TAXID=''IG'' AND TRANTYPE=R.TRANTYPE) AS IGST'     "
+        strSql += vbCrLf + "           SELECT @STRQRY=@STRQRY + CHAR(13) + ',R.AMOUNT+R.TAX AS RNETAMOUNT'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',0 CASH,0 CARD,0 CHEQUE,0 ROUNDOFF,0 ADVANCE,0 HANDLOG,0 DISCOUNT,0 CHITCARD,0 GIFTVOUCHER,0 CREDIT,0 JND,0 TOTAL'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',R.BATCHNO,2 RESULT,PNAME CUSTOMER,ISNULL(DOORNO,'''') + ISNULL(ADDRESS1,'''') + ISNULL(ADDRESS2,'''') + '' '' + ISNULL(AREA,'''') + '' '' + ISNULL(CITY,'''') + '' '' + ISNULL(PINCODE,'''') ADDRESS,MOBILE PHONENO,P.PAN,P.GSTNO,R.CANCEL'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ',(SELECT EMPNAME FROM '+@ADMINDB+'..EMPMASTER WHERE EMPID=R.EMPID)EMPNAME,(SELECT USERNAME FROM '+@ADMINDB+'..USERMASTER WHERE USERID=R.USERID)USERNAME'      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM   RECEIPT AS R  LEFT OUTER JOIN  '+@ADMINDB+'..CUSTOMERINFO AS C ON C.BATCHNO = R.BATCHNO LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO '      "
+        strSql += vbCrLf + "            SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE R.TRANTYPE in (''AR'')'      "
+        strSql += vbCrLf + "             IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(R.CANCEL,'''')='''''      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.TRANDATE <= '''+ @ASONDATE +''''       "
+        strSql += vbCrLf + "             IF @BILLNO <> '' SELECT @STRQRY=@STRQRY + CHAR(13) + ' AND R.TRANNO = '''+@BILLNO+''' '       "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'      "
+        strSql += vbCrLf + "             IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''      "
+        strSql += vbCrLf + "             BEGIN      "
+        strSql += vbCrLf + "              SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.COSTID =(SELECT COSTID FROM  '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'      "
+        strSql += vbCrLf + "             END       "
+        strSql += vbCrLf + "             IF @NODEID <> 'ALL' And @NODEID <> ''       "
+        strSql += vbCrLf + "             BEGIN      "
+        strSql += vbCrLf + "              SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.SYSTEMID ='''+@NODEID+''''      "
+        strSql += vbCrLf + "             END       "
+        strSql += vbCrLf + "         IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "         BEGIN    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "         END    "
+        strSql += vbCrLf + "         IF @METAL <> 'ALL' AND @METAL <> ''    "
+        strSql += vbCrLf + "         BEGIN    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND R.ITEMID IN ( SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID IN ('''+@METAL+''') )'      "
+        strSql += vbCrLf + "         END    "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + ' )Y '    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' GROUP BY CATEGORY,BILLNO,TRANDATE,TRANTYPE,TRANTYPE1,CUSTOMER,ADDRESS,PHONENO,PAN,GSTNO,CANCEL,EMPNAME,USERNAME,BATCHNO,RESULT '    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' ORDER BY BATCHNO,RESULT'      "
+        strSql += vbCrLf + "             PRINT @STRQRY      "
+        strSql += vbCrLf + "             EXEC (@STRQRY)      "
+        strSql += vbCrLf + "     END    "
+        strSql += vbCrLf + "     /*END APPROVAL*/    "
+        strSql += vbCrLf + "              /*nEWLY */     "
+        strSql += vbCrLf + "          SELECT @STRQRY=' IF (SELECT 1 FROM TEMPTABLEDB..SYSOBJECTS WHERE NAME = ''TEMP'+@SystemId+'KEYNO'')>0 DROP TABLE TEMPTABLEDB..TEMP'+@SystemId+'KEYNO '         "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT  KEYNO , BATCHNO INTO TEMPTABLEDB..TEMP'+@SystemId+'KEYNO  FROM   TEMPTABLEDB..TEMP'+@SystemId+'FINAL'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE BATCHNO  IN (SELECT DISTINCT BATCHNO FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE TRANTYPE1 IN (''SR'',''PU'',''AI'',''AR'')) '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND TRANTYPE1 NOT IN (''SR'',''PU'',''AI'',''AR'')'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(COLHEAD,'''') <> ''S'' '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'GROUP BY BATCHNO,KEYNO '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'HAVING SUM(IAMOUNT - RAMOUNT)  >0 '    "
+        strSql += vbCrLf + "              PRINT @STRQRY      "
+        strSql += vbCrLf + "              EXEC (@STRQRY)     "
+        strSql += vbCrLf + "              SELECT @STRQRY=' IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL )>0'       "
+        strSql += vbCrLf + "              SELECT @STRQRY=@STRQRY + CHAR(13) + 'BEGIN'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'UPDATE TEMPTABLEDB..TEMP'+@SystemId+'FINAL SET '      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'BALANCE =ISNULL((SELECT SUM(IAMOUNT) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE BATCHNO = T.BATCHNO AND RESULT <> 3 ),0)-ISNULL((SELECT SUM(RNETAMOUNT) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE BATCHNO = T.BATCHNO AND RESULT <> 3),0)'         "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASH=(SELECT CASH FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'         "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',CARD=(SELECT CARD FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',CHEQUE=(SELECT CHEQUE FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',ROUNDOFF=(SELECT ROUNDOFF FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',ADVANCE=(SELECT ADVANCE FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',HANDLOG=(SELECT HANDLOG FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',DISCOUNT1=(SELECT DISCOUNT FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO)'       "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',CHITCARD=(SELECT CHITCARD FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',GIFTVOUCHER=(SELECT GIFTVOUCHER FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO AND T.TRANTYPE<>''GIFT RECEIPT'')'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',CREDIT=(SELECT CREDIT FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',JND=(SELECT JND FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',TOTAL=(SELECT TOTAL FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO) '       "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',CANCEL=(SELECT TOP 1 CANCEL FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'       "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',RESULT =3'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL AS T'       "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE KEYNO= (SELECT TOP 1 KEYNO FROM TEMPTABLEDB..TEMP'+@SystemId+'KEYNO WHERE BATCHNO=T.BATCHNO ORDER BY KEYNO DESC) AND ISNULL(BATCHNO,'''') <> '''''        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'UPDATE TEMPTABLEDB..TEMP'+@SystemId+'FINAL SET '      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'BALANCE =ISNULL((SELECT SUM(IAMOUNT) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE BATCHNO = T.BATCHNO AND RESULT <> 3),0)-ISNULL((SELECT SUM(RNETAMOUNT) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE BATCHNO = T.BATCHNO AND RESULT <> 3),0)'         "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASH=(SELECT CASH FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'         "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',CARD=(SELECT CARD FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',CHEQUE=(SELECT CHEQUE FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',ROUNDOFF=(SELECT ROUNDOFF FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',ADVANCE=(SELECT ADVANCE FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',HANDLOG=(SELECT HANDLOG FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',DISCOUNT1=(SELECT DISCOUNT FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO)'       "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',CHITCARD=(SELECT CHITCARD FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',GIFTVOUCHER=(SELECT GIFTVOUCHER FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO AND T.TRANTYPE<>''GIFT RECEIPT'')'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',CREDIT=(SELECT CREDIT FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',JND=(SELECT JND FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',TOTAL=(SELECT TOTAL FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO  )'       "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',CANCEL=(SELECT TOP 1 CANCEL FROM TEMPTABLEDB..TEMP'+@SystemId+'PAYMENT WHERE BATCHNO =T.BATCHNO )'       "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',RESULT =3'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL AS T'       "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE KEYNO= (SELECT TOP 1 KEYNO FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE BATCHNO=T.BATCHNO ORDER BY KEYNO DESC) AND BATCHNO NOT IN (SELECT DISTINCT BATCHNO FROM TEMPTABLEDB..TEMP'+@SYSTEMID+'KEYNO) AND ISNULL(BATCHNO,'''') <> '''''       "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL '      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + '('       "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'COLHEAD,BILLNO,IPCS,IGRSWT,INETWT,IWASTAGE,IMCHARGE,ISTNAMT,IMISCAMT,IAMOUNT,RPCS,RGRSWT,RWASTAGE,RMCHARGE,RSTNAMT,RAMOUNT,BALANCE,CASH,CARD,CHEQUE,ROUNDOFF,ADVANCE,HANDLOG,DISCOUNT,CHITCARD,GIFTVOUCHER,CREDIT,TOTAL,JND,BATCHNO,SEP,CUSTOMER,ADDRESS,PHONENO)'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT ''S'' COLHEAD,''SUB TOTAL'' BILLNO,SUM(IPCS),SUM(IGRSWT),SUM(INETWT),SUM(IWASTAGE),SUM(IMCHARGE),SUM(ISTNAMT),SUM(IMISCAMT),SUM(IAMOUNT),SUM(RPCS),SUM(RGRSWT),SUM(RWASTAGE),SUM(RMCHARGE),SUM(RSTNAMT),SUM(RAMOUNT),SUM(BALANCE),SUM(CASH),SUM(CARD),SUM(CHEQUE)'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(ROUNDOFF),SUM(ADVANCE),SUM(HANDLOG),SUM(DISCOUNT),SUM(CHITCARD),SUM(GIFTVOUCHER),SUM(CREDIT),SUM(TOTAL),SUM(JND),BATCHNO,SEP,'''' CUSTOMER,'''' ADDRESS,'''' PHONENO'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL '      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE ISNULL(BATCHNO,'''')<>''''  AND ISNULL(CANCEL,'''')<>''Y'' '      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'GROUP BY BATCHNO,SEP'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'END'      "
+        strSql += vbCrLf + "     PRINT @STRQRY      "
+        strSql += vbCrLf + "     EXEC (@STRQRY)     "
+        strSql += vbCrLf + "              /*NEWLY */     "
+        strSql += vbCrLf + "          SELECT @STRQRY=' IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL )>0'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'BEGIN'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) +' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'COLHEAD,BILLNO,IPCS,IGRSWT,INETWT,IMCHARGE,IMISCAMT,IWASTAGE,ISTNAMT,SEP)'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT ''G''COLHEAD,''NON TAG TOTAL'' BILLNO,SUM(PCS)IPCS,SUM(GRSWT)IGRSWT,SUM(NETWT)INETWT,sum(MCHARGE)IMCHARGE,SUM(MISCAMT)IMISCAMT,SUM(WASTAGE)IWASTAGE,SUM(STNAMT)ISTNAMT,8'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM   ISSUE AS I  LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON C.BATCHNO = I.BATCHNO LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE (TRANTYPE IN (''SA'',''RD'') OR (TRANTYPE =''OD'' AND GRSWT >0))'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(I.CANCEL,'''')='''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.TRANDATE <= '''+ @ASONDATE +''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.ITEMID IN('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE STOCKTYPE=''N'' )'      "
+        strSql += vbCrLf + "          IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''      "
+        strSql += vbCrLf + "          BEGIN      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.COSTID =(SELECT COSTID FROM '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'      "
+        strSql += vbCrLf + "          END      "
+        strSql += vbCrLf + "        IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "        IF @METAL <> 'ALL' AND @METAL <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.ITEMID IN ( SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID IN('''+@METAL+''')) '      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) +' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'COLHEAD,BILLNO,IPCS,IGRSWT,INETWT,IMCHARGE,IMISCAMT,IWASTAGE,ISTNAMT,SEP)'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT ''G''COLHEAD,''TAG TOTAL'' BILLNO,SUM(PCS)IPCS,SUM(GRSWT)IGRSWT,SUM(NETWT)INETWT,sum(MCHARGE)IMCHARGE,SUM(MISCAMT)IMISCAMT,SUM(WASTAGE)IWASTAGE,SUM(STNAMT)ISTNAMT,9'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM   ISSUE AS I  LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON C.BATCHNO = I.BATCHNO LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE (TRANTYPE IN (''SA'',''RD'') OR (TRANTYPE =''OD'' AND GRSWT >0))'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(I.CANCEL,'''')='''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.TRANDATE <= '''+ @ASONDATE +''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.ITEMID IN('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE STOCKTYPE=''T'' )  AND ISNULL(I.TAGNO,'''')<>'''''      "
+        strSql += vbCrLf + "          IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''      "
+        strSql += vbCrLf + "          BEGIN      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.COSTID =(SELECT COSTID FROM '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'      "
+        strSql += vbCrLf + "          END     "
+        strSql += vbCrLf + "        IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "        IF @METAL <> 'ALL' AND @METAL <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.ITEMID IN ( SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID IN('''+@METAL+''')) '      "
+        strSql += vbCrLf + "        END     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'COLHEAD,BILLNO,IPCS,IGRSWT,INETWT,IMCHARGE,IMISCAMT,IWASTAGE,ISTNAMT,SEP)'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT ''G''COLHEAD,''HOME SALES TOTAL'' BILLNO,SUM(PCS)IPCS,SUM(GRSWT)IGRSWT,SUM(NETWT)INETWT,sum(MCHARGE)IMCHARGE,SUM(MISCAMT)IMISCAMT,SUM(WASTAGE)IWASTAGE,SUM(STNAMT)ISTNAMT,9.5'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM   ISSUE AS I  LEFT OUTER JOIN '+@ADMINDB+'..CUSTOMERINFO AS C ON C.BATCHNO = I.BATCHNO LEFT OUTER JOIN  '+@ADMINDB+'..PERSONALINFO AS P ON C.PSNO = P.SNO'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE (TRANTYPE IN (''SA'',''RD'') OR (TRANTYPE =''OD'' AND GRSWT >0))'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(I.CANCEL,'''')='''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.TRANDATE <= '''+ @ASONDATE +''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.ITEMID IN('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE STOCKTYPE=''T'') AND ISNULL(I.TAGNO,'''')='''''      "
+        strSql += vbCrLf + "          IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''      "
+        strSql += vbCrLf + "          BEGIN      "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.COSTID =(SELECT COSTID FROM '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'      "
+        strSql += vbCrLf + "          END      "
+        strSql += vbCrLf + "        IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "        IF @METAL <> 'ALL' AND @METAL <> ''    "
+        strSql += vbCrLf + "        BEGIN    "
+        strSql += vbCrLf + "         SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND I.ITEMID IN ( SELECT ITEMID FROM '+@ADMINDB+'..ITEMMAST WHERE METALID IN('''+@METAL+''')) '    "
+        strSql += vbCrLf + "        END    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'END'      "
+        strSql += vbCrLf + "     PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "    IF 1=1    "
+        strSql += vbCrLf + "    BEGIN    "
+        strSql += vbCrLf + "     PRINT ''    "
+        strSql += vbCrLf + "     SELECT @STRQRY = ''    "
+        strSql += vbCrLf + "     SELECT @STRQRY=' IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL )>0'       "
+        strSql += vbCrLf + "             SELECT @STRQRY=@STRQRY + CHAR(13) + 'BEGIN'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL'        "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'COLHEAD,BILLNO,SEP,BALANCE,CASH,CARD,CHEQUE,IAMOUNT,RESULT)'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' SELECT '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ''G''COLHEAD'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,''CHIT COLLECTION TOTAL'' BILLNO'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,9.59'     "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,(SUM(ISNULL(CASH,0))+ SUM(ISNULL(CARD,0))+SUM(ISNULL(CHEQUE,0)))BALANCE '     "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,SUM(CASH) CASH'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,SUM(CARD) CARD'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,SUM(CHEQUE) CHEQUE'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,SUM(AMOUNT) AMOUNT'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,9.59'     "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' FROM '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ( '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' SELECT CASE WHEN PAYMODE =''CA'' THEN SUM(CASE WHEN TRANMODE =''D'' THEN AMOUNT ELSE -1*AMOUNT END) END CASH'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,CASE WHEN PAYMODE =''CC'' THEN SUM(CASE WHEN TRANMODE =''D'' THEN AMOUNT ELSE -1*AMOUNT END) END CARD'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,CASE WHEN PAYMODE =''CH'' THEN SUM(CASE WHEN TRANMODE =''D'' THEN AMOUNT ELSE -1*AMOUNT END) END CHEQUE'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,SUM(AMOUNT) AMOUNT,''CHIT'' CTYPE'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' FROM ACCTRAN AS I  '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' WHERE I.TRANDATE <= '''+ @ASONDATE +''''      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' AND ISNULL(I.CANCEL,'''')='''''      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' AND I.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'       "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' AND FROMFLAG=''C'' '    "
+        strSql += vbCrLf + "     IF @COSTCENTRE <> 'ALL' And @COSTCENTRE<> ''      "
+        strSql += vbCrLf + "     BEGIN      "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' AND I.COSTID =(SELECT COSTID FROM '+@ADMINDB+'..COSTCENTRE WHERE COSTNAME ='''+@COSTCENTRE+''')'      "
+        strSql += vbCrLf + "     END      "
+        strSql += vbCrLf + "     IF @CASHID <> 'ALL' AND @CASHID <> ''    "
+        strSql += vbCrLf + "     BEGIN    "
+        strSql += vbCrLf + "      SELECT @STRQRY=@STRQRY + CHAR(13) + ' AND I.CASHID ='''+@CASHID+''''      "
+        strSql += vbCrLf + "     END    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' GROUP BY PAYMODE'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' )X GROUP BY CTYPE HAVING ISNULL(SUM(AMOUNT),0)<>0 '    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'END'      "
+        strSql += vbCrLf + "     PRINT @STRQRY      "
+        strSql += vbCrLf + "     EXEC (@STRQRY)     "
+        strSql += vbCrLf + "    END     "
+        strSql += vbCrLf + "    /*CHQ RECPAY*/    "
+        strSql += vbCrLf + "     SELECT @STRQRY=' IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL )>0'       "
+        strSql += vbCrLf + " SELECT @STRQRY=@STRQRY + CHAR(13) + 'BEGIN'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) +' INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' ('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' COLHEAD,BILLNO,CHEQUE,SEP)'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' SELECT ''G''COLHEAD,''CHEQUE''+ CASE WHEN TRANMODE=''D'' THEN '' RECEIPT'' ELSE '' PAYMENT'' END BILLNO'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,SUM(ISNULL(AMOUNT,0))AMOUNT,10 SEP'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' FROM ACCTRAN A'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' WHERE A.BATCHNO IN (SELECT BATCHNO FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL) '      "
+        strSql += vbCrLf + "          IF @WITHCANBILL='N' SELECT @STRQRY=@STRQRY + CHAR(13) + ' AND ISNULL(A.CANCEL,'''')='''' AND PAYMODE=''CH'' '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ' AND A.COMPANYID IN (SELECT COMPANYID FROM #COMPANY)'     "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' GROUP BY TRANMODE ORDER BY TRANMODE'      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'END'     "
+        strSql += vbCrLf + "     PRINT @STRQRY      "
+        strSql += vbCrLf + "     EXEC (@STRQRY)     "
+        strSql += vbCrLf + "     /*CHQ RECPAY*/    "
+        strSql += vbCrLf + "     SELECT @STRQRY=' IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL )>0'       "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'BEGIN'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'INSERT INTO TEMPTABLEDB..TEMP'+@SystemId+'FINAL '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + '('      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'COLHEAD,BILLNO,IPCS,IGRSWT,INETWT,IWASTAGE,IMCHARGE,ISTNAMT,IMISCAMT'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SGST,CGST,IGST,GST,IAMOUNT,RPCS,RGRSWT,RLESSWT,RNETWT,RWASTAGE,RMCHARGE,RSTNAMT,RAMOUNT,RSGST,RCGST,RIGST,RNETAMOUNT,BALANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',CASH,CARD,CHEQUE,ROUNDOFF,ADVANCE'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',HANDLOG,DISCOUNT,DISCOUNT1,CHITCARD,GIFTVOUCHER,CREDIT,TOTAL'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SEP,CUSTOMER,ADDRESS,PHONENO)'     "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT ''G'' COLHEAD,''TOTAL'' BILLNO,SUM(IPCS),SUM(IGRSWT),SUM(INETWT)'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(IWASTAGE),SUM(IMCHARGE),SUM(ISTNAMT),SUM(IMISCAMT)'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(SGST),SUM(CGST),SUM(IGST),SUM(GST)'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(IAMOUNT)'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(RPCS),SUM(RGRSWT),SUM(RLESSWT),SUM(RNETWT),SUM(RWASTAGE),SUM(RMCHARGE),SUM(RSTNAMT)'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(RAMOUNT),SUM(RSGST),SUM(RCGST),SUM(RIGST),SUM(RNETAMOUNT),SUM(BALANCE),SUM(CASH),SUM(CARD),SUM(CHEQUE)'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(ROUNDOFF),SUM(ADVANCE),SUM(HANDLOG),SUM(DISCOUNT),SUM(DISCOUNT1),SUM(CHITCARD)'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ',SUM(GIFTVOUCHER),SUM(CREDIT),SUM(TOTAL),11 SEP,'''' CUSTOMER'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + ','''' ADDRESS,'''' PHONENO'        "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL '      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'WHERE BILLNO NOT IN(''SUB TOTAL'',''TAG TOTAL'',''NON TAG TOTAL'',''HOME SALES TOTAL'''      "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + ' ,''CHEQUE RECEIPT'',''CHEQUE PAYMENT'')'    "
+        strSql += vbCrLf + "     SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND ISNULL(CANCEL,'''')<>''Y'''    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'END'      "
+        strSql += vbCrLf + "          /*  MERGED: the raw report result set is only returned on request,     */    "
+        strSql += vbCrLf + "          /*  so that by default this procedure hands back a single result set.  */    "
+        strSql += vbCrLf + "          IF @WITHREPORTRESULT = 'Y'    "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'SELECT * FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL'      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' ALTER TABLE TEMPTABLEDB..TEMP'+@SystemId+'FINAL ADD STATUS VARCHAR(15)'      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "          SELECT @STRQRY='UPDATE   TEMPTABLEDB..TEMP'+@SystemId+'FINAL  SET STATUS=''CANCEL'' WHERE CANCEL=''Y'''      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' UPDATE TF SET NARRATION=(SELECT TOP 1 NARRATION FROM '+@ADMINDB+'..ITEMTAG  IT WHERE IT.TAGNO=TF.ITAGNO )'      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL TF WHERE ISNULL(TF.ITAGNO,'''')<>'''' '      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' DELETE  FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE ISNULL(IPCS,'''')='''' AND ISNULL(CONVERT(VARCHAR(15),IGRSWT),'''')='''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND BILLNO=''NON TAG TOTAL'''      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' DELETE  FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE ISNULL(IPCS,'''')='''' AND ISNULL(CONVERT(VARCHAR(15),IGRSWT),'''')='''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND BILLNO=''TAG TOTAL'''      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "          SELECT @STRQRY=' DELETE  FROM TEMPTABLEDB..TEMP'+@SystemId+'FINAL WHERE ISNULL(IPCS,'''')='''' AND ISNULL(CONVERT(VARCHAR(15),IGRSWT),'''')='''''      "
+        strSql += vbCrLf + "          SELECT @STRQRY=@STRQRY + CHAR(13) + 'AND BILLNO=''HOME SALES TOTAL'''      "
+        strSql += vbCrLf + "          PRINT @STRQRY      "
+        strSql += vbCrLf + "          EXEC (@STRQRY)      "
+        strSql += vbCrLf + "          /* ===================================================================== */  "
+        strSql += vbCrLf + "          /*  MERGED FROM SP_SEARCH_CustomerTransation                             */  "
+        strSql += vbCrLf + "          /*  TEMP<@SystemId>FINAL is now complete (STATUS / NARRATION added and    */  "
+        strSql += vbCrLf + "          /*  the empty TAG / NON TAG / HOME SALES total rows removed), so the      */  "
+        strSql += vbCrLf + "          /*  search layer can be applied on top of it.                            */  "
+        strSql += vbCrLf + "          /* ===================================================================== */  "
+        strSql += vbCrLf + "          /*  ---- drop the previous search output table ------------------------- */  "
+        strSql += vbCrLf + "          SELECT @SEARCHSQL = N'IF OBJECT_ID(''TEMPTABLEDB..TEMP' + @SystemId + N'FINAL2'') IS NOT NULL'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'DROP TABLE TEMPTABLEDB..TEMP' + @SystemId + N'FINAL2'    "
+        strSql += vbCrLf + "          PRINT @SEARCHSQL    "
+        strSql += vbCrLf + "          EXEC sp_executesql @SEARCHSQL    "
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + "          /*  ---- column list: 0 is shown as NULL so the report stays readable --- */  "
+        strSql += vbCrLf + "          SELECT @COLLIST = N'  "
+        strSql += vbCrLf + " BILLNO,TRANDATE  "
+        strSql += vbCrLf + ",TRANTYPE  "
+        strSql += vbCrLf + ",RUNNO  "
+        strSql += vbCrLf + ",CATEGORY,IITEMNAME  "
+        strSql += vbCrLf + ",ITAGNO,IITEMCTRNAME  "
+        strSql += vbCrLf + ",CASE WHEN IPCS <> 0 THEN IPCS ELSE NULL END IPCS  "
+        strSql += vbCrLf + ",CASE WHEN IGRSWT <> 0 THEN IGRSWT ELSE NULL END IGRSWT  "
+        strSql += vbCrLf + ",CASE WHEN ILESSWT <> 0 THEN ILESSWT ELSE NULL END ILESSWT  "
+        strSql += vbCrLf + ",CASE WHEN INETWT <> 0 THEN INETWT ELSE NULL END INETWT  "
+        strSql += vbCrLf + ",CASE WHEN IADVWT <> 0 THEN IADVWT ELSE NULL END IADVWT  "
+        strSql += vbCrLf + ",CASE WHEN IBALWT <> 0 THEN IBALWT ELSE NULL END IBALWT  "
+        strSql += vbCrLf + ",CASE WHEN ISTNWT <> 0 THEN ISTNWT ELSE NULL END ISTNWT  "
+        strSql += vbCrLf + ",CASE WHEN IDIAWT <> 0 THEN IDIAWT ELSE NULL END IDIAWT  "
+        strSql += vbCrLf + ",CASE WHEN IWASTPER <> 0 THEN IWASTPER ELSE NULL END IWASTPER  "
+        strSql += vbCrLf + ",CASE WHEN IWASTAGE <> 0 THEN IWASTAGE ELSE NULL END IWASTAGE  "
+        strSql += vbCrLf + ",CASE WHEN IMCHARGE <> 0 THEN IMCHARGE ELSE NULL END IMCHARGE  "
+        strSql += vbCrLf + ",CASE WHEN IRATE <> 0 THEN IRATE ELSE NULL END IRATE  "
+        strSql += vbCrLf + ",CASE WHEN IPURITY <> 0 THEN IPURITY ELSE NULL END IPURITY  "
+        strSql += vbCrLf + ",CASE WHEN ISTNAMT <> 0 THEN ISTNAMT ELSE NULL END ISTNAMT  "
+        strSql += vbCrLf + ",CASE WHEN IDIAAMT <> 0 THEN IDIAAMT ELSE NULL END IDIAAMT  "
+        strSql += vbCrLf + ",CASE WHEN IMISCAMT <> 0 THEN IMISCAMT ELSE NULL END IMISCAMT  "
+        strSql += vbCrLf + ",CASE WHEN IAMOUNT <> 0 THEN IAMOUNT ELSE NULL END IAMOUNT  "
+        strSql += vbCrLf + ",RITEMNAME  "
+        strSql += vbCrLf + ",CASE WHEN RPCS <> 0 THEN RPCS ELSE NULL END RPCS  "
+        strSql += vbCrLf + ",CASE WHEN RGRSWT <> 0 THEN RGRSWT ELSE NULL END RGRSWT  "
+        strSql += vbCrLf + ",CASE WHEN RLESSWT <> 0 THEN RLESSWT ELSE NULL END RLESSWT  "
+        strSql += vbCrLf + ",CASE WHEN RNETWT <> 0 THEN RNETWT ELSE NULL END RNETWT  "
+        strSql += vbCrLf + ",CASE WHEN RSTNWT <> 0 THEN RSTNWT ELSE NULL END RSTNWT  "
+        strSql += vbCrLf + ",CASE WHEN RDIAWT <> 0 THEN RDIAWT ELSE NULL END RDIAWT  "
+        strSql += vbCrLf + ",CASE WHEN RPURITY <> 0 THEN RPURITY ELSE NULL END RPURITY  "
+        strSql += vbCrLf + ",CASE WHEN RWASTAGE <> 0 THEN RWASTAGE ELSE NULL END RWASTAGE  "
+        strSql += vbCrLf + ",CASE WHEN RMCHARGE <> 0 THEN RMCHARGE ELSE NULL END RMCHARGE  "
+        strSql += vbCrLf + ",CASE WHEN RSTNAMT <> 0 THEN RSTNAMT ELSE NULL END RSTNAMT  "
+        strSql += vbCrLf + ",CASE WHEN RDIAAMT <> 0 THEN RDIAAMT ELSE NULL END RDIAAMT  "
+        strSql += vbCrLf + ",CASE WHEN RAMOUNT <> 0 THEN RAMOUNT ELSE NULL END RAMOUNT  "
+        strSql += vbCrLf + ",CASE WHEN RSGST <> 0 THEN RSGST ELSE NULL END RSGST  "
+        strSql += vbCrLf + ",CASE WHEN RCGST <> 0 THEN RCGST ELSE NULL END RCGST  "
+        strSql += vbCrLf + ",CASE WHEN RIGST <> 0 THEN RIGST ELSE NULL END RIGST  "
+        strSql += vbCrLf + ",CASE WHEN RNETAMOUNT <> 0 THEN RNETAMOUNT ELSE NULL END RNETAMOUNT  "
+        strSql += vbCrLf + ",CASE WHEN BALANCE <> 0 THEN BALANCE ELSE NULL END BALANCE  "
+        strSql += vbCrLf + ",CASE WHEN CASH <> 0 THEN CASH ELSE NULL END CASH  "
+        strSql += vbCrLf + ",CASE WHEN CARD <> 0 THEN CARD ELSE NULL END CARD  "
+        strSql += vbCrLf + ",CASE WHEN CHEQUE <> 0 THEN CHEQUE ELSE NULL END CHEQUE  "
+        strSql += vbCrLf + ",CASE WHEN ROUNDOFF <> 0 THEN ROUNDOFF ELSE NULL END ROUNDOFF  "
+        strSql += vbCrLf + ",CASE WHEN ADVANCE <> 0 THEN ADVANCE ELSE NULL END ADVANCE  "
+        strSql += vbCrLf + ",CASE WHEN HANDLOG <> 0 THEN HANDLOG ELSE NULL END HANDLOG  "
+        strSql += vbCrLf + ",CASE WHEN DISCOUNT <> 0 THEN DISCOUNT ELSE NULL END DISCOUNT  "
+        strSql += vbCrLf + ",CASE WHEN DISCOUNT1 <> 0 THEN DISCOUNT1 ELSE NULL END DISCOUNT1  "
+        strSql += vbCrLf + ",CASE WHEN CHITCARD <> 0 THEN CHITCARD ELSE NULL END CHITCARD  "
+        strSql += vbCrLf + ",CASE WHEN GIFTVOUCHER <> 0 THEN GIFTVOUCHER ELSE NULL END GIFTVOUCHER  "
+        strSql += vbCrLf + ",CASE WHEN CREDIT <> 0 THEN CREDIT ELSE NULL END CREDIT  "
+        strSql += vbCrLf + ",CASE WHEN JND <> 0 THEN JND ELSE NULL END JND  "
+        strSql += vbCrLf + ",CASE WHEN TOTAL <> 0 THEN TOTAL ELSE NULL END TOTAL  "
+        strSql += vbCrLf + ",CUSTOMER,ADDRESS,PHONENO,PAN,GSTNO,EMPNAME,USERNAME,NARRATION,STATUS,BATCHNO,TAGTYPE  "
+        strSql += vbCrLf + ",RESULT,SEP,KEYNO'    "
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + "          /*  ---- build TEMP<@SystemId>FINAL2 ---------------------------------- */  "
+        strSql += vbCrLf + "          SELECT @SEARCHSQL = N'SELECT' + @COLLIST    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'INTO TEMPTABLEDB..TEMP' + @SystemId + N'FINAL2'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'FROM TEMPTABLEDB..TEMP' + @SystemId + N'FINAL'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'WHERE BILLNO <> @P_SUBTOTAL'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'ORDER BY SEP,BATCHNO,KEYNO'    "
+        strSql += vbCrLf + "          PRINT @SEARCHSQL    "
+        strSql += vbCrLf + "          EXEC sp_executesql @SEARCHSQL    "
+        strSql += vbCrLf + "                            ,N'@P_SUBTOTAL VARCHAR(20)'    "
+        strSql += vbCrLf + "                            ,@P_SUBTOTAL = 'SUB TOTAL'    "
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + "          /*  ---- turn the blank search arguments into NULL / LIKE patterns ---- */  "
+        strSql += vbCrLf + "          /*  doing this in static T-SQL keeps the dynamic statement free of any  */  "
+        strSql += vbCrLf + "          /*  embedded literals and lets the values travel as real parameters     */  "
+        strSql += vbCrLf + "          SELECT @L_CUSTOMER = CASE WHEN ISNULL(@CUSTOMER    ,'') = '' THEN NULL ELSE '%' + @CUSTOMER     + '%' END    "
+        strSql += vbCrLf + "                ,@L_PHONENO  = CASE WHEN ISNULL(@PHONENO     ,'') = '' THEN NULL ELSE '%' + @PHONENO      + '%' END    "
+        strSql += vbCrLf + "                ,@L_PAN      = CASE WHEN ISNULL(@PAN         ,'') = '' THEN NULL ELSE '%' + @PAN          + '%' END    "
+        strSql += vbCrLf + "                ,@L_GSTNO    = CASE WHEN ISNULL(@GSTNO       ,'') = '' THEN NULL ELSE '%' + @GSTNO        + '%' END    "
+        strSql += vbCrLf + "                ,@L_ADDRESS  = CASE WHEN ISNULL(@ADDRESS     ,'') = '' THEN NULL ELSE '%' + @ADDRESS      + '%' END    "
+        strSql += vbCrLf + "                ,@L_BILLNO   = CASE WHEN ISNULL(@SEARCHBILLNO,'') = '' THEN NULL ELSE '%' + @SEARCHBILLNO + '%' END    "
+        strSql += vbCrLf + "                ,@L_ITEMNAME = CASE WHEN ISNULL(@ITEMNAME    ,'') = '' THEN NULL ELSE LTRIM(RTRIM(@ITEMNAME)) + '%' END    "
+        strSql += vbCrLf + "  "
+        strSql += vbCrLf + "          /*  ---- return the filtered result set -------------------------------- */  "
+        strSql += vbCrLf + "          SELECT @SEARCHSQL = N'SELECT *'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'FROM TEMPTABLEDB..TEMP' + @SystemId + N'FINAL2'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'WHERE (@P_CUSTOMER IS NULL OR CUSTOMER LIKE @P_CUSTOMER)'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'AND   (@P_PHONENO  IS NULL OR PHONENO  LIKE @P_PHONENO )'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'AND   (@P_PAN      IS NULL OR PAN      LIKE @P_PAN     )'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'AND   (@P_GSTNO    IS NULL OR GSTNO    LIKE @P_GSTNO   )'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'AND   (@P_ADDRESS  IS NULL OR ADDRESS  LIKE @P_ADDRESS )'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'AND   (@P_BILLNO   IS NULL OR BILLNO   LIKE @P_BILLNO  )'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'AND   (@P_ITEMNAME IS NULL OR IITEMNAME LIKE @P_ITEMNAME)'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'AND   (@P_FROMDATE IS NULL OR TRANDATE >= @P_FROMDATE)'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'AND   (@P_TODATE   IS NULL OR TRANDATE <  DATEADD(DAY,1,@P_TODATE))'    "
+        strSql += vbCrLf + "                            + CHAR(13) + N'ORDER BY SEP,BATCHNO,KEYNO'    "
+        strSql += vbCrLf + "          PRINT @SEARCHSQL    "
+        strSql += vbCrLf + "          EXEC sp_executesql @SEARCHSQL    "
+        strSql += vbCrLf + "                            ,N'@P_CUSTOMER NVARCHAR(210),@P_PHONENO NVARCHAR(60)    "
+        strSql += vbCrLf + "                              ,@P_PAN      NVARCHAR(60) ,@P_GSTNO   NVARCHAR(60)    "
+        strSql += vbCrLf + "                              ,@P_ADDRESS  NVARCHAR(510),@P_BILLNO  NVARCHAR(60)    "
+        strSql += vbCrLf + "                              ,@P_FROMDATE DATE         ,@P_TODATE  DATE    "
+        strSql += vbCrLf + "                              ,@P_ITEMNAME NVARCHAR(210)'    "
+        strSql += vbCrLf + "                            ,@P_CUSTOMER = @L_CUSTOMER    "
+        strSql += vbCrLf + "                            ,@P_PHONENO  = @L_PHONENO    "
+        strSql += vbCrLf + "                            ,@P_PAN      = @L_PAN    "
+        strSql += vbCrLf + "                            ,@P_GSTNO    = @L_GSTNO    "
+        strSql += vbCrLf + "                            ,@P_ADDRESS  = @L_ADDRESS    "
+        strSql += vbCrLf + "                            ,@P_BILLNO   = @L_BILLNO    "
+        strSql += vbCrLf + "                            ,@P_FROMDATE = @FROMTRANDATE    "
+        strSql += vbCrLf + "                            ,@P_TODATE   = @TOTRANDATE    "
+        strSql += vbCrLf + "                            ,@P_ITEMNAME = @L_ITEMNAME    "
+        strSql += vbCrLf + "  END   "
+        cmd = New OleDbCommand(strSql, cn, tran)
+        cmd.ExecuteNonQuery()
+    End Function
     Function funcSP1_BillwiseTransactionReport_09_JULY_2022() As Integer
         strSql = " IF(SELECT 1 FROM SYSOBJECTS WHERE NAME='SP_RPT_BILLWISETRANSACTION')>0"
         strSql += vbCrLf + "  	DROP PROCEDURE SP_RPT_BILLWISETRANSACTION"
@@ -118842,7 +121354,7 @@ ByVal PurchaseTaxName As String
             Return 0
         End If
         strSql = " INSERT INTO " & rootdb & "..usermaster(UserID,UserNAME,PWD)"
-        strSql += vbCrLf + "  VALUES(999,'ADMINISTRATOR','qv†')"
+        strSql += vbCrLf + "  VALUES(999,'ADMINISTRATOR','qvÂâ€ ')"
         cmd = New OleDbCommand(strSql, cn, tran)
         cmd.ExecuteNonQuery()
         Return 0
@@ -145501,6 +148013,8 @@ CTAGTRANKEY:
             SP_RPT_REORDERSALESPIECE()
             funcSp0_SplitValues()
             funcSP1_BillwiseTransactionReport()
+            funcSP1_BillwiseTransactionReportSearch()
+            funcSP1_BillwiseTransactionReportSearchAson()
             SP_RPT_CANCEL()
             STATUS = "CREATING SP FOR REPORTS - Collection Report"
             funcProgressStep()
@@ -157311,513 +159825,513 @@ Customer_Portal_Continue:
         cmd = New OleDbCommand(strSql, cn, tran)
         cmd.ExecuteNonQuery()
 
-        strSql = " 	CREATE PROCEDURE SP_RPT_SALESABSTRACT_SALESBILLWISE  	“
-        strSql += vbCrLf + " 	(      	“
-        strSql += vbCrLf + " 	@DBNAME VARCHAR(30)        	“
-        strSql += vbCrLf + " 	,@FRMDATE VARCHAR(12)        	“
-        strSql += vbCrLf + " 	,@TODATE VARCHAR(12)        	“
-        strSql += vbCrLf + " 	,@COSTID VARCHAR(200)        	“
-        strSql += vbCrLf + " 	,@COMPANYID VARCHAR(200)  	“
-        strSql += vbCrLf + " 	,@CASHNAME VARCHAR(800)  	“
-        strSql += vbCrLf + " 	,@EMPNAME VARCHAR(800)  	“
-        strSql += vbCrLf + " 	,@UID VARCHAR(4)     	“
-        strSql += vbCrLf + " 	,@ITEMNAME VARCHAR(800)  	“
-        strSql += vbCrLf + " 	,@METALNAME VARCHAR(1000)  	“
-        strSql += vbCrLf + " 	,@BILLSUMM VARCHAR(1)	“
-        strSql += vbCrLf + " 	,@DAYWISE VARCHAR(1) = 'N'	“
-        strSql += vbCrLf + " 	)        	“
-        strSql += vbCrLf + " 	AS        	“
-        strSql += vbCrLf + " 	BEGIN /** PROC STARTS **/     	“
-        strSql += vbCrLf + " 	DECLARE @QRY VARCHAR(8000)      	“
-        strSql += vbCrLf + " 	DECLARE @TEMPISSUE VARCHAR(50)      	“
-        strSql += vbCrLf + " 	DECLARE @TEMPACCTRANN VARCHAR(50)      	“
-        strSql += vbCrLf + " 	DECLARE @TEMPADDRESS VARCHAR(50)      	“
-        strSql += vbCrLf + " 	DECLARE @TEMPSALEABSTRACT VARCHAR(50)      	“
-        strSql += vbCrLf + " 	DECLARE @TEMPSALEABSTRACT_RES VARCHAR(50)         	“
-        strSql += vbCrLf + " 	DECLARE @TEMPCASH VARCHAR(50)      	“
-        strSql += vbCrLf + " 	DECLARE @TEMPEMP VARCHAR(50)      	“
-        strSql += vbCrLf + " 	DECLARE @TEMPITEM VARCHAR(50)      	“
-        strSql += vbCrLf + " 	SELECT @TEMPCASH='TEMPTABLEDB.DBO.TEMPCASH'      	“
-        strSql += vbCrLf + " 	SELECT @TEMPITEM='TEMPTABLEDB.DBO.TEMPITEM'      	“
-        strSql += vbCrLf + " 	SELECT @TEMPEMP='TEMPTABLEDB.DBO.TEMPEMP'      	“
-        strSql += vbCrLf + " 	SELECT @TEMPISSUE='TEMPTABLEDB.DBO.TEMP'+@UID+'ISSUE'      	“
-        strSql += vbCrLf + " 	SELECT @TEMPACCTRANN='TEMPTABLEDB.DBO.TEMP'+@UID+'ACCTRANN'      	“
-        strSql += vbCrLf + " 	SELECT @TEMPADDRESS='TEMPTABLEDB.DBO.TEMP'+@UID+'ADDRESS'      	“
-        strSql += vbCrLf + " 	SELECT @TEMPSALEABSTRACT='TEMPTABLEDB.DBO.TEMP'+@UID+'SALEABSTRACT'      	“
-        strSql += vbCrLf + " 	SELECT @TEMPSALEABSTRACT_RES='TEMPTABLEDB.DBO.TEMP'+@UID+'SALEABSTRACT_RES'      	“
-        strSql += vbCrLf + " 	IF OBJECT_ID('TEMPTABLEDB.DBO.TEMPCASH', 'U') IS NOT NULL DROP TABLE TEMPTABLEDB.DBO.TEMPCASH    	“
-        strSql += vbCrLf + " 	DECLARE @BANKPAYPROID VARCHAR(5)  	“
-        strSql += vbCrLf + " 	SET @BANKPAYPROID = '-1'  	“
-        strSql += vbCrLf + " 	SELECT @BANKPAYPROID = CASE WHEN ISNULL(CTLTEXT,'')  = '' THEN '-1' ELSE CTLTEXT END FROM " & cnAdminDb & "..SOFTCONTROL WHERE ISNULL(CTLID,'') = 'BANKPAYPROID'  	“
-        strSql += vbCrLf + " 	CREATE TABLE TEMPTABLEDB.DBO.TEMPCASH (CASHID VARCHAR(5))   	“
-        strSql += vbCrLf + " 	IF (SELECT COUNT(*) WHERE @CASHNAME LIKE '%ALL%')>0        	“
-        strSql += vbCrLf + " 	INSERT INTO TEMPTABLEDB.DBO.TEMPCASH (CASHID) SELECT ISNULL(CASHID,0) FROM " & cnAdminDb & "..CASHCOUNTER UNION ALL SELECT ''        	“
-        strSql += vbCrLf + " 	ELSE        	“
-        strSql += vbCrLf + " 	BEGIN        	“
-        strSql += vbCrLf + " 	DECLARE @TCASHNAME VARCHAR(20)   	“
-        strSql += vbCrLf + " 	IF CHARINDEX(',',@CASHNAME)=0   	“
-        strSql += vbCrLf + " 	INSERT INTO TEMPTABLEDB.DBO.TEMPCASH (CASHID) SELECT ISNULL(CASHID,0) FROM " & cnAdminDb & "..CASHCOUNTER WHERE CASHNAME = @CASHNAME   	“
-        strSql += vbCrLf + " 	WHILE CHARINDEX(',',@CASHNAME)>0   	“
-        strSql += vbCrLf + " 	BEGIN   	“
-        strSql += vbCrLf + " 	SET @TCASHNAME=LEFT(@CASHNAME,CHARINDEX(',',@CASHNAME)-1)   	“
-        strSql += vbCrLf + " 	SET @CASHNAME=RIGHT(@CASHNAME,LEN(@CASHNAME)-CHARINDEX(',',@CASHNAME))   	“
-        strSql += vbCrLf + " 	IF @CASHNAME <>'' AND CHARINDEX(',',@CASHNAME)=0   	“
-        strSql += vbCrLf + " 	SET @CASHNAME= @CASHNAME + ','   	“
-        strSql += vbCrLf + " 	INSERT INTO TEMPTABLEDB.DBO.TEMPCASH (CASHID) SELECT ISNULL(CASHID,0) FROM " & cnAdminDb & "..CASHCOUNTER WHERE CASHNAME = @TCASHNAME   	“
-        strSql += vbCrLf + " 	END    	“
-        strSql += vbCrLf + " 	END   	“
-        strSql += vbCrLf + " 	IF OBJECT_ID('TEMPTABLEDB.DBO.TEMPITEM', 'U') IS NOT NULL DROP TABLE TEMPTABLEDB.DBO.TEMPITEM    	“
-        strSql += vbCrLf + " 	CREATE TABLE TEMPTABLEDB.DBO.TEMPITEM (ITEMID VARCHAR(5))   	“
-        strSql += vbCrLf + " 	IF (SELECT COUNT(*) WHERE @ITEMNAME LIKE '%ALL%')>0        	“
-        strSql += vbCrLf + " 	BEGIN   	“
-        strSql += vbCrLf + " 	IF @METALNAME <>'ALL'  	“
-        strSql += vbCrLf + " 	BEGIN   	“
-        strSql += vbCrLf + " 	PRINT REPLACE(@METALNAME,',',''',''')  	“
-        strSql += vbCrLf + " 	INSERT INTO TEMPTABLEDB.DBO.TEMPITEM (ITEMID) SELECT ISNULL(ITEMID,0) FROM " & cnAdminDb & "..ITEMMAST  	“
-        strSql += vbCrLf + " 	WHERE METALID IN (SELECT METALID FROM " & cnAdminDb & "..METALMAST WHERE METALNAME in(''+ @METALNAME +''))  	“
-        strSql += vbCrLf + " 	END  	“
-        strSql += vbCrLf + " 	IF @METALNAME ='ALL'  	“
-        strSql += vbCrLf + " 	BEGIN   	“
-        strSql += vbCrLf + " 	INSERT INTO TEMPTABLEDB.DBO.TEMPITEM (ITEMID) SELECT ISNULL(ITEMID,0) FROM " & cnAdminDb & "..ITEMMAST UNION ALL SELECT ''        	“
-        strSql += vbCrLf + " 	END  	“
-        strSql += vbCrLf + " 	END  	“
-        strSql += vbCrLf + " 	ELSE        	“
-        strSql += vbCrLf + " 	BEGIN        	“
-        strSql += vbCrLf + " 	DECLARE @TITEMNAME VARCHAR(20)   	“
-        strSql += vbCrLf + " 	IF CHARINDEX(',',@ITEMNAME)=0   	“
-        strSql += vbCrLf + " 	IF @METALNAME <>'ALL'  	“
-        strSql += vbCrLf + " 	BEGIN   	“
-        strSql += vbCrLf + " 	INSERT INTO TEMPTABLEDB.DBO.TEMPITEM (ITEMID) SELECT ISNULL(ITEMID,0) FROM " & cnAdminDb & "..ITEMMAST WHERE ITEMNAME = @ITEMNAME  	“
-        strSql += vbCrLf + " 	AND METALID IN (SELECT METALID FROM " & cnAdminDb & "..METALMAST where METALNAME in(''+ @METALNAME +''))  	“
-        strSql += vbCrLf + " 	END  	“
-        strSql += vbCrLf + " 	IF @METALNAME = 'ALL'  	“
-        strSql += vbCrLf + " 	BEGIN   	“
-        strSql += vbCrLf + " 	INSERT INTO TEMPTABLEDB.DBO.TEMPITEM (ITEMID) SELECT ISNULL(ITEMID,0) FROM " & cnAdminDb & "..ITEMMAST WHERE ITEMNAME = @ITEMNAME  	“
-        strSql += vbCrLf + " 	END  	“
-        strSql += vbCrLf + " 	WHILE CHARINDEX(',',@ITEMNAME)>0   	“
-        strSql += vbCrLf + " 	BEGIN   	“
-        strSql += vbCrLf + " 	SET @TITEMNAME=LEFT(@ITEMNAME,CHARINDEX(',',@ITEMNAME)-1)   	“
-        strSql += vbCrLf + " 	SET @ITEMNAME=RIGHT(@ITEMNAME,LEN(@ITEMNAME)-CHARINDEX(',',@ITEMNAME))   	“
-        strSql += vbCrLf + " 	IF @ITEMNAME <>'' AND CHARINDEX(',',@ITEMNAME)=0   	“
-        strSql += vbCrLf + " 	SET @ITEMNAME= @ITEMNAME + ','   	“
-        strSql += vbCrLf + " 	IF @METALNAME <>'ALL'  	“
-        strSql += vbCrLf + " 	BEGIN   	“
-        strSql += vbCrLf + " 	INSERT INTO TEMPTABLEDB.DBO.TEMPITEM (ITEMID) SELECT ISNULL(ITEMID,0) FROM " & cnAdminDb & "..ITEMMAST WHERE ITEMNAME = @TITEMNAME   	“
-        strSql += vbCrLf + " 	AND METALID IN (SELECT METALID FROM " & cnAdminDb & "..METALMAST where METALNAME in(''+ @METALNAME +''))  	“
-        strSql += vbCrLf + " 	END  	“
-        strSql += vbCrLf + " 	IF @METALNAME = 'ALL'  	“
-        strSql += vbCrLf + " 	BEGIN   	“
-        strSql += vbCrLf + " 	INSERT INTO TEMPTABLEDB.DBO.TEMPITEM (ITEMID) SELECT ISNULL(ITEMID,0) FROM " & cnAdminDb & "..ITEMMAST WHERE ITEMNAME = @TITEMNAME   	“
-        strSql += vbCrLf + " 	END  	“
-        strSql += vbCrLf + " 	END    	“
-        strSql += vbCrLf + " 	END   	“
-        strSql += vbCrLf + " 	IF OBJECT_ID('TEMPTABLEDB.DBO.TEMPEMP', 'U') IS NOT NULL DROP TABLE TEMPTABLEDB.DBO.TEMPEMP   	“
-        strSql += vbCrLf + " 	CREATE TABLE TEMPTABLEDB.DBO.TEMPEMP (EMPID VARCHAR(5))   	“
-        strSql += vbCrLf + " 	IF (SELECT COUNT(*) WHERE @EMPNAME LIKE '%ALL%')>0        	“
-        strSql += vbCrLf + " 	INSERT INTO TEMPTABLEDB.DBO.TEMPEMP (EMPID) SELECT ISNULL(EMPID,0) FROM " & cnAdminDb & "..EMPMASTER UNION ALL SELECT ''        	“
-        strSql += vbCrLf + " 	ELSE        	“
-        strSql += vbCrLf + " 	BEGIN        	“
-        strSql += vbCrLf + " 	DECLARE @TEMPNAME VARCHAR(20)   	“
-        strSql += vbCrLf + " 	IF CHARINDEX(',',@EMPNAME)=0   	“
-        strSql += vbCrLf + " 	INSERT INTO TEMPTABLEDB.DBO.TEMPEMP (EMPID) SELECT ISNULL(EMPID,0) FROM " & cnAdminDb & "..EMPMASTER WHERE EMPNAME = @EMPNAME   	“
-        strSql += vbCrLf + " 	WHILE CHARINDEX(',',@EMPNAME)>0   	“
-        strSql += vbCrLf + " 	BEGIN   	“
-        strSql += vbCrLf + " 	SET @TEMPNAME=LEFT(@EMPNAME,CHARINDEX(',',@EMPNAME)-1)   	“
-        strSql += vbCrLf + " 	SET @EMPNAME=RIGHT(@EMPNAME,LEN(@EMPNAME)-CHARINDEX(',',@EMPNAME))   	“
-        strSql += vbCrLf + " 	IF @EMPNAME <>'' AND CHARINDEX(',',@EMPNAME)=0   	“
-        strSql += vbCrLf + " 	SET @EMPNAME= @EMPNAME + ','   	“
-        strSql += vbCrLf + " 	INSERT INTO TEMPTABLEDB.DBO.TEMPEMP (EMPID) SELECT ISNULL(EMPID,0) FROM " & cnAdminDb & "..EMPMASTER WHERE EMPNAME = @TEMPNAME   	“
-        strSql += vbCrLf + " 	END    	“
-        strSql += vbCrLf + " 	END   	“
-        strSql += vbCrLf + " 	SET NOCOUNT ON      	“
-        strSql += vbCrLf + " 	IF @COSTID<>'ALL'SET @COSTID= REPLACE(@COSTID,',',''',''')      	“
-        strSql += vbCrLf + " 	IF @COMPANYID<>'ALL'SET @COMPANYID= REPLACE(@COMPANYID,',',''',''')      	“
-        strSql += vbCrLf + " 	SELECT @QRY='IF OBJECT_ID('''+@TEMPISSUE+''') IS NOT NULL DROP TABLE '+ @TEMPISSUE +''       	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' IF OBJECT_ID('''+@TEMPISSUE+''') IS NOT NULL DROP TABLE '+ @TEMPISSUE +''       	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' IF OBJECT_ID('''+@TEMPACCTRANN+''') IS NOT NULL DROP TABLE '+ @TEMPACCTRANN +''       	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' IF OBJECT_ID('''+@TEMPADDRESS+''') IS NOT NULL DROP TABLE '+ @TEMPADDRESS +''       	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' IF OBJECT_ID('''+@TEMPSALEABSTRACT+''') IS NOT NULL DROP TABLE '+ @TEMPSALEABSTRACT +''       	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' IF OBJECT_ID('''+@TEMPSALEABSTRACT_RES+''') IS NOT NULL DROP TABLE '+ @TEMPSALEABSTRACT_RES +''       	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' IF OBJECT_ID(''TEMPTABLEDB..TEMPTRANDET_RECEIPT'') IS NOT NULL DROP TABLE TEMPTABLEDB..TEMPTRANDET_RECEIPT'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' IF OBJECT_ID(''TEMPTABLEDB..TEMPTRANDET_PAYMENT'') IS NOT NULL DROP TABLE TEMPTABLEDB..TEMPTRANDET_PAYMENT'  	“
-        strSql += vbCrLf + " 	PRINT @QRY      	“
-        strSql += vbCrLf + " 	EXEC(@QRY)      	“
-        strSql += vbCrLf + " 	/** GET FROM ISSUE TABLE **/      	“
-        strSql += vbCrLf + " 	SELECT @QRY=' SELECT * INTO '+@TEMPISSUE+' FROM('      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT I.CATCODE,I.TRANNO IBILLNO,I.TRANDATE IBILLDATE,CONVERT(VARCHAR(13),NULL)DISPDATE,CONVERT(VARCHAR(75),NULL)CUSTOMER'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,I.ITEMID IITEMID,CONVERT(VARCHAR(100),NULL)ITEMNAME,I.PCS IPCS,I.GRSWT IGRSWT,I.NETWT INETWT'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,(SELECT SUM(ISNULL(STNWT,0)) FROM ISSSTONE WHERE ISSSNO=I.SNO AND STNITEMID IN(SELECT ITEMID FROM '+@DBNAME+'..ITEMMAST WHERE DIASTONE=''S'')) ISTNWT'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,(SELECT SUM(ISNULL(STNWT,0)) FROM ISSSTONE WHERE ISSSNO=I.SNO AND STNITEMID IN(SELECT ITEMID FROM '+@DBNAME+'..ITEMMAST WHERE DIASTONE=''D'')) IDIAWT'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,I.RATE IRATE,I.MCHARGE IMCHARGE'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,I.WASTAGE IWASTVAL,(I.WASTAGE*I.RATE) IWASTAGE,I.TAX ITAX,SUM(ISNULL(I.AMOUNT,0)+ISNULL(I.TAX,0))ITOTAL,CONVERT(VARCHAR(15),ISNULL(I.TAGNO,'''')) ITAGNO,NULL PBILLNO,NULL PITEMID'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CONVERT(NUMERIC(15,3),NULL) PPCS,CONVERT(NUMERIC(15,3),NULL) PGRSWT,CONVERT(NUMERIC(15,3),NULL) PNETWT,CONVERT(NUMERIC(15,3),NULL) PSTNWT,CONVERT(NUMERIC(15,3),NULL) PDIAWT,CONVERT(NUMERIC(15,2),NULL) PAMOUNT,NULL SRBILLNO,NULL SRITEMID'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CONVERT(NUMERIC(15,3),NULL) SRPCS,CONVERT(NUMERIC(15,3),NULL) SRGRSWT,CONVERT(NUMERIC(15,3),NULL) SRNETWT,CONVERT(NUMERIC(15,3),NULL) SRSTNWT,CONVERT(NUMERIC(15,3),NULL) SRDIAWT,CONVERT(NUMERIC(15,3),NULL) SRRATE'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' , CONVERT(NUMERIC(15,3),NULL) SRMCHARGE,CONVERT(NUMERIC(15,3),NULL) SRWASTVAL,CONVERT(NUMERIC(15,3),NULL) SRWASTAGE,CONVERT(NUMERIC(15,3),NULL) SRTAX'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CONVERT(NUMERIC(15,3),NULL) SRTOTAL,CONVERT(NUMERIC(15,2),NULL) SRBALANCE,CONVERT(NUMERIC(15,3),NULL) CASH,CONVERT(NUMERIC(15,3),NULL) CRCARD'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CONVERT(NUMERIC(15,3),NULL) CHEQUE,CONVERT(NUMERIC(15,3),NULL) CHIT,CONVERT(NUMERIC(15,3),NULL) ADVANCE,CONVERT(NUMERIC(15,3),NULL) GV,CONVERT(NUMERIC(15,3),NULL) HC'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CONVERT(NUMERIC(15,3),NULL) DISCOUNT,CONVERT(NUMERIC(15,3),NULL) CRBALANCE,CONVERT(NUMERIC(15,3),NULL) ACTOTAL,I.CASHID,CONVERT(VARCHAR(150),I.BATCHNO)BATCHNO,''I'' COLHEAD'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,METALID FROM ISSUE AS I '      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' WHERE I.TRANDATE BETWEEN '''+ @FRMDATE +''' AND ''' + @TODATE + ''' AND I.TRANTYPE IN(''SA'',''OD'') AND ISNULL(I.CANCEL,'''')='''' '      	“
-        strSql += vbCrLf + " 	IF @COSTID<>'ALL' SELECT  @QRY=@QRY+' AND I.COSTID IN('''+ @COSTID +''')'      	“
-        strSql += vbCrLf + " 	IF @COMPANYID<>'ALL' SELECT  @QRY=@QRY+' AND I.COMPANYID IN('''+ @COMPANYID +''')'      	“
-        strSql += vbCrLf + " 	IF @CASHNAME <>'ALL' SELECT  @QRY=@QRY+' AND ISNULL(I.CASHID,0) IN (SELECT CASHID FROM TEMPTABLEDB.DBO.TEMPCASH) '  	“
-        strSql += vbCrLf + " 	SELECT  @QRY=@QRY+' AND ISNULL(I.ITEMID,0) IN (SELECT ITEMID FROM TEMPTABLEDB.DBO.TEMPITEM) '  	“
-        strSql += vbCrLf + " 	IF @EMPNAME <>'ALL' SELECT  @QRY=@QRY+' AND ISNULL(I.EMPID,0) IN (SELECT EMPID FROM TEMPTABLEDB.DBO.TEMPEMP) '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' GROUP BY I.CATCODE,I.TRANNO,I.TRANDATE,I.ITEMID,'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' I.PCS,I.GRSWT,I.NETWT,I.RATE,I.MCHARGE,I.WASTAGE,I.TAX,I.CASHID,I.BATCHNO,I.RATE,I.SNO,I.TAGNO,METALID '      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' UNION ALL'      	“
-        strSql += vbCrLf + " 	PRINT '/** GET FROM RECEIPT TABLE **/    '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT  R.CATCODE,R.TRANNO IBILLNO, R.TRANDATE IBILLDATE,NULL DISPDATE,CONVERT(VARCHAR(75),NULL)CUSTOMER'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,NULL IITEMID,NULL ITEMNAME,0 IPCS,0 IGRSWT,0 INETWT ,0 ISTNWT,0 IDIAWT, 0 IRATE,0 IMCHARGE,0 IWASTVAL,0 IWASTAGE,0 ITAX,0 ITOTAL,ISNULL(NULL,'''') ITAGNO'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''PU'' THEN R.TRANNO ELSE NULL END  PBILLNO'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''PU'' THEN R.ITEMID ELSE NULL END  PITEMID'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''PU'' THEN R.PCS ELSE 0 END PPCS'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''PU'' THEN R.GRSWT ELSE 0 END PGRSWT'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''PU'' THEN R.NETWT ELSE 0 END PNETWT'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''PU'' THEN (SELECT SUM(ISNULL(STNWT,0)) FROM RECEIPTSTONE WHERE ISSSNO=R.SNO AND STNITEMID IN(SELECT ITEMID FROM '+@DBNAME+'..ITEMMAST WHERE DIASTONE=''S'')) ELSE 0 END PSTNWT'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''PU'' THEN (SELECT SUM(ISNULL(STNWT,0)) FROM RECEIPTSTONE WHERE ISSSNO=R.SNO AND STNITEMID IN(SELECT ITEMID FROM '+@DBNAME+'..ITEMMAST WHERE DIASTONE=''D'')) ELSE 0 END PDIAWT'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''PU'' THEN SUM(ISNULL(R.AMOUNT,0)) ELSE 0 END PAMOUNT'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN R.TRANNO ELSE NULL END  SRBILLNO'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN R.ITEMID ELSE NULL END  SRITEMID'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN R.PCS ELSE 0 END SRPCS'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN R.GRSWT ELSE 0 END SRGRSWT'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN R.NETWT ELSE 0 END SRNETWT'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN (SELECT SUM(ISNULL(STNWT,0)) FROM RECEIPTSTONE WHERE ISSSNO=R.SNO AND STNITEMID IN(SELECT ITEMID FROM '+@DBNAME+'..ITEMMAST WHERE DIASTONE=''S'')) ELSE 0 END SRSTNWT'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN (SELECT SUM(ISNULL(STNWT,0)) FROM RECEIPTSTONE WHERE ISSSNO=R.SNO AND STNITEMID IN(SELECT ITEMID FROM '+@DBNAME+'..ITEMMAST WHERE DIASTONE=''D'')) ELSE 0 END SRDIAWT'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN R.RATE ELSE 0 END SRRATE'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN R.MCHARGE ELSE 0 END SRMCHARGE'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN R.WASTAGE ELSE 0 END SRWASTVAL'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN (R.WASTAGE*R.RATE) ELSE 0 END SRWASTAGE'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN R.TAX ELSE 0 END SRTAX'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN SUM(ISNULL(R.AMOUNT,0)+ISNULL(R.TAX,0)) ELSE 0 END SRTOTAL'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,0 SRBALANCE,0 CASH,0 CRCARD,0 CHEQUE,0 CHIT,0 ADVANCE,0 GV,0 HC,0 DISCOUNT, 0 CRBALANCE,0 ACTOTAL'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,R.CASHID,CONVERT(VARCHAR(150),R.BATCHNO)BATCHNO '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN ''A'' WHEN TRANTYPE=''PU'' THEN ''P'' END COLHEAD'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,METALID FROM RECEIPT R'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' WHERE R.TRANDATE BETWEEN '''+ @FRMDATE +''' AND ''' + @TODATE + ''' AND R.TRANTYPE IN(''SR'',''PU'') AND ISNULL(R.CANCEL,'''')='''''      	“
-        strSql += vbCrLf + " 	IF @COSTID<>'ALL' SELECT  @QRY=@QRY+' AND R.COSTID IN('''+ @COSTID +''')'      	“
-        strSql += vbCrLf + " 	IF @COMPANYID<>'ALL' SELECT  @QRY=@QRY+' AND R.COMPANYID IN('''+ @COMPANYID +''')'      	“
-        strSql += vbCrLf + " 	IF @CASHNAME <>'ALL' SELECT  @QRY=@QRY+' AND ISNULL(R.CASHID,0) IN (SELECT CASHID FROM TEMPTABLEDB.DBO.TEMPCASH) '  	“
-        strSql += vbCrLf + " 	SELECT  @QRY=@QRY+' AND ISNULL(R.ITEMID,0) IN (SELECT ITEMID FROM TEMPTABLEDB.DBO.TEMPITEM) '  	“
-        strSql += vbCrLf + " 	IF @EMPNAME <>'ALL' SELECT  @QRY=@QRY+' AND ISNULL(R.EMPID,0) IN (SELECT EMPID FROM TEMPTABLEDB.DBO.TEMPEMP) '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' AND EXISTS (SELECT 1 FROM ISSUE WHERE BATCHNO=R.BATCHNO)'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' GROUP BY R.CATCODE,R.TRANNO,R.TRANDATE,R.TRANTYPE,R.ITEMID,'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' R.PCS,R.GRSWT,R.NETWT,R.RATE,R.MCHARGE,R.WASTAGE,R.TAX,R.CASHID,R.BATCHNO,R.RATE,R.SNO,METALID '      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' )X'  	“
-        strSql += vbCrLf + " 	PRINT @QRY      	“
-        strSql += vbCrLf + " 	EXEC(@QRY)   	“
-        strSql += vbCrLf + " 	/** GET FROM ACCTRAN TABLE **/      	“
-        strSql += vbCrLf + " 	SELECT @QRY=' SELECT IBILLNO,IBILLDATE,BATCHNO,SUM(CASH)CASH,SUM(CRCARD)CRCARD,SUM(CHEQUE)CHEQUE,SUM(CHIT)CHIT'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,SUM(ADVANCE)ADVANCE,SUM(GV)GV,SUM(HC)HC,SUM(DISCOUNT)DISCOUNT,SUM(CRBALANCE)CRBALANCE ,SUM(ACTOTAL)ACTOTAL,CONVERT(NUMERIC(15,2),NULL) SRBALANCE,CUSTOMER INTO '+@TEMPACCTRANN+' FROM ('      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT A.TRANNO IBILLNO,A.TRANDATE IBILLDATE,A.BATCHNO'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN A.PAYMODE IN(''CA'') THEN SUM(CASE WHEN TRANMODE IN(''D'') THEN ISNULL(A.AMOUNT,0)ELSE ISNULL(A.AMOUNT,0)*-1 END) ELSE 0 END CASH'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN A.PAYMODE IN(''CC'') THEN SUM(CASE WHEN TRANMODE IN(''D'') THEN ISNULL(A.AMOUNT,0)ELSE ISNULL(A.AMOUNT,0)*-1 END) ELSE 0 END CRCARD'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN A.PAYMODE IN(''CH'') THEN SUM(CASE WHEN TRANMODE IN(''D'') THEN ISNULL(A.AMOUNT,0)ELSE ISNULL(A.AMOUNT,0)*-1 END) ELSE 0 END CHEQUE'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN A.PAYMODE IN(''CZ'',''CG'',''CD'',''CB'',''SS'')THEN SUM(CASE WHEN TRANMODE IN(''D'') THEN ISNULL(A.AMOUNT,0)ELSE ISNULL(A.AMOUNT,0)*-1 END) ELSE 0 END CHIT'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN A.PAYMODE IN(''AR'',''AA'') THEN SUM(CASE WHEN TRANMODE IN(''D'') THEN ISNULL(A.AMOUNT,0)ELSE ISNULL(A.AMOUNT,0)*-1 END) ELSE 0 END ADVANCE'    	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN A.PAYMODE IN(''GV'') THEN SUM(CASE WHEN TRANMODE IN(''D'') THEN ISNULL(A.AMOUNT,0)ELSE ISNULL(A.AMOUNT,0)*-1 END) ELSE 0 END GV'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN A.PAYMODE IN(''HC'') THEN SUM(CASE WHEN TRANMODE IN(''C'') THEN ISNULL(A.AMOUNT,0)ELSE ISNULL(A.AMOUNT,0)*-1 END) ELSE 0 END HC'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN A.PAYMODE IN(''DI'') THEN SUM(CASE WHEN TRANMODE IN(''D'') THEN ISNULL(A.AMOUNT,0)ELSE ISNULL(A.AMOUNT,0)*-1 END) ELSE 0 END DISCOUNT'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN A.PAYMODE IN(''DU'') THEN SUM(CASE WHEN TRANMODE IN(''D'') THEN ISNULL(A.AMOUNT,0)ELSE ISNULL(A.AMOUNT,0)*-1 END) ELSE 0 END CRBALANCE'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN A.PAYMODE IN(''CA'',''CC'',''CH'',''AA'',''AR'',''GV'',''DU'',''CZ'',''CG'',''CD'',''CB'',''SS'') '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' THEN SUM(CASE WHEN TRANMODE IN(''D'') THEN ISNULL(A.AMOUNT,0)ELSE ISNULL(A.AMOUNT,0)*-1 END) ELSE 0 END ACTOTAL'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,(SELECT TOP 1 PNAME FROM '+@DBNAME+'..PERSONALINFO WHERE SNO IN'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (SELECT TOP 1 PSNO FROM '+@DBNAME+'..CUSTOMERINFO WHERE BATCHNO=A.BATCHNO))CUSTOMER'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM ACCTRAN A  WHERE A.BATCHNO IN (SELECT DISTINCT BATCHNO FROM '+@TEMPISSUE+')AND ISNULL(A.CANCEL,'''')='''' '      	“
-        strSql += vbCrLf + " 	IF @COSTID<>'ALL' SELECT  @QRY=@QRY+' AND A.COSTID IN('''+ @COSTID +''')'      	“
-        strSql += vbCrLf + " 	IF @COMPANYID<>'ALL' SELECT  @QRY=@QRY+' AND A.COMPANYID IN('''+ @COMPANYID +''')'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' GROUP BY A.TRANNO,A.TRANDATE,A.BATCHNO,A.PAYMODE,A.TRANMODE'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' )Y GROUP BY IBILLNO,IBILLDATE,BATCHNO,CUSTOMER HAVING SUM(ISNULL(ACTOTAL,0))<>0'      	“
-        strSql += vbCrLf + " 	PRINT @QRY      	“
-        strSql += vbCrLf + " 	EXEC(@QRY)      	“
-        strSql += vbCrLf + " 	SELECT @QRY=' ALTER TABLE '+@TEMPISSUE+' ADD  PITEMNAME VARCHAR(100),SRITEMNAME VARCHAR(100)'      	“
-        strSql += vbCrLf + " 	PRINT @QRY      	“
-        strSql += vbCrLf + " 	EXEC(@QRY)  	“
-        strSql += vbCrLf + " 	SELECT @QRY=' UPDATE T SET ITEMNAME=(SELECT ''(''+ CONVERT(VARCHAR(10),ITEMID) +'') '' + ITEMNAME  FROM '+ @DBNAME +'..ITEMMAST WHERE ITEMID=T.IITEMID) FROM '+@TEMPISSUE+' T'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' UPDATE T SET PITEMNAME=(SELECT ITEMNAME FROM '+ @DBNAME +'..ITEMMAST WHERE ITEMID=T.PITEMID) FROM '+@TEMPISSUE+' T'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' UPDATE T SET SRITEMNAME=(SELECT ITEMNAME FROM '+ @DBNAME +'..ITEMMAST WHERE ITEMID=T.SRITEMID) FROM '+@TEMPISSUE+' T'      	“
-        strSql += vbCrLf + " 	PRINT @QRY      	“
-        strSql += vbCrLf + " 	EXEC(@QRY)      	“
-        strSql += vbCrLf + " 	SELECT @QRY='DECLARE @BILLNO NVARCHAR(20)'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' DECLARE CUR CURSOR FOR SELECT DISTINCT IBILLNO FROM '+@TEMPACCTRANN+' '       	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' OPEN CUR'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FETCH NEXT FROM CUR INTO @BILLNO'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' WHILE @@FETCH_STATUS=0'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' BEGIN'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SET ROWCOUNT 1'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' UPDATE '+@TEMPISSUE+' SET CASH=A.CASH,CRCARD=A.CRCARD,CHEQUE=A.CHEQUE,CHIT=A.CHIT'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,ADVANCE=A.ADVANCE,GV=A.GV,HC=A.HC,DISCOUNT=A.DISCOUNT,CRBALANCE=A.CRBALANCE'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,ACTOTAL=A.ACTOTAL,CUSTOMER=A.CUSTOMER FROM '+@TEMPISSUE+' T,'+@TEMPACCTRANN+' A'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' WHERE T.BATCHNO=A.BATCHNO AND T.IBILLNO=@BILLNO'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SET ROWCOUNT 0'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FETCH NEXT FROM CUR INTO @BILLNO'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' END'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' CLOSE CUR'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' DEALLOCATE CUR'      	“
-        strSql += vbCrLf + " 	PRINT @QRY      	“
-        strSql += vbCrLf + " 	EXEC(@QRY)         	“
-        strSql += vbCrLf + " 	SELECT @QRY='SELECT *,CONVERT(VARCHAR(20),NULL)DBILLNO,CONVERT(VARCHAR(20),NULL)PDBILLNO,CONVERT(VARCHAR(20),NULL)SDBILLNO'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,1 RESULT INTO '+@TEMPSALEABSTRACT+' FROM ('      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+'SELECT *,(SELECT CASHNAME FROM '+ @DBNAME +'..CASHCOUNTER WHERE CASHID=I.CASHID)COUNTERNAME'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM '+@TEMPISSUE+' I)X ORDER BY IBILLDATE,BATCHNO,COLHEAD'      	“
-        strSql += vbCrLf + " 	PRINT @QRY  	“
-        strSql += vbCrLf + " 	EXEC(@QRY)        	“
-        strSql += vbCrLf + " 	SELECT @QRY='INSERT INTO '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' '+@TEMPSALEABSTRACT+' (CUSTOMER,COUNTERNAME,RESULT)'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+'SELECT DISTINCT ''SALES'''  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+',(SELECT CASHNAME FROM '+ @DBNAME +'..CASHCOUNTER WHERE CASHID=I.CASHID),0 AS RESULT'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM '+@TEMPISSUE+' I'      	“
-        strSql += vbCrLf + " 	PRINT @QRY  	“
-        strSql += vbCrLf + " 	EXEC(@QRY)  	“
-        strSql += vbCrLf + " 	IF @BILLSUMM='Y'  	“
-        strSql += vbCrLf + " 	BEGIN  	“
-        strSql += vbCrLf + " 	SELECT @QRY='INSERT INTO '+@TEMPSALEABSTRACT+' '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (CUSTOMER,COUNTERNAME,BATCHNO,IBILLDATE,RESULT,IPCS,IGRSWT,INETWT,ITOTAL,SRPCS,SRGRSWT,SRNETWT,PPCS,PGRSWT,PNETWT,PAMOUNT)'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT ''SUB TOTAL'' CUSTOMER'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,(SELECT CASHNAME FROM '+ @DBNAME +'..CASHCOUNTER WHERE CASHID=I.CASHID)COUNTERNAME,BATCHNO,IBILLDATE,2 AS RESULT,'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(IPCS)IPCS,SUM(IGRSWT)IGRSWT,SUM(INETWT)INETWT,SUM(ITOTAL)ITOTAL,SUM(SRPCS)SRPCS,SUM(SRGRSWT)SRGRSWT,SUM(SRNETWT)SRNETWT,'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(PPCS)PPCS,SUM(PGRSWT)PGRSWT,SUM(PNETWT)PNETWT,SUM(PAMOUNT)PAMOUNT '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM '+@TEMPISSUE+' I GROUP BY I.CASHID,I.BATCHNO,I.IBILLDATE '  	“
-        strSql += vbCrLf + " 	PRINT @QRY  	“
-        strSql += vbCrLf + " 	EXEC(@QRY)     	“
-        strSql += vbCrLf + " 	END  	“
-        strSql += vbCrLf + " 	SELECT @QRY='INSERT INTO '+@TEMPSALEABSTRACT+' '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (CUSTOMER,COUNTERNAME,BATCHNO,IBILLDATE,RESULT,IBILLNO,IPCS,IGRSWT,INETWT,ITOTAL,SRPCS,SRGRSWT,SRNETWT,PPCS,PGRSWT,PNETWT,PAMOUNT)'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT DISTINCT (SELECT CASHNAME FROM '+ @DBNAME +'..CASHCOUNTER WHERE CASHID=I.CASHID)CUSTOMER'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,(SELECT CASHNAME FROM '+ @DBNAME +'..CASHCOUNTER WHERE CASHID=I.CASHID)COUNTERNAME,''ZZZZZ'',MAX(IBILLDATE),3 AS RESULT,'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (SELECT COUNT(DISTINCT IBILLNO) FROM '+@TEMPISSUE+' WHERE CASHID=I.CASHID AND COLHEAD=''I'' GROUP BY CASHID)BILLNO,'   	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(IPCS)IPCS,SUM(IGRSWT)IGRSWT,SUM(INETWT)INETWT,SUM(ITOTAL)ITOTAL,SUM(SRPCS)SRPCS,SUM(SRGRSWT)SRGRSWT,SUM(SRNETWT)SRNETWT,'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(PPCS)PPCS,SUM(PGRSWT)PGRSWT,SUM(PNETWT)PNETWT,SUM(PAMOUNT)PAMOUNT '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM '+@TEMPISSUE+' I GROUP BY I.CASHID '  	“
-        strSql += vbCrLf + " 	PRINT @QRY  	“
-        strSql += vbCrLf + " 	EXEC(@QRY)                	“
-        strSql += vbCrLf + " 	SELECT @QRY='IF (SELECT COUNT(*) FROM  '+@TEMPSALEABSTRACT+') > 0 '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' BEGIN'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' INSERT INTO '+@TEMPSALEABSTRACT+' '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (CUSTOMER,COUNTERNAME,RESULT,IBILLNO,IPCS,IGRSWT,INETWT,ITOTAL,SRPCS,SRGRSWT,SRNETWT,PPCS,PGRSWT,PNETWT,PAMOUNT,'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' CASH,CRCARD,CHIT,CHEQUE,ADVANCE,CRBALANCE,ACTOTAL)'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT ''GRAND TOTAL'' CUSTOMER'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,''ZZZZZZZZ''COUNTERNAME,4 AS RESULT,'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (SELECT COUNT(DISTINCT IBILLNO) FROM '+@TEMPISSUE+' WHERE COLHEAD=''I'')BILLNO,'   	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(IPCS)IPCS,SUM(IGRSWT)IGRSWT,SUM(INETWT)INETWT,SUM(ITOTAL)ITOTAL,SUM(SRPCS)SRPCS,SUM(SRGRSWT)SRGRSWT,SUM(SRNETWT)SRNETWT,'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(PPCS)PPCS,SUM(PGRSWT)PGRSWT,SUM(PNETWT)PNETWT,SUM(PAMOUNT)PAMOUNT, '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(CASH)CASH,SUM(CRCARD)CRCARD,SUM(CHIT)CHIT,SUM(CHEQUE)CHEQUE,SUM(ADVANCE)ADVANCE,SUM(CRBALANCE)CRBALANCE,SUM(ACTOTAL)ACTOTAL '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM '+@TEMPISSUE+' I  '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' END'  	“
-        strSql += vbCrLf + " 	PRINT @QRY  	“
-        strSql += vbCrLf + " 	EXEC(@QRY)           	“
-        strSql += vbCrLf + " 	PRINT '/*GET CASH PURCHASE*/'         	“
-        strSql += vbCrLf + " 	SELECT @QRY='INSERT INTO '+@TEMPSALEABSTRACT+' '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (CUSTOMER,COUNTERNAME,RESULT,IPCS,IGRSWT,INETWT,ITOTAL,PBILLNO,PPCS,PGRSWT,PNETWT,PAMOUNT)'         	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' SELECT  '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' (SELECT TOP 1 CATNAME FROM " & cnAdminDb & "..CATEGORY WHERE CATCODE=R.CATCODE) CUSTOMER,''ZZZZZZZZ'' COUNTERNAME,'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' 6 RESULT,0 IPCS,0 IGRSWT,0 INETWT ,0 ITOTAL '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' ,TRANNO,CASE WHEN TRANTYPE=''PU'' THEN R.PCS ELSE 0 END PPCS'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' ,CASE WHEN TRANTYPE=''PU'' THEN R.GRSWT ELSE 0 END PGRSWT'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' ,CASE WHEN TRANTYPE=''PU'' THEN R.NETWT ELSE 0 END PNETWT'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' ,CASE WHEN TRANTYPE=''PU'' THEN R.AMOUNT ELSE 0 END PAMOUNT'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' FROM RECEIPT R'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' WHERE R.TRANDATE BETWEEN '''+ @FRMDATE +''' AND ''' + @TODATE + ''' AND R.TRANTYPE IN(''PU'') AND ISNULL(R.CANCEL,'''')='''''      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' AND NOT EXISTS (SELECT 1 FROM ISSUE WHERE BATCHNO=R.BATCHNO)'  	“
-        strSql += vbCrLf + " 	IF @COSTID<>'ALL' SELECT  @QRY=@QRY+' AND R.COSTID IN('''+ @COSTID +''')'      	“
-        strSql += vbCrLf + " 	IF @COMPANYID<>'ALL' SELECT  @QRY=@QRY+' AND R.COMPANYID IN('''+ @COMPANYID +''')'      	“
-        strSql += vbCrLf + " 	IF @CASHNAME <>'ALL' SELECT  @QRY=@QRY+' AND ISNULL(R.CASHID,0) IN (SELECT CASHID FROM TEMPTABLEDB.DBO.TEMPCASH) '  	“
-        strSql += vbCrLf + " 	SELECT  @QRY=@QRY+' AND ISNULL(R.ITEMID,0) IN (SELECT ITEMID FROM TEMPTABLEDB.DBO.TEMPITEM) '  	“
-        strSql += vbCrLf + " 	IF @EMPNAME <>'ALL' SELECT  @QRY=@QRY+' AND ISNULL(R.EMPID,0) IN (SELECT EMPID FROM TEMPTABLEDB.DBO.TEMPEMP) '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' AND PUREXCH=''P'' ORDER BY TRANNO'  	“
-        strSql += vbCrLf + " 	PRINT @QRY   	“
-        strSql += vbCrLf + " 	EXEC(@QRY)  	“
-        strSql += vbCrLf + " 	SELECT @QRY='IF (SELECT COUNT(*) FROM  '+@TEMPSALEABSTRACT+' WHERE RESULT=6) > 0 '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' BEGIN'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' INSERT INTO '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' '+@TEMPSALEABSTRACT+' (CUSTOMER,COUNTERNAME,RESULT,COLHEAD)'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+'SELECT ''CASH PURCHASE'''  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+',''ZZZZZZZZ'',5 AS RESULT,''S'' COLHEAD'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' END'  	“
-        strSql += vbCrLf + " 	PRINT @QRY  	“
-        strSql += vbCrLf + " 	EXEC(@QRY)   	“
-        strSql += vbCrLf + " 	SELECT @QRY='IF (SELECT COUNT(*) FROM  '+@TEMPSALEABSTRACT+' WHERE RESULT=6) > 0 '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' BEGIN'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' INSERT INTO '+@TEMPSALEABSTRACT+' '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (CUSTOMER,COUNTERNAME,RESULT,COLHEAD,IPCS,IGRSWT,INETWT,ITOTAL,SRPCS,SRGRSWT,SRNETWT,PPCS,PGRSWT,PNETWT,PAMOUNT,'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' CASH,CRCARD,CHIT,ADVANCE,CRBALANCE,ACTOTAL)'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT ''CASH PURCHASE TOTAL'' CUSTOMER'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,''ZZZZZZZZ''COUNTERNAME,7 AS RESULT,''T'' COLHEAD,'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(IPCS)IPCS,SUM(IGRSWT)IGRSWT,SUM(INETWT)INETWT,SUM(ITOTAL)ITOTAL,SUM(SRPCS)SRPCS,SUM(SRGRSWT)SRGRSWT,SUM(SRNETWT)SRNETWT,'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(PPCS)PPCS,SUM(PGRSWT)PGRSWT,SUM(PNETWT)PNETWT,SUM(PAMOUNT)PAMOUNT, '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(CASH)CASH,SUM(CRCARD)CRCARD,SUM(CHIT)CHIT,SUM(ADVANCE)ADVANCE,SUM(CRBALANCE)CRBALANCE,SUM(ACTOTAL)ACTOTAL '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM '+@TEMPSALEABSTRACT+' I  WHERE RESULT=''6'' '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' END'  	“
-        strSql += vbCrLf + " 	PRINT @QRY  	“
-        strSql += vbCrLf + " 	EXEC(@QRY)    	“
-        strSql += vbCrLf + " 	SELECT @QRY='IF (SELECT COUNT(*) FROM  '+@TEMPSALEABSTRACT+' WHERE RESULT=6) > 0 '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' BEGIN'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' INSERT INTO '+@TEMPSALEABSTRACT+' '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (CUSTOMER,COUNTERNAME,RESULT,COLHEAD,IPCS,IGRSWT,INETWT,ITOTAL,SRPCS,SRGRSWT,SRNETWT,PPCS,PGRSWT,PNETWT,PAMOUNT,'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' CASH,CRCARD,CHIT,CHEQUE,ADVANCE,CRBALANCE,ACTOTAL)'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +'SELECT ''GRAND TOTAL'' CUSTOMER'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +',''ZZZZZZZZ''COUNTERNAME,11 AS RESULT,''G'' COLHEAD,'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(IPCS)IPCS,SUM(IGRSWT)IGRSWT,SUM(INETWT)INETWT,SUM(ITOTAL)ITOTAL,SUM(SRPCS)SRPCS,SUM(SRGRSWT)SRGRSWT,SUM(SRNETWT)SRNETWT,'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(PPCS)PPCS,SUM(PGRSWT)PGRSWT,SUM(PNETWT)PNETWT,SUM(PAMOUNT)PAMOUNT, '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(CASH)CASH,SUM(CRCARD)CRCARD,SUM(CHIT)CHIT,SUM(CHEQUE)CHEQUE,SUM(ADVANCE)ADVANCE,SUM(CRBALANCE)CRBALANCE,SUM(ACTOTAL)ACTOTAL '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM '+@TEMPISSUE+' I  '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' END'  	“
-        strSql += vbCrLf + " 	PRINT @QRY  	“
-        strSql += vbCrLf + " 	EXEC(@QRY)  	“
-        strSql += vbCrLf + " 	SELECT @QRY='IF (SELECT COUNT(*) FROM  '+@TEMPSALEABSTRACT+') > 0 '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' BEGIN'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' INSERT INTO '+@TEMPSALEABSTRACT+' '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (CUSTOMER,COUNTERNAME,RESULT,COLHEAD)'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT ''CH:'' + CONVERT(VARCHAR,CONVERT(NUMERIC(15,2),SUM(CHIT))) + '' ADV:'' + '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' CONVERT(VARCHAR,CONVERT(NUMERIC(15,2),SUM(ADVANCE))) + '' CHQ:'' + CONVERT(VARCHAR,CONVERT(NUMERIC(15,2),SUM(CHEQUE))) '      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,''ZZZZZZZZ''COUNTERNAME,12 AS RESULT,''T'' COLHEAD FROM '+@TEMPISSUE+' I  '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' END'  	“
-        strSql += vbCrLf + " 	PRINT @QRY  	“
-        strSql += vbCrLf + " 	EXEC(@QRY)  	“
-        strSql += vbCrLf + " 	SELECT @QRY = ' IF OBJECT_ID(''TEMPTABLEDB..TEMPOUTSTANDING'') IS NOT NULL DROP TABLE TEMPTABLEDB..TEMPOUTSTANDING '  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' SELECT * INTO TEMPTABLEDB..TEMPOUTSTANDING FROM " & cnAdminDb & "..OUTSTANDING WHERE TRANDATE BETWEEN '''+ @FRMDATE +''' AND ''' + @TODATE + ''' '  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' AND ISNULL(CANCEL,'''') = '''''  	“
-        strSql += vbCrLf + " 	IF @COSTID<>'ALL' SELECT  @QRY=@QRY+' AND COSTID IN('''+ @COSTID +''')'      	“
-        strSql += vbCrLf + " 	IF @COMPANYID<>'ALL' SELECT  @QRY=@QRY+' AND COMPANYID IN('''+ @COMPANYID +''')'      	“
-        strSql += vbCrLf + " 	IF @CASHNAME <>'ALL' SELECT  @QRY=@QRY+' AND ISNULL(CASHID,0) IN (SELECT CASHID FROM TEMPTABLEDB.DBO.TEMPCASH) '  	“
-        strSql += vbCrLf + " 	IF @EMPNAME <>'ALL' SELECT  @QRY=@QRY+' AND ISNULL(EMPID,0) IN (SELECT EMPID FROM TEMPTABLEDB.DBO.TEMPEMP) '      	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' AND FROMFLAG NOT IN ('''',''S'',''O'',''A'') AND (TRANFLAG NOT IN(''W'') OR AMOUNT<>0)'      	“
-        strSql += vbCrLf + " 	PRINT @QRY  	“
-        strSql += vbCrLf + " 	EXEC (@QRY)  	“
-        strSql += vbCrLf + " 	SELECT @QRY='IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMPOUTSTANDING ) > 0 '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' BEGIN'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' INSERT INTO '+@TEMPSALEABSTRACT+' '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (CUSTOMER,COUNTERNAME,RESULT,COLHEAD,BATCHNO,ITEMNAME,ITAGNO)'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT ''RECEIPT & PAYMENTS'' '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,''ZZZZZZZZ''COUNTERNAME,13 AS RESULT,''G'' COLHEAD,''TRAN-TYPE'' AS BATCHNO'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,''DEBIT'' AS ITEMNAME,''CREDIT'' AS ITEMNAME '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' END'  	“
-        strSql += vbCrLf + " 	PRINT @QRY  	“
-        strSql += vbCrLf + " 	EXEC(@QRY)  	“
-        strSql += vbCrLf + " 	/** GETTING RECEIPT PART **/  	“
-        strSql += vbCrLf + " 	SELECT @QRY='IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMPOUTSTANDING ) > 0 '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' BEGIN'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' INSERT INTO '+@TEMPSALEABSTRACT+' '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (CUSTOMER,COUNTERNAME,RESULT,COLHEAD,BATCHNO,IBILLNO,ITAGNO)'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT P.PNAME AS CUSTOMER,''ZZZZZZZZ''COUNTERNAME,14 RESULT,''D'' COLHEAD'  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' ,CASE WHEN O.PAYMODE IN (''DR'',''DU'') THEN ''CREDIT RECEIPT'''  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' WHEN O.PAYMODE = ''MR'' THEN ''MISCELLANEOUS RECEIPT'''  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' WHEN O.PAYMODE = ''OR'' AND SUBSTRING(O.RUNNO,6,1) <> ''R'' THEN ''ORDER RECEIPT'''  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' WHEN O.PAYMODE = ''OR'' AND SUBSTRING(O.RUNNO,6,1) = ''R'' THEN ''REPAIR RECEIPT'''  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' ELSE ''ADVANCE RECEIPT'' END AS BATCHNO '  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' ,O.TRANNO'      	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' ,AMOUNT'  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' FROM TEMPTABLEDB..TEMPOUTSTANDING AS O LEFT OUTER JOIN " & cnAdminDb & "..CUSTOMERINFO AS C ON C.BATCHNO = O.BATCHNO'  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' LEFT OUTER JOIN " & cnAdminDb & "..PERSONALINFO AS P ON P.SNO = C.PSNO'  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' WHERE O.TRANDATE BETWEEN '''+@FRMDATE+''' AND '''+@TODATE+''' AND O.RECPAY = ''R'' AND AMOUNT <> 0'  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' AND ISNULL(CTRANCODE,0) != ISNULL('''+@BANKPAYPROID+''','''')'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' END'  	“
-        strSql += vbCrLf + " 	PRINT @QRY  	“
-        strSql += vbCrLf + " 	EXEC (@QRY)  	“
-        strSql += vbCrLf + " 	/** GETTING PAYMENT PART **/      	“
-        strSql += vbCrLf + " 	SELECT @QRY='IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMPOUTSTANDING ) > 0 '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' BEGIN'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' INSERT INTO '+@TEMPSALEABSTRACT+' '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (CUSTOMER,COUNTERNAME,RESULT,COLHEAD,BATCHNO,IBILLNO,ITEMNAME)'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT P.PNAME AS CUSTOMER,''ZZZZZZZZ''COUNTERNAME,15 RESULT,''D'' COLHEAD'  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' ,CASE '  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' WHEN O.PAYMODE = ''DP'' THEN ''PURCHASE/SALES RETURN'''  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' WHEN O.PAYMODE = ''DU'' THEN ''CREDIT SALES'''  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' WHEN O.PAYMODE = ''MP'' THEN ''MISCELLANEOUS PAYMENT'''  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' WHEN O.PAYMODE = ''AP'' AND SUBSTRING(O.RUNNO,6,1) = ''R'' THEN ''REPAIR REPAY'''  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' WHEN O.PAYMODE = ''AP'' AND SUBSTRING(O.RUNNO,6,1) = ''O'' THEN ''ORDER REPAY'''  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' WHEN O.PAYMODE = ''AP'' AND SUBSTRING(O.RUNNO,6,1) NOT IN (''O'',''R'') THEN ''ADVANCE REPAY'''  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' WHEN O.PAYMODE = ''GV'' THEN ''GIFT VOUCHER ADJ'''  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' ELSE ''ADVANCE ADJUSTED'' END AS BATCHNO'  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' ,O.TRANNO'  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' ,AMOUNT'  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' FROM TEMPTABLEDB..TEMPOUTSTANDING AS O'  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' LEFT OUTER JOIN " & cnAdminDb & "..CUSTOMERINFO AS C ON C.BATCHNO = O.BATCHNO'  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' LEFT OUTER JOIN " & cnAdminDb & "..PERSONALINFO AS P ON P.SNO = C.PSNO'  	“
-        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' WHERE O.TRANDATE BETWEEN '''+@FRMDATE+''' AND '''+@TODATE+''' AND O.RECPAY = ''P'' AND O.AMOUNT <> 0'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' END'  	“
-        strSql += vbCrLf + " 	PRINT @QRY  	“
-        strSql += vbCrLf + " 	EXEC(@QRY)  	“
-        strSql += vbCrLf + " 	SELECT @QRY='IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMPOUTSTANDING ) > 0 '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' BEGIN'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' INSERT INTO '+@TEMPSALEABSTRACT+' '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (CUSTOMER,COUNTERNAME,RESULT,COLHEAD,ITEMNAME,ITAGNO)'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT ''DAY-S TOTAL'' CUSTOMER'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13)+',''ZZZZZZZZ''COUNTERNAME,16 AS RESULT,''T'' COLHEAD,'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(CONVERT(NUMERIC(15,2),ITEMNAME))ITEMNAME,SUM(CONVERT(NUMERIC(15,2),ITAGNO))ITAGNO '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM '+@TEMPSALEABSTRACT+' I  WHERE RESULT IN (''14'',''15'') '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' END'  	“
-        strSql += vbCrLf + " 	PRINT @QRY  	“
-        strSql += vbCrLf + " 	EXEC(@QRY)  	“
-        strSql += vbCrLf + " 	SELECT @QRY='IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMPOUTSTANDING ) > 0 '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' BEGIN'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' INSERT INTO '+@TEMPSALEABSTRACT+' '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (CUSTOMER,COUNTERNAME,RESULT,COLHEAD,ITEMNAME,ITAGNO)'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT ''CLOSING AMOUNT'' CUSTOMER'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,''ZZZZZZZZ''COUNTERNAME,17 AS RESULT,''G'' COLHEAD'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN SUM(CONVERT(NUMERIC(15,2),ITEMNAME)) > SUM(CONVERT(NUMERIC(15,2),ITAGNO)) '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' THEN SUM(CONVERT(NUMERIC(15,2),ITEMNAME))-SUM(CONVERT(NUMERIC(15,2),ITAGNO)) END ITEMNAME'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN SUM(CONVERT(NUMERIC(15,2),ITAGNO)) > SUM(CONVERT(NUMERIC(15,2),ITEMNAME)) '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' THEN SUM(CONVERT(NUMERIC(15,2),ITAGNO))-SUM(CONVERT(NUMERIC(15,2),ITEMNAME)) END ITEMNAME'         	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM '+@TEMPSALEABSTRACT+' I  WHERE RESULT IN (''16'') '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' END'  	“
-        strSql += vbCrLf + " 	PRINT @QRY  	“
-        strSql += vbCrLf + " 	EXEC(@QRY)  	“
-        strSql += vbCrLf + " 	SELECT @QRY=' UPDATE '+@TEMPSALEABSTRACT+' SET IPCS=NULL WHERE IPCS=''0'''      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET IGRSWT=NULL WHERE IGRSWT=''0'''      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET INETWT=NULL WHERE INETWT=''0'''      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET ITOTAL=NULL WHERE ITOTAL=''0'''      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET PPCS=NULL WHERE PPCS=0'          	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET PGRSWT=NULL WHERE PGRSWT=0'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET PNETWT=NULL WHERE PNETWT=0'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET PAMOUNT=NULL WHERE PAMOUNT=0'          	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET SRPCS=NULL WHERE SRPCS=0'      	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET SRGRSWT=NULL WHERE SRGRSWT=0'         	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET SRNETWT=NULL WHERE SRNETWT=0'   	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET SRTOTAL=NULL WHERE SRTOTAL=0'       	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET CASH=NULL WHERE CASH=0'   	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET CRCARD=NULL WHERE CRCARD=0'   	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET CHIT=NULL WHERE CHIT=0'   	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET ADVANCE=NULL WHERE ADVANCE=0'   	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET CRBALANCE=NULL WHERE CRBALANCE=0'       	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET ACTOTAL=NULL WHERE ACTOTAL=0'   	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET CHEQUE=NULL WHERE CHEQUE=0'   	“
-        strSql += vbCrLf + " 	PRINT @QRY      	“
-        strSql += vbCrLf + " 	EXEC(@QRY)   	“
-        strSql += vbCrLf + " 	IF @DAYWISE='Y'  	“
-        strSql += vbCrLf + " 	BEGIN  	“
-        strSql += vbCrLf + " 	SELECT @QRY='SELECT CONVERT(VARCHAR(MAX),IBILLDATE,105)IBILLDATE,'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(ISNULL(IPCS,0))IPCS,SUM(ISNULL(IGRSWT,0))IGRSWT,SUM(ISNULL(INETWT,0))INETWT,CAST(SUM(ISNULL(ITAX,0))/2 As DECIMAL(10,2)) ICGST,CAST(SUM(ISNULL(ITAX,0))/2 As DECIMAL(10,2)) ISGST,SUM(ISNULL(ITOTAL,0))-SUM(ISNULL(ITAX,0)) ITOTAL,'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(ISNULL(PPCS,0))PPCS,SUM(ISNULL(PGRSWT,0))PGRSWT,SUM(ISNULL(PNETWT,0))PNETWT,SUM(ISNULL(PAMOUNT,0))PAMOUNT,'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(ISNULL(SRPCS,0))SRPCS,SUM(ISNULL(SRGRSWT,0))SRGRSWT,SUM(ISNULL(SRNETWT,0))SRNETWT,SUM(ISNULL(SRTOTAL,0))SRTOTAL,'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(ISNULL(CASH,0))CASH,SUM(ISNULL(CRCARD,0))CRCARD,SUM(ISNULL(CHIT,0))CHIT,SUM(ISNULL(CHEQUE,0))CHEQUE,SUM(ISNULL(ADVANCE,0))ADVANCE,SUM(ISNULL(CRBALANCE,0))CRBALANCE,SUM(ISNULL(ACTOTAL,0))ACTOTAL'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM '+@TEMPSALEABSTRACT+''  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' WHERE RESULT = 1'	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' GROUP BY IBILLDATE'	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' UNION'	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT ''TOTAL'','	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(ISNULL(IPCS,0))IPCS,SUM(ISNULL(IGRSWT,0))IGRSWT,SUM(ISNULL(INETWT,0))INETWT,CAST(SUM(ISNULL(ITAX,0))/2 As DECIMAL(10,2)) ICGST,CAST(SUM(ISNULL(ITAX,0))/2 As DECIMAL(10,2)) ISGST,SUM(ISNULL(ITOTAL,0))-SUM(ISNULL(ITAX,0)) ITOTAL,'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(ISNULL(PPCS,0))PPCS,SUM(ISNULL(PGRSWT,0))PGRSWT,SUM(ISNULL(PNETWT,0))PNETWT,SUM(ISNULL(PAMOUNT,0))PAMOUNT,'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(ISNULL(SRPCS,0))SRPCS,SUM(ISNULL(SRGRSWT,0))SRGRSWT,SUM(ISNULL(SRNETWT,0))SRNETWT,SUM(ISNULL(SRTOTAL,0))SRTOTAL,'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(ISNULL(CASH,0))CASH,SUM(ISNULL(CRCARD,0))CRCARD,SUM(ISNULL(CHIT,0))CHIT,SUM(ISNULL(CHEQUE,0))CHEQUE,SUM(ISNULL(ADVANCE,0))ADVANCE,SUM(ISNULL(CRBALANCE,0))CRBALANCE,SUM(ISNULL(ACTOTAL,0))ACTOTAL'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM '+@TEMPSALEABSTRACT+''  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' WHERE RESULT = 1'	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ORDER BY IBILLDATE'	“
-        strSql += vbCrLf + " 	END 	“
-        strSql += vbCrLf + " 	ELSE	“
-        strSql += vbCrLf + " 	BEGIN	“
-        strSql += vbCrLf + " 	SELECT @QRY='SELECT '  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' CUSTOMER AS PARTICULAR'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,BATCHNO,IBILLDATE,IBILLNO,IITEMID,ITEMNAME,ITAGNO,IPCS,IGRSWT,INETWT,ITOTAL'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,PBILLNO,PITEMID,PPCS,PGRSWT,PNETWT,PAMOUNT'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,SRBILLNO,SRITEMID,SRPCS,SRGRSWT,SRNETWT,SRTOTAL'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASH,CRCARD,CHIT,CHEQUE,ADVANCE,CRBALANCE,ACTOTAL,COLHEAD,RESULT'  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM '+@TEMPSALEABSTRACT+''  	“
-        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ORDER BY COUNTERNAME,IBILLDATE,BATCHNO,RESULT,COLHEAD,ACTOTAL DESC'  	“
-        strSql += vbCrLf + " 	END	“
-        strSql += vbCrLf + " 	PRINT @QRY  	“
-        strSql += vbCrLf + " 	EXEC(@QRY)  	“
-        strSql += vbCrLf + " 	END	“
+        strSql = " 	CREATE PROCEDURE SP_RPT_SALESABSTRACT_SALESBILLWISE  	â€œ
+        strSql += vbCrLf + " 	(      	â€œ
+        strSql += vbCrLf + " 	@DBNAME VARCHAR(30)        	â€œ
+        strSql += vbCrLf + " 	,@FRMDATE VARCHAR(12)        	â€œ
+        strSql += vbCrLf + " 	,@TODATE VARCHAR(12)        	â€œ
+        strSql += vbCrLf + " 	,@COSTID VARCHAR(200)        	â€œ
+        strSql += vbCrLf + " 	,@COMPANYID VARCHAR(200)  	â€œ
+        strSql += vbCrLf + " 	,@CASHNAME VARCHAR(800)  	â€œ
+        strSql += vbCrLf + " 	,@EMPNAME VARCHAR(800)  	â€œ
+        strSql += vbCrLf + " 	,@UID VARCHAR(4)     	â€œ
+        strSql += vbCrLf + " 	,@ITEMNAME VARCHAR(800)  	â€œ
+        strSql += vbCrLf + " 	,@METALNAME VARCHAR(1000)  	â€œ
+        strSql += vbCrLf + " 	,@BILLSUMM VARCHAR(1)	â€œ
+        strSql += vbCrLf + " 	,@DAYWISE VARCHAR(1) = 'N'	â€œ
+        strSql += vbCrLf + " 	)        	â€œ
+        strSql += vbCrLf + " 	AS        	â€œ
+        strSql += vbCrLf + " 	BEGIN /** PROC STARTS **/     	â€œ
+        strSql += vbCrLf + " 	DECLARE @QRY VARCHAR(8000)      	â€œ
+        strSql += vbCrLf + " 	DECLARE @TEMPISSUE VARCHAR(50)      	â€œ
+        strSql += vbCrLf + " 	DECLARE @TEMPACCTRANN VARCHAR(50)      	â€œ
+        strSql += vbCrLf + " 	DECLARE @TEMPADDRESS VARCHAR(50)      	â€œ
+        strSql += vbCrLf + " 	DECLARE @TEMPSALEABSTRACT VARCHAR(50)      	â€œ
+        strSql += vbCrLf + " 	DECLARE @TEMPSALEABSTRACT_RES VARCHAR(50)         	â€œ
+        strSql += vbCrLf + " 	DECLARE @TEMPCASH VARCHAR(50)      	â€œ
+        strSql += vbCrLf + " 	DECLARE @TEMPEMP VARCHAR(50)      	â€œ
+        strSql += vbCrLf + " 	DECLARE @TEMPITEM VARCHAR(50)      	â€œ
+        strSql += vbCrLf + " 	SELECT @TEMPCASH='TEMPTABLEDB.DBO.TEMPCASH'      	â€œ
+        strSql += vbCrLf + " 	SELECT @TEMPITEM='TEMPTABLEDB.DBO.TEMPITEM'      	â€œ
+        strSql += vbCrLf + " 	SELECT @TEMPEMP='TEMPTABLEDB.DBO.TEMPEMP'      	â€œ
+        strSql += vbCrLf + " 	SELECT @TEMPISSUE='TEMPTABLEDB.DBO.TEMP'+@UID+'ISSUE'      	â€œ
+        strSql += vbCrLf + " 	SELECT @TEMPACCTRANN='TEMPTABLEDB.DBO.TEMP'+@UID+'ACCTRANN'      	â€œ
+        strSql += vbCrLf + " 	SELECT @TEMPADDRESS='TEMPTABLEDB.DBO.TEMP'+@UID+'ADDRESS'      	â€œ
+        strSql += vbCrLf + " 	SELECT @TEMPSALEABSTRACT='TEMPTABLEDB.DBO.TEMP'+@UID+'SALEABSTRACT'      	â€œ
+        strSql += vbCrLf + " 	SELECT @TEMPSALEABSTRACT_RES='TEMPTABLEDB.DBO.TEMP'+@UID+'SALEABSTRACT_RES'      	â€œ
+        strSql += vbCrLf + " 	IF OBJECT_ID('TEMPTABLEDB.DBO.TEMPCASH', 'U') IS NOT NULL DROP TABLE TEMPTABLEDB.DBO.TEMPCASH    	â€œ
+        strSql += vbCrLf + " 	DECLARE @BANKPAYPROID VARCHAR(5)  	â€œ
+        strSql += vbCrLf + " 	SET @BANKPAYPROID = '-1'  	â€œ
+        strSql += vbCrLf + " 	SELECT @BANKPAYPROID = CASE WHEN ISNULL(CTLTEXT,'')  = '' THEN '-1' ELSE CTLTEXT END FROM " & cnAdminDb & "..SOFTCONTROL WHERE ISNULL(CTLID,'') = 'BANKPAYPROID'  	â€œ
+        strSql += vbCrLf + " 	CREATE TABLE TEMPTABLEDB.DBO.TEMPCASH (CASHID VARCHAR(5))   	â€œ
+        strSql += vbCrLf + " 	IF (SELECT COUNT(*) WHERE @CASHNAME LIKE '%ALL%')>0        	â€œ
+        strSql += vbCrLf + " 	INSERT INTO TEMPTABLEDB.DBO.TEMPCASH (CASHID) SELECT ISNULL(CASHID,0) FROM " & cnAdminDb & "..CASHCOUNTER UNION ALL SELECT ''        	â€œ
+        strSql += vbCrLf + " 	ELSE        	â€œ
+        strSql += vbCrLf + " 	BEGIN        	â€œ
+        strSql += vbCrLf + " 	DECLARE @TCASHNAME VARCHAR(20)   	â€œ
+        strSql += vbCrLf + " 	IF CHARINDEX(',',@CASHNAME)=0   	â€œ
+        strSql += vbCrLf + " 	INSERT INTO TEMPTABLEDB.DBO.TEMPCASH (CASHID) SELECT ISNULL(CASHID,0) FROM " & cnAdminDb & "..CASHCOUNTER WHERE CASHNAME = @CASHNAME   	â€œ
+        strSql += vbCrLf + " 	WHILE CHARINDEX(',',@CASHNAME)>0   	â€œ
+        strSql += vbCrLf + " 	BEGIN   	â€œ
+        strSql += vbCrLf + " 	SET @TCASHNAME=LEFT(@CASHNAME,CHARINDEX(',',@CASHNAME)-1)   	â€œ
+        strSql += vbCrLf + " 	SET @CASHNAME=RIGHT(@CASHNAME,LEN(@CASHNAME)-CHARINDEX(',',@CASHNAME))   	â€œ
+        strSql += vbCrLf + " 	IF @CASHNAME <>'' AND CHARINDEX(',',@CASHNAME)=0   	â€œ
+        strSql += vbCrLf + " 	SET @CASHNAME= @CASHNAME + ','   	â€œ
+        strSql += vbCrLf + " 	INSERT INTO TEMPTABLEDB.DBO.TEMPCASH (CASHID) SELECT ISNULL(CASHID,0) FROM " & cnAdminDb & "..CASHCOUNTER WHERE CASHNAME = @TCASHNAME   	â€œ
+        strSql += vbCrLf + " 	END    	â€œ
+        strSql += vbCrLf + " 	END   	â€œ
+        strSql += vbCrLf + " 	IF OBJECT_ID('TEMPTABLEDB.DBO.TEMPITEM', 'U') IS NOT NULL DROP TABLE TEMPTABLEDB.DBO.TEMPITEM    	â€œ
+        strSql += vbCrLf + " 	CREATE TABLE TEMPTABLEDB.DBO.TEMPITEM (ITEMID VARCHAR(5))   	â€œ
+        strSql += vbCrLf + " 	IF (SELECT COUNT(*) WHERE @ITEMNAME LIKE '%ALL%')>0        	â€œ
+        strSql += vbCrLf + " 	BEGIN   	â€œ
+        strSql += vbCrLf + " 	IF @METALNAME <>'ALL'  	â€œ
+        strSql += vbCrLf + " 	BEGIN   	â€œ
+        strSql += vbCrLf + " 	PRINT REPLACE(@METALNAME,',',''',''')  	â€œ
+        strSql += vbCrLf + " 	INSERT INTO TEMPTABLEDB.DBO.TEMPITEM (ITEMID) SELECT ISNULL(ITEMID,0) FROM " & cnAdminDb & "..ITEMMAST  	â€œ
+        strSql += vbCrLf + " 	WHERE METALID IN (SELECT METALID FROM " & cnAdminDb & "..METALMAST WHERE METALNAME in(''+ @METALNAME +''))  	â€œ
+        strSql += vbCrLf + " 	END  	â€œ
+        strSql += vbCrLf + " 	IF @METALNAME ='ALL'  	â€œ
+        strSql += vbCrLf + " 	BEGIN   	â€œ
+        strSql += vbCrLf + " 	INSERT INTO TEMPTABLEDB.DBO.TEMPITEM (ITEMID) SELECT ISNULL(ITEMID,0) FROM " & cnAdminDb & "..ITEMMAST UNION ALL SELECT ''        	â€œ
+        strSql += vbCrLf + " 	END  	â€œ
+        strSql += vbCrLf + " 	END  	â€œ
+        strSql += vbCrLf + " 	ELSE        	â€œ
+        strSql += vbCrLf + " 	BEGIN        	â€œ
+        strSql += vbCrLf + " 	DECLARE @TITEMNAME VARCHAR(20)   	â€œ
+        strSql += vbCrLf + " 	IF CHARINDEX(',',@ITEMNAME)=0   	â€œ
+        strSql += vbCrLf + " 	IF @METALNAME <>'ALL'  	â€œ
+        strSql += vbCrLf + " 	BEGIN   	â€œ
+        strSql += vbCrLf + " 	INSERT INTO TEMPTABLEDB.DBO.TEMPITEM (ITEMID) SELECT ISNULL(ITEMID,0) FROM " & cnAdminDb & "..ITEMMAST WHERE ITEMNAME = @ITEMNAME  	â€œ
+        strSql += vbCrLf + " 	AND METALID IN (SELECT METALID FROM " & cnAdminDb & "..METALMAST where METALNAME in(''+ @METALNAME +''))  	â€œ
+        strSql += vbCrLf + " 	END  	â€œ
+        strSql += vbCrLf + " 	IF @METALNAME = 'ALL'  	â€œ
+        strSql += vbCrLf + " 	BEGIN   	â€œ
+        strSql += vbCrLf + " 	INSERT INTO TEMPTABLEDB.DBO.TEMPITEM (ITEMID) SELECT ISNULL(ITEMID,0) FROM " & cnAdminDb & "..ITEMMAST WHERE ITEMNAME = @ITEMNAME  	â€œ
+        strSql += vbCrLf + " 	END  	â€œ
+        strSql += vbCrLf + " 	WHILE CHARINDEX(',',@ITEMNAME)>0   	â€œ
+        strSql += vbCrLf + " 	BEGIN   	â€œ
+        strSql += vbCrLf + " 	SET @TITEMNAME=LEFT(@ITEMNAME,CHARINDEX(',',@ITEMNAME)-1)   	â€œ
+        strSql += vbCrLf + " 	SET @ITEMNAME=RIGHT(@ITEMNAME,LEN(@ITEMNAME)-CHARINDEX(',',@ITEMNAME))   	â€œ
+        strSql += vbCrLf + " 	IF @ITEMNAME <>'' AND CHARINDEX(',',@ITEMNAME)=0   	â€œ
+        strSql += vbCrLf + " 	SET @ITEMNAME= @ITEMNAME + ','   	â€œ
+        strSql += vbCrLf + " 	IF @METALNAME <>'ALL'  	â€œ
+        strSql += vbCrLf + " 	BEGIN   	â€œ
+        strSql += vbCrLf + " 	INSERT INTO TEMPTABLEDB.DBO.TEMPITEM (ITEMID) SELECT ISNULL(ITEMID,0) FROM " & cnAdminDb & "..ITEMMAST WHERE ITEMNAME = @TITEMNAME   	â€œ
+        strSql += vbCrLf + " 	AND METALID IN (SELECT METALID FROM " & cnAdminDb & "..METALMAST where METALNAME in(''+ @METALNAME +''))  	â€œ
+        strSql += vbCrLf + " 	END  	â€œ
+        strSql += vbCrLf + " 	IF @METALNAME = 'ALL'  	â€œ
+        strSql += vbCrLf + " 	BEGIN   	â€œ
+        strSql += vbCrLf + " 	INSERT INTO TEMPTABLEDB.DBO.TEMPITEM (ITEMID) SELECT ISNULL(ITEMID,0) FROM " & cnAdminDb & "..ITEMMAST WHERE ITEMNAME = @TITEMNAME   	â€œ
+        strSql += vbCrLf + " 	END  	â€œ
+        strSql += vbCrLf + " 	END    	â€œ
+        strSql += vbCrLf + " 	END   	â€œ
+        strSql += vbCrLf + " 	IF OBJECT_ID('TEMPTABLEDB.DBO.TEMPEMP', 'U') IS NOT NULL DROP TABLE TEMPTABLEDB.DBO.TEMPEMP   	â€œ
+        strSql += vbCrLf + " 	CREATE TABLE TEMPTABLEDB.DBO.TEMPEMP (EMPID VARCHAR(5))   	â€œ
+        strSql += vbCrLf + " 	IF (SELECT COUNT(*) WHERE @EMPNAME LIKE '%ALL%')>0        	â€œ
+        strSql += vbCrLf + " 	INSERT INTO TEMPTABLEDB.DBO.TEMPEMP (EMPID) SELECT ISNULL(EMPID,0) FROM " & cnAdminDb & "..EMPMASTER UNION ALL SELECT ''        	â€œ
+        strSql += vbCrLf + " 	ELSE        	â€œ
+        strSql += vbCrLf + " 	BEGIN        	â€œ
+        strSql += vbCrLf + " 	DECLARE @TEMPNAME VARCHAR(20)   	â€œ
+        strSql += vbCrLf + " 	IF CHARINDEX(',',@EMPNAME)=0   	â€œ
+        strSql += vbCrLf + " 	INSERT INTO TEMPTABLEDB.DBO.TEMPEMP (EMPID) SELECT ISNULL(EMPID,0) FROM " & cnAdminDb & "..EMPMASTER WHERE EMPNAME = @EMPNAME   	â€œ
+        strSql += vbCrLf + " 	WHILE CHARINDEX(',',@EMPNAME)>0   	â€œ
+        strSql += vbCrLf + " 	BEGIN   	â€œ
+        strSql += vbCrLf + " 	SET @TEMPNAME=LEFT(@EMPNAME,CHARINDEX(',',@EMPNAME)-1)   	â€œ
+        strSql += vbCrLf + " 	SET @EMPNAME=RIGHT(@EMPNAME,LEN(@EMPNAME)-CHARINDEX(',',@EMPNAME))   	â€œ
+        strSql += vbCrLf + " 	IF @EMPNAME <>'' AND CHARINDEX(',',@EMPNAME)=0   	â€œ
+        strSql += vbCrLf + " 	SET @EMPNAME= @EMPNAME + ','   	â€œ
+        strSql += vbCrLf + " 	INSERT INTO TEMPTABLEDB.DBO.TEMPEMP (EMPID) SELECT ISNULL(EMPID,0) FROM " & cnAdminDb & "..EMPMASTER WHERE EMPNAME = @TEMPNAME   	â€œ
+        strSql += vbCrLf + " 	END    	â€œ
+        strSql += vbCrLf + " 	END   	â€œ
+        strSql += vbCrLf + " 	SET NOCOUNT ON      	â€œ
+        strSql += vbCrLf + " 	IF @COSTID<>'ALL'SET @COSTID= REPLACE(@COSTID,',',''',''')      	â€œ
+        strSql += vbCrLf + " 	IF @COMPANYID<>'ALL'SET @COMPANYID= REPLACE(@COMPANYID,',',''',''')      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY='IF OBJECT_ID('''+@TEMPISSUE+''') IS NOT NULL DROP TABLE '+ @TEMPISSUE +''       	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' IF OBJECT_ID('''+@TEMPISSUE+''') IS NOT NULL DROP TABLE '+ @TEMPISSUE +''       	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' IF OBJECT_ID('''+@TEMPACCTRANN+''') IS NOT NULL DROP TABLE '+ @TEMPACCTRANN +''       	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' IF OBJECT_ID('''+@TEMPADDRESS+''') IS NOT NULL DROP TABLE '+ @TEMPADDRESS +''       	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' IF OBJECT_ID('''+@TEMPSALEABSTRACT+''') IS NOT NULL DROP TABLE '+ @TEMPSALEABSTRACT +''       	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' IF OBJECT_ID('''+@TEMPSALEABSTRACT_RES+''') IS NOT NULL DROP TABLE '+ @TEMPSALEABSTRACT_RES +''       	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' IF OBJECT_ID(''TEMPTABLEDB..TEMPTRANDET_RECEIPT'') IS NOT NULL DROP TABLE TEMPTABLEDB..TEMPTRANDET_RECEIPT'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' IF OBJECT_ID(''TEMPTABLEDB..TEMPTRANDET_PAYMENT'') IS NOT NULL DROP TABLE TEMPTABLEDB..TEMPTRANDET_PAYMENT'  	â€œ
+        strSql += vbCrLf + " 	PRINT @QRY      	â€œ
+        strSql += vbCrLf + " 	EXEC(@QRY)      	â€œ
+        strSql += vbCrLf + " 	/** GET FROM ISSUE TABLE **/      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=' SELECT * INTO '+@TEMPISSUE+' FROM('      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT I.CATCODE,I.TRANNO IBILLNO,I.TRANDATE IBILLDATE,CONVERT(VARCHAR(13),NULL)DISPDATE,CONVERT(VARCHAR(75),NULL)CUSTOMER'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,I.ITEMID IITEMID,CONVERT(VARCHAR(100),NULL)ITEMNAME,I.PCS IPCS,I.GRSWT IGRSWT,I.NETWT INETWT'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,(SELECT SUM(ISNULL(STNWT,0)) FROM ISSSTONE WHERE ISSSNO=I.SNO AND STNITEMID IN(SELECT ITEMID FROM '+@DBNAME+'..ITEMMAST WHERE DIASTONE=''S'')) ISTNWT'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,(SELECT SUM(ISNULL(STNWT,0)) FROM ISSSTONE WHERE ISSSNO=I.SNO AND STNITEMID IN(SELECT ITEMID FROM '+@DBNAME+'..ITEMMAST WHERE DIASTONE=''D'')) IDIAWT'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,I.RATE IRATE,I.MCHARGE IMCHARGE'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,I.WASTAGE IWASTVAL,(I.WASTAGE*I.RATE) IWASTAGE,I.TAX ITAX,SUM(ISNULL(I.AMOUNT,0)+ISNULL(I.TAX,0))ITOTAL,CONVERT(VARCHAR(15),ISNULL(I.TAGNO,'''')) ITAGNO,NULL PBILLNO,NULL PITEMID'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CONVERT(NUMERIC(15,3),NULL) PPCS,CONVERT(NUMERIC(15,3),NULL) PGRSWT,CONVERT(NUMERIC(15,3),NULL) PNETWT,CONVERT(NUMERIC(15,3),NULL) PSTNWT,CONVERT(NUMERIC(15,3),NULL) PDIAWT,CONVERT(NUMERIC(15,2),NULL) PAMOUNT,NULL SRBILLNO,NULL SRITEMID'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CONVERT(NUMERIC(15,3),NULL) SRPCS,CONVERT(NUMERIC(15,3),NULL) SRGRSWT,CONVERT(NUMERIC(15,3),NULL) SRNETWT,CONVERT(NUMERIC(15,3),NULL) SRSTNWT,CONVERT(NUMERIC(15,3),NULL) SRDIAWT,CONVERT(NUMERIC(15,3),NULL) SRRATE'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' , CONVERT(NUMERIC(15,3),NULL) SRMCHARGE,CONVERT(NUMERIC(15,3),NULL) SRWASTVAL,CONVERT(NUMERIC(15,3),NULL) SRWASTAGE,CONVERT(NUMERIC(15,3),NULL) SRTAX'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CONVERT(NUMERIC(15,3),NULL) SRTOTAL,CONVERT(NUMERIC(15,2),NULL) SRBALANCE,CONVERT(NUMERIC(15,3),NULL) CASH,CONVERT(NUMERIC(15,3),NULL) CRCARD'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CONVERT(NUMERIC(15,3),NULL) CHEQUE,CONVERT(NUMERIC(15,3),NULL) CHIT,CONVERT(NUMERIC(15,3),NULL) ADVANCE,CONVERT(NUMERIC(15,3),NULL) GV,CONVERT(NUMERIC(15,3),NULL) HC'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CONVERT(NUMERIC(15,3),NULL) DISCOUNT,CONVERT(NUMERIC(15,3),NULL) CRBALANCE,CONVERT(NUMERIC(15,3),NULL) ACTOTAL,I.CASHID,CONVERT(VARCHAR(150),I.BATCHNO)BATCHNO,''I'' COLHEAD'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,METALID FROM ISSUE AS I '      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' WHERE I.TRANDATE BETWEEN '''+ @FRMDATE +''' AND ''' + @TODATE + ''' AND I.TRANTYPE IN(''SA'',''OD'') AND ISNULL(I.CANCEL,'''')='''' '      	â€œ
+        strSql += vbCrLf + " 	IF @COSTID<>'ALL' SELECT  @QRY=@QRY+' AND I.COSTID IN('''+ @COSTID +''')'      	â€œ
+        strSql += vbCrLf + " 	IF @COMPANYID<>'ALL' SELECT  @QRY=@QRY+' AND I.COMPANYID IN('''+ @COMPANYID +''')'      	â€œ
+        strSql += vbCrLf + " 	IF @CASHNAME <>'ALL' SELECT  @QRY=@QRY+' AND ISNULL(I.CASHID,0) IN (SELECT CASHID FROM TEMPTABLEDB.DBO.TEMPCASH) '  	â€œ
+        strSql += vbCrLf + " 	SELECT  @QRY=@QRY+' AND ISNULL(I.ITEMID,0) IN (SELECT ITEMID FROM TEMPTABLEDB.DBO.TEMPITEM) '  	â€œ
+        strSql += vbCrLf + " 	IF @EMPNAME <>'ALL' SELECT  @QRY=@QRY+' AND ISNULL(I.EMPID,0) IN (SELECT EMPID FROM TEMPTABLEDB.DBO.TEMPEMP) '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' GROUP BY I.CATCODE,I.TRANNO,I.TRANDATE,I.ITEMID,'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' I.PCS,I.GRSWT,I.NETWT,I.RATE,I.MCHARGE,I.WASTAGE,I.TAX,I.CASHID,I.BATCHNO,I.RATE,I.SNO,I.TAGNO,METALID '      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' UNION ALL'      	â€œ
+        strSql += vbCrLf + " 	PRINT '/** GET FROM RECEIPT TABLE **/    '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT  R.CATCODE,R.TRANNO IBILLNO, R.TRANDATE IBILLDATE,NULL DISPDATE,CONVERT(VARCHAR(75),NULL)CUSTOMER'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,NULL IITEMID,NULL ITEMNAME,0 IPCS,0 IGRSWT,0 INETWT ,0 ISTNWT,0 IDIAWT, 0 IRATE,0 IMCHARGE,0 IWASTVAL,0 IWASTAGE,0 ITAX,0 ITOTAL,ISNULL(NULL,'''') ITAGNO'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''PU'' THEN R.TRANNO ELSE NULL END  PBILLNO'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''PU'' THEN R.ITEMID ELSE NULL END  PITEMID'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''PU'' THEN R.PCS ELSE 0 END PPCS'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''PU'' THEN R.GRSWT ELSE 0 END PGRSWT'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''PU'' THEN R.NETWT ELSE 0 END PNETWT'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''PU'' THEN (SELECT SUM(ISNULL(STNWT,0)) FROM RECEIPTSTONE WHERE ISSSNO=R.SNO AND STNITEMID IN(SELECT ITEMID FROM '+@DBNAME+'..ITEMMAST WHERE DIASTONE=''S'')) ELSE 0 END PSTNWT'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''PU'' THEN (SELECT SUM(ISNULL(STNWT,0)) FROM RECEIPTSTONE WHERE ISSSNO=R.SNO AND STNITEMID IN(SELECT ITEMID FROM '+@DBNAME+'..ITEMMAST WHERE DIASTONE=''D'')) ELSE 0 END PDIAWT'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''PU'' THEN SUM(ISNULL(R.AMOUNT,0)) ELSE 0 END PAMOUNT'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN R.TRANNO ELSE NULL END  SRBILLNO'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN R.ITEMID ELSE NULL END  SRITEMID'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN R.PCS ELSE 0 END SRPCS'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN R.GRSWT ELSE 0 END SRGRSWT'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN R.NETWT ELSE 0 END SRNETWT'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN (SELECT SUM(ISNULL(STNWT,0)) FROM RECEIPTSTONE WHERE ISSSNO=R.SNO AND STNITEMID IN(SELECT ITEMID FROM '+@DBNAME+'..ITEMMAST WHERE DIASTONE=''S'')) ELSE 0 END SRSTNWT'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN (SELECT SUM(ISNULL(STNWT,0)) FROM RECEIPTSTONE WHERE ISSSNO=R.SNO AND STNITEMID IN(SELECT ITEMID FROM '+@DBNAME+'..ITEMMAST WHERE DIASTONE=''D'')) ELSE 0 END SRDIAWT'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN R.RATE ELSE 0 END SRRATE'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN R.MCHARGE ELSE 0 END SRMCHARGE'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN R.WASTAGE ELSE 0 END SRWASTVAL'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN (R.WASTAGE*R.RATE) ELSE 0 END SRWASTAGE'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN R.TAX ELSE 0 END SRTAX'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN SUM(ISNULL(R.AMOUNT,0)+ISNULL(R.TAX,0)) ELSE 0 END SRTOTAL'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,0 SRBALANCE,0 CASH,0 CRCARD,0 CHEQUE,0 CHIT,0 ADVANCE,0 GV,0 HC,0 DISCOUNT, 0 CRBALANCE,0 ACTOTAL'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,R.CASHID,CONVERT(VARCHAR(150),R.BATCHNO)BATCHNO '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN TRANTYPE=''SR'' THEN ''A'' WHEN TRANTYPE=''PU'' THEN ''P'' END COLHEAD'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,METALID FROM RECEIPT R'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' WHERE R.TRANDATE BETWEEN '''+ @FRMDATE +''' AND ''' + @TODATE + ''' AND R.TRANTYPE IN(''SR'',''PU'') AND ISNULL(R.CANCEL,'''')='''''      	â€œ
+        strSql += vbCrLf + " 	IF @COSTID<>'ALL' SELECT  @QRY=@QRY+' AND R.COSTID IN('''+ @COSTID +''')'      	â€œ
+        strSql += vbCrLf + " 	IF @COMPANYID<>'ALL' SELECT  @QRY=@QRY+' AND R.COMPANYID IN('''+ @COMPANYID +''')'      	â€œ
+        strSql += vbCrLf + " 	IF @CASHNAME <>'ALL' SELECT  @QRY=@QRY+' AND ISNULL(R.CASHID,0) IN (SELECT CASHID FROM TEMPTABLEDB.DBO.TEMPCASH) '  	â€œ
+        strSql += vbCrLf + " 	SELECT  @QRY=@QRY+' AND ISNULL(R.ITEMID,0) IN (SELECT ITEMID FROM TEMPTABLEDB.DBO.TEMPITEM) '  	â€œ
+        strSql += vbCrLf + " 	IF @EMPNAME <>'ALL' SELECT  @QRY=@QRY+' AND ISNULL(R.EMPID,0) IN (SELECT EMPID FROM TEMPTABLEDB.DBO.TEMPEMP) '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' AND EXISTS (SELECT 1 FROM ISSUE WHERE BATCHNO=R.BATCHNO)'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' GROUP BY R.CATCODE,R.TRANNO,R.TRANDATE,R.TRANTYPE,R.ITEMID,'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' R.PCS,R.GRSWT,R.NETWT,R.RATE,R.MCHARGE,R.WASTAGE,R.TAX,R.CASHID,R.BATCHNO,R.RATE,R.SNO,METALID '      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' )X'  	â€œ
+        strSql += vbCrLf + " 	PRINT @QRY      	â€œ
+        strSql += vbCrLf + " 	EXEC(@QRY)   	â€œ
+        strSql += vbCrLf + " 	/** GET FROM ACCTRAN TABLE **/      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=' SELECT IBILLNO,IBILLDATE,BATCHNO,SUM(CASH)CASH,SUM(CRCARD)CRCARD,SUM(CHEQUE)CHEQUE,SUM(CHIT)CHIT'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,SUM(ADVANCE)ADVANCE,SUM(GV)GV,SUM(HC)HC,SUM(DISCOUNT)DISCOUNT,SUM(CRBALANCE)CRBALANCE ,SUM(ACTOTAL)ACTOTAL,CONVERT(NUMERIC(15,2),NULL) SRBALANCE,CUSTOMER INTO '+@TEMPACCTRANN+' FROM ('      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT A.TRANNO IBILLNO,A.TRANDATE IBILLDATE,A.BATCHNO'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN A.PAYMODE IN(''CA'') THEN SUM(CASE WHEN TRANMODE IN(''D'') THEN ISNULL(A.AMOUNT,0)ELSE ISNULL(A.AMOUNT,0)*-1 END) ELSE 0 END CASH'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN A.PAYMODE IN(''CC'') THEN SUM(CASE WHEN TRANMODE IN(''D'') THEN ISNULL(A.AMOUNT,0)ELSE ISNULL(A.AMOUNT,0)*-1 END) ELSE 0 END CRCARD'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN A.PAYMODE IN(''CH'') THEN SUM(CASE WHEN TRANMODE IN(''D'') THEN ISNULL(A.AMOUNT,0)ELSE ISNULL(A.AMOUNT,0)*-1 END) ELSE 0 END CHEQUE'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN A.PAYMODE IN(''CZ'',''CG'',''CD'',''CB'',''SS'')THEN SUM(CASE WHEN TRANMODE IN(''D'') THEN ISNULL(A.AMOUNT,0)ELSE ISNULL(A.AMOUNT,0)*-1 END) ELSE 0 END CHIT'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN A.PAYMODE IN(''AR'',''AA'') THEN SUM(CASE WHEN TRANMODE IN(''D'') THEN ISNULL(A.AMOUNT,0)ELSE ISNULL(A.AMOUNT,0)*-1 END) ELSE 0 END ADVANCE'    	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN A.PAYMODE IN(''GV'') THEN SUM(CASE WHEN TRANMODE IN(''D'') THEN ISNULL(A.AMOUNT,0)ELSE ISNULL(A.AMOUNT,0)*-1 END) ELSE 0 END GV'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN A.PAYMODE IN(''HC'') THEN SUM(CASE WHEN TRANMODE IN(''C'') THEN ISNULL(A.AMOUNT,0)ELSE ISNULL(A.AMOUNT,0)*-1 END) ELSE 0 END HC'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN A.PAYMODE IN(''DI'') THEN SUM(CASE WHEN TRANMODE IN(''D'') THEN ISNULL(A.AMOUNT,0)ELSE ISNULL(A.AMOUNT,0)*-1 END) ELSE 0 END DISCOUNT'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN A.PAYMODE IN(''DU'') THEN SUM(CASE WHEN TRANMODE IN(''D'') THEN ISNULL(A.AMOUNT,0)ELSE ISNULL(A.AMOUNT,0)*-1 END) ELSE 0 END CRBALANCE'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN A.PAYMODE IN(''CA'',''CC'',''CH'',''AA'',''AR'',''GV'',''DU'',''CZ'',''CG'',''CD'',''CB'',''SS'') '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' THEN SUM(CASE WHEN TRANMODE IN(''D'') THEN ISNULL(A.AMOUNT,0)ELSE ISNULL(A.AMOUNT,0)*-1 END) ELSE 0 END ACTOTAL'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,(SELECT TOP 1 PNAME FROM '+@DBNAME+'..PERSONALINFO WHERE SNO IN'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (SELECT TOP 1 PSNO FROM '+@DBNAME+'..CUSTOMERINFO WHERE BATCHNO=A.BATCHNO))CUSTOMER'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM ACCTRAN A  WHERE A.BATCHNO IN (SELECT DISTINCT BATCHNO FROM '+@TEMPISSUE+')AND ISNULL(A.CANCEL,'''')='''' '      	â€œ
+        strSql += vbCrLf + " 	IF @COSTID<>'ALL' SELECT  @QRY=@QRY+' AND A.COSTID IN('''+ @COSTID +''')'      	â€œ
+        strSql += vbCrLf + " 	IF @COMPANYID<>'ALL' SELECT  @QRY=@QRY+' AND A.COMPANYID IN('''+ @COMPANYID +''')'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' GROUP BY A.TRANNO,A.TRANDATE,A.BATCHNO,A.PAYMODE,A.TRANMODE'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' )Y GROUP BY IBILLNO,IBILLDATE,BATCHNO,CUSTOMER HAVING SUM(ISNULL(ACTOTAL,0))<>0'      	â€œ
+        strSql += vbCrLf + " 	PRINT @QRY      	â€œ
+        strSql += vbCrLf + " 	EXEC(@QRY)      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=' ALTER TABLE '+@TEMPISSUE+' ADD  PITEMNAME VARCHAR(100),SRITEMNAME VARCHAR(100)'      	â€œ
+        strSql += vbCrLf + " 	PRINT @QRY      	â€œ
+        strSql += vbCrLf + " 	EXEC(@QRY)  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=' UPDATE T SET ITEMNAME=(SELECT ''(''+ CONVERT(VARCHAR(10),ITEMID) +'') '' + ITEMNAME  FROM '+ @DBNAME +'..ITEMMAST WHERE ITEMID=T.IITEMID) FROM '+@TEMPISSUE+' T'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' UPDATE T SET PITEMNAME=(SELECT ITEMNAME FROM '+ @DBNAME +'..ITEMMAST WHERE ITEMID=T.PITEMID) FROM '+@TEMPISSUE+' T'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' UPDATE T SET SRITEMNAME=(SELECT ITEMNAME FROM '+ @DBNAME +'..ITEMMAST WHERE ITEMID=T.SRITEMID) FROM '+@TEMPISSUE+' T'      	â€œ
+        strSql += vbCrLf + " 	PRINT @QRY      	â€œ
+        strSql += vbCrLf + " 	EXEC(@QRY)      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY='DECLARE @BILLNO NVARCHAR(20)'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' DECLARE CUR CURSOR FOR SELECT DISTINCT IBILLNO FROM '+@TEMPACCTRANN+' '       	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' OPEN CUR'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FETCH NEXT FROM CUR INTO @BILLNO'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' WHILE @@FETCH_STATUS=0'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' BEGIN'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SET ROWCOUNT 1'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' UPDATE '+@TEMPISSUE+' SET CASH=A.CASH,CRCARD=A.CRCARD,CHEQUE=A.CHEQUE,CHIT=A.CHIT'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,ADVANCE=A.ADVANCE,GV=A.GV,HC=A.HC,DISCOUNT=A.DISCOUNT,CRBALANCE=A.CRBALANCE'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,ACTOTAL=A.ACTOTAL,CUSTOMER=A.CUSTOMER FROM '+@TEMPISSUE+' T,'+@TEMPACCTRANN+' A'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' WHERE T.BATCHNO=A.BATCHNO AND T.IBILLNO=@BILLNO'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SET ROWCOUNT 0'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FETCH NEXT FROM CUR INTO @BILLNO'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' END'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' CLOSE CUR'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' DEALLOCATE CUR'      	â€œ
+        strSql += vbCrLf + " 	PRINT @QRY      	â€œ
+        strSql += vbCrLf + " 	EXEC(@QRY)         	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY='SELECT *,CONVERT(VARCHAR(20),NULL)DBILLNO,CONVERT(VARCHAR(20),NULL)PDBILLNO,CONVERT(VARCHAR(20),NULL)SDBILLNO'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,1 RESULT INTO '+@TEMPSALEABSTRACT+' FROM ('      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+'SELECT *,(SELECT CASHNAME FROM '+ @DBNAME +'..CASHCOUNTER WHERE CASHID=I.CASHID)COUNTERNAME'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM '+@TEMPISSUE+' I)X ORDER BY IBILLDATE,BATCHNO,COLHEAD'      	â€œ
+        strSql += vbCrLf + " 	PRINT @QRY  	â€œ
+        strSql += vbCrLf + " 	EXEC(@QRY)        	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY='INSERT INTO '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' '+@TEMPSALEABSTRACT+' (CUSTOMER,COUNTERNAME,RESULT)'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+'SELECT DISTINCT ''SALES'''  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+',(SELECT CASHNAME FROM '+ @DBNAME +'..CASHCOUNTER WHERE CASHID=I.CASHID),0 AS RESULT'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM '+@TEMPISSUE+' I'      	â€œ
+        strSql += vbCrLf + " 	PRINT @QRY  	â€œ
+        strSql += vbCrLf + " 	EXEC(@QRY)  	â€œ
+        strSql += vbCrLf + " 	IF @BILLSUMM='Y'  	â€œ
+        strSql += vbCrLf + " 	BEGIN  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY='INSERT INTO '+@TEMPSALEABSTRACT+' '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (CUSTOMER,COUNTERNAME,BATCHNO,IBILLDATE,RESULT,IPCS,IGRSWT,INETWT,ITOTAL,SRPCS,SRGRSWT,SRNETWT,PPCS,PGRSWT,PNETWT,PAMOUNT)'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT ''SUB TOTAL'' CUSTOMER'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,(SELECT CASHNAME FROM '+ @DBNAME +'..CASHCOUNTER WHERE CASHID=I.CASHID)COUNTERNAME,BATCHNO,IBILLDATE,2 AS RESULT,'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(IPCS)IPCS,SUM(IGRSWT)IGRSWT,SUM(INETWT)INETWT,SUM(ITOTAL)ITOTAL,SUM(SRPCS)SRPCS,SUM(SRGRSWT)SRGRSWT,SUM(SRNETWT)SRNETWT,'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(PPCS)PPCS,SUM(PGRSWT)PGRSWT,SUM(PNETWT)PNETWT,SUM(PAMOUNT)PAMOUNT '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM '+@TEMPISSUE+' I GROUP BY I.CASHID,I.BATCHNO,I.IBILLDATE '  	â€œ
+        strSql += vbCrLf + " 	PRINT @QRY  	â€œ
+        strSql += vbCrLf + " 	EXEC(@QRY)     	â€œ
+        strSql += vbCrLf + " 	END  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY='INSERT INTO '+@TEMPSALEABSTRACT+' '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (CUSTOMER,COUNTERNAME,BATCHNO,IBILLDATE,RESULT,IBILLNO,IPCS,IGRSWT,INETWT,ITOTAL,SRPCS,SRGRSWT,SRNETWT,PPCS,PGRSWT,PNETWT,PAMOUNT)'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT DISTINCT (SELECT CASHNAME FROM '+ @DBNAME +'..CASHCOUNTER WHERE CASHID=I.CASHID)CUSTOMER'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,(SELECT CASHNAME FROM '+ @DBNAME +'..CASHCOUNTER WHERE CASHID=I.CASHID)COUNTERNAME,''ZZZZZ'',MAX(IBILLDATE),3 AS RESULT,'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (SELECT COUNT(DISTINCT IBILLNO) FROM '+@TEMPISSUE+' WHERE CASHID=I.CASHID AND COLHEAD=''I'' GROUP BY CASHID)BILLNO,'   	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(IPCS)IPCS,SUM(IGRSWT)IGRSWT,SUM(INETWT)INETWT,SUM(ITOTAL)ITOTAL,SUM(SRPCS)SRPCS,SUM(SRGRSWT)SRGRSWT,SUM(SRNETWT)SRNETWT,'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(PPCS)PPCS,SUM(PGRSWT)PGRSWT,SUM(PNETWT)PNETWT,SUM(PAMOUNT)PAMOUNT '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM '+@TEMPISSUE+' I GROUP BY I.CASHID '  	â€œ
+        strSql += vbCrLf + " 	PRINT @QRY  	â€œ
+        strSql += vbCrLf + " 	EXEC(@QRY)                	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY='IF (SELECT COUNT(*) FROM  '+@TEMPSALEABSTRACT+') > 0 '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' BEGIN'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' INSERT INTO '+@TEMPSALEABSTRACT+' '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (CUSTOMER,COUNTERNAME,RESULT,IBILLNO,IPCS,IGRSWT,INETWT,ITOTAL,SRPCS,SRGRSWT,SRNETWT,PPCS,PGRSWT,PNETWT,PAMOUNT,'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' CASH,CRCARD,CHIT,CHEQUE,ADVANCE,CRBALANCE,ACTOTAL)'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT ''GRAND TOTAL'' CUSTOMER'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,''ZZZZZZZZ''COUNTERNAME,4 AS RESULT,'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (SELECT COUNT(DISTINCT IBILLNO) FROM '+@TEMPISSUE+' WHERE COLHEAD=''I'')BILLNO,'   	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(IPCS)IPCS,SUM(IGRSWT)IGRSWT,SUM(INETWT)INETWT,SUM(ITOTAL)ITOTAL,SUM(SRPCS)SRPCS,SUM(SRGRSWT)SRGRSWT,SUM(SRNETWT)SRNETWT,'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(PPCS)PPCS,SUM(PGRSWT)PGRSWT,SUM(PNETWT)PNETWT,SUM(PAMOUNT)PAMOUNT, '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(CASH)CASH,SUM(CRCARD)CRCARD,SUM(CHIT)CHIT,SUM(CHEQUE)CHEQUE,SUM(ADVANCE)ADVANCE,SUM(CRBALANCE)CRBALANCE,SUM(ACTOTAL)ACTOTAL '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM '+@TEMPISSUE+' I  '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' END'  	â€œ
+        strSql += vbCrLf + " 	PRINT @QRY  	â€œ
+        strSql += vbCrLf + " 	EXEC(@QRY)           	â€œ
+        strSql += vbCrLf + " 	PRINT '/*GET CASH PURCHASE*/'         	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY='INSERT INTO '+@TEMPSALEABSTRACT+' '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (CUSTOMER,COUNTERNAME,RESULT,IPCS,IGRSWT,INETWT,ITOTAL,PBILLNO,PPCS,PGRSWT,PNETWT,PAMOUNT)'         	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' SELECT  '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' (SELECT TOP 1 CATNAME FROM " & cnAdminDb & "..CATEGORY WHERE CATCODE=R.CATCODE) CUSTOMER,''ZZZZZZZZ'' COUNTERNAME,'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' 6 RESULT,0 IPCS,0 IGRSWT,0 INETWT ,0 ITOTAL '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' ,TRANNO,CASE WHEN TRANTYPE=''PU'' THEN R.PCS ELSE 0 END PPCS'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' ,CASE WHEN TRANTYPE=''PU'' THEN R.GRSWT ELSE 0 END PGRSWT'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' ,CASE WHEN TRANTYPE=''PU'' THEN R.NETWT ELSE 0 END PNETWT'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' ,CASE WHEN TRANTYPE=''PU'' THEN R.AMOUNT ELSE 0 END PAMOUNT'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' FROM RECEIPT R'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' WHERE R.TRANDATE BETWEEN '''+ @FRMDATE +''' AND ''' + @TODATE + ''' AND R.TRANTYPE IN(''PU'') AND ISNULL(R.CANCEL,'''')='''''      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' AND NOT EXISTS (SELECT 1 FROM ISSUE WHERE BATCHNO=R.BATCHNO)'  	â€œ
+        strSql += vbCrLf + " 	IF @COSTID<>'ALL' SELECT  @QRY=@QRY+' AND R.COSTID IN('''+ @COSTID +''')'      	â€œ
+        strSql += vbCrLf + " 	IF @COMPANYID<>'ALL' SELECT  @QRY=@QRY+' AND R.COMPANYID IN('''+ @COMPANYID +''')'      	â€œ
+        strSql += vbCrLf + " 	IF @CASHNAME <>'ALL' SELECT  @QRY=@QRY+' AND ISNULL(R.CASHID,0) IN (SELECT CASHID FROM TEMPTABLEDB.DBO.TEMPCASH) '  	â€œ
+        strSql += vbCrLf + " 	SELECT  @QRY=@QRY+' AND ISNULL(R.ITEMID,0) IN (SELECT ITEMID FROM TEMPTABLEDB.DBO.TEMPITEM) '  	â€œ
+        strSql += vbCrLf + " 	IF @EMPNAME <>'ALL' SELECT  @QRY=@QRY+' AND ISNULL(R.EMPID,0) IN (SELECT EMPID FROM TEMPTABLEDB.DBO.TEMPEMP) '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' AND PUREXCH=''P'' ORDER BY TRANNO'  	â€œ
+        strSql += vbCrLf + " 	PRINT @QRY   	â€œ
+        strSql += vbCrLf + " 	EXEC(@QRY)  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY='IF (SELECT COUNT(*) FROM  '+@TEMPSALEABSTRACT+' WHERE RESULT=6) > 0 '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' BEGIN'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' INSERT INTO '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' '+@TEMPSALEABSTRACT+' (CUSTOMER,COUNTERNAME,RESULT,COLHEAD)'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+'SELECT ''CASH PURCHASE'''  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+',''ZZZZZZZZ'',5 AS RESULT,''S'' COLHEAD'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' END'  	â€œ
+        strSql += vbCrLf + " 	PRINT @QRY  	â€œ
+        strSql += vbCrLf + " 	EXEC(@QRY)   	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY='IF (SELECT COUNT(*) FROM  '+@TEMPSALEABSTRACT+' WHERE RESULT=6) > 0 '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' BEGIN'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' INSERT INTO '+@TEMPSALEABSTRACT+' '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (CUSTOMER,COUNTERNAME,RESULT,COLHEAD,IPCS,IGRSWT,INETWT,ITOTAL,SRPCS,SRGRSWT,SRNETWT,PPCS,PGRSWT,PNETWT,PAMOUNT,'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' CASH,CRCARD,CHIT,ADVANCE,CRBALANCE,ACTOTAL)'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT ''CASH PURCHASE TOTAL'' CUSTOMER'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,''ZZZZZZZZ''COUNTERNAME,7 AS RESULT,''T'' COLHEAD,'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(IPCS)IPCS,SUM(IGRSWT)IGRSWT,SUM(INETWT)INETWT,SUM(ITOTAL)ITOTAL,SUM(SRPCS)SRPCS,SUM(SRGRSWT)SRGRSWT,SUM(SRNETWT)SRNETWT,'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(PPCS)PPCS,SUM(PGRSWT)PGRSWT,SUM(PNETWT)PNETWT,SUM(PAMOUNT)PAMOUNT, '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(CASH)CASH,SUM(CRCARD)CRCARD,SUM(CHIT)CHIT,SUM(ADVANCE)ADVANCE,SUM(CRBALANCE)CRBALANCE,SUM(ACTOTAL)ACTOTAL '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM '+@TEMPSALEABSTRACT+' I  WHERE RESULT=''6'' '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' END'  	â€œ
+        strSql += vbCrLf + " 	PRINT @QRY  	â€œ
+        strSql += vbCrLf + " 	EXEC(@QRY)    	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY='IF (SELECT COUNT(*) FROM  '+@TEMPSALEABSTRACT+' WHERE RESULT=6) > 0 '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' BEGIN'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' INSERT INTO '+@TEMPSALEABSTRACT+' '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (CUSTOMER,COUNTERNAME,RESULT,COLHEAD,IPCS,IGRSWT,INETWT,ITOTAL,SRPCS,SRGRSWT,SRNETWT,PPCS,PGRSWT,PNETWT,PAMOUNT,'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' CASH,CRCARD,CHIT,CHEQUE,ADVANCE,CRBALANCE,ACTOTAL)'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +'SELECT ''GRAND TOTAL'' CUSTOMER'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +',''ZZZZZZZZ''COUNTERNAME,11 AS RESULT,''G'' COLHEAD,'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(IPCS)IPCS,SUM(IGRSWT)IGRSWT,SUM(INETWT)INETWT,SUM(ITOTAL)ITOTAL,SUM(SRPCS)SRPCS,SUM(SRGRSWT)SRGRSWT,SUM(SRNETWT)SRNETWT,'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(PPCS)PPCS,SUM(PGRSWT)PGRSWT,SUM(PNETWT)PNETWT,SUM(PAMOUNT)PAMOUNT, '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(CASH)CASH,SUM(CRCARD)CRCARD,SUM(CHIT)CHIT,SUM(CHEQUE)CHEQUE,SUM(ADVANCE)ADVANCE,SUM(CRBALANCE)CRBALANCE,SUM(ACTOTAL)ACTOTAL '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM '+@TEMPISSUE+' I  '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' END'  	â€œ
+        strSql += vbCrLf + " 	PRINT @QRY  	â€œ
+        strSql += vbCrLf + " 	EXEC(@QRY)  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY='IF (SELECT COUNT(*) FROM  '+@TEMPSALEABSTRACT+') > 0 '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' BEGIN'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' INSERT INTO '+@TEMPSALEABSTRACT+' '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (CUSTOMER,COUNTERNAME,RESULT,COLHEAD)'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT ''CH:'' + CONVERT(VARCHAR,CONVERT(NUMERIC(15,2),SUM(CHIT))) + '' ADV:'' + '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' CONVERT(VARCHAR,CONVERT(NUMERIC(15,2),SUM(ADVANCE))) + '' CHQ:'' + CONVERT(VARCHAR,CONVERT(NUMERIC(15,2),SUM(CHEQUE))) '      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,''ZZZZZZZZ''COUNTERNAME,12 AS RESULT,''T'' COLHEAD FROM '+@TEMPISSUE+' I  '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' END'  	â€œ
+        strSql += vbCrLf + " 	PRINT @QRY  	â€œ
+        strSql += vbCrLf + " 	EXEC(@QRY)  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = ' IF OBJECT_ID(''TEMPTABLEDB..TEMPOUTSTANDING'') IS NOT NULL DROP TABLE TEMPTABLEDB..TEMPOUTSTANDING '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' SELECT * INTO TEMPTABLEDB..TEMPOUTSTANDING FROM " & cnAdminDb & "..OUTSTANDING WHERE TRANDATE BETWEEN '''+ @FRMDATE +''' AND ''' + @TODATE + ''' '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' AND ISNULL(CANCEL,'''') = '''''  	â€œ
+        strSql += vbCrLf + " 	IF @COSTID<>'ALL' SELECT  @QRY=@QRY+' AND COSTID IN('''+ @COSTID +''')'      	â€œ
+        strSql += vbCrLf + " 	IF @COMPANYID<>'ALL' SELECT  @QRY=@QRY+' AND COMPANYID IN('''+ @COMPANYID +''')'      	â€œ
+        strSql += vbCrLf + " 	IF @CASHNAME <>'ALL' SELECT  @QRY=@QRY+' AND ISNULL(CASHID,0) IN (SELECT CASHID FROM TEMPTABLEDB.DBO.TEMPCASH) '  	â€œ
+        strSql += vbCrLf + " 	IF @EMPNAME <>'ALL' SELECT  @QRY=@QRY+' AND ISNULL(EMPID,0) IN (SELECT EMPID FROM TEMPTABLEDB.DBO.TEMPEMP) '      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' AND FROMFLAG NOT IN ('''',''S'',''O'',''A'') AND (TRANFLAG NOT IN(''W'') OR AMOUNT<>0)'      	â€œ
+        strSql += vbCrLf + " 	PRINT @QRY  	â€œ
+        strSql += vbCrLf + " 	EXEC (@QRY)  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY='IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMPOUTSTANDING ) > 0 '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' BEGIN'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' INSERT INTO '+@TEMPSALEABSTRACT+' '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (CUSTOMER,COUNTERNAME,RESULT,COLHEAD,BATCHNO,ITEMNAME,ITAGNO)'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT ''RECEIPT & PAYMENTS'' '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,''ZZZZZZZZ''COUNTERNAME,13 AS RESULT,''G'' COLHEAD,''TRAN-TYPE'' AS BATCHNO'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,''DEBIT'' AS ITEMNAME,''CREDIT'' AS ITEMNAME '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' END'  	â€œ
+        strSql += vbCrLf + " 	PRINT @QRY  	â€œ
+        strSql += vbCrLf + " 	EXEC(@QRY)  	â€œ
+        strSql += vbCrLf + " 	/** GETTING RECEIPT PART **/  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY='IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMPOUTSTANDING ) > 0 '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' BEGIN'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' INSERT INTO '+@TEMPSALEABSTRACT+' '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (CUSTOMER,COUNTERNAME,RESULT,COLHEAD,BATCHNO,IBILLNO,ITAGNO)'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT P.PNAME AS CUSTOMER,''ZZZZZZZZ''COUNTERNAME,14 RESULT,''D'' COLHEAD'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' ,CASE WHEN O.PAYMODE IN (''DR'',''DU'') THEN ''CREDIT RECEIPT'''  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' WHEN O.PAYMODE = ''MR'' THEN ''MISCELLANEOUS RECEIPT'''  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' WHEN O.PAYMODE = ''OR'' AND SUBSTRING(O.RUNNO,6,1) <> ''R'' THEN ''ORDER RECEIPT'''  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' WHEN O.PAYMODE = ''OR'' AND SUBSTRING(O.RUNNO,6,1) = ''R'' THEN ''REPAIR RECEIPT'''  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' ELSE ''ADVANCE RECEIPT'' END AS BATCHNO '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' ,O.TRANNO'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' ,AMOUNT'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' FROM TEMPTABLEDB..TEMPOUTSTANDING AS O LEFT OUTER JOIN " & cnAdminDb & "..CUSTOMERINFO AS C ON C.BATCHNO = O.BATCHNO'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' LEFT OUTER JOIN " & cnAdminDb & "..PERSONALINFO AS P ON P.SNO = C.PSNO'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' WHERE O.TRANDATE BETWEEN '''+@FRMDATE+''' AND '''+@TODATE+''' AND O.RECPAY = ''R'' AND AMOUNT <> 0'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' AND ISNULL(CTRANCODE,0) != ISNULL('''+@BANKPAYPROID+''','''')'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' END'  	â€œ
+        strSql += vbCrLf + " 	PRINT @QRY  	â€œ
+        strSql += vbCrLf + " 	EXEC (@QRY)  	â€œ
+        strSql += vbCrLf + " 	/** GETTING PAYMENT PART **/      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY='IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMPOUTSTANDING ) > 0 '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' BEGIN'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' INSERT INTO '+@TEMPSALEABSTRACT+' '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (CUSTOMER,COUNTERNAME,RESULT,COLHEAD,BATCHNO,IBILLNO,ITEMNAME)'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT P.PNAME AS CUSTOMER,''ZZZZZZZZ''COUNTERNAME,15 RESULT,''D'' COLHEAD'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' ,CASE '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' WHEN O.PAYMODE = ''DP'' THEN ''PURCHASE/SALES RETURN'''  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' WHEN O.PAYMODE = ''DU'' THEN ''CREDIT SALES'''  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' WHEN O.PAYMODE = ''MP'' THEN ''MISCELLANEOUS PAYMENT'''  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' WHEN O.PAYMODE = ''AP'' AND SUBSTRING(O.RUNNO,6,1) = ''R'' THEN ''REPAIR REPAY'''  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' WHEN O.PAYMODE = ''AP'' AND SUBSTRING(O.RUNNO,6,1) = ''O'' THEN ''ORDER REPAY'''  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' WHEN O.PAYMODE = ''AP'' AND SUBSTRING(O.RUNNO,6,1) NOT IN (''O'',''R'') THEN ''ADVANCE REPAY'''  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' WHEN O.PAYMODE = ''GV'' THEN ''GIFT VOUCHER ADJ'''  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' ELSE ''ADVANCE ADJUSTED'' END AS BATCHNO'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' ,O.TRANNO'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' ,AMOUNT'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' FROM TEMPTABLEDB..TEMPOUTSTANDING AS O'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' LEFT OUTER JOIN " & cnAdminDb & "..CUSTOMERINFO AS C ON C.BATCHNO = O.BATCHNO'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' LEFT OUTER JOIN " & cnAdminDb & "..PERSONALINFO AS P ON P.SNO = C.PSNO'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY = @QRY + CHAR(13) +' WHERE O.TRANDATE BETWEEN '''+@FRMDATE+''' AND '''+@TODATE+''' AND O.RECPAY = ''P'' AND O.AMOUNT <> 0'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' END'  	â€œ
+        strSql += vbCrLf + " 	PRINT @QRY  	â€œ
+        strSql += vbCrLf + " 	EXEC(@QRY)  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY='IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMPOUTSTANDING ) > 0 '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' BEGIN'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' INSERT INTO '+@TEMPSALEABSTRACT+' '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (CUSTOMER,COUNTERNAME,RESULT,COLHEAD,ITEMNAME,ITAGNO)'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT ''DAY-S TOTAL'' CUSTOMER'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13)+',''ZZZZZZZZ''COUNTERNAME,16 AS RESULT,''T'' COLHEAD,'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(CONVERT(NUMERIC(15,2),ITEMNAME))ITEMNAME,SUM(CONVERT(NUMERIC(15,2),ITAGNO))ITAGNO '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM '+@TEMPSALEABSTRACT+' I  WHERE RESULT IN (''14'',''15'') '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' END'  	â€œ
+        strSql += vbCrLf + " 	PRINT @QRY  	â€œ
+        strSql += vbCrLf + " 	EXEC(@QRY)  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY='IF (SELECT COUNT(*) FROM TEMPTABLEDB..TEMPOUTSTANDING ) > 0 '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' BEGIN'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' INSERT INTO '+@TEMPSALEABSTRACT+' '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' (CUSTOMER,COUNTERNAME,RESULT,COLHEAD,ITEMNAME,ITAGNO)'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT ''CLOSING AMOUNT'' CUSTOMER'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,''ZZZZZZZZ''COUNTERNAME,17 AS RESULT,''G'' COLHEAD'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN SUM(CONVERT(NUMERIC(15,2),ITEMNAME)) > SUM(CONVERT(NUMERIC(15,2),ITAGNO)) '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' THEN SUM(CONVERT(NUMERIC(15,2),ITEMNAME))-SUM(CONVERT(NUMERIC(15,2),ITAGNO)) END ITEMNAME'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASE WHEN SUM(CONVERT(NUMERIC(15,2),ITAGNO)) > SUM(CONVERT(NUMERIC(15,2),ITEMNAME)) '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' THEN SUM(CONVERT(NUMERIC(15,2),ITAGNO))-SUM(CONVERT(NUMERIC(15,2),ITEMNAME)) END ITEMNAME'         	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM '+@TEMPSALEABSTRACT+' I  WHERE RESULT IN (''16'') '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' END'  	â€œ
+        strSql += vbCrLf + " 	PRINT @QRY  	â€œ
+        strSql += vbCrLf + " 	EXEC(@QRY)  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=' UPDATE '+@TEMPSALEABSTRACT+' SET IPCS=NULL WHERE IPCS=''0'''      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET IGRSWT=NULL WHERE IGRSWT=''0'''      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET INETWT=NULL WHERE INETWT=''0'''      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET ITOTAL=NULL WHERE ITOTAL=''0'''      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET PPCS=NULL WHERE PPCS=0'          	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET PGRSWT=NULL WHERE PGRSWT=0'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET PNETWT=NULL WHERE PNETWT=0'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET PAMOUNT=NULL WHERE PAMOUNT=0'          	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET SRPCS=NULL WHERE SRPCS=0'      	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET SRGRSWT=NULL WHERE SRGRSWT=0'         	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET SRNETWT=NULL WHERE SRNETWT=0'   	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET SRTOTAL=NULL WHERE SRTOTAL=0'       	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET CASH=NULL WHERE CASH=0'   	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET CRCARD=NULL WHERE CRCARD=0'   	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET CHIT=NULL WHERE CHIT=0'   	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET ADVANCE=NULL WHERE ADVANCE=0'   	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET CRBALANCE=NULL WHERE CRBALANCE=0'       	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET ACTOTAL=NULL WHERE ACTOTAL=0'   	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY+ CHAR(13) +' UPDATE '+@TEMPSALEABSTRACT+' SET CHEQUE=NULL WHERE CHEQUE=0'   	â€œ
+        strSql += vbCrLf + " 	PRINT @QRY      	â€œ
+        strSql += vbCrLf + " 	EXEC(@QRY)   	â€œ
+        strSql += vbCrLf + " 	IF @DAYWISE='Y'  	â€œ
+        strSql += vbCrLf + " 	BEGIN  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY='SELECT CONVERT(VARCHAR(MAX),IBILLDATE,105)IBILLDATE,'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(ISNULL(IPCS,0))IPCS,SUM(ISNULL(IGRSWT,0))IGRSWT,SUM(ISNULL(INETWT,0))INETWT,CAST(SUM(ISNULL(ITAX,0))/2 As DECIMAL(10,2)) ICGST,CAST(SUM(ISNULL(ITAX,0))/2 As DECIMAL(10,2)) ISGST,SUM(ISNULL(ITOTAL,0))-SUM(ISNULL(ITAX,0)) ITOTAL,'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(ISNULL(PPCS,0))PPCS,SUM(ISNULL(PGRSWT,0))PGRSWT,SUM(ISNULL(PNETWT,0))PNETWT,SUM(ISNULL(PAMOUNT,0))PAMOUNT,'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(ISNULL(SRPCS,0))SRPCS,SUM(ISNULL(SRGRSWT,0))SRGRSWT,SUM(ISNULL(SRNETWT,0))SRNETWT,SUM(ISNULL(SRTOTAL,0))SRTOTAL,'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(ISNULL(CASH,0))CASH,SUM(ISNULL(CRCARD,0))CRCARD,SUM(ISNULL(CHIT,0))CHIT,SUM(ISNULL(CHEQUE,0))CHEQUE,SUM(ISNULL(ADVANCE,0))ADVANCE,SUM(ISNULL(CRBALANCE,0))CRBALANCE,SUM(ISNULL(ACTOTAL,0))ACTOTAL'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM '+@TEMPSALEABSTRACT+''  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' WHERE RESULT = 1'	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' GROUP BY IBILLDATE'	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' UNION'	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SELECT ''TOTAL'','	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(ISNULL(IPCS,0))IPCS,SUM(ISNULL(IGRSWT,0))IGRSWT,SUM(ISNULL(INETWT,0))INETWT,CAST(SUM(ISNULL(ITAX,0))/2 As DECIMAL(10,2)) ICGST,CAST(SUM(ISNULL(ITAX,0))/2 As DECIMAL(10,2)) ISGST,SUM(ISNULL(ITOTAL,0))-SUM(ISNULL(ITAX,0)) ITOTAL,'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(ISNULL(PPCS,0))PPCS,SUM(ISNULL(PGRSWT,0))PGRSWT,SUM(ISNULL(PNETWT,0))PNETWT,SUM(ISNULL(PAMOUNT,0))PAMOUNT,'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(ISNULL(SRPCS,0))SRPCS,SUM(ISNULL(SRGRSWT,0))SRGRSWT,SUM(ISNULL(SRNETWT,0))SRNETWT,SUM(ISNULL(SRTOTAL,0))SRTOTAL,'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' SUM(ISNULL(CASH,0))CASH,SUM(ISNULL(CRCARD,0))CRCARD,SUM(ISNULL(CHIT,0))CHIT,SUM(ISNULL(CHEQUE,0))CHEQUE,SUM(ISNULL(ADVANCE,0))ADVANCE,SUM(ISNULL(CRBALANCE,0))CRBALANCE,SUM(ISNULL(ACTOTAL,0))ACTOTAL'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM '+@TEMPSALEABSTRACT+''  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' WHERE RESULT = 1'	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ORDER BY IBILLDATE'	â€œ
+        strSql += vbCrLf + " 	END 	â€œ
+        strSql += vbCrLf + " 	ELSE	â€œ
+        strSql += vbCrLf + " 	BEGIN	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY='SELECT '  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' CUSTOMER AS PARTICULAR'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,BATCHNO,IBILLDATE,IBILLNO,IITEMID,ITEMNAME,ITAGNO,IPCS,IGRSWT,INETWT,ITOTAL'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,PBILLNO,PITEMID,PPCS,PGRSWT,PNETWT,PAMOUNT'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,SRBILLNO,SRITEMID,SRPCS,SRGRSWT,SRNETWT,SRTOTAL'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ,CASH,CRCARD,CHIT,CHEQUE,ADVANCE,CRBALANCE,ACTOTAL,COLHEAD,RESULT'  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' FROM '+@TEMPSALEABSTRACT+''  	â€œ
+        strSql += vbCrLf + " 	SELECT @QRY=@QRY + CHAR(13) +' ORDER BY COUNTERNAME,IBILLDATE,BATCHNO,RESULT,COLHEAD,ACTOTAL DESC'  	â€œ
+        strSql += vbCrLf + " 	END	â€œ
+        strSql += vbCrLf + " 	PRINT @QRY  	â€œ
+        strSql += vbCrLf + " 	EXEC(@QRY)  	â€œ
+        strSql += vbCrLf + " 	END	â€œ
         cmd = New OleDbCommand(strSql, cn, tran)
         cmd.ExecuteNonQuery()
     End Sub

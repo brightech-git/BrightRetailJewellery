@@ -23,6 +23,7 @@
   ,@FROMTRANDATE  DATE          = NULL /* extra filter on the finished result */  
   ,@TOTRANDATE    DATE          = NULL /* extra filter on the finished result */  
   ,@WITHREPORTRESULT VARCHAR(1) = 'N'  /* 'Y' = also return the raw report set*/  
+  ,@ITEMNAME      NVARCHAR(200) = ''   /* prefix match on item name (IITEMNAME) */  
   )       
   AS         
   BEGIN      
@@ -34,6 +35,7 @@
           DECLARE @L_CUSTOMER NVARCHAR(210), @L_PHONENO NVARCHAR(60)    
                  ,@L_PAN      NVARCHAR(60) , @L_GSTNO   NVARCHAR(60)    
                  ,@L_ADDRESS  NVARCHAR(510), @L_BILLNO  NVARCHAR(60)    
+                 ,@L_ITEMNAME NVARCHAR(210)    
           IF OBJECT_ID('TEMPDB..#COMPANY', 'U') IS NOT NULL DROP TABLE #COMPANY         
           CREATE TABLE #COMPANY (COMPANYID VARCHAR(3))        
           DECLARE @TCOMPANY VARCHAR(50)        
@@ -1211,6 +1213,7 @@ SUM(BALANCE),SUM(CASH),SUM(CARD),SUM(CHEQUE)'
                 ,@L_GSTNO    = CASE WHEN ISNULL(@GSTNO       ,'') = '' THEN NULL ELSE '%' + @GSTNO        + '%' END    
                 ,@L_ADDRESS  = CASE WHEN ISNULL(@ADDRESS     ,'') = '' THEN NULL ELSE '%' + @ADDRESS      + '%' END    
                 ,@L_BILLNO   = CASE WHEN ISNULL(@SEARCHBILLNO,'') = '' THEN NULL ELSE '%' + @SEARCHBILLNO + '%' END    
+                ,@L_ITEMNAME = CASE WHEN ISNULL(@ITEMNAME    ,'') = '' THEN NULL ELSE LTRIM(RTRIM(@ITEMNAME)) + '%' END    
   
           /*  ---- return the filtered result set -------------------------------- */  
           SELECT @SEARCHSQL = N'SELECT *'    
@@ -1221,6 +1224,7 @@ SUM(BALANCE),SUM(CASH),SUM(CARD),SUM(CHEQUE)'
                             + CHAR(13) + N'AND   (@P_GSTNO    IS NULL OR GSTNO    LIKE @P_GSTNO   )'    
                             + CHAR(13) + N'AND   (@P_ADDRESS  IS NULL OR ADDRESS  LIKE @P_ADDRESS )'    
                             + CHAR(13) + N'AND   (@P_BILLNO   IS NULL OR BILLNO   LIKE @P_BILLNO  )'    
+                            + CHAR(13) + N'AND   (@P_ITEMNAME IS NULL OR IITEMNAME LIKE @P_ITEMNAME)'    
                             + CHAR(13) + N'AND   (@P_FROMDATE IS NULL OR TRANDATE >= @P_FROMDATE)'    
                             + CHAR(13) + N'AND   (@P_TODATE   IS NULL OR TRANDATE <  DATEADD(DAY,1,@P_TODATE))'    
                             + CHAR(13) + N'ORDER BY SEP,BATCHNO,KEYNO'    
@@ -1229,7 +1233,8 @@ SUM(BALANCE),SUM(CASH),SUM(CARD),SUM(CHEQUE)'
                             ,N'@P_CUSTOMER NVARCHAR(210),@P_PHONENO NVARCHAR(60)    
                               ,@P_PAN      NVARCHAR(60) ,@P_GSTNO   NVARCHAR(60)    
                               ,@P_ADDRESS  NVARCHAR(510),@P_BILLNO  NVARCHAR(60)    
-                              ,@P_FROMDATE DATE         ,@P_TODATE  DATE'    
+                              ,@P_FROMDATE DATE         ,@P_TODATE  DATE    
+                              ,@P_ITEMNAME NVARCHAR(210)'    
                             ,@P_CUSTOMER = @L_CUSTOMER    
                             ,@P_PHONENO  = @L_PHONENO    
                             ,@P_PAN      = @L_PAN    
@@ -1238,4 +1243,5 @@ SUM(BALANCE),SUM(CASH),SUM(CARD),SUM(CHEQUE)'
                             ,@P_BILLNO   = @L_BILLNO    
                             ,@P_FROMDATE = @FROMTRANDATE    
                             ,@P_TODATE   = @TOTRANDATE    
+                            ,@P_ITEMNAME = @L_ITEMNAME    
   END   

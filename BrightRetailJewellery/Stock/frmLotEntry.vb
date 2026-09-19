@@ -2363,7 +2363,7 @@ GENLOTNO:
                 If OrdSNO <> "" Then
                     strSql = "SELECT SUM(GRSWT) FROM " & cnAdminDb & "..ORMAST WHERE SUBSTRING(ORNO,6,12) = '" & txtOrderRepairNo.Text & "' AND SNO='" & OrdSNO & "' AND ITEMID = " & txtItemCode_Num_Man.Text
                 Else
-                    strSql = "SELECT SUM(GRSWT) FROM " & cnAdminDb & "..ORMAST WHERE SUBSTRING(ORNO,6,12) = '" & txtOrderRepairNo.Text & "' AND ITEMID = " & txtItemCode_Num_Man.Text
+                    strSql = "SELECT SUM(GRSWT) FROM " & cnAdminDb & "..ORMAST WHERE SUBSTRING(ORNO,6,12) = '" & txtOrderRepairNo.Text & "' AND ITEMID = " & txtItemCode_Num_Man.Text & " AND COSTID = '" & OrdCostId & "'"
                 End If
                 txtGrossWeight_Wet.Text = Format(Val(objGPack.GetSqlValue(strSql).ToString), "0.00")
             End If

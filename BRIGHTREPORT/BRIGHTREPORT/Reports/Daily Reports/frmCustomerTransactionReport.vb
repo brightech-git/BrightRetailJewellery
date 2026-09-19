@@ -238,6 +238,7 @@ Public Class frmCustomerTransactionReport
         strSql += vbCrLf + $",@SEARCHBILLNO  = '{IIf(cmbSearchKey.Text = "BILLNO", txtSearch.Text.Trim, "")}'"
         strSql += vbCrLf + $",@FROMTRANDATE  = NULL"
         strSql += vbCrLf + $",@TOTRANDATE    = NULL"
+        strSql += vbCrLf + $",@ITEMNAME  = '{IIf(cmbSearchKey.Text = "ITEMNAME", txtSearch.Text.Trim, "")}'"
 
         cmd = New OleDb.OleDbCommand(strSql, cn)
         cmd.CommandTimeout = 180
@@ -271,6 +272,7 @@ Public Class frmCustomerTransactionReport
         cmbSearchKey.Items.Add("GSTNO")
         cmbSearchKey.Items.Add("ADDRESS")
         cmbSearchKey.Items.Add("BILLNO")
+        cmbSearchKey.Items.Add("ITEMNAME")
         cmbSearchKey.Text = "MOBILENO"
     End Function
 
@@ -382,6 +384,35 @@ Public Class frmCustomerTransactionReport
         Else
             lblFrom.Text = "AS ON : "
             lblTo.Visible = False : dtpTo.Visible = False
+        End If
+    End Sub
+
+    Private Sub gridView_KeyPress(sender As Object, e As KeyPressEventArgs) Handles gridView.KeyPress
+        If UCase(e.KeyChar) = "D" Then
+            Dim batchNo As String = gridView.Item("BATCHNO", gridView.CurrentRow.Index).Value.ToString
+            Dim trandate As Date = gridView.Item("TRANDATE", gridView.CurrentRow.Index).Value.ToString
+            If IO.File.Exists(Application.StartupPath & "\BillPrint.exe") Then
+                Dim write As IO.StreamWriter
+                Dim memfile As String = "\BillPrint.mem"
+                write = IO.File.CreateText(Application.StartupPath & memfile)
+                write.WriteLine(LSet("TYPE", 15) & ":POS")
+                write.WriteLine(LSet("BATCHNO", 15) & ":" & batchNo)
+                write.WriteLine(LSet("TRANDATE", 15) & ":" & trandate.ToString("yyyy-MM-dd"))
+                write.WriteLine(LSet("DUPLICATE", 15) & ":Y")
+                write.Flush()
+                write.Close()
+                If EXE_WITH_PARAM = False Then
+                    System.Diagnostics.Process.Start(Application.StartupPath & "\BillPrint.exe")
+                Else
+                    System.Diagnostics.Process.Start(Application.StartupPath & "\BillPrint.exe",
+                                LSet("TYPE", 15) & ":POS;" &
+                                LSet("BATCHNO", 15) & ":" & batchNo & ";" &
+                                LSet("TRANDATE", 15) & ":" & trandate.ToString("yyyy-MM-dd") & ";" &
+                                LSet("DUPLICATE", 15) & ":Y")
+                End If
+            Else
+                MsgBox("Billprint exe not found", MsgBoxStyle.Information)
+            End If
         End If
     End Sub
 End Class

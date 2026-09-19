@@ -24,8 +24,12 @@ Partial Class frmCustomerTransactionReport
         Me.tabGen = New System.Windows.Forms.TabPage()
         Me.pnlGroupFilter = New System.Windows.Forms.Panel()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.txtSearch = New System.Windows.Forms.TextBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.cmbSearchKey = New System.Windows.Forms.ComboBox()
         Me.cmbCostcentre = New System.Windows.Forms.ComboBox()
         Me.cmbMetal = New System.Windows.Forms.ComboBox()
+        Me.Label2 = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.optBetween = New System.Windows.Forms.RadioButton()
         Me.optAsOn = New System.Windows.Forms.RadioButton()
@@ -52,10 +56,6 @@ Partial Class frmCustomerTransactionReport
         Me.btnBack = New System.Windows.Forms.Button()
         Me.btnPrint = New System.Windows.Forms.Button()
         Me.btnExport = New System.Windows.Forms.Button()
-        Me.Label2 = New System.Windows.Forms.Label()
-        Me.cmbSearchKey = New System.Windows.Forms.ComboBox()
-        Me.txtSearch = New System.Windows.Forms.TextBox()
-        Me.Label4 = New System.Windows.Forms.Label()
         Me.tabMain.SuspendLayout()
         Me.tabGen.SuspendLayout()
         Me.pnlGroupFilter.SuspendLayout()
@@ -125,6 +125,32 @@ Partial Class frmCustomerTransactionReport
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         '
+        'txtSearch
+        '
+        Me.txtSearch.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtSearch.Location = New System.Drawing.Point(226, 188)
+        Me.txtSearch.Name = "txtSearch"
+        Me.txtSearch.Size = New System.Drawing.Size(175, 21)
+        Me.txtSearch.TabIndex = 37
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(126, 189)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(56, 13)
+        Me.Label4.TabIndex = 36
+        Me.Label4.Text = "Search :"
+        Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
+        '
+        'cmbSearchKey
+        '
+        Me.cmbSearchKey.FormattingEnabled = True
+        Me.cmbSearchKey.Location = New System.Drawing.Point(226, 165)
+        Me.cmbSearchKey.Name = "cmbSearchKey"
+        Me.cmbSearchKey.Size = New System.Drawing.Size(174, 21)
+        Me.cmbSearchKey.TabIndex = 5
+        '
         'cmbCostcentre
         '
         Me.cmbCostcentre.FormattingEnabled = True
@@ -140,6 +166,16 @@ Partial Class frmCustomerTransactionReport
         Me.cmbMetal.Name = "cmbMetal"
         Me.cmbMetal.Size = New System.Drawing.Size(121, 21)
         Me.cmbMetal.TabIndex = 5
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(125, 168)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(86, 13)
+        Me.Label2.TabIndex = 34
+        Me.Label2.Text = "Search Key : "
+        Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Panel1
         '
@@ -423,42 +459,6 @@ Partial Class frmCustomerTransactionReport
         Me.btnExport.TabIndex = 0
         Me.btnExport.Text = "Export [X]"
         Me.btnExport.UseVisualStyleBackColor = True
-        '
-        'Label2
-        '
-        Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(125, 168)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(86, 13)
-        Me.Label2.TabIndex = 34
-        Me.Label2.Text = "Search Key : "
-        Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'cmbSearchKey
-        '
-        Me.cmbSearchKey.FormattingEnabled = True
-        Me.cmbSearchKey.Location = New System.Drawing.Point(226, 165)
-        Me.cmbSearchKey.Name = "cmbSearchKey"
-        Me.cmbSearchKey.Size = New System.Drawing.Size(174, 21)
-        Me.cmbSearchKey.TabIndex = 5
-        '
-        'txtSearch
-        '
-        Me.txtSearch.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtSearch.Location = New System.Drawing.Point(226, 188)
-        Me.txtSearch.Name = "txtSearch"
-        Me.txtSearch.Size = New System.Drawing.Size(175, 21)
-        Me.txtSearch.TabIndex = 37
-        '
-        'Label4
-        '
-        Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(126, 189)
-        Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(56, 13)
-        Me.Label4.TabIndex = 36
-        Me.Label4.Text = "Search :"
-        Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'frmCustomerTransactionReport
         '
