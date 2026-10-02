@@ -326,6 +326,10 @@ Public Class frmCustomerTransactionReport
     ' correct rows even if a column gets sorted.
     Private ReadOnly _billTotalBack As Color = Color.FromArgb(222, 235, 247)
     Private ReadOnly _grandTotalBack As Color = Color.FromArgb(255, 226, 150)
+    Private ReadOnly _outstandingBack As Color = Color.FromArgb(226, 232, 240)
+    Private ReadOnly _receiptBack As Color = Color.FromArgb(232, 245, 233)
+    Private ReadOnly _paymentBack As Color = Color.FromArgb(253, 234, 234)
+    Private ReadOnly _balanceBack As Color = Color.FromArgb(233, 226, 245)
     Private _totalRowFont As Font
 
     Private Sub DetailGrid_CellFormatting(ByVal sender As Object, ByVal e As DataGridViewCellFormattingEventArgs)
@@ -336,21 +340,35 @@ Public Class frmCustomerTransactionReport
         If label Is Nothing OrElse IsDBNull(label) Then Exit Sub
 
         Dim back As Color
+        Dim emphasise As Boolean = True
         Select Case label.ToString()
             Case "BILL TOTAL"
                 back = _billTotalBack
             Case "GRAND TOTAL"
                 back = _grandTotalBack
+            Case "OUTSTANDING"
+                back = _outstandingBack
+            Case "RECEIPT"
+                back = _receiptBack
+                emphasise = False
+            Case "PAYMENT"
+                back = _paymentBack
+                emphasise = False
+            Case "BALANCE"
+                back = _balanceBack
             Case Else
                 Exit Sub
         End Select
 
-        If _totalRowFont Is Nothing Then _totalRowFont = New Font(grid.Font, FontStyle.Bold)
         e.CellStyle.BackColor = back
         e.CellStyle.SelectionBackColor = back
         e.CellStyle.ForeColor = Color.Black
         e.CellStyle.SelectionForeColor = Color.Black
-        e.CellStyle.Font = _totalRowFont
+        ' receipts and payments are ordinary data rows, so only the heading rows get bold
+        If emphasise Then
+            If _totalRowFont Is Nothing Then _totalRowFont = New Font(grid.Font, FontStyle.Bold)
+            e.CellStyle.Font = _totalRowFont
+        End If
     End Sub
 
     Private Sub frmItemWiseStock_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles Me.KeyPress
@@ -496,74 +514,151 @@ Public Class frmCustomerTransactionReport
                 MessageBox.Show("The selected row doesn't contains phone number.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Exit Sub
             End If
-
-            Dim dv As New DataView(dtSource)
-            dv.RowFilter = "PHONENO = '" & phoneNo.Replace("'", "''") & "'"
-            Dim dtFilteredDate As DataTable = dv.ToTable(False, "TRANDATE", "BILLNO", "PHONENO", "RUNNO", "IITEMNAME", "IGRSWT", "INETWT", "RAMOUNT", "IAMOUNT", "CASH", "CARD", "ADVANCE", "CHITCARD", "CREDIT", "JND", "TOTAL", "CUSTOMER")
-
-            Dim colSno As New DataColumn("SNO", GetType(Integer))
-            dtFilteredDate.Columns.Add(colSno)
-            colSno.SetOrdinal(0)
-
-            For i As Integer = 0 To dtFilteredDate.Rows.Count - 1
-                dtFilteredDate.Rows(i)("SNO") = i + 1
-            Next
-
-            dtFilteredDate.Columns("TRANDATE").ColumnName = "BILLDATE"
-            dtFilteredDate.Columns("PHONENO").ColumnName = "MOBILENO"
-            dtFilteredDate.Columns("IITEMNAME").ColumnName = "ITEMNAME"
-            dtFilteredDate.Columns("IGRSWT").ColumnName = "GRSWT"
-            dtFilteredDate.Columns("INETWT").ColumnName = "NETWT"
-            dtFilteredDate.Columns("RAMOUNT").ColumnName = "RETURN AMOUNT"
-            dtFilteredDate.Columns("IAMOUNT").ColumnName = "AMOUNT"
-            dtFilteredDate.Columns("CHITCARD").ColumnName = "CHIT"
-
-            Dim totalCols() As String = {"GRSWT", "NETWT", "RETURN AMOUNT", "AMOUNT", "CASH", "CARD", "ADVANCE", "CHIT", "CREDIT", "JND", "TOTAL"}
-
-            ' Rebuild the table with a BILL TOTAL row after each bill, followed by one GRAND TOTAL row.
-            Dim dtGrouped As DataTable = dtFilteredDate.Clone()
-            Dim billNosSeen As New List(Of String)
-            For Each r As DataRow In dtFilteredDate.Rows
-                Dim billNo As String = If(IsDBNull(r("BILLNO")), "", r("BILLNO").ToString)
-                If Not billNosSeen.Contains(billNo) Then billNosSeen.Add(billNo)
-            Next
-
-            For Each billNo As String In billNosSeen
-                Dim billFilter As String = "BILLNO = '" & billNo.Replace("'", "''") & "'"
-                For Each r As DataRow In dtFilteredDate.Select(billFilter)
-                    dtGrouped.ImportRow(r)
-                Next
-
-                Dim billTotalRow As DataRow = dtGrouped.NewRow()
-                billTotalRow("BILLNO") = billNo
-                billTotalRow("ITEMNAME") = "BILL TOTAL"
-                For Each colName As String In totalCols
-                    If dtFilteredDate.Columns.Contains(colName) Then
-                        Dim result As Object = dtFilteredDate.Compute("Sum([" & colName & "])", billFilter)
-                        billTotalRow(colName) = If(IsDBNull(result), DBNull.Value, result)
-                    End If
-                Next
-                dtGrouped.Rows.Add(billTotalRow)
-            Next
-
-            Dim totalRow As DataRow = dtGrouped.NewRow()
-            totalRow("ITEMNAME") = "GRAND TOTAL"
-            For Each colName As String In totalCols
-                If dtFilteredDate.Columns.Contains(colName) Then
-                    Dim result As Object = dtFilteredDate.Compute("Sum([" & colName & "])", "")
-                    totalRow(colName) = If(IsDBNull(result), DBNull.Value, result)
-                End If
-            Next
-            dtGrouped.Rows.Add(totalRow)
-
-            Dim ofrmPurchaseOrderDetail As New frmPurchaseOrderDetail(dtGrouped)
-            ofrmPurchaseOrderDetail.Text = ""
-            ofrmPurchaseOrderDetail.lblHead.Text = "CUSTOMER TRANSACTION DETAIL" + vbCrLf + $"FOR THE MOBILE - {phoneNo}"
-            AddHandler ofrmPurchaseOrderDetail.DgView.CellFormatting, AddressOf DetailGrid_CellFormatting
-            If ofrmPurchaseOrderDetail.ShowDialog() = Windows.Forms.DialogResult.OK Then
-            Else
+            ShowTransactionDetail("PHONENO", phoneNo, $"FOR THE MOBILE - {phoneNo}")
+        ElseIf UCase(e.KeyChar) = "R" Then
+            Dim runNo As String = gridView.Item("RUNNO", gridView.CurrentRow.Index).Value.ToString
+            If runNo.Trim = "" Then
+                MessageBox.Show("The selected row doesn't contains run number.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 Exit Sub
             End If
+            ShowTransactionDetail("RUNNO", runNo, $"FOR THE RUNNO - {runNo}", GetOutstandingDetail(runNo))
+        End If
+    End Sub
+
+    ' Shared by the B (mobile) and R (run no) drill downs - same bill wise totals and
+    ' colouring either way, only the column being matched and the heading differ.
+    ' The grid shows RUNNO with its five character prefix stripped - the procedure selects
+    ' SUBSTRING(RUNNO,6,20) - so the prefix has to be put back to match OUTSTANDING.
+    Private Function GetOutstandingDetail(ByVal runNo As String) As DataTable
+        Dim dtOutstanding As New DataTable
+        Try
+            Dim fullRunNo As String = "00" & strCompanyId & runNo.Trim
+
+            strSql = "SELECT TRANNO,TRANDATE,RUNNO,AMOUNT,RECPAY FROM " & cnAdminDb & "..OUTSTANDING"
+            strSql += vbCrLf + " WHERE RUNNO = '" & fullRunNo.Replace("'", "''") & "' AND ISNULL(CANCEL,'') = ''"
+            strSql += vbCrLf + " ORDER BY TRANDATE"
+
+            cmd = New OleDb.OleDbCommand(strSql, cn)
+            da = New OleDbDataAdapter(cmd)
+            da.Fill(dtOutstanding)
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+        Return dtOutstanding
+    End Function
+    Private Sub ShowTransactionDetail(ByVal filterColumn As String, ByVal filterValue As String, ByVal heading As String, Optional ByVal dtOutstanding As DataTable = Nothing)
+        Dim dv As New DataView(dtSource)
+        dv.RowFilter = filterColumn & " = '" & filterValue.Replace("'", "''") & "'"
+        Dim dtFilteredDate As DataTable = dv.ToTable(False, "TRANDATE", "BILLNO", "PHONENO", "RUNNO", "IITEMNAME", "IGRSWT", "INETWT", "RAMOUNT", "IAMOUNT", "CASH", "CARD", "ADVANCE", "CHITCARD", "CREDIT", "JND", "TOTAL", "CUSTOMER")
+
+        Dim colSno As New DataColumn("SNO", GetType(Integer))
+        dtFilteredDate.Columns.Add(colSno)
+        colSno.SetOrdinal(0)
+
+        For i As Integer = 0 To dtFilteredDate.Rows.Count - 1
+            dtFilteredDate.Rows(i)("SNO") = i + 1
+        Next
+
+        dtFilteredDate.Columns("TRANDATE").ColumnName = "BILLDATE"
+        dtFilteredDate.Columns("PHONENO").ColumnName = "MOBILENO"
+        dtFilteredDate.Columns("IITEMNAME").ColumnName = "ITEMNAME"
+        dtFilteredDate.Columns("IGRSWT").ColumnName = "GRSWT"
+        dtFilteredDate.Columns("INETWT").ColumnName = "NETWT"
+        dtFilteredDate.Columns("RAMOUNT").ColumnName = "RETURN AMOUNT"
+        dtFilteredDate.Columns("IAMOUNT").ColumnName = "AMOUNT"
+        dtFilteredDate.Columns("CHITCARD").ColumnName = "CHIT"
+
+        Dim totalCols() As String = {"GRSWT", "NETWT", "RETURN AMOUNT", "AMOUNT", "CASH", "CARD", "ADVANCE", "CHIT", "CREDIT", "JND", "TOTAL"}
+
+        ' Rebuild the table with a BILL TOTAL row after each bill, followed by one GRAND TOTAL row.
+        Dim dtGrouped As DataTable = dtFilteredDate.Clone()
+        Dim billNosSeen As New List(Of String)
+        For Each r As DataRow In dtFilteredDate.Rows
+            Dim billNo As String = If(IsDBNull(r("BILLNO")), "", r("BILLNO").ToString)
+            If Not billNosSeen.Contains(billNo) Then billNosSeen.Add(billNo)
+        Next
+
+        For Each billNo As String In billNosSeen
+            Dim billFilter As String = "BILLNO = '" & billNo.Replace("'", "''") & "'"
+            For Each r As DataRow In dtFilteredDate.Select(billFilter)
+                dtGrouped.ImportRow(r)
+            Next
+
+            Dim billTotalRow As DataRow = dtGrouped.NewRow()
+            billTotalRow("BILLNO") = billNo
+            billTotalRow("ITEMNAME") = "BILL TOTAL"
+            For Each colName As String In totalCols
+                If dtFilteredDate.Columns.Contains(colName) Then
+                    Dim result As Object = dtFilteredDate.Compute("Sum([" & colName & "])", billFilter)
+                    billTotalRow(colName) = If(IsDBNull(result), DBNull.Value, result)
+                End If
+            Next
+            dtGrouped.Rows.Add(billTotalRow)
+        Next
+
+        Dim totalRow As DataRow = dtGrouped.NewRow()
+        totalRow("ITEMNAME") = "GRAND TOTAL"
+        For Each colName As String In totalCols
+            If dtFilteredDate.Columns.Contains(colName) Then
+                Dim result As Object = dtFilteredDate.Compute("Sum([" & colName & "])", "")
+                totalRow(colName) = If(IsDBNull(result), DBNull.Value, result)
+            End If
+        Next
+        dtGrouped.Rows.Add(totalRow)
+
+        ' Receipts / payments against the same run no, tacked on in date order under their
+        ' own banner rather than opening a second window.
+        If dtOutstanding IsNot Nothing AndAlso dtOutstanding.Rows.Count > 0 Then
+            dtGrouped.Rows.Add(dtGrouped.NewRow())
+
+            Dim bannerRow As DataRow = dtGrouped.NewRow()
+            bannerRow("ITEMNAME") = "OUTSTANDING"
+            dtGrouped.Rows.Add(bannerRow)
+
+            Dim paymentTotal As Decimal = 0
+            Dim receiptTotal As Decimal = 0
+            Dim dvOutstanding As New DataView(dtOutstanding)
+            dvOutstanding.Sort = "TRANDATE"
+            For Each rvOut As DataRowView In dvOutstanding
+                Dim outRow As DataRow = dtGrouped.NewRow()
+                If Not IsDBNull(rvOut("TRANDATE")) Then outRow("BILLDATE") = rvOut("TRANDATE")
+                If Not IsDBNull(rvOut("TRANNO")) Then outRow("BILLNO") = rvOut("TRANNO").ToString
+                If Not IsDBNull(rvOut("RUNNO")) Then
+                    ' OUTSTANDING stores the run no with its five character prefix; the rows above
+                    ' come from the procedure, which strips it with SUBSTRING(RUNNO,6,20), so do the
+                    ' same here and the column reads the same top to bottom.
+                    Dim outRunNo As String = rvOut("RUNNO").ToString
+                    If outRunNo.Length > 5 Then outRunNo = outRunNo.Substring(5)
+                    outRow("RUNNO") = outRunNo
+                End If
+                If Not IsDBNull(rvOut("AMOUNT")) Then outRow("AMOUNT") = rvOut("AMOUNT")
+                Dim outAmount As Decimal = If(IsDBNull(rvOut("AMOUNT")), 0D, Convert.ToDecimal(rvOut("AMOUNT")))
+                Select Case UCase(If(IsDBNull(rvOut("RECPAY")), "", rvOut("RECPAY").ToString).Trim)
+                    Case "P"
+                        outRow("ITEMNAME") = "PAYMENT"
+                        paymentTotal += outAmount
+                    Case "R"
+                        outRow("ITEMNAME") = "RECEIPT"
+                        receiptTotal += outAmount
+                    Case Else
+                        outRow("ITEMNAME") = If(IsDBNull(rvOut("RECPAY")), "", rvOut("RECPAY").ToString)
+                End Select
+                dtGrouped.Rows.Add(outRow)
+            Next
+
+            Dim balanceRow As DataRow = dtGrouped.NewRow()
+            balanceRow("ITEMNAME") = "BALANCE"
+            balanceRow("AMOUNT") = paymentTotal - receiptTotal
+            dtGrouped.Rows.Add(balanceRow)
+        End If
+
+        Dim ofrmPurchaseOrderDetail As New frmPurchaseOrderDetail(dtGrouped)
+        ofrmPurchaseOrderDetail.Text = ""
+        ofrmPurchaseOrderDetail.lblHead.Text = "CUSTOMER TRANSACTION DETAIL" + vbCrLf + heading
+        AddHandler ofrmPurchaseOrderDetail.DgView.CellFormatting, AddressOf DetailGrid_CellFormatting
+        If ofrmPurchaseOrderDetail.ShowDialog() = Windows.Forms.DialogResult.OK Then
+        Else
+            Exit Sub
         End If
     End Sub
 End Class
