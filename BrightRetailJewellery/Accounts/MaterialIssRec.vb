@@ -134,8 +134,7 @@ Public Class MaterialIssRec
     Dim MR_INCWASTINPURECAlC As Boolean = IIf(GetAdmindbSoftValue("MR_PUREWTCALC_INC_WASTAGE", "Y") = "Y", True, False)
     Dim MetalBasedStone As Boolean = IIf(GetAdmindbSoftValue("MULTIMETALBASEDSTONE", "N") = "Y", True, False)
     Dim NeedItemType_accpost As Boolean = IIf(GetAdmindbSoftValue("POS_SEPACCPOST_ITEMTYPE", "N") = "Y", True, False)
-
-
+    Public itemCtrId As Integer = 0
     Public Sub New(ByVal oMaterial As Material, ByVal oTransactionType As String, ByVal oTranDate As Date, ByVal Accode As String, Optional ByVal SelectedSno As String = "", Optional ByVal CostId As String = "", Optional ByVal OrdNo As String = "", Optional ByVal Stax As Decimal = 0, Optional ByVal _Gst As Boolean = True, Optional ByVal _Tdsomsflag As Boolean = True, Optional ByVal _Tdsname As String = "")
         ' This call is required by the Windows Form Designer.
         InitializeComponent()
@@ -566,6 +565,13 @@ Public Class MaterialIssRec
                 txtstdsaccode.Text = tds_accode
             End If
         End If
+
+        If UCase(objGPack.GetSqlValue("SELECT CTLTEXT FROM " & cnAdminDb & "..SOFTCONTROL WHERE CTLID = 'ITEMCOUNTER'")) = "Y" Then
+            StrSql = " SELECT ITEMCTRNAME FROM " & cnAdminDb & "..ITEMCOUNTER WHERE ISNULL(ACTIVE,'') <> 'N' ORDER BY DISPLAYORDER,ITEMCTRNAME"
+            objGPack.FillCombo(StrSql, cmbCounter_MAN, , False)
+            cmbCounter_MAN.Enabled = False
+        End If
+
         ArrayClear()
     End Sub
     Public Sub ArrayClear()
@@ -2356,6 +2362,12 @@ SKIPDEFPROCESS:
     Public Sub cmbOItem_SelectedValueChanged(ByVal sender As Object, ByVal e As EventArgs) Handles cmbOItem.SelectedValueChanged
         If txtTagNo.Text = "" And cmbOItem.Text = "" Then Exit Sub
         LoadItemDetail(cmbOItem)
+        StrSql = " SELECT STOCKTYPE FROM " & cnAdminDb & "..ITEMMAST WHERE ITEMNAME = '" & cmbOItem.Text & "' AND STOCKTYPE = 'N'"
+        If objGPack.GetSqlValue(StrSql).Length > 0 Then
+            cmbCounter_MAN.Enabled = True
+        Else
+            cmbCounter_MAN.Enabled = False
+        End If
     End Sub
 
 
@@ -8286,7 +8298,7 @@ showjobs:
                     End If
                 Next
                 StrSql = "  SELECT M.METALNAME,C.CATNAME,CONVERT(NUMERIC(15,2),P.PURITY)PURITY,I.ITEMNAME,S.SUBITEMNAME,T.PCS,T.GRSWT,"
-                StrSql += vbCrLf + "  T.NETWT,T.LESSWT,T.GRSNET,PT.PURTOUCH,'' TAGESNO "
+                StrSql += vbCrLf + "  T.NETWT,T.LESSWT,T.GRSNET,PT.PURTOUCH,'' TAGESNO, T.ITEMCTRID "
                 StrSql += vbCrLf + "  FROM " & cnAdminDb & "..ITEMTAG AS T"
                 StrSql += vbCrLf + "  INNER JOIN " & cnAdminDb & "..ITEMMAST AS I ON I.ITEMID=T.ITEMID"
                 StrSql += vbCrLf + "  LEFT JOIN " & cnAdminDb & "..SUBITEMMAST AS S ON S.SUBITEMID=T.SUBITEMID"
@@ -8334,6 +8346,7 @@ showjobs:
                     txtOLessWt_WET.Text = dtTag.Rows(0)("LESSWT").ToString
                     cmbOGrsNet.Text = dtTag.Rows(0)("GRSNET").ToString
                     txtOTouchAMT.Text = dtTag.Rows(0)("PURTOUCH").ToString
+                    itemCtrId = dtTag.Rows(0)("ITEMCTRID").ToString
                     StrSql = "  SELECT  "
                     StrSql += vbCrLf + "  I.METALID,I.CATCODE,I.ITEMNAME,S.SUBITEMNAME,T.STNPCS,T.STNWT,T.STONEUNIT,T.CALCMODE"
                     If oTransactionType = "PURCHASE RETURN" Then

@@ -217,6 +217,7 @@ Public Class MaterialIssRecTran
             .Columns.Add("HALLMARK", GetType(String))
             .Columns.Add("TDSACCODE", GetType(String))
             .Columns.Add("ROWINDEX", GetType(Int32))
+            .Columns.Add("ITEMCTRID", GetType(Integer))
             .Columns("KEYNO").AutoIncrement = True
         End With
         DgvTran.Columns.Clear()
@@ -1565,208 +1566,212 @@ MoveRec:
                 'Next
                 'dtStoneDetails.AcceptChanges()
                 If Val(.txtOalloy_WET.Text) <> 0 Then DgvTran.Columns("ALLOY").Visible = True
+                If .cmbCounter_MAN.Enabled Then
+                    .itemCtrId = Val(objGPack.GetSqlValue("SELECT ITEMCTRID FROM " & cnAdminDb & "..ITEMCOUNTER WHERE ITEMCTRNAME = '" & .cmbCounter_MAN.Text & "'").ToString)
+                End If
+                DtTran.Rows(index).Item("ITEMCTRID") = .itemCtrId
                 DgvTran.AutoResizeRow(index)
             ElseIf .rbtMetal.Checked Then
-                DtTran.Rows(index).Item("METISSREC") = ObjMaterialDia
-                DtTran.Rows(index).Item("TYPE") = "M"
-                DtTran.Rows(index).Item("TRANTYPE") = cmbTransactionType.Text
-                'DtTran.Rows(index).Item("JOBNO") = .txtMOrdNo.Text
-                If _JobNoEnable = True Then
-                    DtTran.Rows(index).Item("JOBNO") = GetCostId(cnCostId) & GetCompanyId(strCompanyId) & .txtMOrdNo.Text
-                Else
-                    If ObjMaterialDia.chkMulti.Checked Then
-                        DtTran.Rows(index).Item("JOBNO") = .txtMOrdNo.Text
-                    Else
-                        DtTran.Rows(index).Item("JOBNO") = .txtMOrdNo.Text
-                    End If
-                End If
-
-                Desc = .cmbMCategory.Text
-                DtTran.Rows(index).Item("DESCRIPTION") = Desc
-                DtTran.Rows(index).Item("METAL") = .cmbMMetal.Text
-                DtTran.Rows(index).Item("CATNAME") = .cmbMCategory.Text
-                DtTran.Rows(index).Item("ISSCATNAME") = .cmbMIssuedCategory.Text
-                DtTran.Rows(index).Item("ACCATNAME") = .cmbMAcPostCategory.Text
-                DtTran.Rows(index).Item("PURITY") = IIf(Val(.CmbMPurity.Text) <> 0, Val(.CmbMPurity.Text), DBNull.Value)
-                DtTran.Rows(index).Item("PCS") = IIf(Val(.txtMPcs_NUM.Text) <> 0, Val(.txtMPcs_NUM.Text), DBNull.Value)
-                DtTran.Rows(index).Item("GRSWT") = IIf(Val(.txtMGrsWt_WET.Text) <> 0, Val(.txtMGrsWt_WET.Text), DBNull.Value)
-                DtTran.Rows(index).Item("LESSWT") = IIf(Val(.txtMLessWt_WET.Text) <> 0, Val(.txtMLessWt_WET.Text), DBNull.Value)
-                DtTran.Rows(index).Item("NETWT") = IIf(Val(.txtMNetWt_WET.Text) <> 0, Val(.txtMNetWt_WET.Text), DBNull.Value)
-                DtTran.Rows(index).Item("GRSNET") = .cmbMGrsNet.Text
-                DtTran.Rows(index).Item("WASTPER") = IIf(Val(.txtMWastPER.Text) <> 0, Val(.txtMWastPER.Text), DBNull.Value)
-                DtTran.Rows(index).Item("WASTAGE") = IIf(Val(.txtMWast_WET.Text) <> 0, Val(.txtMWast_WET.Text), DBNull.Value)
-                DtTran.Rows(index).Item("ALLOY") = IIf(Val(.txtMAlloy_WET.Text) <> 0, Val(.txtMAlloy_WET.Text), DBNull.Value)
-                DtTran.Rows(index).Item("TOTALWT") = IIf(Val(.txtTotalWt.Text) <> 0, Val(.txtTotalWt.Text), DBNull.Value)
-                DtTran.Rows(index).Item("MCGRM") = IIf(Val(.txtMMcGrm_AMT.Text) <> 0, Val(.txtMMcGrm_AMT.Text), DBNull.Value)
-                DtTran.Rows(index).Item("MC") = IIf(Val(.txtMMc_AMT.Text) <> 0, Val(.txtMMc_AMT.Text), DBNull.Value)
-                DtTran.Rows(index).Item("TOUCH") = IIf(Val(.txtMTouchAMT.Text) <> 0, Val(.txtMTouchAMT.Text), DBNull.Value)
-                DtTran.Rows(index).Item("PUREWT") = IIf(Val(.txtMPureWt_WET.Text) <> 0, Val(.txtMPureWt_WET.Text), DBNull.Value)
-                DtTran.Rows(index).Item("RATE") = IIf(Val(.txtMRate_OWN.Text) <> 0, Val(.txtMRate_OWN.Text), DBNull.Value)
-                DtTran.Rows(index).Item("BOARDRATE") = IIf(Val(.oBoardRate) <> 0, Val(.oBoardRate), DBNull.Value)
-                DtTran.Rows(index).Item("GROSSAMT") = IIf(Val(.txtMGrsAmt_AMT.Text) <> 0, Val(.txtMGrsAmt_AMT.Text), DBNull.Value)
-                DtTran.Rows(index).Item("VATPER") = IIf(Val(.txtMVatPer_PER.Text) <> 0, Val(.txtMVatPer_PER.Text), DBNull.Value)
-                DtTran.Rows(index).Item("VAT") = IIf(Val(.txtMVat_AMT.Text) <> 0, Val(.txtMVat_AMT.Text), DBNull.Value)
-                DtTran.Rows(index).Item("AMOUNT") = IIf(Val(.txtMAmount_AMT.Text) <> 0, Val(.txtMAmount_AMT.Text), DBNull.Value)
-                DtTran.Rows(index).Item("SGSTPER") = IIf(Val(.txtMSgst_AMT.Text) <> 0, Val(.txtMSgst_AMT.Text), DBNull.Value)
-                DtTran.Rows(index).Item("CGSTPER") = IIf(Val(.txtMCgst_AMT.Text) <> 0, Val(.txtMCgst_AMT.Text), DBNull.Value)
-                DtTran.Rows(index).Item("IGSTPER") = IIf(Val(.txtMIgst_AMT.Text) <> 0, Val(.txtMIgst_AMT.Text), DBNull.Value)
-                DtTran.Rows(index).Item("SGST") = IIf(Val(.txtMSG_AMT.Text) <> 0, Val(.txtMSG_AMT.Text), DBNull.Value)
-                DtTran.Rows(index).Item("CGST") = IIf(Val(.txtMCG_AMT.Text) <> 0, Val(.txtMCG_AMT.Text), DBNull.Value)
-                DtTran.Rows(index).Item("IGST") = IIf(Val(.txtMIG_AMT.Text) <> 0, Val(.txtMIG_AMT.Text), DBNull.Value)
-                DtTran.Rows(index).Item("GST") = Val(DtTran.Rows(index).Item("SGST").ToString) + Val(DtTran.Rows(index).Item("CGST").ToString) + Val(DtTran.Rows(index).Item("IGST").ToString)
-                DtTran.Rows(index).Item("TCS") = IIf(Val(.txtMTCS_AMT.Text) <> 0, Val(.txtMTCS_AMT.Text), DBNull.Value)
-                DtTran.Rows(index).Item("REMARK1") = .txtMRemark1.Text
-                DtTran.Rows(index).Item("REMARK2") = .txtMRemark2.Text
-                DtTran.Rows(index).Item("ORDSTATE_NAME") = .cmbMProcess.Text
-                DtTran.Rows(index).Item("ADDCHARGE") = Val(.txtMAddlCharge_AMT.Text)
-                DtTran.Rows(index).Item("SEIVE") = ""
-                DtTran.Rows(index).Item("RESNO") = .RESNO
-                DtTran.Rows(index).Item("APPROXAMT") = IIf(Val(.txtMAprxAmount_AMT.Text) <> 0, Val(.txtMAprxAmount_AMT.Text), DBNull.Value)
-                DtTran.Rows(index).Item("APPROXTAX") = IIf(Val(.txtMAprxTaxAmt_AMT.Text) <> 0, Val(.txtMAprxTaxAmt_AMT.Text), DBNull.Value)
-                DtTran.Rows(index).Item("RATEFIXED") = IIf(.chkMRateFixed.Checked, "Y", "N")
-                If cmbTransactionType.Text = "PURCHASE[APPROVAL]" Then DtTran.Rows(index).Item("ORSNO") = .ORSNO
-                If Val(.txtMAlloy_WET.Text) <> 0 Then DgvTran.Columns("ALLOY").Visible = True : DgvTran.Columns("TOTALWT").Visible = True
-                'dgvtran.
-                DtTran.Rows(index).Item("TDSACCODE") = IIf(.txtotdsaccode.Text <> "", .txtotdsaccode.Text, DBNull.Value)
-                DgvTran.Rows(index).DefaultCellStyle.WrapMode = DataGridViewTriState.True
-                DgvTran.AutoResizeRow(index)
-
-            ElseIf .rbtStone.Checked Then
-                If (EditBatchno <> Nothing Or .oEditRowIndex <> -1) Then
                     DtTran.Rows(index).Item("METISSREC") = ObjMaterialDia
-                    DtTran.Rows(index).Item("TYPE") = "T"
+                    DtTran.Rows(index).Item("TYPE") = "M"
                     DtTran.Rows(index).Item("TRANTYPE") = cmbTransactionType.Text
-                    'DtTran.Rows(index).Item("JOBNO") = .txtSOrdNo.Text
+                    'DtTran.Rows(index).Item("JOBNO") = .txtMOrdNo.Text
                     If _JobNoEnable = True Then
-                        DtTran.Rows(index).Item("JOBNO") = GetCostId(cnCostId) & GetCompanyId(strCompanyId) & .txtSOrdNo.Text
+                        DtTran.Rows(index).Item("JOBNO") = GetCostId(cnCostId) & GetCompanyId(strCompanyId) & .txtMOrdNo.Text
                     Else
-                        DtTran.Rows(index).Item("JOBNO") = .txtSOrdNo.Text
+                        If ObjMaterialDia.chkMulti.Checked Then
+                            DtTran.Rows(index).Item("JOBNO") = .txtMOrdNo.Text
+                        Else
+                            DtTran.Rows(index).Item("JOBNO") = .txtMOrdNo.Text
+                        End If
                     End If
-                    Desc = .cmbSCategory.Text
-                    If .cmbSItem.Text <> "" Then Desc += vbCrLf + .cmbSItem.Text
-                    DtTran.Rows(index).Item("DESCRIPTION") = Desc
-                    DtTran.Rows(index).Item("METAL") = .cmbSMetal.Text
-                    DtTran.Rows(index).Item("CATNAME") = .cmbSCategory.Text
-                    DtTran.Rows(index).Item("ISSCATNAME") = .cmbSIssuedCategory.Text
-                    DtTran.Rows(index).Item("ACCATNAME") = .cmbSAcPostCategory.Text
-                    DtTran.Rows(index).Item("PURITY") = IIf(Val(.CmbSPurity.Text) <> 0, Val(.CmbSPurity.Text), DBNull.Value)
-                    DtTran.Rows(index).Item("ITEM") = .cmbSItem.Text
-                    DtTran.Rows(index).Item("SUBITEM") = .cmbSSubItem.Text
-                    DtTran.Rows(index).Item("PCS") = IIf(Val(.txtSPcs_NUM.Text) <> 0, Val(.txtSPcs_NUM.Text), DBNull.Value)
-                    DtTran.Rows(index).Item("GRSWT") = IIf(Val(.txtSGrsWt_WET.Text) <> 0, Val(.txtSGrsWt_WET.Text), DBNull.Value)
-                    DtTran.Rows(index).Item("NETWT") = IIf(Val(.txtSGrsWt_WET.Text) <> 0, Val(.txtSGrsWt_WET.Text), DBNull.Value)
-                    DtTran.Rows(index).Item("WASTAGE") = IIf(Val(.txtSWast_WET.Text) <> 0, Val(.txtSWast_WET.Text), DBNull.Value)
-                    DtTran.Rows(index).Item("UNIT") = .cmbSUnit.Text
-                    DtTran.Rows(index).Item("CALCMODE") = .cmbSCalcMode.Text
-                    DtTran.Rows(index).Item("PUREWT") = IIf(Val(.txtSGrsWt_WET.Text) <> 0, Val(.txtSGrsWt_WET.Text), DBNull.Value)
-                    DtTran.Rows(index).Item("RATE") = IIf(Val(.txtSRate_OWN.Text) <> 0, Val(.txtSRate_OWN.Text), DBNull.Value)
-                    DtTran.Rows(index).Item("BOARDRATE") = IIf(Val(.oBoardRate) <> 0, Val(.oBoardRate), DBNull.Value)
-                    DtTran.Rows(index).Item("GROSSAMT") = IIf(Val(.txtSGrsAmt_AMT.Text) <> 0, Val(.txtSGrsAmt_AMT.Text), DBNull.Value)
-                    DtTran.Rows(index).Item("VATPER") = IIf(Val(.txtSVatPer_PER.Text) <> 0, Val(.txtSVatPer_PER.Text), DBNull.Value)
-                    DtTran.Rows(index).Item("VAT") = IIf(Val(.txtSVat_AMT.Text) <> 0, Val(.txtSVat_AMT.Text), DBNull.Value)
-                    DtTran.Rows(index).Item("AMOUNT") = IIf(Val(.txtSAmount_AMT.Text) <> 0, Val(.txtSAmount_AMT.Text), DBNull.Value)
-                    DtTran.Rows(index).Item("SGSTPER") = IIf(Val(.txtSSgst_WET.Text) <> 0, Val(.txtSSgst_WET.Text), DBNull.Value)
-                    DtTran.Rows(index).Item("CGSTPER") = IIf(Val(.txtSCgst_WET.Text) <> 0, Val(.txtSCgst_WET.Text), DBNull.Value)
-                    DtTran.Rows(index).Item("IGSTPER") = IIf(Val(.txtSIgst_WET.Text) <> 0, Val(.txtSIgst_WET.Text), DBNull.Value)
-                    DtTran.Rows(index).Item("SGST") = IIf(Val(.txtSSG_AMT.Text) <> 0, Val(.txtSSG_AMT.Text), DBNull.Value)
-                    DtTran.Rows(index).Item("CGST") = IIf(Val(.txtSCG_AMT.Text) <> 0, Val(.txtSCG_AMT.Text), DBNull.Value)
-                    DtTran.Rows(index).Item("IGST") = IIf(Val(.txtSIG_AMT.Text) <> 0, Val(.txtSIG_AMT.Text), DBNull.Value)
-                    DtTran.Rows(index).Item("GST") = Val(DtTran.Rows(index).Item("SGST").ToString) + Val(DtTran.Rows(index).Item("CGST").ToString) + Val(DtTran.Rows(index).Item("IGST").ToString)
-                    DgvTran.Rows(index).DefaultCellStyle.WrapMode = DataGridViewTriState.True
-                    DtTran.Rows(index).Item("TCS") = IIf(Val(.txtSTCS_AMT.Text) <> 0, Val(.txtSTCS_AMT.Text), DBNull.Value)
-                    DtTran.Rows(index).Item("REMARK1") = .txtSRemark1.Text
-                    DtTran.Rows(index).Item("REMARK2") = .txtSRemark2.Text
-                    DtTran.Rows(index).Item("TAGNO") = .txtTagNo.Text.ToString.Trim
-                    DtTran.Rows(index).Item("ORDSTATE_NAME") = .cmbSProcess.Text
-                    DtTran.Rows(index).Item("ADDCHARGE") = Val(.txtSAddlCharge_AMT.Text)
-                    DtTran.Rows(index).Item("SEIVE") = .cmbSSeive.Text
-                    DtTran.Rows(index).Item("ORSNO") = .StnSno
-                    DtTran.Rows(index).Item("RESNO") = .RESNO
-                    DtTran.Rows(index).Item("ACCODE") = .ACCODE
-                    DtTran.Rows(index).Item("RFID") = .txtRfId.Text.ToString
 
-                    DtTran.Rows(index).Item("CUTID") = .txtRfId.Text.ToString
-                    DtTran.Rows(index).Item("COLORID") = .txtRfId.Text.ToString
-                    DtTran.Rows(index).Item("CLARITYID") = .txtRfId.Text.ToString
-                    DtTran.Rows(index).Item("SHAPEID") = .txtRfId.Text.ToString
-                    DtTran.Rows(index).Item("SETTYPEID") = .txtRfId.Text.ToString
-                    DtTran.Rows(index).Item("HEIGHT") = .txtRfId.Text.ToString
-                    DtTran.Rows(index).Item("WIDTH") = .txtRfId.Text.ToString
-                    DtTran.Rows(index).Item("STNGRPID") = GetSqlValue(cn, "SELECT GROUPID FROM " & cnAdminDb & "..STONEGROUP WHERE GROUPNAME = '" & .txtStnGrpName.Text.ToString & "'")
+                    Desc = .cmbMCategory.Text
+                    DtTran.Rows(index).Item("DESCRIPTION") = Desc
+                    DtTran.Rows(index).Item("METAL") = .cmbMMetal.Text
+                    DtTran.Rows(index).Item("CATNAME") = .cmbMCategory.Text
+                    DtTran.Rows(index).Item("ISSCATNAME") = .cmbMIssuedCategory.Text
+                    DtTran.Rows(index).Item("ACCATNAME") = .cmbMAcPostCategory.Text
+                    DtTran.Rows(index).Item("PURITY") = IIf(Val(.CmbMPurity.Text) <> 0, Val(.CmbMPurity.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("PCS") = IIf(Val(.txtMPcs_NUM.Text) <> 0, Val(.txtMPcs_NUM.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("GRSWT") = IIf(Val(.txtMGrsWt_WET.Text) <> 0, Val(.txtMGrsWt_WET.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("LESSWT") = IIf(Val(.txtMLessWt_WET.Text) <> 0, Val(.txtMLessWt_WET.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("NETWT") = IIf(Val(.txtMNetWt_WET.Text) <> 0, Val(.txtMNetWt_WET.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("GRSNET") = .cmbMGrsNet.Text
+                    DtTran.Rows(index).Item("WASTPER") = IIf(Val(.txtMWastPER.Text) <> 0, Val(.txtMWastPER.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("WASTAGE") = IIf(Val(.txtMWast_WET.Text) <> 0, Val(.txtMWast_WET.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("ALLOY") = IIf(Val(.txtMAlloy_WET.Text) <> 0, Val(.txtMAlloy_WET.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("TOTALWT") = IIf(Val(.txtTotalWt.Text) <> 0, Val(.txtTotalWt.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("MCGRM") = IIf(Val(.txtMMcGrm_AMT.Text) <> 0, Val(.txtMMcGrm_AMT.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("MC") = IIf(Val(.txtMMc_AMT.Text) <> 0, Val(.txtMMc_AMT.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("TOUCH") = IIf(Val(.txtMTouchAMT.Text) <> 0, Val(.txtMTouchAMT.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("PUREWT") = IIf(Val(.txtMPureWt_WET.Text) <> 0, Val(.txtMPureWt_WET.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("RATE") = IIf(Val(.txtMRate_OWN.Text) <> 0, Val(.txtMRate_OWN.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("BOARDRATE") = IIf(Val(.oBoardRate) <> 0, Val(.oBoardRate), DBNull.Value)
+                    DtTran.Rows(index).Item("GROSSAMT") = IIf(Val(.txtMGrsAmt_AMT.Text) <> 0, Val(.txtMGrsAmt_AMT.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("VATPER") = IIf(Val(.txtMVatPer_PER.Text) <> 0, Val(.txtMVatPer_PER.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("VAT") = IIf(Val(.txtMVat_AMT.Text) <> 0, Val(.txtMVat_AMT.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("AMOUNT") = IIf(Val(.txtMAmount_AMT.Text) <> 0, Val(.txtMAmount_AMT.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("SGSTPER") = IIf(Val(.txtMSgst_AMT.Text) <> 0, Val(.txtMSgst_AMT.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("CGSTPER") = IIf(Val(.txtMCgst_AMT.Text) <> 0, Val(.txtMCgst_AMT.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("IGSTPER") = IIf(Val(.txtMIgst_AMT.Text) <> 0, Val(.txtMIgst_AMT.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("SGST") = IIf(Val(.txtMSG_AMT.Text) <> 0, Val(.txtMSG_AMT.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("CGST") = IIf(Val(.txtMCG_AMT.Text) <> 0, Val(.txtMCG_AMT.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("IGST") = IIf(Val(.txtMIG_AMT.Text) <> 0, Val(.txtMIG_AMT.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("GST") = Val(DtTran.Rows(index).Item("SGST").ToString) + Val(DtTran.Rows(index).Item("CGST").ToString) + Val(DtTran.Rows(index).Item("IGST").ToString)
+                    DtTran.Rows(index).Item("TCS") = IIf(Val(.txtMTCS_AMT.Text) <> 0, Val(.txtMTCS_AMT.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("REMARK1") = .txtMRemark1.Text
+                    DtTran.Rows(index).Item("REMARK2") = .txtMRemark2.Text
+                    DtTran.Rows(index).Item("ORDSTATE_NAME") = .cmbMProcess.Text
+                    DtTran.Rows(index).Item("ADDCHARGE") = Val(.txtMAddlCharge_AMT.Text)
+                    DtTran.Rows(index).Item("SEIVE") = ""
+                    DtTran.Rows(index).Item("RESNO") = .RESNO
+                    DtTran.Rows(index).Item("APPROXAMT") = IIf(Val(.txtMAprxAmount_AMT.Text) <> 0, Val(.txtMAprxAmount_AMT.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("APPROXTAX") = IIf(Val(.txtMAprxTaxAmt_AMT.Text) <> 0, Val(.txtMAprxTaxAmt_AMT.Text), DBNull.Value)
+                    DtTran.Rows(index).Item("RATEFIXED") = IIf(.chkMRateFixed.Checked, "Y", "N")
+                    If cmbTransactionType.Text = "PURCHASE[APPROVAL]" Then DtTran.Rows(index).Item("ORSNO") = .ORSNO
+                    If Val(.txtMAlloy_WET.Text) <> 0 Then DgvTran.Columns("ALLOY").Visible = True : DgvTran.Columns("TOTALWT").Visible = True
+                    'dgvtran.
                     DtTran.Rows(index).Item("TDSACCODE") = IIf(.txtotdsaccode.Text <> "", .txtotdsaccode.Text, DBNull.Value)
+                    DgvTran.Rows(index).DefaultCellStyle.WrapMode = DataGridViewTriState.True
                     DgvTran.AutoResizeRow(index)
-                Else
-                    If .GridStuddStone.Rows.Count > 0 Then
-                        Dim DT As New DataTable
-                        DT = .GridStuddStone.DataSource
-                        For i As Integer = 0 To .GridStuddStone.Rows.Count - 1
-                            DtTran.Rows(index).Item("METISSREC") = ObjMaterialDia
-                            DtTran.Rows(index).Item("TYPE") = "T"
-                            DtTran.Rows(index).Item("TRANTYPE") = cmbTransactionType.Text
-                            'DtTran.Rows(index).Item("JOBNO") = .txtSOrdNo.Text
-                            If _JobNoEnable = True Then
-                                DtTran.Rows(index).Item("JOBNO") = GetCostId(cnCostId) & GetCompanyId(strCompanyId) & .GridStuddStone.Rows(i).Cells("ORDNO").Value.ToString
-                            Else
-                                DtTran.Rows(index).Item("JOBNO") = .GridStuddStone.Rows(i).Cells("ORDNO").Value.ToString
-                            End If
-                            Desc = .GridStuddStone.Rows(i).Cells("CATEGORY").Value.ToString
-                            If .GridStuddStone.Rows(i).Cells("ITEM").Value.ToString <> "" Then Desc += vbCrLf + .GridStuddStone.Rows(i).Cells("ITEM").Value.ToString
-                            DtTran.Rows(index).Item("DESCRIPTION") = Desc
-                            DtTran.Rows(index).Item("METAL") = .GridStuddStone.Rows(i).Cells("METAL").Value.ToString
-                            DtTran.Rows(index).Item("CATNAME") = .GridStuddStone.Rows(i).Cells("CATEGORY").Value.ToString
-                            DtTran.Rows(index).Item("ISSCATNAME") = .GridStuddStone.Rows(i).Cells("ISSCATEGORY").Value.ToString
-                            DtTran.Rows(index).Item("ACCATNAME") = .GridStuddStone.Rows(i).Cells("CATEGORY").Value.ToString
-                            DtTran.Rows(index).Item("PURITY") = IIf(Val(.GridStuddStone.Rows(i).Cells("PURITY").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("PURITY").Value.ToString), DBNull.Value)
-                            DtTran.Rows(index).Item("ITEM") = .GridStuddStone.Rows(i).Cells("ITEM").Value.ToString
-                            DtTran.Rows(index).Item("SUBITEM") = .GridStuddStone.Rows(i).Cells("SUBITEM").Value.ToString
-                            DtTran.Rows(index).Item("PCS") = IIf(Val(.GridStuddStone.Rows(i).Cells("PCS").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("PCS").Value.ToString), DBNull.Value)
-                            DtTran.Rows(index).Item("GRSWT") = IIf(Val(.GridStuddStone.Rows(i).Cells("WEIGHT").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("WEIGHT").Value.ToString), DBNull.Value)
-                            DtTran.Rows(index).Item("NETWT") = IIf(Val(.GridStuddStone.Rows(i).Cells("WEIGHT").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("WEIGHT").Value.ToString), DBNull.Value)
-                            DtTran.Rows(index).Item("WASTAGE") = IIf(Val(.GridStuddStone.Rows(i).Cells("WASTAGE").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("WASTAGE").Value.ToString), DBNull.Value)
-                            DtTran.Rows(index).Item("UNIT") = .GridStuddStone.Rows(i).Cells("UNIT").Value.ToString
-                            DtTran.Rows(index).Item("CALCMODE") = .GridStuddStone.Rows(i).Cells("CALC").Value.ToString
-                            DtTran.Rows(index).Item("PUREWT") = IIf(Val(.GridStuddStone.Rows(i).Cells("WEIGHT").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("WEIGHT").Value.ToString), DBNull.Value)
-                            DtTran.Rows(index).Item("RATE") = IIf(Val(.GridStuddStone.Rows(i).Cells("RATE").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("RATE").Value.ToString), DBNull.Value)
-                            DtTran.Rows(index).Item("BOARDRATE") = IIf(Val(.GridStuddStone.Rows(i).Cells("BOARDRATE").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("BOARDRATE").Value.ToString), DBNull.Value)
-                            DtTran.Rows(index).Item("GROSSAMT") = IIf(Val(.GridStuddStone.Rows(i).Cells("GROSSAMT").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("GROSSAMT").Value.ToString), DBNull.Value)
-                            DtTran.Rows(index).Item("VATPER") = IIf(Val(.GridStuddStone.Rows(i).Cells("VATPER").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("VATPER").Value.ToString), DBNull.Value)
-                            DtTran.Rows(index).Item("VAT") = IIf(Val(.GridStuddStone.Rows(i).Cells("VAT").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("VAT").Value.ToString), DBNull.Value)
-                            DtTran.Rows(index).Item("SGSTPER") = IIf(Val(.GridStuddStone.Rows(i).Cells("SGSTPER").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("SGSTPER").Value.ToString), DBNull.Value)
-                            DtTran.Rows(index).Item("SGST") = IIf(Val(.GridStuddStone.Rows(i).Cells("SGST").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("SGST").Value.ToString), DBNull.Value)
-                            DtTran.Rows(index).Item("CGSTPER") = IIf(Val(.GridStuddStone.Rows(i).Cells("CGSTPER").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("CGSTPER").Value.ToString), DBNull.Value)
-                            DtTran.Rows(index).Item("CGST") = IIf(Val(.GridStuddStone.Rows(i).Cells("CGST").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("CGST").Value.ToString), DBNull.Value)
-                            DtTran.Rows(index).Item("IGSTPER") = IIf(Val(.GridStuddStone.Rows(i).Cells("IGSTPER").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("IGSTPER").Value.ToString), DBNull.Value)
-                            DtTran.Rows(index).Item("IGST") = IIf(Val(.GridStuddStone.Rows(i).Cells("IGST").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("IGST").Value.ToString), DBNull.Value)
-                            DtTran.Rows(index).Item("GST") = Val(DtTran.Rows(index).Item("SGST").ToString) + Val(DtTran.Rows(index).Item("CGST").ToString) + Val(DtTran.Rows(index).Item("IGST").ToString)
-                            DtTran.Rows(index).Item("AMOUNT") = IIf(Val(.GridStuddStone.Rows(i).Cells("AMOUNT").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("AMOUNT").Value.ToString), DBNull.Value)
-                            DtTran.Rows(index).Item("TCS") = IIf(Val(.GridStuddStone.Rows(i).Cells("TCS").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("TCS").Value.ToString), DBNull.Value)
-                            DgvTran.Rows(index).DefaultCellStyle.WrapMode = DataGridViewTriState.True
-                            DtTran.Rows(index).Item("REMARK1") = .GridStuddStone.Rows(i).Cells("REMARK1").Value.ToString
-                            DtTran.Rows(index).Item("REMARK2") = .GridStuddStone.Rows(i).Cells("REMARK2").Value.ToString
-                            DtTran.Rows(index).Item("ORDSTATE_NAME") = .GridStuddStone.Rows(i).Cells("ORDSTATE_NAME").Value.ToString
-                            DtTran.Rows(index).Item("ADDCHARGE") = Val(.GridStuddStone.Rows(i).Cells("ADDCHARGE").Value.ToString)
-                            DtTran.Rows(index).Item("SEIVE") = .GridStuddStone.Rows(i).Cells("SEIVE").Value.ToString
-                            DtTran.Rows(index).Item("ORSNO") = .GridStuddStone.Rows(i).Cells("STNSNO").Value.ToString
-                            DtTran.Rows(index).Item("RESNO") = .GridStuddStone.Rows(i).Cells("RESNO").Value.ToString
-                            DtTran.Rows(index).Item("ACCODE") = .GridStuddStone.Rows(i).Cells("ACCODE").Value.ToString
-                            DtTran.Rows(index).Item("RFID") = .GridStuddStone.Rows(i).Cells("RFID").Value.ToString
-                            DtTran.Rows(index).Item("CUTID") = .GridStuddStone.Rows(i).Cells("CUTID").Value.ToString
-                            DtTran.Rows(index).Item("COLORID") = .GridStuddStone.Rows(i).Cells("COLORID").Value.ToString
-                            DtTran.Rows(index).Item("CLARITYID") = .GridStuddStone.Rows(i).Cells("CLARITYID").Value.ToString
-                            DtTran.Rows(index).Item("SHAPEID") = .GridStuddStone.Rows(i).Cells("SHAPEID").Value.ToString
-                            DtTran.Rows(index).Item("SETTYPEID") = .GridStuddStone.Rows(i).Cells("SETTYPEID").Value.ToString
-                            DtTran.Rows(index).Item("HEIGHT") = .GridStuddStone.Rows(i).Cells("HEIGHT").Value.ToString
-                            DtTran.Rows(index).Item("WIDTH") = .GridStuddStone.Rows(i).Cells("WIDTH").Value.ToString
-                            DtTran.Rows(index).Item("TAGNO") = .GridStuddStone.Rows(i).Cells("TAGNO").Value.ToString
-                            DtTran.Rows(index).Item("STNGRPID") = .GridStuddStone.Rows(i).Cells("STNGRPID").Value.ToString
-                            DtTran.Rows(index).Item("TDSACCODE") = IIf(.txtotdsaccode.Text <> "", .txtotdsaccode.Text, DBNull.Value)
-                            DgvTran.AutoResizeRow(index)
-                            index = index + 1
-                        Next
+
+                ElseIf .rbtStone.Checked Then
+                    If (EditBatchno <> Nothing Or .oEditRowIndex <> -1) Then
+                        DtTran.Rows(index).Item("METISSREC") = ObjMaterialDia
+                        DtTran.Rows(index).Item("TYPE") = "T"
+                        DtTran.Rows(index).Item("TRANTYPE") = cmbTransactionType.Text
+                        'DtTran.Rows(index).Item("JOBNO") = .txtSOrdNo.Text
+                        If _JobNoEnable = True Then
+                            DtTran.Rows(index).Item("JOBNO") = GetCostId(cnCostId) & GetCompanyId(strCompanyId) & .txtSOrdNo.Text
+                        Else
+                            DtTran.Rows(index).Item("JOBNO") = .txtSOrdNo.Text
+                        End If
+                        Desc = .cmbSCategory.Text
+                        If .cmbSItem.Text <> "" Then Desc += vbCrLf + .cmbSItem.Text
+                        DtTran.Rows(index).Item("DESCRIPTION") = Desc
+                        DtTran.Rows(index).Item("METAL") = .cmbSMetal.Text
+                        DtTran.Rows(index).Item("CATNAME") = .cmbSCategory.Text
+                        DtTran.Rows(index).Item("ISSCATNAME") = .cmbSIssuedCategory.Text
+                        DtTran.Rows(index).Item("ACCATNAME") = .cmbSAcPostCategory.Text
+                        DtTran.Rows(index).Item("PURITY") = IIf(Val(.CmbSPurity.Text) <> 0, Val(.CmbSPurity.Text), DBNull.Value)
+                        DtTran.Rows(index).Item("ITEM") = .cmbSItem.Text
+                        DtTran.Rows(index).Item("SUBITEM") = .cmbSSubItem.Text
+                        DtTran.Rows(index).Item("PCS") = IIf(Val(.txtSPcs_NUM.Text) <> 0, Val(.txtSPcs_NUM.Text), DBNull.Value)
+                        DtTran.Rows(index).Item("GRSWT") = IIf(Val(.txtSGrsWt_WET.Text) <> 0, Val(.txtSGrsWt_WET.Text), DBNull.Value)
+                        DtTran.Rows(index).Item("NETWT") = IIf(Val(.txtSGrsWt_WET.Text) <> 0, Val(.txtSGrsWt_WET.Text), DBNull.Value)
+                        DtTran.Rows(index).Item("WASTAGE") = IIf(Val(.txtSWast_WET.Text) <> 0, Val(.txtSWast_WET.Text), DBNull.Value)
+                        DtTran.Rows(index).Item("UNIT") = .cmbSUnit.Text
+                        DtTran.Rows(index).Item("CALCMODE") = .cmbSCalcMode.Text
+                        DtTran.Rows(index).Item("PUREWT") = IIf(Val(.txtSGrsWt_WET.Text) <> 0, Val(.txtSGrsWt_WET.Text), DBNull.Value)
+                        DtTran.Rows(index).Item("RATE") = IIf(Val(.txtSRate_OWN.Text) <> 0, Val(.txtSRate_OWN.Text), DBNull.Value)
+                        DtTran.Rows(index).Item("BOARDRATE") = IIf(Val(.oBoardRate) <> 0, Val(.oBoardRate), DBNull.Value)
+                        DtTran.Rows(index).Item("GROSSAMT") = IIf(Val(.txtSGrsAmt_AMT.Text) <> 0, Val(.txtSGrsAmt_AMT.Text), DBNull.Value)
+                        DtTran.Rows(index).Item("VATPER") = IIf(Val(.txtSVatPer_PER.Text) <> 0, Val(.txtSVatPer_PER.Text), DBNull.Value)
+                        DtTran.Rows(index).Item("VAT") = IIf(Val(.txtSVat_AMT.Text) <> 0, Val(.txtSVat_AMT.Text), DBNull.Value)
+                        DtTran.Rows(index).Item("AMOUNT") = IIf(Val(.txtSAmount_AMT.Text) <> 0, Val(.txtSAmount_AMT.Text), DBNull.Value)
+                        DtTran.Rows(index).Item("SGSTPER") = IIf(Val(.txtSSgst_WET.Text) <> 0, Val(.txtSSgst_WET.Text), DBNull.Value)
+                        DtTran.Rows(index).Item("CGSTPER") = IIf(Val(.txtSCgst_WET.Text) <> 0, Val(.txtSCgst_WET.Text), DBNull.Value)
+                        DtTran.Rows(index).Item("IGSTPER") = IIf(Val(.txtSIgst_WET.Text) <> 0, Val(.txtSIgst_WET.Text), DBNull.Value)
+                        DtTran.Rows(index).Item("SGST") = IIf(Val(.txtSSG_AMT.Text) <> 0, Val(.txtSSG_AMT.Text), DBNull.Value)
+                        DtTran.Rows(index).Item("CGST") = IIf(Val(.txtSCG_AMT.Text) <> 0, Val(.txtSCG_AMT.Text), DBNull.Value)
+                        DtTran.Rows(index).Item("IGST") = IIf(Val(.txtSIG_AMT.Text) <> 0, Val(.txtSIG_AMT.Text), DBNull.Value)
+                        DtTran.Rows(index).Item("GST") = Val(DtTran.Rows(index).Item("SGST").ToString) + Val(DtTran.Rows(index).Item("CGST").ToString) + Val(DtTran.Rows(index).Item("IGST").ToString)
+                        DgvTran.Rows(index).DefaultCellStyle.WrapMode = DataGridViewTriState.True
+                        DtTran.Rows(index).Item("TCS") = IIf(Val(.txtSTCS_AMT.Text) <> 0, Val(.txtSTCS_AMT.Text), DBNull.Value)
+                        DtTran.Rows(index).Item("REMARK1") = .txtSRemark1.Text
+                        DtTran.Rows(index).Item("REMARK2") = .txtSRemark2.Text
+                        DtTran.Rows(index).Item("TAGNO") = .txtTagNo.Text.ToString.Trim
+                        DtTran.Rows(index).Item("ORDSTATE_NAME") = .cmbSProcess.Text
+                        DtTran.Rows(index).Item("ADDCHARGE") = Val(.txtSAddlCharge_AMT.Text)
+                        DtTran.Rows(index).Item("SEIVE") = .cmbSSeive.Text
+                        DtTran.Rows(index).Item("ORSNO") = .StnSno
+                        DtTran.Rows(index).Item("RESNO") = .RESNO
+                        DtTran.Rows(index).Item("ACCODE") = .ACCODE
+                        DtTran.Rows(index).Item("RFID") = .txtRfId.Text.ToString
+
+                        DtTran.Rows(index).Item("CUTID") = .txtRfId.Text.ToString
+                        DtTran.Rows(index).Item("COLORID") = .txtRfId.Text.ToString
+                        DtTran.Rows(index).Item("CLARITYID") = .txtRfId.Text.ToString
+                        DtTran.Rows(index).Item("SHAPEID") = .txtRfId.Text.ToString
+                        DtTran.Rows(index).Item("SETTYPEID") = .txtRfId.Text.ToString
+                        DtTran.Rows(index).Item("HEIGHT") = .txtRfId.Text.ToString
+                        DtTran.Rows(index).Item("WIDTH") = .txtRfId.Text.ToString
+                        DtTran.Rows(index).Item("STNGRPID") = GetSqlValue(cn, "SELECT GROUPID FROM " & cnAdminDb & "..STONEGROUP WHERE GROUPNAME = '" & .txtStnGrpName.Text.ToString & "'")
+                        DtTran.Rows(index).Item("TDSACCODE") = IIf(.txtotdsaccode.Text <> "", .txtotdsaccode.Text, DBNull.Value)
+                        DgvTran.AutoResizeRow(index)
+                    Else
+                        If .GridStuddStone.Rows.Count > 0 Then
+                            Dim DT As New DataTable
+                            DT = .GridStuddStone.DataSource
+                            For i As Integer = 0 To .GridStuddStone.Rows.Count - 1
+                                DtTran.Rows(index).Item("METISSREC") = ObjMaterialDia
+                                DtTran.Rows(index).Item("TYPE") = "T"
+                                DtTran.Rows(index).Item("TRANTYPE") = cmbTransactionType.Text
+                                'DtTran.Rows(index).Item("JOBNO") = .txtSOrdNo.Text
+                                If _JobNoEnable = True Then
+                                    DtTran.Rows(index).Item("JOBNO") = GetCostId(cnCostId) & GetCompanyId(strCompanyId) & .GridStuddStone.Rows(i).Cells("ORDNO").Value.ToString
+                                Else
+                                    DtTran.Rows(index).Item("JOBNO") = .GridStuddStone.Rows(i).Cells("ORDNO").Value.ToString
+                                End If
+                                Desc = .GridStuddStone.Rows(i).Cells("CATEGORY").Value.ToString
+                                If .GridStuddStone.Rows(i).Cells("ITEM").Value.ToString <> "" Then Desc += vbCrLf + .GridStuddStone.Rows(i).Cells("ITEM").Value.ToString
+                                DtTran.Rows(index).Item("DESCRIPTION") = Desc
+                                DtTran.Rows(index).Item("METAL") = .GridStuddStone.Rows(i).Cells("METAL").Value.ToString
+                                DtTran.Rows(index).Item("CATNAME") = .GridStuddStone.Rows(i).Cells("CATEGORY").Value.ToString
+                                DtTran.Rows(index).Item("ISSCATNAME") = .GridStuddStone.Rows(i).Cells("ISSCATEGORY").Value.ToString
+                                DtTran.Rows(index).Item("ACCATNAME") = .GridStuddStone.Rows(i).Cells("CATEGORY").Value.ToString
+                                DtTran.Rows(index).Item("PURITY") = IIf(Val(.GridStuddStone.Rows(i).Cells("PURITY").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("PURITY").Value.ToString), DBNull.Value)
+                                DtTran.Rows(index).Item("ITEM") = .GridStuddStone.Rows(i).Cells("ITEM").Value.ToString
+                                DtTran.Rows(index).Item("SUBITEM") = .GridStuddStone.Rows(i).Cells("SUBITEM").Value.ToString
+                                DtTran.Rows(index).Item("PCS") = IIf(Val(.GridStuddStone.Rows(i).Cells("PCS").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("PCS").Value.ToString), DBNull.Value)
+                                DtTran.Rows(index).Item("GRSWT") = IIf(Val(.GridStuddStone.Rows(i).Cells("WEIGHT").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("WEIGHT").Value.ToString), DBNull.Value)
+                                DtTran.Rows(index).Item("NETWT") = IIf(Val(.GridStuddStone.Rows(i).Cells("WEIGHT").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("WEIGHT").Value.ToString), DBNull.Value)
+                                DtTran.Rows(index).Item("WASTAGE") = IIf(Val(.GridStuddStone.Rows(i).Cells("WASTAGE").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("WASTAGE").Value.ToString), DBNull.Value)
+                                DtTran.Rows(index).Item("UNIT") = .GridStuddStone.Rows(i).Cells("UNIT").Value.ToString
+                                DtTran.Rows(index).Item("CALCMODE") = .GridStuddStone.Rows(i).Cells("CALC").Value.ToString
+                                DtTran.Rows(index).Item("PUREWT") = IIf(Val(.GridStuddStone.Rows(i).Cells("WEIGHT").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("WEIGHT").Value.ToString), DBNull.Value)
+                                DtTran.Rows(index).Item("RATE") = IIf(Val(.GridStuddStone.Rows(i).Cells("RATE").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("RATE").Value.ToString), DBNull.Value)
+                                DtTran.Rows(index).Item("BOARDRATE") = IIf(Val(.GridStuddStone.Rows(i).Cells("BOARDRATE").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("BOARDRATE").Value.ToString), DBNull.Value)
+                                DtTran.Rows(index).Item("GROSSAMT") = IIf(Val(.GridStuddStone.Rows(i).Cells("GROSSAMT").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("GROSSAMT").Value.ToString), DBNull.Value)
+                                DtTran.Rows(index).Item("VATPER") = IIf(Val(.GridStuddStone.Rows(i).Cells("VATPER").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("VATPER").Value.ToString), DBNull.Value)
+                                DtTran.Rows(index).Item("VAT") = IIf(Val(.GridStuddStone.Rows(i).Cells("VAT").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("VAT").Value.ToString), DBNull.Value)
+                                DtTran.Rows(index).Item("SGSTPER") = IIf(Val(.GridStuddStone.Rows(i).Cells("SGSTPER").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("SGSTPER").Value.ToString), DBNull.Value)
+                                DtTran.Rows(index).Item("SGST") = IIf(Val(.GridStuddStone.Rows(i).Cells("SGST").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("SGST").Value.ToString), DBNull.Value)
+                                DtTran.Rows(index).Item("CGSTPER") = IIf(Val(.GridStuddStone.Rows(i).Cells("CGSTPER").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("CGSTPER").Value.ToString), DBNull.Value)
+                                DtTran.Rows(index).Item("CGST") = IIf(Val(.GridStuddStone.Rows(i).Cells("CGST").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("CGST").Value.ToString), DBNull.Value)
+                                DtTran.Rows(index).Item("IGSTPER") = IIf(Val(.GridStuddStone.Rows(i).Cells("IGSTPER").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("IGSTPER").Value.ToString), DBNull.Value)
+                                DtTran.Rows(index).Item("IGST") = IIf(Val(.GridStuddStone.Rows(i).Cells("IGST").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("IGST").Value.ToString), DBNull.Value)
+                                DtTran.Rows(index).Item("GST") = Val(DtTran.Rows(index).Item("SGST").ToString) + Val(DtTran.Rows(index).Item("CGST").ToString) + Val(DtTran.Rows(index).Item("IGST").ToString)
+                                DtTran.Rows(index).Item("AMOUNT") = IIf(Val(.GridStuddStone.Rows(i).Cells("AMOUNT").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("AMOUNT").Value.ToString), DBNull.Value)
+                                DtTran.Rows(index).Item("TCS") = IIf(Val(.GridStuddStone.Rows(i).Cells("TCS").Value.ToString) <> 0, Val(.GridStuddStone.Rows(i).Cells("TCS").Value.ToString), DBNull.Value)
+                                DgvTran.Rows(index).DefaultCellStyle.WrapMode = DataGridViewTriState.True
+                                DtTran.Rows(index).Item("REMARK1") = .GridStuddStone.Rows(i).Cells("REMARK1").Value.ToString
+                                DtTran.Rows(index).Item("REMARK2") = .GridStuddStone.Rows(i).Cells("REMARK2").Value.ToString
+                                DtTran.Rows(index).Item("ORDSTATE_NAME") = .GridStuddStone.Rows(i).Cells("ORDSTATE_NAME").Value.ToString
+                                DtTran.Rows(index).Item("ADDCHARGE") = Val(.GridStuddStone.Rows(i).Cells("ADDCHARGE").Value.ToString)
+                                DtTran.Rows(index).Item("SEIVE") = .GridStuddStone.Rows(i).Cells("SEIVE").Value.ToString
+                                DtTran.Rows(index).Item("ORSNO") = .GridStuddStone.Rows(i).Cells("STNSNO").Value.ToString
+                                DtTran.Rows(index).Item("RESNO") = .GridStuddStone.Rows(i).Cells("RESNO").Value.ToString
+                                DtTran.Rows(index).Item("ACCODE") = .GridStuddStone.Rows(i).Cells("ACCODE").Value.ToString
+                                DtTran.Rows(index).Item("RFID") = .GridStuddStone.Rows(i).Cells("RFID").Value.ToString
+                                DtTran.Rows(index).Item("CUTID") = .GridStuddStone.Rows(i).Cells("CUTID").Value.ToString
+                                DtTran.Rows(index).Item("COLORID") = .GridStuddStone.Rows(i).Cells("COLORID").Value.ToString
+                                DtTran.Rows(index).Item("CLARITYID") = .GridStuddStone.Rows(i).Cells("CLARITYID").Value.ToString
+                                DtTran.Rows(index).Item("SHAPEID") = .GridStuddStone.Rows(i).Cells("SHAPEID").Value.ToString
+                                DtTran.Rows(index).Item("SETTYPEID") = .GridStuddStone.Rows(i).Cells("SETTYPEID").Value.ToString
+                                DtTran.Rows(index).Item("HEIGHT") = .GridStuddStone.Rows(i).Cells("HEIGHT").Value.ToString
+                                DtTran.Rows(index).Item("WIDTH") = .GridStuddStone.Rows(i).Cells("WIDTH").Value.ToString
+                                DtTran.Rows(index).Item("TAGNO") = .GridStuddStone.Rows(i).Cells("TAGNO").Value.ToString
+                                DtTran.Rows(index).Item("STNGRPID") = .GridStuddStone.Rows(i).Cells("STNGRPID").Value.ToString
+                                DtTran.Rows(index).Item("TDSACCODE") = IIf(.txtotdsaccode.Text <> "", .txtotdsaccode.Text, DBNull.Value)
+                                DgvTran.AutoResizeRow(index)
+                                index = index + 1
+                            Next
+                        End If
                     End If
-                End If
-            ElseIf .rbtOthers.Checked Then
-                DtTran.Rows(index).Item("METISSREC") = ObjMaterialDia
+                ElseIf .rbtOthers.Checked Then
+                    DtTran.Rows(index).Item("METISSREC") = ObjMaterialDia
                 DtTran.Rows(index).Item("TYPE") = "H"
                 DtTran.Rows(index).Item("TRANTYPE") = cmbTransactionType.Text
                 Desc = .cmbOthCategory.Text
@@ -4336,7 +4341,7 @@ Optional ByVal Remark2 As String = Nothing
                 StrSql += " ,0" 'TAGRATEID
                 StrSql += " ,0" 'TAGSVALUE
                 StrSql += " ,''" 'TAGDESIGNER  
-                StrSql += " ,0" 'ITEMCTRID
+                StrSql += " ," & Val(.Cells("ITEMCTRID").Value.ToString) & "" 'ITEMCTRID
                 StrSql += " ," & itemTypeId & "" 'ITEMTYPEID
                 StrSql += " ," & Val(.Cells("PURITY").Value.ToString) & "" 'PURITY
                 StrSql += " ,''" 'TABLECODE
@@ -4444,7 +4449,7 @@ Optional ByVal Remark2 As String = Nothing
                         StrSql += " ,''" 'POSTED
                         StrSql += " ,''" 'PACKETNO
                         StrSql += " ,0" 'DREFNO
-                        StrSql += " ,NULL" 'ITEMCTRID
+                        StrSql += " ," & Val(.Cells("ITEMCTRID").Value.ToString) & "" 'ITEMCTRID
                         StrSql += " ,''" 'ORDREPNO
                         StrSql += " ,''" 'ORSNO
                         StrSql += " ,'Material ISSUE'" 'NARRATION

@@ -320,6 +320,39 @@ Public Class frmCustomerTransactionReport
         If grid.Columns.Contains("IRATE") Then grid.Columns("IRATE").DefaultCellStyle.Format = "0.00"
     End Sub
 
+    ' frmPurchaseOrderDetail is shared with the purchase order and stock reports, so the total
+    ' row colouring is attached to that one instance from the caller instead of being built into
+    ' the shared form. CellFormatting re-evaluates on every paint, so the colours stay on the
+    ' correct rows even if a column gets sorted.
+    Private ReadOnly _billTotalBack As Color = Color.FromArgb(222, 235, 247)
+    Private ReadOnly _grandTotalBack As Color = Color.FromArgb(255, 226, 150)
+    Private _totalRowFont As Font
+
+    Private Sub DetailGrid_CellFormatting(ByVal sender As Object, ByVal e As DataGridViewCellFormattingEventArgs)
+        Dim grid As DataGridView = DirectCast(sender, DataGridView)
+        If e.RowIndex < 0 OrElse Not grid.Columns.Contains("ITEMNAME") Then Exit Sub
+
+        Dim label As Object = grid.Rows(e.RowIndex).Cells("ITEMNAME").Value
+        If label Is Nothing OrElse IsDBNull(label) Then Exit Sub
+
+        Dim back As Color
+        Select Case label.ToString()
+            Case "BILL TOTAL"
+                back = _billTotalBack
+            Case "GRAND TOTAL"
+                back = _grandTotalBack
+            Case Else
+                Exit Sub
+        End Select
+
+        If _totalRowFont Is Nothing Then _totalRowFont = New Font(grid.Font, FontStyle.Bold)
+        e.CellStyle.BackColor = back
+        e.CellStyle.SelectionBackColor = back
+        e.CellStyle.ForeColor = Color.Black
+        e.CellStyle.SelectionForeColor = Color.Black
+        e.CellStyle.Font = _totalRowFont
+    End Sub
+
     Private Sub frmItemWiseStock_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles Me.KeyPress
         If e.KeyChar = Chr(Keys.Escape) And tabMain.SelectedTab.Name = tabView.Name Then
             btnBack_Click(Me, New EventArgs)
@@ -456,6 +489,80 @@ Public Class frmCustomerTransactionReport
                 End If
             Else
                 MsgBox("Billprint exe not found", MsgBoxStyle.Information)
+            End If
+        ElseIf UCase(e.KeyChar) = "B" Then
+            Dim phoneNo As String = gridView.Item("PHONENO", gridView.CurrentRow.Index).Value.ToString
+            If phoneNo.Trim = "" Then
+                MessageBox.Show("The selected row doesn't contains phone number.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                Exit Sub
+            End If
+
+            Dim dv As New DataView(dtSource)
+            dv.RowFilter = "PHONENO = '" & phoneNo.Replace("'", "''") & "'"
+            Dim dtFilteredDate As DataTable = dv.ToTable(False, "TRANDATE", "BILLNO", "PHONENO", "RUNNO", "IITEMNAME", "IGRSWT", "INETWT", "RAMOUNT", "IAMOUNT", "CASH", "CARD", "ADVANCE", "CHITCARD", "CREDIT", "JND", "TOTAL", "CUSTOMER")
+
+            Dim colSno As New DataColumn("SNO", GetType(Integer))
+            dtFilteredDate.Columns.Add(colSno)
+            colSno.SetOrdinal(0)
+
+            For i As Integer = 0 To dtFilteredDate.Rows.Count - 1
+                dtFilteredDate.Rows(i)("SNO") = i + 1
+            Next
+
+            dtFilteredDate.Columns("TRANDATE").ColumnName = "BILLDATE"
+            dtFilteredDate.Columns("PHONENO").ColumnName = "MOBILENO"
+            dtFilteredDate.Columns("IITEMNAME").ColumnName = "ITEMNAME"
+            dtFilteredDate.Columns("IGRSWT").ColumnName = "GRSWT"
+            dtFilteredDate.Columns("INETWT").ColumnName = "NETWT"
+            dtFilteredDate.Columns("RAMOUNT").ColumnName = "RETURN AMOUNT"
+            dtFilteredDate.Columns("IAMOUNT").ColumnName = "AMOUNT"
+            dtFilteredDate.Columns("CHITCARD").ColumnName = "CHIT"
+
+            Dim totalCols() As String = {"GRSWT", "NETWT", "RETURN AMOUNT", "AMOUNT", "CASH", "CARD", "ADVANCE", "CHIT", "CREDIT", "JND", "TOTAL"}
+
+            ' Rebuild the table with a BILL TOTAL row after each bill, followed by one GRAND TOTAL row.
+            Dim dtGrouped As DataTable = dtFilteredDate.Clone()
+            Dim billNosSeen As New List(Of String)
+            For Each r As DataRow In dtFilteredDate.Rows
+                Dim billNo As String = If(IsDBNull(r("BILLNO")), "", r("BILLNO").ToString)
+                If Not billNosSeen.Contains(billNo) Then billNosSeen.Add(billNo)
+            Next
+
+            For Each billNo As String In billNosSeen
+                Dim billFilter As String = "BILLNO = '" & billNo.Replace("'", "''") & "'"
+                For Each r As DataRow In dtFilteredDate.Select(billFilter)
+                    dtGrouped.ImportRow(r)
+                Next
+
+                Dim billTotalRow As DataRow = dtGrouped.NewRow()
+                billTotalRow("BILLNO") = billNo
+                billTotalRow("ITEMNAME") = "BILL TOTAL"
+                For Each colName As String In totalCols
+                    If dtFilteredDate.Columns.Contains(colName) Then
+                        Dim result As Object = dtFilteredDate.Compute("Sum([" & colName & "])", billFilter)
+                        billTotalRow(colName) = If(IsDBNull(result), DBNull.Value, result)
+                    End If
+                Next
+                dtGrouped.Rows.Add(billTotalRow)
+            Next
+
+            Dim totalRow As DataRow = dtGrouped.NewRow()
+            totalRow("ITEMNAME") = "GRAND TOTAL"
+            For Each colName As String In totalCols
+                If dtFilteredDate.Columns.Contains(colName) Then
+                    Dim result As Object = dtFilteredDate.Compute("Sum([" & colName & "])", "")
+                    totalRow(colName) = If(IsDBNull(result), DBNull.Value, result)
+                End If
+            Next
+            dtGrouped.Rows.Add(totalRow)
+
+            Dim ofrmPurchaseOrderDetail As New frmPurchaseOrderDetail(dtGrouped)
+            ofrmPurchaseOrderDetail.Text = ""
+            ofrmPurchaseOrderDetail.lblHead.Text = "CUSTOMER TRANSACTION DETAIL" + vbCrLf + $"FOR THE MOBILE - {phoneNo}"
+            AddHandler ofrmPurchaseOrderDetail.DgView.CellFormatting, AddressOf DetailGrid_CellFormatting
+            If ofrmPurchaseOrderDetail.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            Else
+                Exit Sub
             End If
         End If
     End Sub

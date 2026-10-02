@@ -130,6 +130,18 @@ Public Class frmPurchaseOrderDetail
         Try
             DgView.DataSource = Nothing
             DgView.DataSource = dt
+
+            Dim rightCols() As String = {"GRSWT", "NETWT", "RETURN AMOUNT", "AMOUNT", "CASH", "CARD", "ADVANCE", "CHIT", "CREDIT", "JND", "TOTAL"}
+
+            For Each colName As String In rightCols
+                If DgView.Columns.Contains(colName) Then
+                    With DgView.Columns(colName)
+                        .DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+                        .HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleRight
+                    End With
+                End If
+            Next
+
             btnExport.Visible = True : btnPrint.Visible = True
         Catch ex As Exception
             MessageBox.Show(ex.Message)

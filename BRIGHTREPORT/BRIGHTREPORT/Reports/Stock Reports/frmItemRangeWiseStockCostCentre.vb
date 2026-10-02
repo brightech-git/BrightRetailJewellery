@@ -793,6 +793,195 @@ Public Class frmItemRangeWiseStockCostCentre
         End If
     End Sub
 
+    ' --- Tag level drill down: press D on the report grid ------------------------------
+    ' Holds every cost centre's tags for the selected row. Only filled for now - the detail
+    ' window is still to be built on top of it.
+    Private dtTagDetail As DataTable
+
+    Private Sub gridView_KeyDown(sender As Object, e As KeyEventArgs) Handles gridView.KeyDown
+        Try
+            If e.KeyCode <> Keys.D Then Exit Sub
+            If gridView.CurrentRow Is Nothing Then Exit Sub
+            If costCentre.costIds Is Nothing Then Exit Sub
+
+            ' GroupByItem blanks the repeated ITEMNAME cells, so walk up for the owning item
+            Dim itemName As String = ""
+            For i As Integer = gridView.CurrentRow.Index To 0 Step -1
+                itemName = Convert.ToString(gridView.Rows(i).Cells("ITEMNAME").Value).Trim
+                If itemName <> "" Then Exit For
+            Next
+
+            Dim subItemName As String = Convert.ToString(gridView.CurrentRow.Cells("SUBITEMNAME").Value).Trim
+            If itemName = "" OrElse itemName = "TOTAL" OrElse subItemName = "" Then Exit Sub
+
+            dtTagDetail = GetTagDetail(itemName, subItemName)
+
+            Dim ofrmPurchaseOrderDetail As New frmPurchaseOrderDetail(PivotTagDetailByCostCentre(dtTagDetail))
+            ofrmPurchaseOrderDetail.Text = ""
+            ofrmPurchaseOrderDetail.lblHead.Text = "RANGE WISE STOCK COSTCENTRE DETAIL" & vbCrLf & $"{itemName} - {subItemName}"
+            StyleTagDetailGrid(ofrmPurchaseOrderDetail.DgView)
+            If ofrmPurchaseOrderDetail.ShowDialog() = Windows.Forms.DialogResult.OK Then
+            Else
+                Exit Sub
+            End If
+
+        Catch ex As Exception
+            MessageBox.Show(ex.Message)
+        End Try
+    End Sub
+
+    ' Repeats the joins and filters of the CTE1 block in SpReport so the tags returned add
+    ' up to the figures shown on the row. RANGEMAST is joined per cost centre and CAPTION
+    ' feeds SUBITEMNAME, so every cost centre has to be pulled separately and merged.
+    Private Function GetTagDetail(ByVal itemName As String, ByVal subItemName As String) As DataTable
+        Dim result As New DataTable
+
+        For Each cid As String In costCentre.costIds
+            Dim sql As String = "With CTE1 As("
+            sql += vbCrLf + $" Select A.COSTID, C.ITEMNAME, ((CASE WHEN  ISNULL(R.CAPTION,'') = '' THEN '' ELSE R.CAPTION + ' - ' END) + (CASE WHEN  ISNULL(I.SIZENAME,'') = '' THEN '' ELSE I.SIZENAME + ' - ' END) + S.SUBITEMNAME)SUBITEMNAME, A.TAGNO, A.PCS, A.GRSWT, A.NETWT, A.ACTUALRECDATE, D.DESIGNERNAME FROM {cnAdminDb}..ITEMTAG A"
+            sql += vbCrLf + $" INNER Join {cnAdminDb}..ITEMMAST C ON C.ITEMID = A.ITEMID And ACTIVE = 'Y' "
+            If (chkCmbMetal.Text <> "" AndAlso chkCmbMetal.Text <> "ALL") Then sql += vbCrLf + " and C.METALID in (" & GetSelectedMetalid(chkCmbMetal, True) & ")"
+            If (chkCmbItem.Text <> "" AndAlso chkCmbItem.Text <> "ALL") Then sql += vbCrLf + " and C.ITEMID in (" & GetSelecteditemid(chkCmbItem, False) & ")"
+            sql += vbCrLf + $" INNER Join {cnAdminDb}..SUBITEMMAST S ON S.ITEMID = A.ITEMID And S.SUBITEMID = A.SUBITEMID "
+            If (chkSubItem.Text <> "" AndAlso chkSubItem.Text <> "ALL") Then sql += vbCrLf + " and S.SUBITEMID in (" & GetSelectedSubitemid(chkSubItem, False) & ")"
+
+            sql += vbCrLf + $" INNER Join {cnAdminDb}..RANGEMAST R ON R.ITEMID = A.ITEMID And R.SUBITEMID = A.SUBITEMID and r.costId = '{cid}'"
+            sql += vbCrLf + $" And (A.GRSWT BETWEEN R.FROMWEIGHT And R.TOWEIGHT)"
+            If (cmbRange.Text <> "ALL" AndAlso cmbRange.Text <> "") Then
+                sql += vbCrLf + $" And R.CAPTION in(" & GetSelectedRange(cmbRange, True) & ")"
+            End If
+
+            If (cmbSize.Text <> "ALL" AndAlso cmbSize.Text <> "") Then
+                sql += vbCrLf + $" Inner Join {cnAdminDb}..ITEMSIZE I ON I.ITEMID = A.ITEMID And I.SIZEID = A.SIZEID "
+                sql += vbCrLf + $" And I.SIZENAME in(" & GetSelectedSize(cmbSize, True) & ")"
+            Else
+                sql += vbCrLf + $" Left Join {cnAdminDb}..ITEMSIZE I ON I.ITEMID = A.ITEMID And I.SIZEID = A.SIZEID "
+            End If
+
+            sql += vbCrLf + $" Left Join {cnAdminDb}..DESIGNER D ON D.DESIGNERID = A.DESIGNERID"
+            sql += vbCrLf + $" WHERE 1 = 1 AND A.ISSDATE IS NULL And a.COSTID = '{cid}'"
+            sql += vbCrLf + " )"
+            sql += vbCrLf + $" Select CTE1.COSTID,(Select COSTNAME from {cnAdminDb}..COSTCENTRE where COSTID = CTE1.COSTID) As COSTNAME"
+            sql += vbCrLf + " ,CTE1.ITEMNAME, CTE1.SUBITEMNAME, CTE1.TAGNO, CTE1.PCS, CTE1.GRSWT, CTE1.NETWT"
+            ' no as-on date on this report - it only ever shows stock in hand, so age runs to today
+            sql += vbCrLf + " ,CTE1.ACTUALRECDATE, DATEDIFF(D, CTE1.ACTUALRECDATE, GETDATE()) + 1 As AGEDAYS, CTE1.DESIGNERNAME FROM CTE1"
+            sql += vbCrLf + $" WHERE CTE1.ITEMNAME = '{itemName.Replace("'", "''")}' And CTE1.SUBITEMNAME = '{subItemName.Replace("'", "''")}'"
+            sql += vbCrLf + " ORDER BY CTE1.TAGNO"
+
+            Dim dt As New DataTable
+            cmd = New OleDbCommand(sql, cn)
+            da = New OleDbDataAdapter(cmd)
+            da.Fill(dt)
+
+            If result.Columns.Count = 0 Then
+                result = dt
+            Else
+                result.Merge(dt)
+            End If
+        Next
+
+        Return result
+    End Function
+
+    ' Lays the tags out the way the report behind it is laid out: one column block per cost
+    ' centre, tags packed up the rows so the blocks sit side by side. A tag only ever belongs
+    ' to one cost centre, so each row carries a tag per block rather than one tag across.
+    Private Function PivotTagDetailByCostCentre(ByVal dtDetail As DataTable) As DataTable
+        Dim dtPivot As New DataTable
+
+        For Each cid As String In costCentre.costIds
+            dtPivot.Columns.Add($"{cid}_TAGNO", GetType(String))
+            dtPivot.Columns.Add($"{cid}_DESIGNER", GetType(String))
+            dtPivot.Columns.Add($"{cid}_PCS", GetType(Decimal))
+            dtPivot.Columns.Add($"{cid}_GRSWT", GetType(Decimal))
+            dtPivot.Columns.Add($"{cid}_NETWT", GetType(Decimal))
+            dtPivot.Columns.Add($"{cid}_RECDATE", GetType(String))
+            dtPivot.Columns.Add($"{cid}_AGE", GetType(Integer))
+        Next
+
+        ' as many rows as the cost centre holding the most tags needs
+        Dim maxRows As Integer = 0
+        For Each cid As String In costCentre.costIds
+            maxRows = Math.Max(maxRows, dtDetail.Select($"COSTID = '{cid.Replace("'", "''")}'").Length)
+        Next
+        For i As Integer = 1 To maxRows
+            dtPivot.Rows.Add()
+        Next
+
+        For Each cid As String In costCentre.costIds
+            Dim rows() As DataRow = dtDetail.Select($"COSTID = '{cid.Replace("'", "''")}'")
+            For i As Integer = 0 To rows.Length - 1
+                dtPivot.Rows(i)($"{cid}_TAGNO") = rows(i)("TAGNO")
+                dtPivot.Rows(i)($"{cid}_DESIGNER") = rows(i)("DESIGNERNAME")
+                dtPivot.Rows(i)($"{cid}_PCS") = rows(i)("PCS")
+                dtPivot.Rows(i)($"{cid}_GRSWT") = rows(i)("GRSWT")
+                dtPivot.Rows(i)($"{cid}_NETWT") = rows(i)("NETWT")
+                dtPivot.Rows(i)($"{cid}_AGE") = rows(i)("AGEDAYS")
+                If Not IsDBNull(rows(i)("ACTUALRECDATE")) Then
+                    dtPivot.Rows(i)($"{cid}_RECDATE") = CDate(rows(i)("ACTUALRECDATE")).ToString("dd/MM/yyyy")
+                End If
+            Next
+        Next
+
+        ' closing total row, so the block figures can be checked against the cell drilled from
+        If maxRows > 0 Then
+            Dim totalRow As DataRow = dtPivot.NewRow()
+            For Each cid As String In costCentre.costIds
+                Dim filter As String = $"COSTID = '{cid.Replace("'", "''")}'"
+                Dim tagCount As Integer = dtDetail.Select(filter).Length
+                If tagCount = 0 Then Continue For
+                totalRow($"{cid}_TAGNO") = tagCount
+                totalRow($"{cid}_PCS") = dtDetail.Compute("Sum(PCS)", filter)
+                totalRow($"{cid}_GRSWT") = dtDetail.Compute("Sum(GRSWT)", filter)
+                totalRow($"{cid}_NETWT") = dtDetail.Compute("Sum(NETWT)", filter)
+            Next
+            dtPivot.Rows.Add(totalRow)
+        End If
+
+        Return dtPivot
+    End Function
+
+    ' Same colour per cost centre as gridStyle uses on the report behind it. The detail form
+    ' has no banner grid, so the cost centre name goes on the first header line and the field
+    ' on the second instead of being merged across the block.
+    Private Sub StyleTagDetailGrid(ByVal grid As DataGridView)
+        grid.ColumnHeadersHeight = 44
+        grid.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
+        grid.ColumnHeadersDefaultCellStyle.WrapMode = DataGridViewTriState.True
+
+        For Each cid As String In costCentre.costIds
+            Dim index As Integer = Array.IndexOf(costCentre.costIds, cid)
+            Dim blockColor As Color = GetLightColor(colorPalette(index Mod colorPalette.Length), 0.5)
+            Dim costName As String = costCentre.costName(index)
+
+            For Each suffix As String In New String() {"TAGNO", "DESIGNER", "PCS", "GRSWT", "NETWT", "RECDATE", "AGE"}
+                Dim colName As String = $"{cid}_{suffix}"
+                If Not grid.Columns.Contains(colName) Then Continue For
+                With grid.Columns(colName)
+                    .HeaderText = costName & vbCrLf & suffix
+                    .DefaultCellStyle.BackColor = blockColor
+                    .DefaultCellStyle.ForeColor = Color.Black
+                    .SortMode = DataGridViewColumnSortMode.NotSortable
+                    If suffix = "TAGNO" OrElse suffix = "DESIGNER" OrElse suffix = "RECDATE" Then
+                        .DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft
+                    Else
+                        .DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+                    End If
+                    If suffix = "GRSWT" OrElse suffix = "NETWT" Then .DefaultCellStyle.Format = "0.000"
+                End With
+            Next
+        Next
+
+        ' the report behind it marks its closing total row the same way
+        If grid.Rows.Count > 0 Then
+            With grid.Rows(grid.Rows.Count - 1).DefaultCellStyle
+                .BackColor = Color.Red
+                .ForeColor = Color.White
+                .Font = New Font(grid.Font, FontStyle.Bold)
+            End With
+        End If
+    End Sub
+
     Private Sub ExitToolStripMenuItem_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles ExitToolStripMenuItem.Click
         funcExit()
     End Sub
@@ -810,8 +999,8 @@ Public Class frmItemRangeWiseStockCostCentre
         Try
             If e.ScrollOrientation = ScrollOrientation.HorizontalScroll Then
                 gridViewHead.HorizontalScrollingOffset = e.NewValue
-                gridViewHead.Columns("SCROLL").Visible = CType(gridView.Controls(0), HScrollBar).Visible
-                gridViewHead.Columns("SCROLL").Width = CType(gridView.Controls(1), VScrollBar).Width
+                'gridViewHead.Columns("SCROLL").Visible = CType(gridView.Controls(0), HScrollBar).Visible
+                'gridViewHead.Columns("SCROLL").Width = CType(gridView.Controls(1), VScrollBar).Width
             End If
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Information)
