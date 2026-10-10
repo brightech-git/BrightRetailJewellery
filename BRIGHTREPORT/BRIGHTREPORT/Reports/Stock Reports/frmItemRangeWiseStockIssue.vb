@@ -401,6 +401,11 @@ Public Class frmItemRangeWiseStockIssue
             End If
             strSql += vbCrLf + " )as x"
             strSql += vbCrLf + $" left join {cnAdminDb}..PURCHASEORDER y on x.PARTICULAR = y.PARTICULAR and y.POFROMDATE >= '{dtpFrom.Value}' and y.POTODATE <= '{dtpTo.Value}'"
+            ' RESULT codes the row type: 0-2 are the costcentre / metal / counter headings,
+            ' 3-4 the particular heading, 5 detail, 6-10 the intermediate totals, 11 the
+            ' grand total. 0-2 repeat the same name as the particular heading, so they are
+            ' dropped too and each heading appears once.
+            If chkOnlyGrandTotal.Checked Then strSql += vbCrLf + " WHERE (x.RESULT BETWEEN 3 AND 5 OR x.RESULT = 11)"
             strSql += vbCrLf + " ORDER BY COSTCENTRE,METAL,COUNTER"
             If rbtSubItem.Checked Then
                 strSql += vbCrLf + " ,ITEM,SUBITEM,RESULT"
@@ -795,6 +800,7 @@ Public Class frmItemRangeWiseStockIssue
 
     Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNew.Click
         'funcLoadMetal()
+        _lastMetalText = Nothing : _lastItemText = Nothing
         funcLoadCategory()
         dtpFrom.Value = GetServerDate()
         gridView.DataSource = Nothing
@@ -1552,11 +1558,21 @@ Public Class frmItemRangeWiseStockIssue
         BrighttechPack.GlobalMethods.FillCombo(chkcmbrange, dtrange, "Caption", , "ALL")
     End Function
 
+    ' Validated fires on every focus loss, not just on a change, and each reload blanks the
+    ' dependent combo. Reload only when the value actually moved, so tabbing through the
+    ' form no longer throws away the item / range the user picked. btnNew clears these.
+    Private _lastMetalText As String = Nothing
+    Private _lastItemText As String = Nothing
+
     Private Sub chkCmbMetal_Validated(sender As Object, e As EventArgs) Handles chkCmbMetal.Validated
+        If chkCmbMetal.Text = _lastMetalText Then Exit Sub
+        _lastMetalText = chkCmbMetal.Text
         funcLoadItemName()
     End Sub
 
     Private Sub chkCmbItem_Validated(sender As Object, e As EventArgs) Handles chkCmbItem.Validated
+        If chkCmbItem.Text = _lastItemText Then Exit Sub
+        _lastItemText = chkCmbItem.Text
         funcLoadRange()
     End Sub
 

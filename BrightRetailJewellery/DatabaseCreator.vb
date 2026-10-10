@@ -124088,6 +124088,24 @@ ByVal PurchaseTaxName As String
         cmd.ExecuteNonQuery()
         funcProgressStep(1)
 
+        STATUS = "CREATING " + rootDB + "..GIFTVOUCHER"
+        funcProgressStep()
+        ListAdminTables.Add("GIFTVOUCHER")
+        strSql = " CREATE TABLE " & rootDB & "..GIFTVOUCHER("
+        strSql += vbCrLf + "  SNO INT IDENTITY(1,1) NOT NULL"
+        strSql += vbCrLf + "  ,SCHEMEID INT"
+        strSql += vbCrLf + "  ,GROUPCODE VARCHAR(8)"
+        strSql += vbCrLf + "  ,REGNO INT"
+        strSql += vbCrLf + "  ,BATCHNO VARCHAR(16)"
+        strSql += vbCrLf + "  ,TRANNO VARCHAR(16)"
+        strSql += vbCrLf + "  ,AMOUNT NUMERIC(10,2)"
+        strSql += vbCrLf + "  ,CANCEL VARCHAR(1)"
+        strSql += vbCrLf + "  ,USERID INT"
+        strSql += vbCrLf + "  )"
+        cmd = New OleDbCommand(strSql, cn, tran)
+        cmd.ExecuteNonQuery()
+        funcProgressStep(1)
+
     End Function
 
     Private Sub CreateTablePriviledgeTran(ByVal rootDb As String, ByVal tblName As String)

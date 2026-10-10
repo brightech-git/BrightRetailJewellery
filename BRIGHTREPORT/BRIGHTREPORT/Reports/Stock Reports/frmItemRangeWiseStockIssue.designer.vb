@@ -87,6 +87,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.BtnGenerate = New System.Windows.Forms.Button()
         Me.btnPost = New System.Windows.Forms.Button()
         Me.btnExport = New System.Windows.Forms.Button()
+        Me.chkOnlyGrandTotal = New System.Windows.Forms.CheckBox()
         Me.tabMain.SuspendLayout()
         Me.tabGen.SuspendLayout()
         Me.pnlGroupFilter.SuspendLayout()
@@ -118,10 +119,10 @@ Partial Class frmItemRangeWiseStockIssue
         'tabGen
         '
         Me.tabGen.Controls.Add(Me.pnlGroupFilter)
-        Me.tabGen.Location = New System.Drawing.Point(4, 29)
+        Me.tabGen.Location = New System.Drawing.Point(4, 25)
         Me.tabGen.Name = "tabGen"
         Me.tabGen.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabGen.Size = New System.Drawing.Size(933, 589)
+        Me.tabGen.Size = New System.Drawing.Size(933, 593)
         Me.tabGen.TabIndex = 0
         Me.tabGen.Text = "Gen"
         Me.tabGen.UseVisualStyleBackColor = True
@@ -131,11 +132,12 @@ Partial Class frmItemRangeWiseStockIssue
         Me.pnlGroupFilter.Controls.Add(Me.GroupBox1)
         Me.pnlGroupFilter.Location = New System.Drawing.Point(151, 79)
         Me.pnlGroupFilter.Name = "pnlGroupFilter"
-        Me.pnlGroupFilter.Size = New System.Drawing.Size(619, 428)
+        Me.pnlGroupFilter.Size = New System.Drawing.Size(678, 428)
         Me.pnlGroupFilter.TabIndex = 0
         '
         'GroupBox1
         '
+        Me.GroupBox1.Controls.Add(Me.chkOnlyGrandTotal)
         Me.GroupBox1.Controls.Add(Me.chkZero)
         Me.GroupBox1.Controls.Add(Me.ChkIssueOnly)
         Me.GroupBox1.Controls.Add(Me.ChkTransPrint)
@@ -175,7 +177,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.GroupBox1.Controls.Add(Me.Label6)
         Me.GroupBox1.Location = New System.Drawing.Point(10, 11)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(610, 407)
+        Me.GroupBox1.Size = New System.Drawing.Size(652, 407)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
         '
@@ -184,7 +186,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.chkZero.AutoSize = True
         Me.chkZero.Location = New System.Drawing.Point(493, 340)
         Me.chkZero.Name = "chkZero"
-        Me.chkZero.Size = New System.Drawing.Size(119, 21)
+        Me.chkZero.Size = New System.Drawing.Size(99, 17)
         Me.chkZero.TabIndex = 35
         Me.chkZero.Text = "Zero Closing"
         Me.chkZero.UseVisualStyleBackColor = True
@@ -196,7 +198,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.ChkIssueOnly.CheckState = System.Windows.Forms.CheckState.Checked
         Me.ChkIssueOnly.Location = New System.Drawing.Point(392, 340)
         Me.ChkIssueOnly.Name = "ChkIssueOnly"
-        Me.ChkIssueOnly.Size = New System.Drawing.Size(104, 21)
+        Me.ChkIssueOnly.Size = New System.Drawing.Size(87, 17)
         Me.ChkIssueOnly.TabIndex = 35
         Me.ChkIssueOnly.Text = "Issue Only"
         Me.ChkIssueOnly.UseVisualStyleBackColor = True
@@ -206,7 +208,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.ChkTransPrint.AutoSize = True
         Me.ChkTransPrint.Location = New System.Drawing.Point(392, 315)
         Me.ChkTransPrint.Name = "ChkTransPrint"
-        Me.ChkTransPrint.Size = New System.Drawing.Size(117, 21)
+        Me.ChkTransPrint.Size = New System.Drawing.Size(98, 17)
         Me.ChkTransPrint.TabIndex = 27
         Me.ChkTransPrint.Text = "Receipt Only"
         Me.ChkTransPrint.UseVisualStyleBackColor = True
@@ -216,7 +218,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.Label15.AutoSize = True
         Me.Label15.Location = New System.Drawing.Point(77, 113)
         Me.Label15.Name = "Label15"
-        Me.Label15.Size = New System.Drawing.Size(82, 17)
+        Me.Label15.Size = New System.Drawing.Size(67, 13)
         Me.Label15.TabIndex = 34
         Me.Label15.Text = "Date From"
         Me.Label15.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -236,7 +238,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.rbtDispWt.AutoSize = True
         Me.rbtDispWt.Location = New System.Drawing.Point(126, 2)
         Me.rbtDispWt.Name = "rbtDispWt"
-        Me.rbtDispWt.Size = New System.Drawing.Size(78, 21)
+        Me.rbtDispWt.Size = New System.Drawing.Size(63, 17)
         Me.rbtDispWt.TabIndex = 2
         Me.rbtDispWt.Text = "Weight"
         Me.rbtDispWt.UseVisualStyleBackColor = True
@@ -246,7 +248,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.rbtDispPcs.AutoSize = True
         Me.rbtDispPcs.Location = New System.Drawing.Point(73, 2)
         Me.rbtDispPcs.Name = "rbtDispPcs"
-        Me.rbtDispPcs.Size = New System.Drawing.Size(52, 21)
+        Me.rbtDispPcs.Size = New System.Drawing.Size(44, 17)
         Me.rbtDispPcs.TabIndex = 1
         Me.rbtDispPcs.Text = "Pcs"
         Me.rbtDispPcs.UseVisualStyleBackColor = True
@@ -257,7 +259,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.rbtDispBoth.Checked = True
         Me.rbtDispBoth.Location = New System.Drawing.Point(3, 2)
         Me.rbtDispBoth.Name = "rbtDispBoth"
-        Me.rbtDispBoth.Size = New System.Drawing.Size(63, 21)
+        Me.rbtDispBoth.Size = New System.Drawing.Size(51, 17)
         Me.rbtDispBoth.TabIndex = 0
         Me.rbtDispBoth.TabStop = True
         Me.rbtDispBoth.Text = "Both"
@@ -268,7 +270,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.Label11.AutoSize = True
         Me.Label11.Location = New System.Drawing.Point(77, 342)
         Me.Label11.Name = "Label11"
-        Me.Label11.Size = New System.Drawing.Size(96, 17)
+        Me.Label11.Size = New System.Drawing.Size(80, 13)
         Me.Label11.TabIndex = 29
         Me.Label11.Text = "Display Type"
         Me.Label11.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -288,7 +290,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.rbtSubItem.Checked = True
         Me.rbtSubItem.Location = New System.Drawing.Point(73, 2)
         Me.rbtSubItem.Name = "rbtSubItem"
-        Me.rbtSubItem.Size = New System.Drawing.Size(94, 21)
+        Me.rbtSubItem.Size = New System.Drawing.Size(78, 17)
         Me.rbtSubItem.TabIndex = 1
         Me.rbtSubItem.TabStop = True
         Me.rbtSubItem.Text = "Sub Item"
@@ -299,7 +301,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.rbtItem.AutoSize = True
         Me.rbtItem.Location = New System.Drawing.Point(3, 2)
         Me.rbtItem.Name = "rbtItem"
-        Me.rbtItem.Size = New System.Drawing.Size(61, 21)
+        Me.rbtItem.Size = New System.Drawing.Size(52, 17)
         Me.rbtItem.TabIndex = 0
         Me.rbtItem.Text = "Item"
         Me.rbtItem.UseVisualStyleBackColor = True
@@ -309,7 +311,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.Label4.AutoSize = True
         Me.Label4.Location = New System.Drawing.Point(77, 317)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(94, 17)
+        Me.Label4.Size = New System.Drawing.Size(76, 13)
         Me.Label4.TabIndex = 27
         Me.Label4.Text = "Report Type"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -319,7 +321,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.chkRangeOut.AutoSize = True
         Me.chkRangeOut.Location = New System.Drawing.Point(392, 290)
         Me.chkRangeOut.Name = "chkRangeOut"
-        Me.chkRangeOut.Size = New System.Drawing.Size(126, 21)
+        Me.chkRangeOut.Size = New System.Drawing.Size(103, 17)
         Me.chkRangeOut.TabIndex = 26
         Me.chkRangeOut.Text = "Out Of Range"
         Me.chkRangeOut.UseVisualStyleBackColor = True
@@ -333,7 +335,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.chkcmbrange.IntegralHeight = False
         Me.chkcmbrange.Location = New System.Drawing.Point(183, 259)
         Me.chkcmbrange.Name = "chkcmbrange"
-        Me.chkcmbrange.Size = New System.Drawing.Size(290, 25)
+        Me.chkcmbrange.Size = New System.Drawing.Size(290, 22)
         Me.chkcmbrange.TabIndex = 23
         Me.chkcmbrange.ValueSeparator = ", "
         '
@@ -342,7 +344,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.Label1.AutoSize = True
         Me.Label1.Location = New System.Drawing.Point(77, 264)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(52, 17)
+        Me.Label1.Size = New System.Drawing.Size(43, 13)
         Me.Label1.TabIndex = 22
         Me.Label1.Text = "Range"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -361,13 +363,13 @@ Partial Class frmItemRangeWiseStockIssue
         '
         Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExitToolStripMenuItem, Me.NewToolStripMenuItem})
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
-        Me.ContextMenuStrip1.Size = New System.Drawing.Size(135, 52)
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(118, 48)
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
         Me.ExitToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F12
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(134, 24)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.ExitToolStripMenuItem.Text = "Exit"
         Me.ExitToolStripMenuItem.Visible = False
         '
@@ -375,7 +377,7 @@ Partial Class frmItemRangeWiseStockIssue
         '
         Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
         Me.NewToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F3
-        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(134, 24)
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(117, 22)
         Me.NewToolStripMenuItem.Text = "New"
         Me.NewToolStripMenuItem.Visible = False
         '
@@ -406,7 +408,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.ChkItemMode.IntegralHeight = False
         Me.ChkItemMode.Location = New System.Drawing.Point(183, 60)
         Me.ChkItemMode.Name = "ChkItemMode"
-        Me.ChkItemMode.Size = New System.Drawing.Size(290, 25)
+        Me.ChkItemMode.Size = New System.Drawing.Size(290, 22)
         Me.ChkItemMode.TabIndex = 5
         Me.ChkItemMode.ValueSeparator = ", "
         '
@@ -415,7 +417,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.Label12.AutoSize = True
         Me.Label12.Location = New System.Drawing.Point(77, 65)
         Me.Label12.Name = "Label12"
-        Me.Label12.Size = New System.Drawing.Size(82, 17)
+        Me.Label12.Size = New System.Drawing.Size(68, 13)
         Me.Label12.TabIndex = 4
         Me.Label12.Text = "Item Mode"
         Me.Label12.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -429,7 +431,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.chkCmbDesigner.IntegralHeight = False
         Me.chkCmbDesigner.Location = New System.Drawing.Point(183, 134)
         Me.chkCmbDesigner.Name = "chkCmbDesigner"
-        Me.chkCmbDesigner.Size = New System.Drawing.Size(290, 25)
+        Me.chkCmbDesigner.Size = New System.Drawing.Size(290, 22)
         Me.chkCmbDesigner.TabIndex = 13
         Me.chkCmbDesigner.ValueSeparator = ", "
         '
@@ -442,10 +444,9 @@ Partial Class frmItemRangeWiseStockIssue
         Me.chkCmbItem.IntegralHeight = False
         Me.chkCmbItem.Location = New System.Drawing.Point(183, 85)
         Me.chkCmbItem.Name = "chkCmbItem"
-        Me.chkCmbItem.Size = New System.Drawing.Size(290, 25)
+        Me.chkCmbItem.Size = New System.Drawing.Size(290, 22)
         Me.chkCmbItem.TabIndex = 7
         Me.chkCmbItem.ValueSeparator = ", "
-        AddHandler Me.chkCmbItem.Validated, AddressOf Me.chkCmbItem_Validated_1
         '
         'chkCmbCostCentre
         '
@@ -456,7 +457,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.chkCmbCostCentre.IntegralHeight = False
         Me.chkCmbCostCentre.Location = New System.Drawing.Point(183, 234)
         Me.chkCmbCostCentre.Name = "chkCmbCostCentre"
-        Me.chkCmbCostCentre.Size = New System.Drawing.Size(290, 25)
+        Me.chkCmbCostCentre.Size = New System.Drawing.Size(290, 22)
         Me.chkCmbCostCentre.TabIndex = 21
         Me.chkCmbCostCentre.ValueSeparator = ", "
         '
@@ -469,7 +470,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.chkCmbMetal.IntegralHeight = False
         Me.chkCmbMetal.Location = New System.Drawing.Point(183, 11)
         Me.chkCmbMetal.Name = "chkCmbMetal"
-        Me.chkCmbMetal.Size = New System.Drawing.Size(290, 25)
+        Me.chkCmbMetal.Size = New System.Drawing.Size(290, 22)
         Me.chkCmbMetal.TabIndex = 1
         Me.chkCmbMetal.ValueSeparator = ", "
         '
@@ -482,7 +483,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.chkCmbItemType.IntegralHeight = False
         Me.chkCmbItemType.Location = New System.Drawing.Point(183, 209)
         Me.chkCmbItemType.Name = "chkCmbItemType"
-        Me.chkCmbItemType.Size = New System.Drawing.Size(290, 25)
+        Me.chkCmbItemType.Size = New System.Drawing.Size(290, 22)
         Me.chkCmbItemType.TabIndex = 19
         Me.chkCmbItemType.ValueSeparator = ", "
         '
@@ -495,7 +496,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.chkCmbCounter.IntegralHeight = False
         Me.chkCmbCounter.Location = New System.Drawing.Point(183, 184)
         Me.chkCmbCounter.Name = "chkCmbCounter"
-        Me.chkCmbCounter.Size = New System.Drawing.Size(290, 25)
+        Me.chkCmbCounter.Size = New System.Drawing.Size(290, 22)
         Me.chkCmbCounter.TabIndex = 17
         Me.chkCmbCounter.ValueSeparator = ", "
         '
@@ -508,7 +509,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.chkCmbCompany.IntegralHeight = False
         Me.chkCmbCompany.Location = New System.Drawing.Point(183, 159)
         Me.chkCmbCompany.Name = "chkCmbCompany"
-        Me.chkCmbCompany.Size = New System.Drawing.Size(290, 25)
+        Me.chkCmbCompany.Size = New System.Drawing.Size(290, 22)
         Me.chkCmbCompany.TabIndex = 15
         Me.chkCmbCompany.ValueSeparator = ", "
         '
@@ -520,7 +521,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.dtpTo.MinimumDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpTo.Name = "dtpTo"
         Me.dtpTo.Seperator = Global.Microsoft.VisualBasic.ChrW(47)
-        Me.dtpTo.Size = New System.Drawing.Size(93, 24)
+        Me.dtpTo.Size = New System.Drawing.Size(93, 21)
         Me.dtpTo.TabIndex = 11
         Me.dtpTo.Text = "07/03/9998"
         Me.dtpTo.Value = New Date(9998, 3, 7, 0, 0, 0, 0)
@@ -533,7 +534,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.dtpFrom.MinimumDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpFrom.Name = "dtpFrom"
         Me.dtpFrom.Seperator = Global.Microsoft.VisualBasic.ChrW(47)
-        Me.dtpFrom.Size = New System.Drawing.Size(93, 24)
+        Me.dtpFrom.Size = New System.Drawing.Size(93, 21)
         Me.dtpFrom.TabIndex = 9
         Me.dtpFrom.Text = "07/03/9998"
         Me.dtpFrom.Value = New Date(9998, 3, 7, 0, 0, 0, 0)
@@ -553,7 +554,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.rbtNonTag.AutoSize = True
         Me.rbtNonTag.Location = New System.Drawing.Point(126, 2)
         Me.rbtNonTag.Name = "rbtNonTag"
-        Me.rbtNonTag.Size = New System.Drawing.Size(86, 21)
+        Me.rbtNonTag.Size = New System.Drawing.Size(71, 17)
         Me.rbtNonTag.TabIndex = 2
         Me.rbtNonTag.Text = "Non Tag"
         Me.rbtNonTag.UseVisualStyleBackColor = True
@@ -563,7 +564,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.rbtTag.AutoSize = True
         Me.rbtTag.Location = New System.Drawing.Point(73, 2)
         Me.rbtTag.Name = "rbtTag"
-        Me.rbtTag.Size = New System.Drawing.Size(53, 21)
+        Me.rbtTag.Size = New System.Drawing.Size(45, 17)
         Me.rbtTag.TabIndex = 1
         Me.rbtTag.Text = "Tag"
         Me.rbtTag.UseVisualStyleBackColor = True
@@ -574,7 +575,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.rbtBoth.Checked = True
         Me.rbtBoth.Location = New System.Drawing.Point(3, 2)
         Me.rbtBoth.Name = "rbtBoth"
-        Me.rbtBoth.Size = New System.Drawing.Size(63, 21)
+        Me.rbtBoth.Size = New System.Drawing.Size(51, 17)
         Me.rbtBoth.TabIndex = 0
         Me.rbtBoth.TabStop = True
         Me.rbtBoth.Text = "Both"
@@ -585,7 +586,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.cmbCategory.FormattingEnabled = True
         Me.cmbCategory.Location = New System.Drawing.Point(183, 36)
         Me.cmbCategory.Name = "cmbCategory"
-        Me.cmbCategory.Size = New System.Drawing.Size(290, 25)
+        Me.cmbCategory.Size = New System.Drawing.Size(290, 21)
         Me.cmbCategory.TabIndex = 3
         '
         'label10
@@ -593,7 +594,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.label10.AutoSize = True
         Me.label10.Location = New System.Drawing.Point(77, 16)
         Me.label10.Name = "label10"
-        Me.label10.Size = New System.Drawing.Size(44, 17)
+        Me.label10.Size = New System.Drawing.Size(37, 13)
         Me.label10.TabIndex = 0
         Me.label10.Text = "Metal"
         Me.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -603,7 +604,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(77, 90)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(79, 17)
+        Me.Label3.Size = New System.Drawing.Size(67, 13)
         Me.Label3.TabIndex = 6
         Me.Label3.Text = "ItemName"
         Me.Label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -613,7 +614,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.Label2.AutoSize = True
         Me.Label2.Location = New System.Drawing.Point(77, 40)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(72, 17)
+        Me.Label2.Size = New System.Drawing.Size(60, 13)
         Me.Label2.TabIndex = 2
         Me.Label2.Text = "Category"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -623,7 +624,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.Label.AutoSize = True
         Me.Label.Location = New System.Drawing.Point(77, 239)
         Me.Label.Name = "Label"
-        Me.Label.Size = New System.Drawing.Size(93, 17)
+        Me.Label.Size = New System.Drawing.Size(76, 13)
         Me.Label.TabIndex = 20
         Me.Label.Text = "Cost Centre"
         Me.Label.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -633,7 +634,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.Label8.AutoSize = True
         Me.Label8.Location = New System.Drawing.Point(77, 214)
         Me.Label8.Name = "Label8"
-        Me.Label8.Size = New System.Drawing.Size(78, 17)
+        Me.Label8.Size = New System.Drawing.Size(65, 13)
         Me.Label8.TabIndex = 18
         Me.Label8.Text = "Item Type"
         Me.Label8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -643,7 +644,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.Label9.AutoSize = True
         Me.Label9.Location = New System.Drawing.Point(77, 164)
         Me.Label9.Name = "Label9"
-        Me.Label9.Size = New System.Drawing.Size(74, 17)
+        Me.Label9.Size = New System.Drawing.Size(62, 13)
         Me.Label9.TabIndex = 14
         Me.Label9.Text = "Company"
         Me.Label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -653,7 +654,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.Label7.AutoSize = True
         Me.Label7.Location = New System.Drawing.Point(77, 189)
         Me.Label7.Name = "Label7"
-        Me.Label7.Size = New System.Drawing.Size(109, 17)
+        Me.Label7.Size = New System.Drawing.Size(90, 13)
         Me.Label7.TabIndex = 16
         Me.Label7.Text = "Counter Name"
         Me.Label7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -663,7 +664,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.Label5.AutoSize = True
         Me.Label5.Location = New System.Drawing.Point(77, 291)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(109, 17)
+        Me.Label5.Size = New System.Drawing.Size(90, 13)
         Me.Label5.TabIndex = 24
         Me.Label5.Text = "Selection Type"
         Me.Label5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -673,7 +674,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.lblTo.AutoSize = True
         Me.lblTo.Location = New System.Drawing.Point(282, 115)
         Me.lblTo.Name = "lblTo"
-        Me.lblTo.Size = New System.Drawing.Size(24, 17)
+        Me.lblTo.Size = New System.Drawing.Size(20, 13)
         Me.lblTo.TabIndex = 10
         Me.lblTo.Text = "To"
         Me.lblTo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -683,7 +684,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.Label6.AutoSize = True
         Me.Label6.Location = New System.Drawing.Point(77, 139)
         Me.Label6.Name = "Label6"
-        Me.Label6.Size = New System.Drawing.Size(70, 17)
+        Me.Label6.Size = New System.Drawing.Size(58, 13)
         Me.Label6.TabIndex = 12
         Me.Label6.Text = "Designer"
         Me.Label6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -695,10 +696,10 @@ Partial Class frmItemRangeWiseStockIssue
         Me.tabView.Controls.Add(Me.gridViewHead)
         Me.tabView.Controls.Add(Me.lblTitle)
         Me.tabView.Controls.Add(Me.pnlfooter)
-        Me.tabView.Location = New System.Drawing.Point(4, 29)
+        Me.tabView.Location = New System.Drawing.Point(4, 25)
         Me.tabView.Name = "tabView"
         Me.tabView.Padding = New System.Windows.Forms.Padding(3)
-        Me.tabView.Size = New System.Drawing.Size(933, 589)
+        Me.tabView.Size = New System.Drawing.Size(933, 593)
         Me.tabView.TabIndex = 1
         Me.tabView.Text = "View"
         Me.tabView.UseVisualStyleBackColor = True
@@ -719,7 +720,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.gridviewDetail.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.[False]
         Me.gridviewDetail.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.gridviewDetail.ShowCellToolTips = False
-        Me.gridviewDetail.Size = New System.Drawing.Size(927, 475)
+        Me.gridviewDetail.Size = New System.Drawing.Size(927, 479)
         Me.gridviewDetail.TabIndex = 5
         Me.gridviewDetail.Visible = False
         '
@@ -740,20 +741,20 @@ Partial Class frmItemRangeWiseStockIssue
         Me.gridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.[False]
         Me.gridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
         Me.gridView.ShowCellToolTips = False
-        Me.gridView.Size = New System.Drawing.Size(927, 475)
+        Me.gridView.Size = New System.Drawing.Size(927, 479)
         Me.gridView.TabIndex = 1
         '
         'cmbGridShortCut
         '
         Me.cmbGridShortCut.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ResizeToolStripMenuItem})
         Me.cmbGridShortCut.Name = "ContextMenuStrip2"
-        Me.cmbGridShortCut.Size = New System.Drawing.Size(157, 28)
+        Me.cmbGridShortCut.Size = New System.Drawing.Size(136, 26)
         '
         'ResizeToolStripMenuItem
         '
         Me.ResizeToolStripMenuItem.CheckOnClick = True
         Me.ResizeToolStripMenuItem.Name = "ResizeToolStripMenuItem"
-        Me.ResizeToolStripMenuItem.Size = New System.Drawing.Size(156, 24)
+        Me.ResizeToolStripMenuItem.Size = New System.Drawing.Size(135, 22)
         Me.ResizeToolStripMenuItem.Text = "Auto Resize"
         '
         'gridViewHead
@@ -794,7 +795,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.pnlfooter.Controls.Add(Me.btnPost)
         Me.pnlfooter.Controls.Add(Me.btnExport)
         Me.pnlfooter.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.pnlfooter.Location = New System.Drawing.Point(3, 544)
+        Me.pnlfooter.Location = New System.Drawing.Point(3, 548)
         Me.pnlfooter.Name = "pnlfooter"
         Me.pnlfooter.Size = New System.Drawing.Size(927, 42)
         Me.pnlfooter.TabIndex = 2
@@ -806,7 +807,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.Label14.ForeColor = System.Drawing.Color.Red
         Me.Label14.Location = New System.Drawing.Point(5, 12)
         Me.Label14.Name = "Label14"
-        Me.Label14.Size = New System.Drawing.Size(275, 18)
+        Me.Label14.Size = New System.Drawing.Size(224, 14)
         Me.Label14.TabIndex = 3
         Me.Label14.Text = "All Metal Select for Stone Details"
         '
@@ -817,7 +818,7 @@ Partial Class frmItemRangeWiseStockIssue
         Me.Label13.ForeColor = System.Drawing.Color.Red
         Me.Label13.Location = New System.Drawing.Point(229, 12)
         Me.Label13.Name = "Label13"
-        Me.Label13.Size = New System.Drawing.Size(211, 18)
+        Me.Label13.Size = New System.Drawing.Size(171, 14)
         Me.Label13.TabIndex = 2
         Me.Label13.Text = "Press T for Stone Details"
         '
@@ -868,9 +869,19 @@ Partial Class frmItemRangeWiseStockIssue
         Me.btnExport.Text = "Export [X]"
         Me.btnExport.UseVisualStyleBackColor = True
         '
+        'chkOnlyGrandTotal
+        '
+        Me.chkOnlyGrandTotal.AutoSize = True
+        Me.chkOnlyGrandTotal.Location = New System.Drawing.Point(493, 313)
+        Me.chkOnlyGrandTotal.Name = "chkOnlyGrandTotal"
+        Me.chkOnlyGrandTotal.Size = New System.Drawing.Size(157, 17)
+        Me.chkOnlyGrandTotal.TabIndex = 35
+        Me.chkOnlyGrandTotal.Text = "Show Only Grand Total"
+        Me.chkOnlyGrandTotal.UseVisualStyleBackColor = True
+        '
         'frmItemRangeWiseStockIssue
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(9.0!, 17.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(941, 622)
         Me.ContextMenuStrip = Me.ContextMenuStrip1
@@ -972,4 +983,5 @@ Partial Class frmItemRangeWiseStockIssue
     Friend WithEvents chkZero As CheckBox
     Friend WithEvents btnPost As Button
     Friend WithEvents BtnGenerate As Button
+    Friend WithEvents chkOnlyGrandTotal As CheckBox
 End Class
