@@ -7,15 +7,19 @@ Public Class frmSalesIncentive
 
     Private dgv As DataGridView
     Private lblTotalWeight As Label
+    Private lblGreeting As Label
+    Private lblCaption As Label
     Private lblTotalIncentiveBig As Label
     Private lblFooter As Label
     Private btnOk As Button
     Private pnlIncentiveBox As Panel
 
     Private _goldRatePerGram As Decimal
+    Private _staffName As String
 
-    Public Sub New(goldRatePerGram As Decimal)
+    Public Sub New(goldRatePerGram As Decimal, staffName As String)
         _goldRatePerGram = goldRatePerGram
+        _staffName = staffName
         Me.KeyPreview = True
         BuildUI()
     End Sub
@@ -28,7 +32,7 @@ Public Class frmSalesIncentive
         Me.MinimizeBox = False
         Me.BackColor = SystemColors.InactiveCaption
         Me.Width = 700
-        Me.Height = 530
+        Me.Height = 580
         Me.Font = New Font("Segoe UI", 10.0F)
 
         ' Header
@@ -51,7 +55,7 @@ Public Class frmSalesIncentive
         lblTotalWeight.Font = New Font("Segoe UI", 14.0F, FontStyle.Bold)
         lblTotalWeight.ForeColor = SystemColors.ControlText
         lblTotalWeight.Location = New Point(16, 60)
-        lblTotalWeight.Text = "Total weight: 0 g"
+        lblTotalWeight.Text = "Total weight: 0.000 g"
         Me.Controls.Add(lblTotalWeight)
 
         ' DataGridView
@@ -84,35 +88,53 @@ Public Class frmSalesIncentive
         pnlIncentiveBox = New Panel
         pnlIncentiveBox.Location = New Point(16, 330)
         pnlIncentiveBox.Width = 652
-        pnlIncentiveBox.Height = 100
+        pnlIncentiveBox.Height = 140
         pnlIncentiveBox.BackColor = Color.Lavender
-        Dim lblCaption As New Label
+
+        ' Greeting: "Congratulations [Name]"
+        lblGreeting = New Label
+        lblGreeting.AutoSize = False
+        lblGreeting.Width = 652
+        lblGreeting.Height = 30
+        lblGreeting.Location = New Point(0, 8)
+        lblGreeting.TextAlign = ContentAlignment.MiddleCenter
+        lblGreeting.Font = New Font("Segoe UI", 11.0F, FontStyle.Bold)
+        lblGreeting.BackColor = Color.Transparent
+        lblGreeting.ForeColor = SystemColors.ControlText
+        lblGreeting.Text = "Congratulations " & _staffName
+
+        ' Sub caption
+        lblCaption = New Label
         lblCaption.AutoSize = False
         lblCaption.Width = 652
-        lblCaption.Height = 26
-        lblCaption.Location = New Point(0, 14)
+        lblCaption.Height = 22
+        lblCaption.Location = New Point(0, 44)
         lblCaption.TextAlign = ContentAlignment.MiddleCenter
         lblCaption.Font = New Font("Segoe UI", 10.0F)
         lblCaption.BackColor = Color.Transparent
         lblCaption.ForeColor = SystemColors.ControlText
-        lblCaption.Text = "Your total incentive on this sale"
+        lblCaption.Text = "Your total individual incentive on this sale :-"
+
+        ' Big incentive amount
         lblTotalIncentiveBig = New Label
         lblTotalIncentiveBig.AutoSize = False
         lblTotalIncentiveBig.Width = 652
-        lblTotalIncentiveBig.Height = 46
-        lblTotalIncentiveBig.Location = New Point(0, 40)
+        lblTotalIncentiveBig.Height = 52
+        lblTotalIncentiveBig.Location = New Point(0, 70)
         lblTotalIncentiveBig.TextAlign = ContentAlignment.MiddleCenter
         lblTotalIncentiveBig.Font = New Font("Segoe UI", 26.0F, FontStyle.Bold)
         lblTotalIncentiveBig.BackColor = Color.Transparent
         lblTotalIncentiveBig.ForeColor = Color.DarkBlue
-        lblTotalIncentiveBig.Text = ChrW(8377) & "0.00"
+        lblTotalIncentiveBig.Text = ChrW(8377) & "0"
+
+        pnlIncentiveBox.Controls.Add(lblGreeting)
         pnlIncentiveBox.Controls.Add(lblCaption)
         pnlIncentiveBox.Controls.Add(lblTotalIncentiveBig)
         Me.Controls.Add(pnlIncentiveBox)
 
         ' Ok button
         btnOk = New Button
-        btnOk.Location = New Point(16, 448)
+        btnOk.Location = New Point(16, 482)
         btnOk.Width = 652
         btnOk.Height = 44
         btnOk.Text = "Ok"
@@ -131,7 +153,7 @@ Public Class frmSalesIncentive
         lblFooter.AutoSize = False
         lblFooter.Width = 652
         lblFooter.Height = 22
-        lblFooter.Location = New Point(16, 498)
+        lblFooter.Location = New Point(16, 532)
         lblFooter.TextAlign = ContentAlignment.MiddleCenter
         lblFooter.Font = New Font("Segoe UI", 9.0F)
         lblFooter.ForeColor = SystemColors.ControlText
@@ -207,8 +229,11 @@ Public Class frmSalesIncentive
         dgv.Rows(totIdx).Cells("colRate").Value = ""
         dgv.Rows(totIdx).Cells("colIncentive").Value = ChrW(8377) & Format(totalIncentive, "#,##0.00")
 
+        Dim roundedIncentive As Decimal = Math.Round(totalIncentive, 0, MidpointRounding.AwayFromZero)
+
         lblTotalWeight.Text = "Total weight: " & Format(totalWeight, "0.000") & " g"
-        lblTotalIncentiveBig.Text = ChrW(8377) & Format(totalIncentive, "#,##0.00")
+        lblGreeting.Text = "Congratulations " & _staffName
+        lblTotalIncentiveBig.Text = ChrW(8377) & Format(roundedIncentive, "#,##0")
 
         If _goldRatePerGram > 0 Then
             lblFooter.Text = "Sample: value calculated at " & ChrW(8377) & Format(_goldRatePerGram, "#,##0") & " per gram"
