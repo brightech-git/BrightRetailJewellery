@@ -131247,7 +131247,7 @@ ByVal PurchaseTaxName As String
         AdmindbInsertValuesToSoftControl(compId + suffix, "FINDISCPUR", "FINAL DISCOUNT ON PURCHASE (ALT+F2)", "T", "N", "P")
         AdmindbInsertValuesToSoftControl(compId + suffix, "FINDISCPURMINSALWT", "FINAL DISCOUNT ON PURCHASE MINIMUM SALE WEIGHT", "D", "16", "P")
         AdmindbInsertValuesToSoftControl(compId + suffix, "FINDISCPURMINPURWT", "FINAL DISCOUNT ON PURCHASE MINIMUM PURCHASE WEIGHT", "D", "16", "P")
-        AdmindbInsertValuesToSoftControl(compId + suffix, "STKDWNLDTHRESHDAYS", "STOCK DOWNLOAD THRESHOULD DAYS", "N", "", "S")
+        AdmindbInsertValuesToSoftControl(compId + suffix, "STKDWNLDTHRESHDAYS", "STOCK DOWNLOAD THRESHOULD DAYS", "N", "10000", "S")
 
         strSql = " UPDATE " & compId + suffix & "..SOFTCONTROL SET CTLNAME = 'PURCHASE RATE CALCULATION FROM PURCHASE GROSS VALUE [Y]ES/[N]O' WHERE CTLID = 'PUR_MRATECALC'"
         cmd = New OleDbCommand(strSql, cn, tran)

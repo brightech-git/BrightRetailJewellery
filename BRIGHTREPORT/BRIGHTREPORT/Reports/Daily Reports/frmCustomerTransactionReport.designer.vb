@@ -56,6 +56,7 @@ Partial Class frmCustomerTransactionReport
         Me.btnBack = New System.Windows.Forms.Button()
         Me.btnPrint = New System.Windows.Forms.Button()
         Me.btnExport = New System.Windows.Forms.Button()
+        Me.Label3 = New System.Windows.Forms.Label()
         Me.tabMain.SuspendLayout()
         Me.tabGen.SuspendLayout()
         Me.pnlGroupFilter.SuspendLayout()
@@ -131,7 +132,7 @@ Partial Class frmCustomerTransactionReport
         Me.txtSearch.Location = New System.Drawing.Point(226, 188)
         Me.txtSearch.Name = "txtSearch"
         Me.txtSearch.Size = New System.Drawing.Size(175, 21)
-        Me.txtSearch.TabIndex = 37
+        Me.txtSearch.TabIndex = 6
         '
         'Label4
         '
@@ -139,7 +140,7 @@ Partial Class frmCustomerTransactionReport
         Me.Label4.Location = New System.Drawing.Point(126, 189)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(56, 13)
-        Me.Label4.TabIndex = 36
+        Me.Label4.TabIndex = 15
         Me.Label4.Text = "Search :"
         Me.Label4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -157,7 +158,7 @@ Partial Class frmCustomerTransactionReport
         Me.cmbCostcentre.Location = New System.Drawing.Point(226, 136)
         Me.cmbCostcentre.Name = "cmbCostcentre"
         Me.cmbCostcentre.Size = New System.Drawing.Size(174, 21)
-        Me.cmbCostcentre.TabIndex = 5
+        Me.cmbCostcentre.TabIndex = 4
         '
         'cmbMetal
         '
@@ -165,7 +166,7 @@ Partial Class frmCustomerTransactionReport
         Me.cmbMetal.Location = New System.Drawing.Point(226, 107)
         Me.cmbMetal.Name = "cmbMetal"
         Me.cmbMetal.Size = New System.Drawing.Size(121, 21)
-        Me.cmbMetal.TabIndex = 5
+        Me.cmbMetal.TabIndex = 3
         '
         'Label2
         '
@@ -173,7 +174,7 @@ Partial Class frmCustomerTransactionReport
         Me.Label2.Location = New System.Drawing.Point(125, 168)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(86, 13)
-        Me.Label2.TabIndex = 34
+        Me.Label2.TabIndex = 14
         Me.Label2.Text = "Search Key : "
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -184,7 +185,7 @@ Partial Class frmCustomerTransactionReport
         Me.Panel1.Location = New System.Drawing.Point(124, 35)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(187, 27)
-        Me.Panel1.TabIndex = 35
+        Me.Panel1.TabIndex = 0
         '
         'optBetween
         '
@@ -214,7 +215,7 @@ Partial Class frmCustomerTransactionReport
         Me.Label1.Location = New System.Drawing.Point(125, 139)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(82, 13)
-        Me.Label1.TabIndex = 34
+        Me.Label1.TabIndex = 13
         Me.Label1.Text = "Costcentre : "
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -224,7 +225,7 @@ Partial Class frmCustomerTransactionReport
         Me.Metal.Location = New System.Drawing.Point(125, 110)
         Me.Metal.Name = "Metal"
         Me.Metal.Size = New System.Drawing.Size(50, 13)
-        Me.Metal.TabIndex = 34
+        Me.Metal.TabIndex = 12
         Me.Metal.Text = "Metal : "
         Me.Metal.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -234,7 +235,7 @@ Partial Class frmCustomerTransactionReport
         Me.lblFrom.Location = New System.Drawing.Point(125, 79)
         Me.lblFrom.Name = "lblFrom"
         Me.lblFrom.Size = New System.Drawing.Size(36, 13)
-        Me.lblFrom.TabIndex = 34
+        Me.lblFrom.TabIndex = 10
         Me.lblFrom.Text = "From"
         Me.lblFrom.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -244,7 +245,7 @@ Partial Class frmCustomerTransactionReport
         Me.btnNew.Location = New System.Drawing.Point(218, 228)
         Me.btnNew.Name = "btnNew"
         Me.btnNew.Size = New System.Drawing.Size(100, 30)
-        Me.btnNew.TabIndex = 32
+        Me.btnNew.TabIndex = 8
         Me.btnNew.Text = "&New [F3]"
         Me.btnNew.UseVisualStyleBackColor = True
         '
@@ -275,7 +276,7 @@ Partial Class frmCustomerTransactionReport
         Me.btnExit.Location = New System.Drawing.Point(324, 228)
         Me.btnExit.Name = "btnExit"
         Me.btnExit.Size = New System.Drawing.Size(100, 30)
-        Me.btnExit.TabIndex = 33
+        Me.btnExit.TabIndex = 9
         Me.btnExit.Text = "&Exit [F12]"
         Me.btnExit.UseVisualStyleBackColor = True
         '
@@ -284,7 +285,7 @@ Partial Class frmCustomerTransactionReport
         Me.btnView_Search.Location = New System.Drawing.Point(112, 228)
         Me.btnView_Search.Name = "btnView_Search"
         Me.btnView_Search.Size = New System.Drawing.Size(100, 30)
-        Me.btnView_Search.TabIndex = 6
+        Me.btnView_Search.TabIndex = 7
         Me.btnView_Search.Text = "&View"
         Me.btnView_Search.UseVisualStyleBackColor = True
         '
@@ -297,7 +298,7 @@ Partial Class frmCustomerTransactionReport
         Me.dtpTo.Name = "dtpTo"
         Me.dtpTo.Seperator = Global.Microsoft.VisualBasic.ChrW(47)
         Me.dtpTo.Size = New System.Drawing.Size(93, 21)
-        Me.dtpTo.TabIndex = 4
+        Me.dtpTo.TabIndex = 2
         Me.dtpTo.Text = "07/03/9998"
         Me.dtpTo.Value = New Date(9998, 3, 7, 0, 0, 0, 0)
         '
@@ -310,7 +311,7 @@ Partial Class frmCustomerTransactionReport
         Me.dtpFrom.Name = "dtpFrom"
         Me.dtpFrom.Seperator = Global.Microsoft.VisualBasic.ChrW(47)
         Me.dtpFrom.Size = New System.Drawing.Size(93, 21)
-        Me.dtpFrom.TabIndex = 3
+        Me.dtpFrom.TabIndex = 1
         Me.dtpFrom.Text = "07/03/9998"
         Me.dtpFrom.Value = New Date(9998, 3, 7, 0, 0, 0, 0)
         '
@@ -320,7 +321,7 @@ Partial Class frmCustomerTransactionReport
         Me.lblTo.Location = New System.Drawing.Point(324, 80)
         Me.lblTo.Name = "lblTo"
         Me.lblTo.Size = New System.Drawing.Size(20, 13)
-        Me.lblTo.TabIndex = 10
+        Me.lblTo.TabIndex = 11
         Me.lblTo.Text = "To"
         Me.lblTo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
@@ -424,6 +425,7 @@ Partial Class frmCustomerTransactionReport
         '
         'pnlfooter
         '
+        Me.pnlfooter.Controls.Add(Me.Label3)
         Me.pnlfooter.Controls.Add(Me.btnBack)
         Me.pnlfooter.Controls.Add(Me.btnPrint)
         Me.pnlfooter.Controls.Add(Me.btnExport)
@@ -435,7 +437,7 @@ Partial Class frmCustomerTransactionReport
         '
         'btnBack
         '
-        Me.btnBack.Location = New System.Drawing.Point(256, 6)
+        Me.btnBack.Location = New System.Drawing.Point(6, 6)
         Me.btnBack.Name = "btnBack"
         Me.btnBack.Size = New System.Drawing.Size(100, 30)
         Me.btnBack.TabIndex = 1
@@ -444,7 +446,7 @@ Partial Class frmCustomerTransactionReport
         '
         'btnPrint
         '
-        Me.btnPrint.Location = New System.Drawing.Point(466, 6)
+        Me.btnPrint.Location = New System.Drawing.Point(216, 6)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(100, 30)
         Me.btnPrint.TabIndex = 0
@@ -453,12 +455,22 @@ Partial Class frmCustomerTransactionReport
         '
         'btnExport
         '
-        Me.btnExport.Location = New System.Drawing.Point(360, 6)
+        Me.btnExport.Location = New System.Drawing.Point(110, 6)
         Me.btnExport.Name = "btnExport"
         Me.btnExport.Size = New System.Drawing.Size(100, 30)
         Me.btnExport.TabIndex = 0
         Me.btnExport.Text = "Export [X]"
         Me.btnExport.UseVisualStyleBackColor = True
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(447, 15)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(474, 13)
+        Me.Label3.TabIndex = 2
+        Me.Label3.Text = "Press R to view the Bill detail and Press B to view Mobile number wise transactio" &
+    "n"
         '
         'frmCustomerTransactionReport
         '
@@ -489,6 +501,7 @@ Partial Class frmCustomerTransactionReport
         Me.cmbGridShortCut.ResumeLayout(False)
         CType(Me.gridViewHead, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlfooter.ResumeLayout(False)
+        Me.pnlfooter.PerformLayout()
         Me.ResumeLayout(False)
 
     End Sub
@@ -528,4 +541,5 @@ Partial Class frmCustomerTransactionReport
     Friend WithEvents Label2 As Label
     Friend WithEvents txtSearch As TextBox
     Friend WithEvents Label4 As Label
+    Friend WithEvents Label3 As Label
 End Class

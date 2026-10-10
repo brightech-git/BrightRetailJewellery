@@ -529,14 +529,38 @@ Public Class frmCustomerTransactionReport
     ' colouring either way, only the column being matched and the heading differ.
     ' The grid shows RUNNO with its five character prefix stripped - the procedure selects
     ' SUBSTRING(RUNNO,6,20) - so the prefix has to be put back to match OUTSTANDING.
+    ' Only writes a tender column when the leg actually carries a value, so untouched
+    ' tenders stay blank instead of showing a row of zeroes.
+    Private Sub SetTenderColumn(ByVal target As DataRow, ByVal columnName As String, ByVal value As Object)
+        If value Is Nothing OrElse IsDBNull(value) Then Exit Sub
+        If Not target.Table.Columns.Contains(columnName) Then Exit Sub
+        If Convert.ToDecimal(value) = 0 Then Exit Sub
+        target(columnName) = value
+    End Sub
+
     Private Function GetOutstandingDetail(ByVal runNo As String) As DataTable
         Dim dtOutstanding As New DataTable
         Try
             Dim fullRunNo As String = "00" & strCompanyId & runNo.Trim
 
-            strSql = "SELECT TRANNO,TRANDATE,RUNNO,AMOUNT,RECPAY FROM " & cnAdminDb & "..OUTSTANDING"
-            strSql += vbCrLf + " WHERE RUNNO = '" & fullRunNo.Replace("'", "''") & "' AND ISNULL(CANCEL,'') = ''"
-            strSql += vbCrLf + " ORDER BY TRANDATE"
+            ' Tender split comes from the debit legs of ACCTRAN for the same BATCHNO. A
+            ' receipt can have several legs (card + advance, say), so they are pivoted into
+            ' one row per outstanding record - a plain join would duplicate the amounts and
+            ' throw the BALANCE out.
+            strSql = "SELECT O.TRANNO,O.TRANDATE,O.RUNNO,O.AMOUNT,O.RECPAY"
+            strSql += vbCrLf + " ,X.CASHAMT,X.CARDAMT,X.ADVAMT,X.CHITAMT,X.CREDITAMT"
+            strSql += vbCrLf + " FROM " & cnAdminDb & "..OUTSTANDING O"
+            strSql += vbCrLf + " OUTER APPLY ("
+            strSql += vbCrLf + "   SELECT SUM(CASE WHEN A.PAYMODE = 'CA' THEN A.AMOUNT ELSE 0 END) CASHAMT"
+            strSql += vbCrLf + "        , SUM(CASE WHEN A.PAYMODE = 'CC' THEN A.AMOUNT ELSE 0 END) CARDAMT"
+            strSql += vbCrLf + "        , SUM(CASE WHEN A.PAYMODE = 'AA' THEN A.AMOUNT ELSE 0 END) ADVAMT"
+            strSql += vbCrLf + "        , SUM(CASE WHEN A.PAYMODE IN ('SS','CG','CB','CZ','CD','HB','HD','HP','CT') THEN A.AMOUNT ELSE 0 END) CHITAMT"
+            strSql += vbCrLf + "        , SUM(CASE WHEN A.PAYMODE = 'DU' THEN A.AMOUNT ELSE 0 END) CREDITAMT"
+            strSql += vbCrLf + "   FROM " & cnStockDb & "..ACCTRAN A"
+            strSql += vbCrLf + "   WHERE A.BATCHNO = O.BATCHNO AND A.TRANMODE = 'D'"
+            strSql += vbCrLf + " ) X"
+            strSql += vbCrLf + " WHERE O.RUNNO = '" & fullRunNo.Replace("'", "''") & "' AND ISNULL(O.CANCEL,'') = ''"
+            strSql += vbCrLf + " ORDER BY O.TRANDATE"
 
             cmd = New OleDb.OleDbCommand(strSql, cn)
             da = New OleDbDataAdapter(cmd)
@@ -633,6 +657,14 @@ Public Class frmCustomerTransactionReport
                 End If
                 If Not IsDBNull(rvOut("AMOUNT")) Then outRow("AMOUNT") = rvOut("AMOUNT")
                 Dim outAmount As Decimal = If(IsDBNull(rvOut("AMOUNT")), 0D, Convert.ToDecimal(rvOut("AMOUNT")))
+
+                ' One receipt can carry several tenders, so each column is filled from its
+                ' own total rather than picking a single payment mode.
+                SetTenderColumn(outRow, "CASH", rvOut("CASHAMT"))
+                SetTenderColumn(outRow, "CARD", rvOut("CARDAMT"))
+                SetTenderColumn(outRow, "ADVANCE", rvOut("ADVAMT"))
+                SetTenderColumn(outRow, "CHIT", rvOut("CHITAMT"))
+                SetTenderColumn(outRow, "CREDIT", rvOut("CREDITAMT"))
                 Select Case UCase(If(IsDBNull(rvOut("RECPAY")), "", rvOut("RECPAY").ToString).Trim)
                     Case "P"
                         outRow("ITEMNAME") = "PAYMENT"
