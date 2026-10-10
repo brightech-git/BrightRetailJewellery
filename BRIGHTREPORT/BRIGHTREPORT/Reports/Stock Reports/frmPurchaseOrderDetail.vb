@@ -131,7 +131,7 @@ Public Class frmPurchaseOrderDetail
             DgView.DataSource = Nothing
             DgView.DataSource = dt
 
-            Dim rightCols() As String = {"GRSWT", "NETWT", "RETURN AMOUNT", "AMOUNT", "CASH", "CARD", "ADVANCE", "CHIT", "CREDIT", "JND", "TOTAL"}
+            Dim rightCols() As String = {"GRSWT", "NETWT", "RETURN AMOUNT", "AMOUNT", "CASH", "CARD", "CHEQUE", "ADVANCE", "CHIT", "CREDIT", "JND", "TOTAL"}
 
             For Each colName As String In rightCols
                 If DgView.Columns.Contains(colName) Then

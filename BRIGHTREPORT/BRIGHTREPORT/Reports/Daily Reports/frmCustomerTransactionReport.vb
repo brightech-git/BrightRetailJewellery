@@ -548,11 +548,12 @@ Public Class frmCustomerTransactionReport
             ' one row per outstanding record - a plain join would duplicate the amounts and
             ' throw the BALANCE out.
             strSql = "SELECT O.TRANNO,O.TRANDATE,O.RUNNO,O.AMOUNT,O.RECPAY"
-            strSql += vbCrLf + " ,X.CASHAMT,X.CARDAMT,X.ADVAMT,X.CHITAMT,X.CREDITAMT"
+            strSql += vbCrLf + " ,X.CASHAMT,X.CARDAMT,X.CHQAMT,X.ADVAMT,X.CHITAMT,X.CREDITAMT"
             strSql += vbCrLf + " FROM " & cnAdminDb & "..OUTSTANDING O"
             strSql += vbCrLf + " OUTER APPLY ("
             strSql += vbCrLf + "   SELECT SUM(CASE WHEN A.PAYMODE = 'CA' THEN A.AMOUNT ELSE 0 END) CASHAMT"
             strSql += vbCrLf + "        , SUM(CASE WHEN A.PAYMODE = 'CC' THEN A.AMOUNT ELSE 0 END) CARDAMT"
+            strSql += vbCrLf + "        , SUM(CASE WHEN A.PAYMODE = 'CH' THEN A.AMOUNT ELSE 0 END) CHQAMT"
             strSql += vbCrLf + "        , SUM(CASE WHEN A.PAYMODE = 'AA' THEN A.AMOUNT ELSE 0 END) ADVAMT"
             strSql += vbCrLf + "        , SUM(CASE WHEN A.PAYMODE IN ('SS','CG','CB','CZ','CD','HB','HD','HP','CT') THEN A.AMOUNT ELSE 0 END) CHITAMT"
             strSql += vbCrLf + "        , SUM(CASE WHEN A.PAYMODE = 'DU' THEN A.AMOUNT ELSE 0 END) CREDITAMT"
@@ -573,7 +574,7 @@ Public Class frmCustomerTransactionReport
     Private Sub ShowTransactionDetail(ByVal filterColumn As String, ByVal filterValue As String, ByVal heading As String, Optional ByVal dtOutstanding As DataTable = Nothing)
         Dim dv As New DataView(dtSource)
         dv.RowFilter = filterColumn & " = '" & filterValue.Replace("'", "''") & "'"
-        Dim dtFilteredDate As DataTable = dv.ToTable(False, "TRANDATE", "BILLNO", "PHONENO", "RUNNO", "IITEMNAME", "IGRSWT", "INETWT", "RAMOUNT", "IAMOUNT", "CASH", "CARD", "ADVANCE", "CHITCARD", "CREDIT", "JND", "TOTAL", "CUSTOMER")
+        Dim dtFilteredDate As DataTable = dv.ToTable(False, "TRANDATE", "BILLNO", "PHONENO", "RUNNO", "IITEMNAME", "IGRSWT", "INETWT", "RAMOUNT", "IAMOUNT", "CASH", "CARD", "CHEQUE", "ADVANCE", "CHITCARD", "CREDIT", "JND", "TOTAL", "CUSTOMER")
 
         Dim colSno As New DataColumn("SNO", GetType(Integer))
         dtFilteredDate.Columns.Add(colSno)
@@ -592,7 +593,7 @@ Public Class frmCustomerTransactionReport
         dtFilteredDate.Columns("IAMOUNT").ColumnName = "AMOUNT"
         dtFilteredDate.Columns("CHITCARD").ColumnName = "CHIT"
 
-        Dim totalCols() As String = {"GRSWT", "NETWT", "RETURN AMOUNT", "AMOUNT", "CASH", "CARD", "ADVANCE", "CHIT", "CREDIT", "JND", "TOTAL"}
+        Dim totalCols() As String = {"GRSWT", "NETWT", "RETURN AMOUNT", "AMOUNT", "CASH", "CARD", "CHEQUE", "ADVANCE", "CHIT", "CREDIT", "JND", "TOTAL"}
 
         ' Rebuild the table with a BILL TOTAL row after each bill, followed by one GRAND TOTAL row.
         Dim dtGrouped As DataTable = dtFilteredDate.Clone()
@@ -662,6 +663,7 @@ Public Class frmCustomerTransactionReport
                 ' own total rather than picking a single payment mode.
                 SetTenderColumn(outRow, "CASH", rvOut("CASHAMT"))
                 SetTenderColumn(outRow, "CARD", rvOut("CARDAMT"))
+                SetTenderColumn(outRow, "CHEQUE", rvOut("CHQAMT"))
                 SetTenderColumn(outRow, "ADVANCE", rvOut("ADVAMT"))
                 SetTenderColumn(outRow, "CHIT", rvOut("CHITAMT"))
                 SetTenderColumn(outRow, "CREDIT", rvOut("CREDITAMT"))
