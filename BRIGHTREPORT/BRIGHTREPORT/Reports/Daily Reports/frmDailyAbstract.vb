@@ -5992,8 +5992,8 @@ Public Class frmDailyAbstract
 
     Private Sub ProcCreditPurchasePayment()
         StrSql = "  IF EXISTS(SELECT 1 FROM TEMPTABLEDB..SYSOBJECTS WHERE XTYPE = 'U' AND NAME = 'TEMP" & systemId & "ABSCREDPURPAY') DROP TABLE TEMPTABLEDB..TEMP" & systemId & "ABSCREDPURPAY "
-        StrSql += vbCrLf + " SELECT SUBSTRING(O.RUNNO,1,20) + ' - ' + (SELECT (PNAME+' '+INITIAL) CATNAME FROM "
-        StrSql += cnAdminDb & "..PERSONALINFO WHERE SNO = (SELECT TOP 1 PSNO FROM " & cnAdminDb & "..CUSTOMERINFO  WHERE BATCHNO = O.BATCHNO)) "
+        StrSql += vbCrLf + " SELECT ISNULL(SUBSTRING(O.RUNNO,1,20) + ' - ' + (SELECT (PNAME+' '+INITIAL) CATNAME FROM "
+        StrSql += cnAdminDb & "..PERSONALINFO WHERE SNO = (SELECT TOP 1 PSNO FROM " & cnAdminDb & "..CUSTOMERINFO  WHERE BATCHNO = O.BATCHNO)), ISNULL(SUBSTRING(O.RUNNO,1,20),CONVERT(VARCHAR(20),O.BATCHNO))) "
         'StrSql += VBCRLF + " '(INV NO: '+SUBSTRING(O.RUNNO,6,20) +' - '+CONVERT(VARCHAR,O.TRANDATE,103)+')' AS CATNAME,  "
         StrSql += vbCrLf + "  AS CATNAME,  "
         'StrSql += vbCrLf + " '(INV NO: '+ CONVERT(VARCHAR(12),O.TRANNO) + '- REF NO: '+SUBSTRING(O.RUNNO,3,20)+', NETWT: '+ CONVERT (VARCHAR(20),(SELECT SUM(ISNULL(NETWT,0)) FROM " & cnStockDb & "..RECEIPT WHERE BATCHNO IN(SELECT BATCHNO FROM  " & cnAdminDb & "..OUTSTANDING WHERE RUNNO=O.RUNNO))) +')' AS CATNAME,  "
@@ -7439,6 +7439,7 @@ Public Class frmDailyAbstract
                     StrSql += vbCrLf + " ELSE  'CREDITCARD' END"
                 End If
                 StrSql += vbCrLf + " WHEN MODEPAY = 'E' THEN 'ETRANSFER'"
+                StrSql += vbCrLf + " WHEN MODEPAY = 'M' THEN 'MOBILE'"
                 StrSql += vbCrLf + " WHEN MODEPAY = 'O' THEN 'OTHERS'"
                 StrSql += vbCrLf + " END CATNAME,"
                 StrSql += vbCrLf + " SUM(AMOUNT) AS RECEIPT, 0 AS PAYMENT "
@@ -7721,6 +7722,7 @@ Public Class frmDailyAbstract
                     StrSql += vbCrLf + " ELSE  'CREDITCARD' END"
                 End If
                 StrSql += vbCrLf + " WHEN MODEPAY = 'E' THEN 'ETRANSFER'"
+                StrSql += vbCrLf + " WHEN MODEPAY = 'M' THEN 'MOBILE'"
                 StrSql += vbCrLf + " WHEN MODEPAY = 'O' THEN 'OTHERS'"
                 StrSql += vbCrLf + " END CATNAME,"
                 StrSql += vbCrLf + " SUM(AMOUNT) AS RECEIPT, 0 AS PAYMENT "
@@ -7992,6 +7994,7 @@ Public Class frmDailyAbstract
                     StrSql += vbCrLf + " WHEN MODEPAY = 'R' THEN CASE WHEN S.FREEINSCODE=T.CHQBANKCODE THEN 'BONUS' ELSE  'CREDITCARD' END"
                 End If
                 StrSql += vbCrLf + " WHEN MODEPAY = 'E' THEN 'ETRANSFER'"
+                StrSql += vbCrLf + " WHEN MODEPAY = 'M' THEN 'MOBILE'"
                 StrSql += vbCrLf + " WHEN MODEPAY = 'O' THEN 'OTHERS'"
                 StrSql += vbCrLf + " END CATNAME,"
                 StrSql += vbCrLf + " SUM(AMOUNT) AS RECEIPT, 0 AS PAYMENT "
@@ -9167,12 +9170,13 @@ Public Class frmDailyAbstract
         StrSql += vbCrLf + " WHEN PAYMODE = 'SS' THEN 'SCHEME [(R) '+CONVERT(VARCHAR,SUM(CASE WHEN RECEIPT> 0 THEN RECEIPT ELSE 0 END))+'-'+CONVERT(VARCHAR,SUM(PAYMENT))+' (P)]' "
         StrSql += vbCrLf + " WHEN PAYMODE = 'GV' THEN 'GIFT VOUCHER [(R) '+CONVERT(VARCHAR,SUM(CASE WHEN RECEIPT> 0 THEN RECEIPT ELSE 0 END))+'-'+CONVERT(VARCHAR,SUM(PAYMENT))+' (P)]' "
         StrSql += vbCrLf + " WHEN PAYMODE = 'ET' THEN 'ETRANSFER [(R) '+CONVERT(VARCHAR,SUM(CASE WHEN RECEIPT> 0 THEN RECEIPT ELSE 0 END))+'-'+CONVERT(VARCHAR,SUM(PAYMENT))+' (P)]' "
+        StrSql += vbCrLf + " WHEN PAYMODE = 'ML' THEN 'MOBILE [(R) '+CONVERT(VARCHAR,SUM(CASE WHEN RECEIPT> 0 THEN RECEIPT ELSE 0 END))+'-'+CONVERT(VARCHAR,SUM(PAYMENT))+' (P)]' "
         StrSql += vbCrLf + " WHEN PAYMODE = 'OT' THEN 'OTHERS [(R) '+CONVERT(VARCHAR,SUM(CASE WHEN RECEIPT> 0 THEN RECEIPT ELSE 0 END))+'-'+CONVERT(VARCHAR,SUM(PAYMENT))+' (P)]' "
         StrSql += vbCrLf + " WHEN PAYMODE = 'HO' THEN 'HOME COLLECTION [(R) '+CONVERT(VARCHAR,SUM(CASE WHEN RECEIPT> 0 THEN RECEIPT ELSE 0 END))+'-'+CONVERT(VARCHAR,SUM(PAYMENT))+' (P)]' "
         StrSql += vbCrLf + " END)) AS CATNAME,"
         If RPT_REC_PAY = True Then
-            StrSql += vbCrLf + " (CASE WHEN (PAYMODE='CH' OR PAYMODE='CC' OR PAYMODE = 'SS' OR PAYMODE = 'GV' OR PAYMODE = 'ET' OR PAYMODE = 'OT' OR PAYMODE = 'HO') AND SUM(PAYMENT)> 0 THEN  SUM(PAYMENT) ELSE 0 END) AS PAYMENT, "
-            StrSql += vbCrLf + " (CASE WHEN (PAYMODE='CH' OR PAYMODE='CC' OR PAYMODE = 'SS' OR PAYMODE = 'GV' OR PAYMODE = 'ET' OR PAYMODE = 'OT' OR PAYMODE = 'HO') AND SUM(RECEIPT)> 0 THEN  SUM(RECEIPT) ELSE 0 END) AS RECEIPT, "
+            StrSql += vbCrLf + " (CASE WHEN (PAYMODE='CH' OR PAYMODE='CC' OR PAYMODE = 'SS' OR PAYMODE = 'GV' OR PAYMODE = 'ET' OR PAYMODE = 'ML' OR PAYMODE = 'OT' OR PAYMODE = 'HO') AND SUM(PAYMENT)> 0 THEN  SUM(PAYMENT) ELSE 0 END) AS PAYMENT, "
+            StrSql += vbCrLf + " (CASE WHEN (PAYMODE='CH' OR PAYMODE='CC' OR PAYMODE = 'SS' OR PAYMODE = 'GV' OR PAYMODE = 'ET' OR PAYMODE = 'ML' OR PAYMODE = 'OT' OR PAYMODE = 'HO') AND SUM(RECEIPT)> 0 THEN  SUM(RECEIPT) ELSE 0 END) AS RECEIPT, "
             StrSql += vbCrLf + " (CASE WHEN PAYMODE = 'CA' THEN SUM(CASE WHEN RECEIPT > 0 THEN RECEIPT ELSE 0 END) - SUM(PAYMENT) ELSE 0 END) AS [TTT]"
         Else
             StrSql += vbCrLf + " (CASE WHEN SUM(AMOUNT)> 0 THEN  SUM(AMOUNT) ELSE 0 END) AS PAYMENT, "
@@ -9387,6 +9391,18 @@ Public Class frmDailyAbstract
                 StrSql += vbCrLf + " )X"
                 StrSql += vbCrLf + " group by X.CATNAME,MODEPAY "
             End If
+        End If
+        If hasChit Then
+            StrSql += vbCrLf + " UNION ALL"
+            StrSql += vbCrLf + " SELECT 'ML' PAYMODE,''FLAG,-1*SUM(AMOUNT)AMOUNT,SUM(AMOUNT)RECEIPT,0 PAYMENT"
+            StrSql += vbCrLf + " FROM " & cnChitTrandb & "..SCHEMECOLLECT AS T"
+            StrSql += vbCrLf + " WHERE RDATE BETWEEN '" & dtpFrom.Value.ToString("yyyy-MM-dd") & "' AND"
+            StrSql += vbCrLf + " '" & dtpTo.Value.ToString("yyyy-MM-dd") & "'"
+            StrSql += vbCrLf + " AND MODEPAY = 'M'"
+            StrSql += vbCrLf + " AND ISNULL(CANCEL,'') <> 'Y'"
+            StrSql += StrCostFiltration
+            StrSql += vbCrLf + "  AND EXISTS (SELECT 1 FROM " & cnChitTrandb & "..SCHEMECOLLECT AS SC WHERE EXISTS (SELECT 1 FROM " & cnChitCompanyid & "SAVINGS..SCHEMEMAST WHERE GROUPCODE = SC.GROUPCODE AND REGNO = SC.REGNO AND COMPANYID IN"
+            StrSql += vbCrLf + "  (SELECT COMPANYID FROM " & cnChitCompanyid & "SAVINGS..COMPANY WHERE JCOMPID IN (" & SelectedCompanyId & ")))AND T.GROUPCODE = SC.GROUPCODE AND T.REGNO = SC.REGNO)"
         End If
         StrSql += vbCrLf + " )X "
         StrSql += vbCrLf + " GROUP BY PAYMODE,FLAG "
