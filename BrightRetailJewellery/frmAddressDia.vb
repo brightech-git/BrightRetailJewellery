@@ -211,6 +211,7 @@ Public Class frmAddressDia
         End If
         strSql = "SELECT NAME FROM " & cnAdminDb & "..IDPROOF WHERE ISNULL(ACTIVE,'Y')<>'N' ORDER BY DISPORDER"
         objGPack.FillCombo(strSql, cmbIdType, , True)
+        cmbIdType.SelectedIndex = 0
         Hasgift()
         PanPersonal.Visible = False
         UpdateAchead = False

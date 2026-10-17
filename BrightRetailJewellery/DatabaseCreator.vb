@@ -131266,6 +131266,8 @@ ByVal PurchaseTaxName As String
         AdmindbInsertValuesToSoftControl(compId + suffix, "FINDISCPURMINSALWT", "FINAL DISCOUNT ON PURCHASE MINIMUM SALE WEIGHT", "D", "16", "P")
         AdmindbInsertValuesToSoftControl(compId + suffix, "FINDISCPURMINPURWT", "FINAL DISCOUNT ON PURCHASE MINIMUM PURCHASE WEIGHT", "D", "16", "P")
         AdmindbInsertValuesToSoftControl(compId + suffix, "STKDWNLDTHRESHDAYS", "STOCK DOWNLOAD THRESHOULD DAYS", "N", "10000", "S")
+        AdmindbInsertValuesToSoftControl(compId + suffix, "ESTITEMTYPEID", "ITEMTYPEID NAME PRINTING (Y OR N)", "T", "N", "E")
+        AdmindbInsertValuesToSoftControl(compId + suffix, "EXTERNAL_COUNTERID", "COUNTER NAME PRINTING (Y OR N)", "T", "N", "E")
 
         strSql = " UPDATE " & compId + suffix & "..SOFTCONTROL SET CTLNAME = 'PURCHASE RATE CALCULATION FROM PURCHASE GROSS VALUE [Y]ES/[N]O' WHERE CTLID = 'PUR_MRATECALC'"
         cmd = New OleDbCommand(strSql, cn, tran)
@@ -131702,7 +131704,7 @@ ByVal PurchaseTaxName As String
         da = New OleDbDataAdapter(cmd)
         da.Fill(dtVBC)
         For Each roCnt As DataRow In dtVBC.Rows
-            AdmindbInsertValuesToSoftControl(compId + suffix, "VBC_" & roCnt.Item("COMPANYID").ToString, "Vat born by company for " & roCnt.Item("COMPANYNAME").ToString, "T", "N", "A")
+            AdmindbInsertValuesToSoftControl(compId + suffix, "VBC_" & roCnt.Item("COMPANYID").ToString, "Vat born by company for " & roCnt.Item("COMPANYNAME").ToString, "T", "Y", "A")
             AdmindbInsertValuesToSoftControl(compId + suffix, "VBC_" & roCnt.Item("COMPANYID").ToString & "_LOCK", "VBC_" & roCnt.Item("COMPANYID").ToString & " LOCK CHIT,CCARD BY (A)LLOW(W)ARN(R)ESTRICT", "T", "A", "A")
             AdmindbInsertValuesToSoftControl(compId + suffix, roCnt.Item("COMPANYID").ToString & "_SYNC", "ENABLE SYNC for " & roCnt.Item("COMPANYNAME").ToString, "T", "Y", "A")
             AdmindbInsertValuesToSoftControl(compId + suffix, "CRE_" & roCnt.Item("COMPANYID").ToString, "PURE CREDIT BILL ACCEPTED for " & roCnt.Item("COMPANYNAME").ToString, "T", "Y", "A")
