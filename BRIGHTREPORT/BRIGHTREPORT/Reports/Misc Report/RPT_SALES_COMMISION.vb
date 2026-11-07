@@ -347,7 +347,7 @@ Public Class RPT_SALES_COMMISION
         End If
         Cmd = New OleDbCommand(StrSql, cn) : Cmd.CommandTimeout = 1000 : Cmd.ExecuteNonQuery()
 
-
+        ' StrSql = vbCrLf + " UPDATE TEMPTABLEDB..TEMPSALESCOMMISION" & Sysid & " SET COMM_FLAT = (TS.AMOUNT/SC.COMAMOUNT*SC.COMMISION)"
         StrSql = vbCrLf + " UPDATE TEMPTABLEDB..TEMPSALESCOMMISION" & Sysid & " SET COMM_FLAT = (SC.COMMISION*ISNULL(TS.PCS,1))"
         'StrSql += vbCrLf + " CASE WHEN SC.BASEDON IN('V') THEN  (SC.COMMISION*ISNULL(TS.PCS,1))ELSE SC.COMMISION END"
         StrSql += vbCrLf + ",COMM_GRM = SC.COMMISIONGRM,COMM_PER = SC.COMMISIONPER,UPDATED = 'Y'"
@@ -363,6 +363,7 @@ Public Class RPT_SALES_COMMISION
         Cmd = New OleDbCommand(StrSql, cn) : Cmd.CommandTimeout = 1000 : Cmd.ExecuteNonQuery()
 
         StrSql = vbCrLf + " UPDATE TEMPTABLEDB..TEMPSALESCOMMISION" & Sysid & " Set COMM_FLAT = (SC.COMMISION*ISNULL(TS.PCS,1))"
+
         'StrSql += vbCrLf + " Case When SC.BASEDON In('V') THEN  (SC.COMMISION*ISNULL(TS.PCS,1))ELSE SC.COMMISION END"
         StrSql += vbCrLf + ",COMM_GRM = SC.COMMISIONGRM,COMM_PER = SC.COMMISIONPER,UPDATED = 'Y'"
         StrSql += vbCrLf + " FROM TEMPTABLEDB..TEMPSALESCOMMISION" & Sysid & " AS TS"

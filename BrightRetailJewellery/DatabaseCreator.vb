@@ -131268,6 +131268,8 @@ ByVal PurchaseTaxName As String
         AdmindbInsertValuesToSoftControl(compId + suffix, "STKDWNLDTHRESHDAYS", "STOCK DOWNLOAD THRESHOULD DAYS", "N", "10000", "S")
         AdmindbInsertValuesToSoftControl(compId + suffix, "ESTITEMTYPEID", "ITEMTYPEID NAME PRINTING (Y OR N)", "T", "N", "E")
         AdmindbInsertValuesToSoftControl(compId + suffix, "EXTERNAL_COUNTERID", "COUNTER NAME PRINTING (Y OR N)", "T", "N", "E")
+        AdmindbInsertValuesToSoftControl(compId + suffix, "CHITAVGWAST", "CHIT AVERAGE WASTAGE CALCULATE (Y/N)", "T", "N", "E")
+        AdmindbInsertValuesToSoftControl(compId + suffix, "CHITGIFTVOUCH", "CHIT GIFT VOUCHER (Y/N)", "T", "N", "E")
 
         strSql = " UPDATE " & compId + suffix & "..SOFTCONTROL SET CTLNAME = 'PURCHASE RATE CALCULATION FROM PURCHASE GROSS VALUE [Y]ES/[N]O' WHERE CTLID = 'PUR_MRATECALC'"
         cmd = New OleDbCommand(strSql, cn, tran)
