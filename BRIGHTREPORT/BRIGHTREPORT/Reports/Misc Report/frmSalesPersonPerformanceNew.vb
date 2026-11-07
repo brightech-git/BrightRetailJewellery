@@ -648,6 +648,7 @@ Public Class frmSalesPersonPerformanceNew
         strSql += vbCrLf + " ,SUM(NETWEIGHT) NETWT"
         strSql += vbCrLf + " ,SUM(STNWT)STNWT"
         strSql += vbCrLf + " ,SUM(AMOUNT)AMOUNT"
+        strSql += vbCrLf + " ,SUM(INCAMOUNT)INCAMOUNT"
         strSql += vbCrLf + " ,1 RESULT"
         strSql += vbCrLf + " ,'D' COLHEAD"
         strSql += vbCrLf + " INTO TEMPTABLEDB..[TEMPSALEPERSONPERFORMANCE" & systemId & "]"
@@ -677,7 +678,7 @@ Public Class frmSalesPersonPerformanceNew
         strSql += vbCrLf + " ,ITEMNAME,RESULT,COLHEAD "
         strSql += vbCrLf + " ,SAPCS,SAGRSWT,SANETWT,SASTNWT,SARATE,SAWASTPER,SAWASTAGE,SAMCHARGE,SAAMOUNT "
         strSql += vbCrLf + " ,SRPCS,SRGRSWT,SRNETWT,SRSTNWT,SRAMOUNT"
-        strSql += vbCrLf + " ,PCS,GRSWT,NETWT,STNWT,AMOUNT "
+        strSql += vbCrLf + " ,PCS,GRSWT,NETWT,STNWT,AMOUNT,INCAMOUNT "
         strSql += vbCrLf + " )"
         strSql += vbCrLf + " SELECT SALESPERSON,SALESPERSON "
         strSql += vbCrLf + " ,9 RESULT,'G' COLHEAD"
@@ -700,6 +701,7 @@ Public Class frmSalesPersonPerformanceNew
         strSql += vbCrLf + " ,SUM(NETWT)NETWT"
         strSql += vbCrLf + " ,SUM(STNWT)STNWT"
         strSql += vbCrLf + " ,SUM(AMOUNT)AMOUNT"
+        strSql += vbCrLf + " ,SUM(INCAMOUNT)INCAMOUNT"
         strSql += vbCrLf + " FROM TEMPTABLEDB..[TEMPSALEPERSONPERFORMANCE" & systemId & "]"
         strSql += vbCrLf + " GROUP BY SALESPERSON"
         cmd = New OleDbCommand(strSql, cn)
@@ -821,6 +823,12 @@ Public Class frmSalesPersonPerformanceNew
                 .SortMode = DataGridViewColumnSortMode.NotSortable
                 .DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
             End With
+            With .Columns("INCAMOUNT")
+                .HeaderText = "INCENTIVE"
+                .SortMode = DataGridViewColumnSortMode.NotSortable
+                .DefaultCellStyle.Format = "0.00"
+                .DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+            End With
 
             .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.AllCells
             .Invalidate()
@@ -872,6 +880,7 @@ Public Class frmSalesPersonPerformanceNew
         strSql += vbCrLf + " ,NULL NETWEIGHT"
         strSql += vbCrLf + " ,NULL STNWT"
         strSql += vbCrLf + " ,NULL AMOUNT"
+        strSql += vbCrLf + " ,NULL INCAMOUNT"
         strSql += vbCrLf + " ,1 RESULT "
         strSql += vbCrLf + " ,1 RESULT1 "
         strSql += vbCrLf + " ,'T' COLHEAD"
@@ -897,6 +906,7 @@ Public Class frmSalesPersonPerformanceNew
         strSql += vbCrLf + " ,SUM(SALENETWEIGHT) SALENETWEIGHT"
         strSql += vbCrLf + " ,SUM(SALESTNWT) SALESTNWT"
         strSql += vbCrLf + " ,SUM(SALEAMOUNT) SALEAMOUNT"
+        strSql += vbCrLf + " ,SUM(SALEINC) INCAMOUNT"
         strSql += vbCrLf + " ,1 RESULT "
         strSql += vbCrLf + " ,2 RESULT1 "
         strSql += vbCrLf + " ,COLHEAD"
@@ -922,6 +932,7 @@ Public Class frmSalesPersonPerformanceNew
         strSql += vbCrLf + " ,SUM(SALENETWEIGHT) "
         strSql += vbCrLf + " ,SUM(SALESTNWT) "
         strSql += vbCrLf + " ,SUM(SALEAMOUNT)"
+        strSql += vbCrLf + " ,SUM(SALEINC)"
         strSql += vbCrLf + " ,1 RESULT "
         strSql += vbCrLf + " ,99 RESULT1 "
         strSql += vbCrLf + " ,'S'COLHEAD"
@@ -942,6 +953,7 @@ Public Class frmSalesPersonPerformanceNew
         strSql += vbCrLf + " ,NULL NETWEIGHT "
         strSql += vbCrLf + " ,NULL STNWT "
         strSql += vbCrLf + " ,NULL AMOUNT"
+        strSql += vbCrLf + " ,NULL INCAMOUNT"
         strSql += vbCrLf + " ,2 RESULT "
         strSql += vbCrLf + " ,1 RESULT1 "
         strSql += vbCrLf + "  ,'T' COLHEAD"
@@ -967,6 +979,7 @@ Public Class frmSalesPersonPerformanceNew
         strSql += vbCrLf + " ,SUM(RETURNNETWEIGHT) RETURNNETWEIGHT"
         strSql += vbCrLf + " ,SUM(RETURNSTNWT) RETURNSTNWT"
         strSql += vbCrLf + " ,SUM(RETURNAMOUNT) RETURNAMOUNT"
+        strSql += vbCrLf + " ,SUM(RETURNINC) INCAMOUNT"
         strSql += vbCrLf + " ,2 RESULT "
         strSql += vbCrLf + " ,2 RESULT1 "
         strSql += vbCrLf + "  ,COLHEAD"
@@ -992,6 +1005,7 @@ Public Class frmSalesPersonPerformanceNew
         strSql += vbCrLf + " ,SUM(RETURNNETWEIGHT) "
         strSql += vbCrLf + " ,SUM(RETURNSTNWT) "
         strSql += vbCrLf + " ,SUM(RETURNAMOUNT)"
+        strSql += vbCrLf + " ,SUM(RETURNINC)"
         strSql += vbCrLf + " ,2 RESULT "
         strSql += vbCrLf + " ,99 RESULT1 "
         strSql += vbCrLf + "  ,'S'COLHEAD"
@@ -1012,6 +1026,7 @@ Public Class frmSalesPersonPerformanceNew
         strSql += vbCrLf + " ,SUM(NETWEIGHT) "
         strSql += vbCrLf + " ,SUM(STNWT) "
         strSql += vbCrLf + " ,SUM(AMOUNT)"
+        strSql += vbCrLf + " ,SUM(INCAMOUNT)"
         strSql += vbCrLf + " ,9 RESULT "
         strSql += vbCrLf + " ,99 RESULT1 "
         strSql += vbCrLf + "  ,'G'COLHEAD"
@@ -1058,6 +1073,12 @@ Public Class frmSalesPersonPerformanceNew
             End With
             With .Columns("AMOUNT")
                 .SortMode = DataGridViewColumnSortMode.NotSortable
+                .DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+            End With
+            With .Columns("INCAMOUNT")
+                .HeaderText = "INCENTIVE"
+                .SortMode = DataGridViewColumnSortMode.NotSortable
+                .DefaultCellStyle.Format = "0.00"
                 .DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
             End With
             .AutoSizeColumnsMode = DataGridViewAutoSizeColumnMode.AllCells
