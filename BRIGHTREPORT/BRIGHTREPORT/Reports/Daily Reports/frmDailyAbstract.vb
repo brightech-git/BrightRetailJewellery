@@ -8329,6 +8329,7 @@ Public Class frmDailyAbstract
         StrSql += vbCrLf + " SUM(PCS) AS ISSPCS, SUM(GRSWT) AS ISSGRSWT, SUM(NETWT) AS ISSNETWT,"
         StrSql += vbCrLf + " 1 AS RESULT1, ' ' AS COLHEAD "
         StrSql += vbCrLf + " ,(SELECT (PNAME+' '+INITIAL) CATNAME FROM " & cnAdminDb & "..PERSONALINFO WHERE SNO = (sELECT TOP 1 PSNO FROM " & cnAdminDb & "..CUSTOMERINFO WHERE BATCHNO = I.BATCHNO))PNAME"
+        StrSql += vbCrLf + " ,(SELECT CATNAME FROM " & cnAdminDb & "..CATEGORY WHERE CATCODE = I.CATCODE) AS APPCATEGORY"
         StrSql += vbCrLf + " INTO TEMPTABLEDB..TEMP" & systemId & "ABSAPPROVALISS FROM " & cnStockDb & "..ISSUE I"
         StrSql += vbCrLf + " WHERE I.TRANDATE BETWEEN '" & dtpFrom.Value.ToString("yyyy-MM-dd") & "' "
         StrSql += vbCrLf + " AND '" & dtpTo.Value.ToString("yyyy-MM-dd") & "'"
@@ -8336,7 +8337,7 @@ Public Class frmDailyAbstract
         StrSql += vbCrLf + " AND COMPANYID IN (" & SelectedCompanyId & ")"
         StrSql += StrFilter
         StrSql += StrUseridFtr
-        StrSql += vbCrLf + " GROUP BY ITEMID,TAGNO,TRANNO,BATCHNO"
+        StrSql += vbCrLf + " GROUP BY ITEMID,TAGNO,TRANNO,BATCHNO,CATCODE"
         Cmd = New OleDbCommand(StrSql, cn) : Cmd.CommandTimeout = 1000
         Cmd.ExecuteNonQuery()
 
@@ -8375,6 +8376,16 @@ Public Class frmDailyAbstract
             StrSql += vbCrLf + " CASE WHEN sum(ISSNETWT)  <> 0 THEN sum(ISSNETWT)  ELSE NULL END ISSNETWT, "
             StrSql += vbCrLf + " 1 RESULT1, 'T' COLHEAD  "
             StrSql += vbCrLf + " FROM TEMPTABLEDB..TEMP" & systemId & "ABSAPPROVALISS"
+            StrSql += vbCrLf + " INSERT INTO TEMPTABLEDB..TEMP" & systemId & "SASRPU"
+            StrSql += vbCrLf + " (DESCRIPTION,ISSPCS,ISSGRSWT,ISSNETWT,RESULT1,COLHEAD) "
+            StrSql += vbCrLf + " SELECT '  ' + ISNULL(APPCATEGORY,'-'), "
+            StrSql += vbCrLf + " CASE WHEN SUM(ISSPCS)    <> 0 THEN SUM(ISSPCS)    ELSE NULL END ISSPCS, "
+            StrSql += vbCrLf + " CASE WHEN SUM(ISSGRSWT)  <> 0 THEN SUM(ISSGRSWT)  ELSE NULL END ISSGRSWT, "
+            StrSql += vbCrLf + " CASE WHEN SUM(ISSNETWT)  <> 0 THEN SUM(ISSNETWT)  ELSE NULL END ISSNETWT, "
+            StrSql += vbCrLf + " 1 RESULT1, ' ' COLHEAD  "
+            StrSql += vbCrLf + " FROM TEMPTABLEDB..TEMP" & systemId & "ABSAPPROVALISS"
+            StrSql += vbCrLf + " WHERE ISNULL(RESULT1,1) = 1 "
+            StrSql += vbCrLf + " GROUP BY APPCATEGORY ORDER BY APPCATEGORY "
             StrSql += vbCrLf + " END "
             Cmd = New OleDbCommand(StrSql, cn) : Cmd.CommandTimeout = 1000
             Cmd.ExecuteNonQuery()
@@ -8390,6 +8401,7 @@ Public Class frmDailyAbstract
         StrSql += vbCrLf + " SUM(PCS) AS RECPCS, SUM(GRSWT) AS RECGRSWT, SUM(NETWT) AS RECNETWT,"
         StrSql += vbCrLf + " 1 AS RESULT1, ' ' AS COLHEAD "
         StrSql += vbCrLf + " ,(SELECT (PNAME+' '+INITIAL) CATNAME FROM " & cnAdminDb & "..PERSONALINFO WHERE SNO = (sELECT TOP 1 PSNO FROM " & cnAdminDb & "..CUSTOMERINFO WHERE BATCHNO = I.BATCHNO))PNAME"
+        StrSql += vbCrLf + " ,(SELECT CATNAME FROM " & cnAdminDb & "..CATEGORY WHERE CATCODE = I.CATCODE) AS APPCATEGORY"
         StrSql += vbCrLf + " INTO TEMPTABLEDB..TEMP" & systemId & "ABSAPPROVALREC FROM " & cnStockDb & "..RECEIPT I"
         StrSql += vbCrLf + " WHERE I.TRANDATE BETWEEN '" & dtpFrom.Value.ToString("yyyy-MM-dd") & "' "
         StrSql += vbCrLf + " AND '" & dtpTo.Value.ToString("yyyy-MM-dd") & "'"
@@ -8397,7 +8409,7 @@ Public Class frmDailyAbstract
         StrSql += vbCrLf + " AND COMPANYID IN (" & SelectedCompanyId & ")"
         StrSql += StrFilter
         StrSql += StrUseridFtr
-        StrSql += vbCrLf + " GROUP BY ITEMID,TAGNO,TRANNO,RUNNO,BATCHNO"
+        StrSql += vbCrLf + " GROUP BY ITEMID,TAGNO,TRANNO,RUNNO,BATCHNO,CATCODE"
         Cmd = New OleDbCommand(StrSql, cn) : Cmd.CommandTimeout = 1000
         Cmd.ExecuteNonQuery()
 
@@ -8436,6 +8448,16 @@ Public Class frmDailyAbstract
             StrSql += vbCrLf + " CASE WHEN SUM(RECNETWT)  <> 0 THEN SUM(RECNETWT)  ELSE NULL END RECNETWT, "
             StrSql += vbCrLf + " 1 RESULT1, 'T' COLHEAD  "
             StrSql += vbCrLf + " FROM TEMPTABLEDB..TEMP" & systemId & "ABSAPPROVALREC "
+            StrSql += vbCrLf + " INSERT INTO TEMPTABLEDB..TEMP" & systemId & "SASRPU"
+            StrSql += vbCrLf + " (DESCRIPTION,RECPCS,RECGRSWT,RECNETWT,RESULT1,COLHEAD) "
+            StrSql += vbCrLf + " SELECT '  ' + ISNULL(APPCATEGORY,'-'), "
+            StrSql += vbCrLf + " CASE WHEN SUM(RECPCS)    <> 0 THEN SUM(RECPCS)    ELSE NULL END RECPCS, "
+            StrSql += vbCrLf + " CASE WHEN SUM(RECGRSWT)  <> 0 THEN SUM(RECGRSWT)  ELSE NULL END RECGRSWT, "
+            StrSql += vbCrLf + " CASE WHEN SUM(RECNETWT)  <> 0 THEN SUM(RECNETWT)  ELSE NULL END RECNETWT, "
+            StrSql += vbCrLf + " 1 RESULT1, ' ' COLHEAD  "
+            StrSql += vbCrLf + " FROM TEMPTABLEDB..TEMP" & systemId & "ABSAPPROVALREC"
+            StrSql += vbCrLf + " WHERE ISNULL(RESULT1,1) = 1 "
+            StrSql += vbCrLf + " GROUP BY APPCATEGORY ORDER BY APPCATEGORY "
             StrSql += vbCrLf + " END "
             Cmd = New OleDbCommand(StrSql, cn) : Cmd.CommandTimeout = 1000
             Cmd.ExecuteNonQuery()

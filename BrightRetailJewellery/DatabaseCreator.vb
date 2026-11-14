@@ -130401,6 +130401,7 @@ ByVal PurchaseTaxName As String
         AdmindbInsertValuesToSoftControl(compId + suffix, "PUR_LOCKCOMP", "LOCK PURCHASE ENTRY FOR COMPANY(ID1,ID2,....)", "T", "", "P")
         AdmindbInsertValuesToSoftControl(compId + suffix, "ADV_LOCKCOMP", "LOCK CUSTOMER ADVANCE ENTRY FOR COMPANY(ID1,ID2,....)", "T", "", "P")
         AdmindbInsertValuesToSoftControl(compId + suffix, "PANLOCK_EXCLUDE", "PANVALUELOCK EXCLUDE COMPANY(ID1,ID2,....)", "T", "", "P")
+        AdmindbInsertValuesToSoftControl(compId + suffix, "ONLN_PAY_RES", "ONLINE PAYMENT RESTRICT COMPANYID", "T", "", "P")
         AdmindbInsertValuesToSoftControl(compId + suffix, "POS_BOOK_EMPID", "BOOKED ITEM DELIVERTY EMP ID SHOULD BE FROM TAG RESERVED(Y/N)", "T", "N", "P")
         AdmindbInsertValuesToSoftControl(compId + suffix, "POS_ONLY_SCANTAG", "POS TAG SCAN ONLY ACCEPT SUPPRESS KEYBOARD", "T", "N", "P")
         AdmindbInsertValuesToSoftControl(compId + suffix, "POS_SCANTAG_NODES", "POS TAG SCAN ONLY THOSE NODES ARE SEP BY COMMA(001,004)", "T", "", "P")
